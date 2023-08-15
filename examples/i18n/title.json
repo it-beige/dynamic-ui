@@ -1,0 +1,14 @@
+{
+  "zh-CN": {
+    "home": "Dynamic - 网站快速成型工具",
+    "guide": "指南 | Dynamic",
+    "component": "组件 | Dynamic",
+    "resource": "资源 | Dynamic"
+  },
+  "en-US": {
+    "home": "Dynamic - A Desktop UI Toolkit for Web",
+    "guide": "Guide | Dynamic",
+    "component": "Component | Dynamic",
+    "resource": "Resource | Dynamic"
+  }
+}
