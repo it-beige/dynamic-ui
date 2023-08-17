@@ -1,12 +1,13 @@
 {
   "globals": {
     "ga": true,
-    "chrome": true
+    "chrome": true,
+    "Reflect": "readonly" 
   },
   "plugins": ["html", "json"],
   "extends": "elemefe",
   "rules": {
-    "no-restricted-globals": ["error", "event", "fdescribe"]
+    "no-restricted-globals": ["error", "event", "fdescribe"],
   },
   "parserOptions": {
     "ecmaVersion": 6,

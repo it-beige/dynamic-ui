@@ -9,7 +9,7 @@
     mixins: [Emitter],
 
     inject: {
-      elFormItem: {
+      dyFormItem: {
         default: ''
       }
     },
@@ -26,7 +26,7 @@
 
     computed: {
       _elFormItemSize() {
-        return (this.elFormItem || {}).elFormItemSize;
+        return (this.dyFormItem || {}).elFormItemSize;
       },
       checkboxGroupSize() {
         return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;

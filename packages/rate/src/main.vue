@@ -43,7 +43,7 @@
     mixins: [Migrating],
 
     inject: {
-      elForm: {
+      dyForm: {
         default: ''
       }
     },
@@ -214,7 +214,7 @@
       },
 
       rateDisabled() {
-        return this.disabled || (this.elForm || {}).disabled;
+        return this.disabled || (this.dyForm || {}).disabled;
       }
     },
 

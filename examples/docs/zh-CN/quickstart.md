@@ -279,6 +279,8 @@ Vue.use(Dynamic, {
   useParseData: res => res.data
   // 自定义解析数据接口返回的total, 后续TableGenerate组件会介绍
   useParseTotal: res => res.data.total,
+  // 配置需要data数据项的展示项和绑定值
+  useOptionProps: () => ({label: 'label', value: 'value', children: 'children'})
   // 国际化相关配置
   locale: Vue.locale
   locale: Vue.i18n,

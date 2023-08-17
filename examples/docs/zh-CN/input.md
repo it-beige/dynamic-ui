@@ -24,6 +24,9 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
         input: '',
       };
     },
+    created() {
+      console.log(this);
+    },
   };
 </script>
 ```

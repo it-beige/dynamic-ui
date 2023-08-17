@@ -88,5 +88,6 @@
   "descriptions": "./packages/descriptions/index.js",
   "descriptions-item": "./packages/descriptions-item/index.js",
   "result": "./packages/result/index.js",
-  "form-generate": "./packages/form-generate/index.js"
+  "form-generate": "./packages/form-generate/index.js",
+  "select-generate": "./packages/select-generate/index.js"
 }

@@ -24,7 +24,7 @@ export default {
   },
 
   inject: {
-    elForm: {
+    dyForm: {
       default: ''
     }
   },
@@ -117,7 +117,7 @@ export default {
 
   computed: {
     uploadDisabled() {
-      return this.disabled || (this.elForm || {}).disabled;
+      return this.disabled || (this.dyForm || {}).disabled;
     }
   },
 
