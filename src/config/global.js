@@ -18,8 +18,12 @@ const globalConfig = {
   // 解析分页接口返回数据函数total
   useParseTotal: (res) => res,
   // 配置需要data数据项的展示项和绑定值
-  useOptionProps: () => ({label: 'label', value: 'value', children: 'children'})
-
+  useOptionProps: () => ({label: 'label', value: 'value', children: 'children'}),
+  // 懒加载方法(接口要具备limit能力)
+  loadMoreMethod: ([page, size], resolve) => {
+    // 支持异步
+    resolve([++page, size]);
+  }
 };
 
 export default globalConfig;

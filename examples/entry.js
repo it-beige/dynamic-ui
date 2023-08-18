@@ -16,8 +16,48 @@ import './demo-styles/index.scss';
 import './assets/styles/common.css';
 import './assets/styles/fonts/style.css';
 import icon from './icon.json';
+import axios from './api/request';
+import { isPlainObject, isArray } from 'main/utils/lodash';
 
-Vue.use(Dynamic);
+Vue.use(Dynamic, {
+  // 数据请求的baseURI
+  baseURI: process.env.VUE_APP_BASE_API || 'dev',
+  // 分页参数字段名 page size
+  pageParamsKey: { page: 'page', size: 'size' },
+  // 分页默认的参数值
+  pageParamsValue: { page: 1, size: 10 },
+  //  自定义组件内部请求接口所使用方法
+  useRequest: () => axios,
+  // 请求接口默认携带的请求头参数, 项目中一般需要携带的鉴权token
+  useRequestHeaders: () => ({ 'Dynamic-Auth': localStorage.getItem('access_token') }),
+  // 自定义解析数据接口返回的data, 后续FormGenerate组件会介绍
+  useParseData: res => {
+    const noop = [];
+    return isPlainObject(res.data)
+      ? isArray(res.data.list)
+        ? res.data.list
+        : isArray(res.data.data)
+          ? res.data.data
+          : noop
+      : isArray(res.data)
+        ? res.data
+        : noop;
+
+  },
+  // 自定义解析数据接口返回的total, 后续TableGenerate组件会介绍
+  useParseTotal: res => {
+    const total = 0;
+    return isPlainObject(res.data)
+      ? Reflect.has(res.data, 'total')
+        ? res.data.total
+        : total
+      : Reflect.has(res, 'total')
+        ? res.total
+        : total;
+  },
+  // 配置需要data数据项的展示项和绑定
+  useOptionProps: () => ({label: 'label', value: 'value', children: 'children'})
+});
 Vue.use(VueRouter);
 Vue.component('demo-block', demoBlock);
 Vue.component('main-footer', MainFooter);

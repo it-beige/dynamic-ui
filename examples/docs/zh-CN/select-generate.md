@@ -2,7 +2,7 @@
 
 对`Select`组件进行封装, 提供了一些额外的功能, 如传入 URL 自动请求的数据来渲染组件、虚拟滚动分页数据
 
-<!-- ### 基本用法
+### 基本用法
 
 :::demo
 
@@ -144,9 +144,9 @@ Vue.use(Dynamic, {
 </script>
 ```
 
-::: -->
+:::
 
-<!-- ### Slot 用法
+### Slot 用法
 
 :::demo
 
@@ -224,7 +224,7 @@ Vue.use(Dynamic, {
 
 在`option`的`ScopedSlot` 中接受个对象, 属性中的 props、i, props 为通过配置的 props 映射之后 label、value、disabled、children `值`, i 为当前数据
 
-::: -->
+:::
 
 ### 自动请求数据
 
@@ -233,77 +233,451 @@ Vue.use(Dynamic, {
 ```html
 <dy-select-generate
   v-model="value"
-  :options="options"
-  :props="props"
   clearable
-  @visible-change="visibleChange"
->
-  <template #prefix>
-    <i class="dy-input__icon dy-icon-search"></i>
-  </template>
-  <template #empty>
-    <div
-      style="height: 100px; display: flex; jusitfy-content: center; align-items: center;"
-    >
-      正在请求数据
-    </div>
-  </template>
-  <template #option="{props, i}">
-    <dy-option v-bind="props"></dy-option>
-  </template>
-</dy-select-generate>
+  baseURI="dev"
+  url="/api/list"
+  method="get"
+  :params="params"
+  :use-request="axios"
+  :use-parse-data="useParseData"
+  :use-parse-total="useParseTotal"
+></dy-select-generate>
 
 <script>
   export default {
     data() {
       return {
-        props: {
-          label: 'name',
-          value: 'code',
-          disabled: 'disabled',
-        },
         value: '',
-        options: [],
+        url: '/api/list',
+        params: {
+          a: 1,
+          b: 2,
+        },
       };
     },
     methods: {
-      getOptions() {
-        setTimeout(() => {
-          this.options = [
-            {
-              name: '选项1',
-              code: '黄金糕',
-              disabled: true,
-            },
-            {
-              name: '选项2',
-              code: '双皮奶',
-            },
-            {
-              name: '选项3',
-              code: '蚵仔煎',
-            },
-            {
-              name: '选项4',
-              code: '龙须面',
-            },
-            {
-              name: '选项5',
-              code: '北京烤鸭',
-            },
-          ];
-        }, 1000 * 5);
+      // 模拟接口请求
+      axios() {
+        const vm = this;
+        return function request({ url, params }) {
+          vm.$message.success({
+            message: `接口请求: url: ${url} params: ${JSON.stringify(params)}`,
+            duration: 5000,
+          });
+          return new Promise(resolve => {
+            setTimeout(() => {
+              const options = [
+                {
+                  value: '选项1',
+                  label: '黄金糕',
+                },
+                {
+                  value: '选项2',
+                  label: '双皮奶',
+                },
+                {
+                  value: '选项3',
+                  label: '蚵仔煎',
+                },
+                {
+                  value: '选项4',
+                  label: '龙须面',
+                },
+                {
+                  value: '选项5',
+                  label: '北京烤鸭',
+                },
+                {
+                  value: '选项11',
+                  label: '黄金糕11',
+                },
+                {
+                  value: '选项22',
+                  label: '双皮奶22',
+                },
+                {
+                  value: '选项33',
+                  label: '蚵仔煎33',
+                },
+                {
+                  value: '选项44',
+                  label: '龙须面44',
+                },
+                {
+                  value: '选项55',
+                  label: '北京烤鸭55',
+                },
+              ];
+              resolve({
+                data: { list: options, total: 10 },
+                code: '200',
+              });
+            }, 1000 * 5);
+          });
+        };
       },
-      visibleChange() {
-        this.getOptions();
+      useParseData(res) {
+        return res.data.list;
+      },
+      useParseTotal(res) {
+        return res.data.total;
       },
     },
   };
 </script>
 ```
 
-在`option`的`ScopedSlot` 中接受个对象, 属性中的 props、i, props 为通过配置的 props 映射之后 label、value、disabled、children `值`, i 为当前数据
+:::
 
+上面的示例中在当前组件使用的`API`请求相关配置都进行了自定义, 一般在项目中使用都会进行全局配置
+
+`examples/api/request`
+
+```javascript
+import Message from 'packages/message/index.js';
+
+export const API = {
+  getList: '/api/list',
+  getTreeList: '/api/tree',
+};
+
+const successResponse = {
+  code: '200',
+};
+
+export const data = {
+  list: {
+    ...successResponse,
+    data: [
+      {
+        value: '选项1',
+        label: '黄金糕',
+      },
+      {
+        value: '选项2',
+        label: '双皮奶',
+      },
+      {
+        value: '选项3',
+        label: '蚵仔煎',
+      },
+      {
+        value: '选项4',
+        label: '龙须面',
+      },
+      {
+        value: '选项5',
+        label: '北京烤鸭',
+      },
+      {
+        value: '选项11',
+        label: '黄金糕11',
+      },
+      {
+        value: '选项22',
+        label: '双皮奶22',
+      },
+      {
+        value: '选项33',
+        label: '蚵仔煎33',
+      },
+      {
+        value: '选项44',
+        label: '龙须面44',
+      },
+      {
+        value: '选项55',
+        label: '北京烤鸭55',
+      },
+    ],
+  },
+  tree: {
+    ...successResponse,
+    data: [
+      {
+        name: '热门城市',
+        options: [
+          {
+            code: 'Shanghai',
+            name: '上海',
+          },
+          {
+            code: 'Beijing',
+            name: '北京',
+          },
+        ],
+      },
+      {
+        name: '城市名',
+        options: [
+          {
+            code: 'Chengdu',
+            name: '成都',
+          },
+          {
+            code: 'Shenzhen',
+            name: '深圳',
+          },
+          {
+            code: 'Guangzhou',
+            name: '广州',
+          },
+          {
+            code: 'Dalian',
+            name: '大连',
+          },
+        ],
+      },
+    ],
+  },
+};
+
+export default function axios({ url, params }) {
+  Message.success({
+    message: `接口请求: url: ${url} params: ${JSON.stringify(params)}`,
+    duration: 5000,
+  });
+  let response;
+  if (url === API.getList) {
+    response = data.list;
+  } else if (url === API.getTreeList) {
+    response = data.tree;
+  }
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(response);
+    }, 5000);
+  });
+}
+```
+
+```javascript
+import Vue from 'vue';
+import Dynamic from 'dynamic-ui';
+import { isPlainObject, isArray } from 'dynamic-ui/utils/lodash';
+import axios from 'examples/api/request';
+
+Vue.use(Dynamic, {
+  // 数据请求的baseURI
+  baseURI: process.env.VUE_APP_BASE_API || 'dev',
+  // 分页参数字段名 page size
+  pageParamsKey: { page: 'page', size: 'size' },
+  // 分页默认的参数值
+  pageParamsValue: { page: 1, size: 10 },
+  //  自定义组件内部请求接口所使用方法
+  useRequest: () => axios,
+  // 请求接口默认携带的请求头参数, 项目中一般需要携带的鉴权token
+  useRequestHeaders: () => ({
+    'Dynamic-Auth': localStorage.getItem('access_token'),
+  }),
+  // 自定义解析数据接口返回的data, 后续FormGenerate组件会介绍
+  useParseData: res => {
+    const noop = [];
+    return isPlainObject(res.data)
+      ? isArray(res.data.list)
+        ? res.data.list
+        : isArray(res.data.data)
+        ? res.data.data
+        : noop
+      : isArray(res.data)
+      ? res.data
+      : noop;
+  },
+  // 自定义解析数据接口返回的total, 后续TableGenerate组件会介绍
+  useParseTotal: res => {
+    const total = 0;
+    return isPlainObject(res.data)
+      ? Reflect.has(res.data, 'total')
+        ? res.data.total
+        : total
+      : Reflect.has(res, 'total')
+      ? res.total
+      : total;
+  },
+  // 配置需要data数据项的展示项和绑定
+  useOptionProps: () => ({
+    label: 'label',
+    value: 'value',
+    children: 'children',
+  }),
+});
+```
+
+:::demo
+
+```html
+<dy-select-generate
+  v-model="value"
+  clearable
+  url="/api/list"
+  :params="params"
+  :resolve-data="resolveData"
+></dy-select-generate>
+
+<script>
+  export default {
+    data() {
+      return {
+        value: '',
+        url: '/api/list',
+        params: {
+          a: 1,
+          b: 2,
+        },
+      };
+    },
+    methods: {
+      // 获取自动请求已经解析好的数据
+      resolveData(options) {
+        console.log(options);
+      },
+    },
+  };
+</script>
+```
+
+:::
+
+### 请求懒加载
+
+:::demo
+
+```html
+<dy-select-generate
+  v-model="value"
+  clearable
+  lazy
+  url="/api/list"
+  filterable
+  :params="params"
+  :resolve-data="resolveData"
+></dy-select-generate>
+
+<script>
+  export default {
+    data() {
+      return {
+        value: '',
+        url: '/api/list',
+        params: {
+          a: 1,
+          b: 2,
+        },
+      };
+    },
+    methods: {
+      // 获取自动请求已经解析好的数据
+      resolveData(options) {
+        console.log(options);
+      },
+    },
+  };
+</script>
+```
+
+:::
+
+### 参数监听
+
+:::demo
+
+```html
+<dy-select-generate
+  v-model="value"
+  clearable
+  lazy
+  :showLoading="false"
+  :url="url"
+  filterable
+  :props="props"
+  :params="params"
+  :resolve-data="resolveData"
+  :pageParamsKey="pageParamsKey"
+  :pageParamsValue="pageParamsValue"
+  @load="loadHandle"
+></dy-select-generate>
+
+<dy-button type="primary" style="margin-left: 10px" @click="changeType('list')">
+  请求数据list
+</dy-button>
+<dy-button type="primary" @click="changeType('tree')">请求数据tree</dy-button>
+
+<script>
+  export default {
+    data() {
+      const requestMaps = new Map([
+        [
+          'list',
+          {
+            url: '/api/list',
+            params: {
+              type: 'list',
+            },
+            props: {
+              label: 'label',
+              value: 'value',
+            },
+          },
+        ],
+        [
+          'tree',
+          {
+            url: '/api/tree',
+            params: {
+              type: 'tree',
+            },
+            props: {
+              label: 'name',
+              value: 'code',
+              children: 'options',
+            },
+          },
+        ],
+      ]);
+      const reqOptions = requestMaps.get('list');
+      return {
+        value: '',
+        ...reqOptions,
+        requestMaps,
+        // 分页参数字段名 page size
+        pageParamsKey: { page: 'pageNo', size: 'pageSize' },
+        // 分页默认的参数值
+        pageParamsValue: { pageNo: 1, pageSize: 10 },
+      };
+    },
+    methods: {
+      // 获取自动请求已经解析好的数据
+      resolveData(options) {
+        console.log(options);
+      },
+      loadHandle() {
+        this.$message({
+          type: 'waring',
+          message: '请求中...',
+        });
+      },
+      changeType(type) {
+        const { url, params, props } = this.requestMaps.get(type);
+        this.url = url;
+        this.params = params;
+        this.props = props;
+        this.pageParamsValue.pageSize = type === 'tree' ? 3 : 10;
+      },
+    },
+  };
+</script>
+```
+
+:::
+
+通过参数监听, 只要任何参数变动都会自动请求, 需要注意的是如果`url`进行变动了, `page`、`size`数据会重置, 如果`lazy`为 true, 分页会重新计算, 并且组件内部对同时修改 url、params、data, method 其中的任何两个及以上, 只会对最新的一次修改进行生效, 这么做的目的是防止接口在个操作内请求多次
+
+组件内对 pageParamsValue 也进行了`watch`, 如果修改`pageParamsValue`也会触发重新请求, 用此方式也可以进行实现懒加载相关逻辑
+
+涉及到 url、pageParamsValue 的变动会重置`value`的值
+
+:::warning
+`url`、`pageParamsValue` 的变动势必会重新变动接口请求的数据, 所以涉及这两个的变动 **会重置`value`的值**。
 :::
 
 ### Attributes

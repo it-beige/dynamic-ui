@@ -1,7 +1,9 @@
 <script>
-import genAttrsMixin from 'main/mixins/attrs';
+import genAttrsMixin, {getExtra as getAttrMixExtra} from 'main/mixins/attrs';
+import genRequestMixin, {getExtra as getRequestMixExtra} from 'main/mixins/request';
 import { getComponentByName } from 'main/config/component';
 import { isFunction, isArray } from 'main/utils/lodash';
+import SelectComponent from 'packages/select';
 
 const Select = getComponentByName('Select');
 // eslint-disable-next-line
@@ -11,31 +13,22 @@ const Option = getComponentByName('Option');
 
 export default {
   name: 'DySelectGenerate',
-  mixins: [genAttrsMixin(Select)],
+  mixins: [genAttrsMixin(SelectComponent), genRequestMixin()],
   props: {
     formatter: {
       type: Function
     }
   },
-  extraProps: ['props', 'options'],
   components: {},
   data() {
     return {
-      bindProps: {},
-      bindOptions: [...this.options]
+      extraProps: [...getAttrMixExtra('prop'), ...getRequestMixExtra('prop')],
+      extraData: [...getAttrMixExtra('data'), ...getRequestMixExtra('data')]
     };
   },
   render() {
-    // eslint-disable-next-line
-    const SelectOpt = this.getSelectCompOpt();
-    const OptionsVnode = this.renderOptions();
-
-    return (
-      <Select {...SelectOpt}>
-        {OptionsVnode}
-        {[...SelectOpt.slots]}
-      </Select>
-    );
+    const SelectVnode = this.renderSelect();
+    return SelectVnode;
   },
   methods: {
     getSelectProps() {
@@ -50,20 +43,43 @@ export default {
       const slots = this.$slots;
       return this._getVnodesBySlots(slots);
     },
-    getSelectCompOpt() {
+    renderSelect() {
       const self = this;
+      let createElement = self.$createElement;
       const { getSelectProps, getSelectOn, getSelectSlots } = self;
       const props = getSelectProps();
       const on = getSelectOn();
       const slots = getSelectSlots();
-
-      return {
-        is: Select,
-        attrs: this.$attrs,
+      const attrs = this.$attrs;
+      const OptionsVnode = this.renderOptions();
+      let nodes = [slots];
+      if (this.lazy) {
+        const directives = [
+          { name: 'infinite-scroll', value: this.load }
+        ];
+        const infiniteScrollVnode = (
+          <div
+            {...{ directives }}
+            ref="lazyWrapRef"
+            class="dy-select-dropdown__lazy"
+            infinite-scroll-distance={this.infiniteScrollDistance}
+          >
+            {OptionsVnode}
+          </div>
+        );
+        nodes.push(infiniteScrollVnode);
+      } else {
+        nodes.push(OptionsVnode);
+      }
+      if (this.showLoading) {
+        const loadingVnode = this.renderLoading();
+        nodes.push(loadingVnode);
+      }
+      return createElement(Select, {
+        attrs,
         props,
-        on,
-        slots
-      };
+        on
+      }, nodes);
     },
     getPropsWithFormatter(i) {
       const { bindProps, formatter } = this;
@@ -120,7 +136,7 @@ export default {
           key={`${label}-${idx}`}
         >
           {
-            i[children].reduce((groupVnode, c, cdx) => {
+            children.reduce((groupVnode, c, cdx) => {
               groupVnode.push(getOptionsVnode(c, cdx));
               return groupVnode;
             }, [])
@@ -133,7 +149,7 @@ export default {
       const { getOptionsVnode, getGroupVnode, bindProps, getPropsWithFormatter } = self;
       const { children } = bindProps;
       const optionTemplateRender = this.$scopedSlots.option;
-      return this.options.reduce((optionsVnode, i, idx) => {
+      return this.bindOptions.reduce((optionsVnode, i, idx) => {
         const props = getPropsWithFormatter(i);
         if (isFunction(optionTemplateRender)) {
           optionsVnode.push(optionTemplateRender({props, i}));
@@ -144,9 +160,23 @@ export default {
         }
         return optionsVnode;
       }, []);
+    },
+    renderLoading() {
+      const directives = [
+        { name: 'loading', value: this.requestPending }
+      ];
+      return (
+        <div
+          {...{ directives }}
+          class="dy-select-dropdown__loading"
+          dynamic-loading-text={this.dynamicLoadingText}
+        >
+        </div>
+      );
     }
+
   }
 };
 </script>
 
-<style scoped lang="scss"></style>
+

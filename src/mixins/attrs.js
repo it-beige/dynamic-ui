@@ -4,27 +4,50 @@ import {
 } from 'main/utils/component.js';
 import globalConfig from 'main/config/global';
 
-export default function genPropsMixin(component) {
-  const props = getCompPropsBySourceOpt(component);
+const getExtraProps = () => {
   const optionProps = globalConfig.useOptionProps();
   return {
     props: {
+      type: Object,
+      default: () => optionProps
+    }
+
+  };
+};
+
+const getExtraData = (self = {}) => {
+  return {
+    bindProps: {
+      ...globalConfig.useOptionProps(),
+      ...self.props
+    }
+
+  };
+};
+
+export const getExtra = (key) => {
+  let get;
+  switch (key) {
+    case 'data':
+      get = getExtraData;
+      break;
+    case 'prop':
+      get = getExtraProps;
+      break;
+  }
+  return Object.keys(get());
+};
+
+export default function genPropsMixin(component) {
+  const props = getCompPropsBySourceOpt(component);
+  return {
+    props: {
       ...props,
-      props: {
-        type: Object,
-        default: () => optionProps
-      },
-      options: {
-        type: Array,
-        default: () => ([])
-      }
+      ...getExtraProps()
     },
-    data() {
+    data(self) {
       return {
-        bindProps: {
-          ...optionProps,
-          ...this.props
-        }
+        ...getExtraData(self)
       };
     },
     watch: {
@@ -33,16 +56,12 @@ export default function genPropsMixin(component) {
           this.bindProps = {...this.bindProps, ...this.props};
         },
         deep: true
-      },
-      options: {
-        handler() {
-          this.bindOptions = this.options;
-        }
       }
+
     },
     methods: {
       _excludeExtraProps(props) {
-        const extraProps = this.$options.extraProps;
+        const extraProps = this.extraProps;
         return Object.keys(props).reduce((_, k) => {
           if (!extraProps.includes(k)) {
             _[k] = props[k];
@@ -71,3 +90,4 @@ export default function genPropsMixin(component) {
     }
   };
 }
+
