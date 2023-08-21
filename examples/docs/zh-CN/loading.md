@@ -57,15 +57,15 @@
 
 可自定义加载文案、图标和背景色。
 
-:::demo 在绑定了`v-loading`指令的元素上添加`element-loading-text`属性，其值会被渲染为加载文案，并显示在加载图标的下方。类似地，`element-loading-spinner`和`element-loading-background`属性分别用来设定图标类名和背景色值。
+:::demo 在绑定了`v-loading`指令的元素上添加`dynamic-loading-text`属性，其值会被渲染为加载文案，并显示在加载图标的下方。类似地，`dynamic-loading-spinner`和`dynamic-loading-background`属性分别用来设定图标类名和背景色值。
 
 ```html
 <template>
   <dy-table
     v-loading="loading"
-    element-loading-text="拼命加载中"
-    element-loading-spinner="dy-icon-loading"
-    element-loading-background="rgba(0, 0, 0, 0.8)"
+    dynamic-loading-text="拼命加载中"
+    dynamic-loading-spinner="dy-icon-loading"
+    dynamic-loading-background="rgba(0, 0, 0, 0.8)"
     :data="tableData"
     style="width: 100%"
   >

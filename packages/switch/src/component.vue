@@ -44,7 +44,7 @@
     name: 'DySwitch',
     mixins: [Focus('input'), Migrating, emitter],
     inject: {
-      elForm: {
+      dyForm: {
         default: ''
       }
     },
@@ -112,7 +112,7 @@
         return this.value === this.activeValue;
       },
       switchDisabled() {
-        return this.disabled || (this.elForm || {}).disabled;
+        return this.disabled || (this.dyForm || {}).disabled;
       }
     },
     watch: {

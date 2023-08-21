@@ -357,10 +357,10 @@ export default {
   mixins: [Emitter, NewPopper],
 
   inject: {
-    elForm: {
+    dyForm: {
       default: ''
     },
-    elFormItem: {
+    dyFormItem: {
       default: ''
     }
   },
@@ -565,7 +565,7 @@ export default {
     },
 
     _elFormItemSize() {
-      return (this.elFormItem || {}).elFormItemSize;
+      return (this.dyFormItem || {}).elFormItemSize;
     },
 
     pickerSize() {
@@ -573,7 +573,7 @@ export default {
     },
 
     pickerDisabled() {
-      return this.disabled || (this.elForm || {}).disabled;
+      return this.disabled || (this.dyForm || {}).disabled;
     },
 
     firstInputId() {

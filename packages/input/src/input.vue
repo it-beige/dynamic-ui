@@ -124,10 +124,10 @@
     inheritAttrs: false,
 
     inject: {
-      elForm: {
+      dyForm: {
         default: ''
       },
-      elFormItem: {
+      dyFormItem: {
         default: ''
       }
     },
@@ -194,13 +194,13 @@
 
     computed: {
       _elFormItemSize() {
-        return (this.elFormItem || {}).elFormItemSize;
+        return (this.dyFormItem || {}).elFormItemSize;
       },
       validateState() {
-        return this.elFormItem ? this.elFormItem.validateState : '';
+        return this.dyFormItem ? this.dyFormItem.validateState : '';
       },
       needStatusIcon() {
-        return this.elForm ? this.elForm.statusIcon : false;
+        return this.dyForm ? this.dyForm.statusIcon : false;
       },
       validateIcon() {
         return {
@@ -216,7 +216,7 @@
         return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
       },
       inputDisabled() {
-        return this.disabled || (this.elForm || {}).disabled;
+        return this.disabled || (this.dyForm || {}).disabled;
       },
       nativeInputValue() {
         return this.value === null || this.value === undefined ? '' : String(this.value);

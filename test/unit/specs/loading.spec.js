@@ -154,7 +154,7 @@ describe('Loading', () => {
     it('text', done => {
       vm = createVue({
         template: `
-        <div v-loading="loading" element-loading-text="拼命加载中"></div>
+        <div v-loading="loading" dynamic-loading-text="拼命加载中"></div>
       `,
 
         data() {
@@ -175,7 +175,7 @@ describe('Loading', () => {
     it('customClass', done => {
       vm = createVue({
         template: `
-        <div v-loading="loading" element-loading-custom-class="loading-custom-class"></div>
+        <div v-loading="loading" dynamic-loading-custom-class="loading-custom-class"></div>
       `,
 
         data() {

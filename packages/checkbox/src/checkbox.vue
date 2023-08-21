@@ -62,10 +62,10 @@
     mixins: [Emitter],
 
     inject: {
-      elForm: {
+      dyForm: {
         default: ''
       },
-      elFormItem: {
+      dyFormItem: {
         default: ''
       }
     },
@@ -145,12 +145,12 @@
 
       isDisabled() {
         return this.isGroup
-          ? this._checkboxGroup.disabled || this.disabled || (this.elForm || {}).disabled || this.isLimitDisabled
-          : this.disabled || (this.elForm || {}).disabled;
+          ? this._checkboxGroup.disabled || this.disabled || (this.dyForm || {}).disabled || this.isLimitDisabled
+          : this.disabled || (this.dyForm || {}).disabled;
       },
 
       _elFormItemSize() {
-        return (this.elFormItem || {}).elFormItemSize;
+        return (this.dyFormItem || {}).elFormItemSize;
       },
 
       checkboxSize() {

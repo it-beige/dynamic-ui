@@ -85,7 +85,7 @@
     mixins: [Emitter],
 
     inject: {
-      elForm: {
+      dyForm: {
         default: ''
       }
     },
@@ -386,7 +386,7 @@
       },
 
       sliderDisabled() {
-        return this.disabled || (this.elForm || {}).disabled;
+        return this.disabled || (this.dyForm || {}).disabled;
       }
     },
 

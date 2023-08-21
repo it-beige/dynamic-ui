@@ -52,10 +52,10 @@
     },
 
     inject: {
-      elForm: {
+      dyForm: {
         default: ''
       },
-      elFormItem: {
+      dyFormItem: {
         default: ''
       }
     },
@@ -72,7 +72,7 @@
       },
 
       _elFormItemSize() {
-        return (this.elFormItem || {}).elFormItemSize;
+        return (this.dyFormItem || {}).elFormItemSize;
       },
 
       colorSize() {
@@ -80,7 +80,7 @@
       },
 
       colorDisabled() {
-        return this.disabled || (this.elForm || {}).disabled;
+        return this.disabled || (this.dyForm || {}).disabled;
       }
     },
 

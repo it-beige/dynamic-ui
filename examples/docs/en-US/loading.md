@@ -57,15 +57,15 @@ Displays animation in a container (such as a table) while loading data.
 
 You can customize loading text, loading spinner and background color.
 
-:::demo Add attribute `element-loading-text` to the element on which `v-loading` is bound, and its value will be displayed under the spinner. Similarly, `element-loading-spinner` and `element-loading-background` are for customizing loading spinner class name and background color.
+:::demo Add attribute `dynamic-loading-text` to the element on which `v-loading` is bound, and its value will be displayed under the spinner. Similarly, `dynamic-loading-spinner` and `dynamic-loading-background` are for customizing loading spinner class name and background color.
 
 ```html
 <template>
   <dy-table
     v-loading="loading"
-    element-loading-text="Loading..."
-    element-loading-spinner="dy-icon-loading"
-    element-loading-background="rgba(0, 0, 0, 0.8)"
+    dynamic-loading-text="Loading..."
+    dynamic-loading-spinner="dy-icon-loading"
+    dynamic-loading-background="rgba(0, 0, 0, 0.8)"
     :data="tableData"
     style="width: 100%"
   >

@@ -160,11 +160,11 @@
     componentName: 'DySelect',
 
     inject: {
-      elForm: {
+      dyForm: {
         default: ''
       },
 
-      elFormItem: {
+      dyFormItem: {
         default: ''
       }
     },
@@ -177,7 +177,7 @@
 
     computed: {
       _elFormItemSize() {
-        return (this.elFormItem || {}).elFormItemSize;
+        return (this.dyFormItem || {}).elFormItemSize;
       },
 
       readonly() {
@@ -229,7 +229,7 @@
       },
 
       selectDisabled() {
-        return this.disabled || (this.elForm || {}).disabled;
+        return this.disabled || (this.dyForm || {}).disabled;
       },
 
       collapseTagSize() {

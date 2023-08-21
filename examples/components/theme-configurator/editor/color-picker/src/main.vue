@@ -54,10 +54,10 @@
     },
 
     inject: {
-      elForm: {
+      dyForm: {
         default: ''
       },
-      elFormItem: {
+      dyFormItem: {
         default: ''
       }
     },
@@ -71,48 +71,8 @@
         }
 
         return this.displayedRgb(this.color, this.showAlpha);
-      },
-
-      _elFormItemSize() {
-        return (this.elFormItem || {}).elFormItemSize;
-      },
-
-      colorSize() {
-        return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
-      },
-
-      colorDisabled() {
-        return this.disabled || (this.elForm || {}).disabled;
       }
-    },
 
-    watch: {
-      value(val) {
-        if (!val) {
-          this.showPanelColor = false;
-        } else if (val && val !== this.color.value) {
-          this.color.fromString(val);
-        }
-      },
-      color: {
-        deep: true,
-        handler() {
-          this.showPanelColor = true;
-        }
-      },
-      displayedColor(val) {
-        if (!this.showPicker) return;
-        const currentValueColor = new Color({
-          enableAlpha: this.showAlpha,
-          format: this.colorFormat
-        });
-        currentValueColor.fromString(this.value);
-
-        const currentValueColorRgb = this.displayedRgb(currentValueColor, this.showAlpha);
-        if (val !== currentValueColorRgb) {
-          this.$emit('active-change', val);
-        }
-      }
     },
 
     methods: {

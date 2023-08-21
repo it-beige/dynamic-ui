@@ -125,7 +125,7 @@
           if (this.labelWidth === 'auto') {
             ret.marginLeft = this.computedLabelWidth;
           } else if (this.form.labelWidth === 'auto') {
-            ret.marginLeft = this.elForm.autoLabelWidth;
+            ret.marginLeft = this.dyForm.autoLabelWidth;
           }
         } else {
           ret.marginLeft = labelWidth;
@@ -171,13 +171,13 @@
         return isRequired;
       },
       _formSize() {
-        return this.elForm.size;
+        return this.dyForm.size;
       },
       elFormItemSize() {
         return this.size || this._formSize;
       },
       sizeClass() {
-        return this.elFormItemSize || (this.$ELEMENT || {}).size;
+        return this.dyFormItemSize || (this.$ELEMENT || {}).size;
       }
     },
     data() {
@@ -219,7 +219,7 @@
           this.validateMessage = errors ? errors[0].message : '';
 
           callback(this.validateMessage, invalidFields);
-          this.elForm && this.elForm.$emit('validate', this.prop, !errors, this.validateMessage || null);
+          this.dyForm && this.dyForm.$emit('validate', this.prop, !errors, this.validateMessage || null);
         });
       },
       clearValidate() {

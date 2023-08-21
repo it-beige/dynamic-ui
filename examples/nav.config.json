@@ -43,6 +43,20 @@
       ]
     },
     {
+      "name": "高阶组件",
+      "groups": [
+        {
+          "groupName": "HigherOrder Components",
+          "list": [
+            {
+              "path": "/select-generate",
+              "title": "Select JSON生成"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "组件",
       "groups": [
         {
