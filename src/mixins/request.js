@@ -32,7 +32,7 @@ const getExtraProps = () => {
       type: Function,
       default: (res) => globalConfig.useParseData(res)
     },
-    // 解析数据的方法
+    // 解析total的方法
     useParseTotal: {
       type: Function,
       default: (res) => globalConfig.useParseTotal(res)
@@ -52,10 +52,12 @@ const getExtraProps = () => {
       type: String,
       default: 'GET'
     },
+    // query参数
     params: {
       type: Object,
       default: () => ({})
     },
+    // body参数
     data: {
       type: Object,
       default: () => ({})

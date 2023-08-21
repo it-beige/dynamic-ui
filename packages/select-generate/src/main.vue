@@ -15,11 +15,11 @@ export default {
   name: 'DySelectGenerate',
   mixins: [genAttrsMixin(SelectComponent), genRequestMixin()],
   props: {
+    // 格式化option数据
     formatter: {
       type: Function
     }
   },
-  components: {},
   data() {
     return {
       extraProps: [...getAttrMixExtra('prop'), ...getRequestMixExtra('prop')],
@@ -78,7 +78,8 @@ export default {
       return createElement(Select, {
         attrs,
         props,
-        on
+        on,
+        ref: Select
       }, nodes);
     },
     getPropsWithFormatter(i) {
@@ -90,17 +91,17 @@ export default {
       let bindChildren = i[children];
       if (isFunction(formatter)) {
         let formatedItem = formatter(i);
-        if (Reflect.has(formatedItem, 'label')) {
-          bindLabel = formatedItem.label;
+        if (Reflect.has(formatedItem, label)) {
+          bindLabel = formatedItem[label];
         }
-        if (Reflect.has(formatedItem, 'value')) {
-          bindValue = formatedItem.value;
+        if (Reflect.has(formatedItem, value)) {
+          bindValue = formatedItem[value];
         }
-        if (Reflect.has(formatedItem, 'disabled')) {
-          bindDisabled = formatedItem.disabled;
+        if (Reflect.has(formatedItem, disabled)) {
+          bindDisabled = formatedItem[disabled];
         }
-        if (Reflect.has(formatedItem, 'children')) {
-          bindChildren = formatedItem.children;
+        if (Reflect.has(formatedItem, children)) {
+          bindChildren = formatedItem[children];
         }
       }
       const props = {
@@ -128,11 +129,12 @@ export default {
     },
     getGroupVnode(i, idx) {
       const { getOptionsVnode, getPropsWithFormatter } = this;
-      const { label, children } = getPropsWithFormatter(i);
+      const { label, children, disabled } = getPropsWithFormatter(i);
 
       return (
         <OptionGroup
           label={label}
+          disabled={disabled}
           key={`${label}-${idx}`}
         >
           {

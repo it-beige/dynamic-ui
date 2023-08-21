@@ -3,15 +3,15 @@ import {
   getProvidesOptionBySourceOpt
 } from 'main/utils/component.js';
 import globalConfig from 'main/config/global';
+import { getComponentByName } from 'main/config/component';
 
-const getExtraProps = () => {
+const getExtraProps = (component) => {
   const optionProps = globalConfig.useOptionProps();
   return {
     props: {
       type: Object,
       default: () => optionProps
     }
-
   };
 };
 
@@ -85,8 +85,11 @@ export default function genPropsMixin(component) {
           }
           return <template slot={k}>{vnode}</template>;
         });
+      },
+      useRef() {
+        const Select = getComponentByName('Select');
+        return this.$refs[Select];
       }
-
     }
   };
 }
