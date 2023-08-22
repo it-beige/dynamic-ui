@@ -2,14 +2,15 @@
 
 基于`Upload`组件的封装, 扩展了及功能, 对`list-type`的文件样式列表进行了封装
 
-### 基础用法
+<!-- ### 基础用法
 
 :::demo
 
 ```html
 <dy-upload-generate
-  :fileList="fileList"
+  v-model="fileList"
   :baseUploadURI="baseUploadURI"
+  :parseResponse="parseResponse"
   listType="text"
   :action="exampleUploadUrl"
   ref="uploadGenerateRef"
@@ -19,7 +20,25 @@
   export default {
     data() {
       return {
-        fileList: [],
+        fileList: [
+          {
+            fieldname: 'file',
+            originalname: 'article.png',
+            encoding: '7bit',
+            mimetype: 'image/png',
+            destination:
+              '/Users/chenkun/personal/code/Nest/01/learn-multer/my-uploads',
+            filename: 'file-1692683296660-853058701-article.png',
+            path:
+              '/Users/chenkun/personal/code/Nest/01/learn-multer/my-uploads/file-1692683296660-853058701-article.png',
+            size: 42369,
+            url:
+              '/Users/chenkun/personal/code/Nest/01/learn-multer/my-uploads/file-1692683296660-853058701-article.png',
+            fileName: 'article.png',
+            name: 'article.png',
+            status: 'success',
+          },
+        ],
         headers: {
           'dynamic-example': 'Auth example....',
         },
@@ -37,23 +56,74 @@
         // or
         console.log(this.$refs.uploadGenerateRef.useRef());
       },
+      parseResponse(response, props) {
+        let data = response.data;
+        const { name, url } = props;
+        return {
+          ...data,
+          name: data.fileName,
+          url: data.url,
+        };
+      },
     },
   };
 </script>
 ```
 
-:::
+`action`为当前上传的接口路径, `baseUploadURI`一般为项目的的基础路径, 如果这里没有设置, 将会用全局的`baseURI`做为基础路径
+::: -->
 
-通过参数监听, 只要任何参数变动都会自动请求, 需要注意的是如果 url 进行变动了, page、size 数据会重置, 如果 lazy 为 true, 分页会重新计算
-:::
+### picture-card
 
-- 组件内部对同时修改 url、params、data, method 其中的任何两个及以上, 只会对最新的一次修改进行生效, 这么做的目的是防止接口在同个操作内修改多次值导致请求多次
+```js
+import Dynamic from 'main/index.js';
+Vue.use(Dynamic, {
+  // 数据请求的baseURI
+  baseURI: 'http://localhost:2222',
+  // 上传接口请求的baseURI, 使用第三方服务可能会用到, 比如使用oss上传, 如果没传入默认会用baseURI
+  baseUploadURI: 'http://localhost:3333',
+});
+```
 
-- 组件内对 pageParamsValue 也进行了`watch`, 如果修改`pageParamsValue`也会触发重新请求, 用此方式也可以进行实现懒加载相关逻辑
+:::demo
 
-:::warning
-`url`、`pageParamsValue` 的变动势必会重新变动接口请求的数据, 所以涉及这两个的变动 **会重置`value`的值**。
-:::
+```html
+<dy-upload-generate
+  v-model="fileList"
+  :parseResponse="parseResponse"
+  listType="picture-card"
+  :action="exampleUploadUrl"
+  :limit="3"
+></dy-upload-generate>
+
+<script>
+  export default {
+    data() {
+      return {
+        fileList: [],
+        headers: {
+          'dynamic-example': 'Auth example....',
+        },
+        baseUploadURI:
+          process.env.VUE_APP_UPLOAD_API || 'http://localhost:3333',
+        exampleUploadUrl: '/upload',
+      };
+    },
+    mounted() {},
+    methods: {
+      parseResponse(response, props) {
+        let data = response.data;
+        const { name, url } = props;
+        return {
+          ...data,
+          name: data.fileName,
+          url: data.url,
+        };
+      },
+    },
+  };
+</script>
+```
 
 ### Request 提供的 Select Attributes
 

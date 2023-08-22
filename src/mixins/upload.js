@@ -1,27 +1,23 @@
 import globalConfig from 'main/config/global';
-// import { isFunction } from 'main/utils/lodash';
-import {
-  getCompPropsBySourceOpt
-} from 'main/utils/component.js';
-import UploadComponent from 'packages/upload';
+import { isFunction, isPlainObject } from 'main/utils/lodash';
 import {
   stitchUrl
 } from 'main/utils/util';
+import {
+  parseResponse
+} from 'main/help/upload';
 
 const getExtraProps = () => {
-  const UploadProps = getCompPropsBySourceOpt(UploadComponent);
-
   return {
-    ...UploadProps,
     // 数据请求的baseURI
     baseURI: {
       type: String,
-      default: globalConfig.baseURI
+      default: () => globalConfig.baseURI
     },
     // 上传接口请求的baseURI
     baseUploadURI: {
       type: String,
-      default: globalConfig.baseUploadURI
+      default: () =>globalConfig.baseUploadURI
     },
     // 请求数据的方法
     useRequest: {
@@ -29,23 +25,31 @@ const getExtraProps = () => {
       default: () => globalConfig.useRequest()
     },
     // 解析数据的方法
-    useParseData: {
+    parseResponse: {
       type: Function,
-      default: (res) => globalConfig.useParseData(res)
+      default: parseResponse
     },
-    // 获取请求接口的数据
-    resolveData: {
-      type: Function
+    value: {
+      type: [Object, Array],
+      require: true
+    },
+    props: {
+      type: Object,
+      default: () => ({
+        name: 'fileName',
+        url: 'url'
+      })
+    },
+    isCallBuilt: {
+      type: Boolean,
+      default: true
     }
   };
 };
 
 const getExtraData = (self = {}) => {
-  const {
 
-  } = self;
   return {
-
   };
 };
 
@@ -87,14 +91,53 @@ export default function genUploadMixin() {
 
     },
     beforeDestroy() {
-      this.$unWatchs.forEach(i => i());
     },
     methods: {
+      bindPropsHook(props) {
+        props.onSuccess = this.callOriginalHook(this.callSuccess, props.onSuccess);
+        props.onError = this.callOriginalHook(this.callError, props.onError);
+        props.beforeRemove = this.callOriginalHook(this.callBeforeRemove, props.beforeRemove);
+        props.onRemove = this.callOriginalHook(this.callRemove, props.onRemove);
+      },
+      callSuccess(response, file) {
+        let data = file;
+        if (isFunction(this.parseResponse)) {
+          data = this.parseResponse(response, this.props);
+          if (!isPlainObject(file)) {
+            console.error('[Dynamic Error][UploadGenerate]', 'parseResponse Function must return object');
+          }
+        }
+        if (!data.name) {
+          data.name = file.name;
+        }
+        this.bindFileList.push(data);
+        this.$emit('input', this.bindFileList);
+      },
+      callError() {
+        this.$message.error('文件上传失败');
+      },
+      callBeforeRemove(file) {
+        return this.$confirm(`确定移除 ${file.name}?`, '删除文件');
+      },
+      callRemove(file) {
+        this.bindFileList = this.bindFileList.filter((i)=> i.uid !== file.uid);
+        this.$emit('input', this.bindFileList);
+      },
+      callOriginalHook(call, originalHook) {
+        const exist = isFunction(originalHook);
+        return (...arg) => {
+          let r = this.isCallBuilt && call(...arg);
+          if (exist) {
+            try {
+              r = originalHook(...arg);
+            } catch (e) {
+              console.log(e);
+            }
+          }
+          return r;
 
-      $request(reqOptions) {
-
+        };
       }
-
     }
   };
 }

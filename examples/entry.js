@@ -22,6 +22,8 @@ import { isPlainObject, isArray } from 'main/utils/lodash';
 Vue.use(Dynamic, {
   // 数据请求的baseURI
   baseURI: process.env.VUE_APP_BASE_API || 'dev',
+  // 上传接口请求的baseURI, 使用第三方服务可能会用到, 比如使用oss上传
+  baseUploadURI: 'http://localhost:3333',
   // 分页参数字段名 page size
   pageParamsKey: { page: 'page', size: 'size' },
   // 分页默认的参数值

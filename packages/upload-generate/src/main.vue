@@ -2,7 +2,7 @@
 import genAttrsMixin, {getExtra as getAttrMixExtra} from 'main/mixins/attrs';
 import genUploadMixin, {getExtra as getUploadMixExtra} from 'main/mixins/upload';
 import { getComponentByName } from 'main/config/component';
-// import { isFunction, isArray } from 'main/utils/lodash';
+import { isPlainObject } from 'main/utils/lodash';
 import Locale from 'dynamic-ui/src/mixins/locale';
 
 const Upload = getComponentByName('Upload');
@@ -18,7 +18,8 @@ export default {
   data() {
     return {
       extraProps: [...getAttrMixExtra('prop'), ...getUploadMixExtra('prop')],
-      extraData: [...getAttrMixExtra('data'), ...getUploadMixExtra('data')]
+      extraData: [...getAttrMixExtra('data'), ...getUploadMixExtra('data')],
+      bindFileList: isPlainObject(this.value) ? [this.value] : this.value
     };
   },
   render() {
@@ -29,6 +30,8 @@ export default {
     getUploadProps() {
       const props = this._excludeExtraProps(this.$props);
       props.action = this.url;
+      props.fileList = this.bindFileList;
+      this.bindPropsHook(props);
       return props;
     },
     getUploadOn() {
@@ -87,6 +90,11 @@ export default {
         <Button.name type="primary" icon="dy-icon-upload2">
           { this.t('dy.upload.buttonText')}
         </Button.name>
+      );
+    },
+    renderPictureCardVnode() {
+      return (
+        <i class="dy-icon-plus"></i>
       );
     }
 

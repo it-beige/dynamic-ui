@@ -7,11 +7,7 @@ import LoadingComponent from 'packages/loading';
 import InfiniteScrollComponent from 'packages/infinite-scroll';
 
 const getExtraProps = () => {
-  const LoadingProps = getCompPropsBySourceOpt(LoadingComponent);
-  const InfiniteScrollProps = getCompPropsBySourceOpt(InfiniteScrollComponent);
   return {
-    ...LoadingProps,
-    ...InfiniteScrollProps,
     // 数据请求的baseURI
     baseURI: {
       type: String,
@@ -83,20 +79,8 @@ const getExtraProps = () => {
     loadMoreMethod: {
       type: Function,
       default: (...arg) => globalConfig.loadMoreMethod(...arg)
-    },
-    // 触发加载的距离阈值，单位为px
-    infiniteScrollDistance: {
-      type: Number,
-      default: 50
-    },
-    showLoading: {
-      type: Boolean,
-      default: true
-    },
-    dynamicLoadingText: {
-      type: String,
-      default: '数据加载中'
     }
+
   };
 };
 
@@ -137,8 +121,27 @@ export const getExtra = (key) => {
 };
 
 export default function genRequestMixin() {
+  const LoadingProps = getCompPropsBySourceOpt(LoadingComponent);
+  const InfiniteScrollProps = getCompPropsBySourceOpt(InfiniteScrollComponent);
   return {
-    props: getExtraProps(),
+    props: {
+      ...LoadingProps,
+      ...InfiniteScrollProps,
+      ...getExtraProps(),
+      // 触发加载的距离阈值，单位为px
+      infiniteScrollDistance: {
+        type: Number,
+        default: 50
+      },
+      showLoading: {
+        type: Boolean,
+        default: true
+      },
+      dynamicLoadingText: {
+        type: String,
+        default: '数据加载中'
+      }
+    },
     data(self) {
       return getExtraData(self);
     },
@@ -201,7 +204,6 @@ export default function genRequestMixin() {
       this.$unWatchs.forEach(i => i());
     },
     methods: {
-
       $request(reqOptions) {
         // 请求数据的方法
         const request = this.useRequest();
