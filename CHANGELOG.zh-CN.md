@@ -1252,7 +1252,7 @@ _2019-01-26_
 
 #### 修复
 
-- 修复升级 Webpack 4 产生的问题，无法具名 `import` 组件，`ELEMENT.locale()` 调用报错。（by @island205 in #14220）
+- 修复升级 Webpack 4 产生的问题，无法具名 `import` 组件，`DYNAMIC.locale()` 调用报错。（by @island205 in #14220）
 - 恢复 2.4.11 文档 (by @iamkun in #14222)
 
 ### 2.5.0

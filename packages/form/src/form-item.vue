@@ -177,7 +177,7 @@
         return this.size || this._formSize;
       },
       sizeClass() {
-        return this.dyFormItemSize || (this.$ELEMENT || {}).size;
+        return this.dyFormItemSize || (this.$DYNAMIC || {}).size;
       }
     },
     data() {

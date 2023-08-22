@@ -62,7 +62,7 @@
         return (this.dyFormItem || {}).elFormItemSize;
       },
       buttonSize() {
-        return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
+        return this.size || this._elFormItemSize || (this.$DYNAMIC || {}).size;
       },
       buttonDisabled() {
         return this.$options.propsData.hasOwnProperty('disabled') ? this.disabled : (this.dyForm || {}).disabled;

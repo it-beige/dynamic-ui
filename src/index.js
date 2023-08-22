@@ -82,6 +82,7 @@ import CascaderPanel from '../packages/cascader-panel/index.js';
 import Avatar from '../packages/avatar/index.js';
 import Drawer from '../packages/drawer/index.js';
 import Statistic from '../packages/statistic/index.js';
+import SvgIcon from '../packages/svg-icon/index.js';
 import Popconfirm from '../packages/popconfirm/index.js';
 import Skeleton from '../packages/skeleton/index.js';
 import SkeletonItem from '../packages/skeleton-item/index.js';
@@ -91,6 +92,7 @@ import DescriptionsItem from '../packages/descriptions-item/index.js';
 import Result from '../packages/result/index.js';
 import FormGenerate from '../packages/form-generate/index.js';
 import SelectGenerate from '../packages/select-generate/index.js';
+import UploadGenerate from '../packages/upload-generate/index.js';
 import locale from 'dynamic-ui/src/locale';
 import CollapseTransition from 'dynamic-ui/src/transitions/collapse-transition';
 import {
@@ -181,6 +183,7 @@ const components = [
   Avatar,
   Drawer,
   Statistic,
+  SvgIcon,
   Popconfirm,
   Skeleton,
   SkeletonItem,
@@ -190,6 +193,7 @@ const components = [
   Result,
   FormGenerate,
   SelectGenerate,
+  UploadGenerate,
   CollapseTransition
 ];
 
@@ -245,7 +249,7 @@ const install = function(Vue, opts = {}) {
   Vue.use(InfiniteScroll);
   Vue.use(Loading.directive);
 
-  Vue.prototype.$ELEMENT = {
+  Vue.prototype.$DYNAMIC = {
     size: size || '',
     zIndex: zIndex || 2000
   };
@@ -353,6 +357,7 @@ export default {
   Avatar,
   Drawer,
   Statistic,
+  SvgIcon,
   Popconfirm,
   Skeleton,
   SkeletonItem,
@@ -361,5 +366,6 @@ export default {
   DescriptionsItem,
   Result,
   FormGenerate,
-  SelectGenerate
+  SelectGenerate,
+  UploadGenerate
 };

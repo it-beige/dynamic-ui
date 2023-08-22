@@ -48,7 +48,7 @@
         return tag;
       },
       radioGroupSize() {
-        return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
+        return this.size || this._elFormItemSize || (this.$DYNAMIC || {}).size;
       }
     },
 

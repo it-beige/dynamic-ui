@@ -147,7 +147,7 @@
       },
 
       size() {
-        return this._checkboxGroup.checkboxGroupSize || this._elFormItemSize || (this.$ELEMENT || {}).size;
+        return this._checkboxGroup.checkboxGroupSize || this._elFormItemSize || (this.$DYNAMIC || {}).size;
       },
 
       /* used to make the isDisabled judgment under max/min props */

@@ -56,6 +56,19 @@ const webpackConfig = {
           limit: 10000,
           name: path.posix.join('static', '[name].[hash:7].[ext]')
         }
+      },
+      {
+        test: /\.svg$/,
+        include: [path.resolve(process.cwd(), './src/assets/svg')], // 处理svg目录
+        use: [
+          {
+            loader: 'svg-sprite-loader',
+            options: {
+              symbolId: 'icon-[name]'
+            }
+          },
+          'svgo-loader'
+        ]
       }
     ]
   },

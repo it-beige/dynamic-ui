@@ -81,6 +81,7 @@
   "avatar": "./packages/avatar/index.js",
   "drawer": "./packages/drawer/index.js",
   "statistic": "./packages/statistic/index.js",
+  "svg-icon": "./packages/svg-icon/index.js",
   "popconfirm": "./packages/popconfirm/index.js",
   "skeleton": "./packages/skeleton/index.js",
   "skeleton-item": "./packages/skeleton-item/index.js",
@@ -89,5 +90,6 @@
   "descriptions-item": "./packages/descriptions-item/index.js",
   "result": "./packages/result/index.js",
   "form-generate": "./packages/form-generate/index.js",
-  "select-generate": "./packages/select-generate/index.js"
+  "select-generate": "./packages/select-generate/index.js",
+  "upload-generate": "./packages/upload-generate/index.js"
 }

@@ -80,7 +80,7 @@ const install = function(Vue, opts = {}) {
   Vue.use(InfiniteScroll);
   Vue.use(Loading.directive);
 
-  Vue.prototype.$ELEMENT = {
+  Vue.prototype.$DYNAMIC = {
     size: size || '',
     zIndex: zIndex || 2000
   };

@@ -148,7 +148,7 @@ route.push({
   component: require('./play/index.vue')
 });
 
-let userLanguage = localStorage.getItem('ELEMENT_LANGUAGE') || window.navigator.language || 'en-US';
+let userLanguage = localStorage.getItem('DYNAMIC_LANGUAGE') || window.navigator.language || 'en-US';
 let defaultPath = '/en-US';
 if (userLanguage.indexOf('zh-') !== -1) {
   defaultPath = '/zh-CN';

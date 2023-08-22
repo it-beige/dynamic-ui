@@ -213,7 +213,7 @@
         return merge({}, this.textareaCalcStyle, { resize: this.resize });
       },
       inputSize() {
-        return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
+        return this.size || this._elFormItemSize || (this.$DYNAMIC || {}).size;
       },
       inputDisabled() {
         return this.disabled || (this.dyForm || {}).disabled;

@@ -257,7 +257,7 @@ export default {
     },
     realSize() {
       const _elFormItemSize = (this.dyFormItem || {}).elFormItemSize;
-      return this.size || _elFormItemSize || (this.$ELEMENT || {}).size;
+      return this.size || _elFormItemSize || (this.$DYNAMIC || {}).size;
     },
     tagSize() {
       return ['small', 'mini'].indexOf(this.realSize) > -1

@@ -99,13 +99,38 @@ const webpackConfig = {
         ]
       },
       {
-        test: /\.(svg|otf|ttf|woff2?|eot|gif|png|jpe?g)(\?\S*)?$/,
+        test: /\.(otf|ttf|woff2?|eot|gif|png|jpe?g)(\?\S*)?$/,
         loader: 'url-loader',
         // todo: 这种写法有待调整
         query: {
           limit: 10000,
           name: path.posix.join('static', '[name].[hash:7].[ext]')
         }
+      },
+      {
+        test: /\.svg$/,
+        include: [path.resolve(process.cwd(), './src/svg')], // 处理svg目录
+        use: [
+          {
+            loader: 'svg-sprite-loader',
+            options: {
+              symbolId: 'icon-[name]'
+            }
+          },
+          'svgo-loader'
+        ]
+      },
+      {
+        test: /\.svg$/,
+        exclude: [path.resolve(process.cwd(), './src/svg')],
+        use: [
+          {
+            loader: 'file-loader', // 或者 url-loader
+            options: {
+              name: 'static/[name].[hash:7].[ext]'
+            }
+          }
+        ]
       }
     ]
   },

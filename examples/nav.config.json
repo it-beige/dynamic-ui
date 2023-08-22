@@ -51,6 +51,10 @@
             {
               "path": "/select-generate",
               "title": "Select JSON生成"
+            },
+            {
+              "path": "/upload-generate",
+              "title": "Upload JSON生成"
             }
           ]
         }

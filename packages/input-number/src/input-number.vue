@@ -165,7 +165,7 @@
         return (this.dyFormItem || {}).elFormItemSize;
       },
       inputNumberSize() {
-        return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
+        return this.size || this._elFormItemSize || (this.$DYNAMIC || {}).size;
       },
       inputNumberDisabled() {
         return this.disabled || !!(this.dyForm || {}).disabled;

@@ -86,7 +86,8 @@ export default {
       deleteTip: '按 delete 键可删除',
       delete: '删除',
       preview: '查看图片',
-      continue: '继续上传'
+      continue: '继续上传',
+      buttonText: '上传'
     },
     table: {
       emptyText: '暂无数据',

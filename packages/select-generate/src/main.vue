@@ -3,7 +3,6 @@ import genAttrsMixin, {getExtra as getAttrMixExtra} from 'main/mixins/attrs';
 import genRequestMixin, {getExtra as getRequestMixExtra} from 'main/mixins/request';
 import { getComponentByName } from 'main/config/component';
 import { isFunction, isArray } from 'main/utils/lodash';
-import SelectComponent from 'packages/select';
 
 const Select = getComponentByName('Select');
 // eslint-disable-next-line
@@ -13,7 +12,7 @@ const Option = getComponentByName('Option');
 
 export default {
   name: 'DySelectGenerate',
-  mixins: [genAttrsMixin(SelectComponent), genRequestMixin()],
+  mixins: [genAttrsMixin(Select), genRequestMixin()],
   props: {
     // 格式化option数据
     formatter: {
@@ -75,11 +74,11 @@ export default {
         const loadingVnode = this.renderLoading();
         nodes.push(loadingVnode);
       }
-      return createElement(Select, {
+      return createElement(Select.name, {
         attrs,
         props,
         on,
-        ref: Select
+        ref: Select.name
       }, nodes);
     },
     getPropsWithFormatter(i) {
@@ -118,21 +117,21 @@ export default {
       const props = getPropsWithFormatter(i);
       const {value, label} = props;
 
-      return <Option
+      return <Option.name
         {
         ...{props}
         }
         key={`${value}-${idx}`}
       >
         {isFunction(labelRender) && labelRender(label, i)}
-      </Option>;
+      </Option.name>;
     },
     getGroupVnode(i, idx) {
       const { getOptionsVnode, getPropsWithFormatter } = this;
       const { label, children, disabled } = getPropsWithFormatter(i);
 
       return (
-        <OptionGroup
+        <OptionGroup.name
           label={label}
           disabled={disabled}
           key={`${label}-${idx}`}
@@ -143,7 +142,7 @@ export default {
               return groupVnode;
             }, [])
           }
-        </OptionGroup>
+        </OptionGroup.name>
       );
     },
     renderOptions() {

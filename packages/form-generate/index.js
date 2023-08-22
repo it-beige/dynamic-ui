@@ -6,6 +6,7 @@ FormGenerate.install = function(Vue) {
   Vue.component(FormGenerate.name, FormGenerate);
 };
 
-FormGenerate.injectComponent = injectComponent;
-
+export {
+  injectComponent
+};
 export default FormGenerate;

@@ -103,6 +103,10 @@ export default {
     onExceed: {
       type: Function,
       default: noop
+    },
+    svgIcon: {
+      type: Boolean,
+      default: true
     }
   },
 
@@ -275,7 +279,9 @@ export default {
           listType={this.listType}
           files={this.uploadFiles}
           on-remove={this.handleRemove}
-          handlePreview={this.onPreview}>
+          handlePreview={this.onPreview}
+          svgIcon={this.svgIcon}
+        >
           {
             (props) => {
               if (this.$scopedSlots.file) {

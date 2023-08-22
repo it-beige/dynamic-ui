@@ -58,9 +58,6 @@
         // or
         console.log(this.$refs.selectGenerateRef.useRef());
       },
-      useRef(DySelect) {
-        console.log(DySelect);
-      },
     },
   };
 </script>

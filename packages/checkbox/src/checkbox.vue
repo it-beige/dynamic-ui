@@ -154,7 +154,7 @@
       },
 
       checkboxSize() {
-        const temCheckboxSize = this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
+        const temCheckboxSize = this.size || this._elFormItemSize || (this.$DYNAMIC || {}).size;
         return this.isGroup
           ? this._checkboxGroup.checkboxGroupSize || temCheckboxSize
           : temCheckboxSize;

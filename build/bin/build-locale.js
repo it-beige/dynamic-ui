@@ -30,7 +30,7 @@ fileList
 
         code = code
           .replace('define(\'', 'define(\'dynamic/locale/')
-          .replace('global.', 'global.ELEMENT.lang = global.ELEMENT.lang || {}; \n    global.ELEMENT.lang.');
+          .replace('global.', 'global.DYNAMIC.lang = global.DYNAMIC.lang || {}; \n    global.DYNAMIC.lang.');
         save(resolve(__dirname, '../../lib/umd/locale', file)).write(code);
 
         console.log(file);

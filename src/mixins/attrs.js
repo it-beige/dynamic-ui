@@ -3,9 +3,8 @@ import {
   getProvidesOptionBySourceOpt
 } from 'main/utils/component.js';
 import globalConfig from 'main/config/global';
-import { getComponentByName } from 'main/config/component';
 
-const getExtraProps = (component) => {
+const getExtraProps = () => {
   const optionProps = globalConfig.useOptionProps();
   return {
     props: {
@@ -38,7 +37,7 @@ export const getExtra = (key) => {
   return Object.keys(get());
 };
 
-export default function genPropsMixin(component) {
+export default function genAttrsMixin(component) {
   const props = getCompPropsBySourceOpt(component);
   return {
     props: {
@@ -80,14 +79,11 @@ export default function genPropsMixin(component) {
       _getVnodesBySlots(slots) {
         return Object.keys(slots).map(k => {
           const vnode = Array.isArray(slots[k]) ? slots[k].at(0) : slots[k];
-          if (!vnode.data) {
-            vnode.data = {};
-          }
           return <template slot={k}>{vnode}</template>;
         });
       },
       useRef() {
-        const Select = getComponentByName('Select');
+        const Select = component.name;
         return this.$refs[Select];
       }
     }

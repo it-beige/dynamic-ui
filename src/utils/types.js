@@ -9,7 +9,7 @@ export function isObject(obj) {
 }
 
 export function isHtmlElement(node) {
-  return node && node.nodeType === Node.ELEMENT_NODE;
+  return node && node.nodeType === Node.DYNAMIC_NODE;
 }
 
 /**

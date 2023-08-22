@@ -107,7 +107,7 @@
         return (this.dyFormItem || {}).elFormItemSize;
       },
       radioSize() {
-        const temRadioSize = this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
+        const temRadioSize = this.size || this._elFormItemSize || (this.$DYNAMIC || {}).size;
         return this.isGroup
           ? this._radioGroup.radioGroupSize || temRadioSize
           : temRadioSize;

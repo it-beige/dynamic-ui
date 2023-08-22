@@ -25,7 +25,9 @@
           :src="file.url" alt=""
         >
         <a class="dy-upload-list__item-name" @click="handleClick(file)">
-          <i class="dy-icon-document"></i>{{file.name}}
+          <dy-svg-icon :icon-class="getFileIconByExt(file.name)" v-if="svgIcon"></dy-svg-icon>
+          <i class="dy-icon-document" v-else></i>
+          {{file.name}}
         </a>
         <label class="dy-upload-list__item-status-label">
           <i :class="{
@@ -65,6 +67,10 @@
 <script>
   import Locale from 'dynamic-ui/src/mixins/locale';
   import DyProgress from 'dynamic-ui/packages/progress';
+  import DySvgIcon from 'dynamic-ui/packages/svg-icon';
+  import {
+    getSvgIconByType
+  } from 'dynamic-ui/src/config/svg';
 
   export default {
 
@@ -77,7 +83,7 @@
         focusing: false
       };
     },
-    components: { DyProgress },
+    components: { DyProgress, DySvgIcon },
 
     props: {
       files: {
@@ -91,7 +97,8 @@
         default: false
       },
       handlePreview: Function,
-      listType: String
+      listType: String,
+      svgIcon: true
     },
     methods: {
       parsePercentage(val) {
@@ -99,6 +106,10 @@
       },
       handleClick(file) {
         this.handlePreview && this.handlePreview(file);
+      },
+      getFileIconByExt(filename) {
+        const ext = filename.split('.').at(-1);
+        return getSvgIconByType(ext);
       }
     }
   };

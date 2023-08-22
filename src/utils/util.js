@@ -3,6 +3,16 @@ import { isString, isObject } from 'dynamic-ui/src/utils/types';
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
+export function stitchUrl(baseUrl, url) {
+  if (baseUrl.lastIndexOf('/') === url.length) {
+    baseUrl = baseUrl.slice(0, -1);
+  }
+  if (url.indexOf('/') === 0) {
+    url = url.slice(1);
+  }
+  return `${baseUrl}/${url}`;
+}
+
 export function noop() {};
 
 export function hasOwn(obj, key) {

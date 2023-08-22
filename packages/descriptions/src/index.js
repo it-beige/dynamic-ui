@@ -52,7 +52,7 @@ export default {
   },
   computed: {
     descriptionsSize() {
-      return this.size || (this.$ELEMENT || {}).size;
+      return this.size || (this.$DYNAMIC || {}).size;
     }
   },
   provide() {

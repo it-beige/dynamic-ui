@@ -76,7 +76,7 @@ export default {
       document.removeEventListener('mousemove', this.moveFunc);
       setTimeout(() => {this.moving = false;}, 0);
     });
-    // chrome.storage.local.remove('ELEMENT_THEME_USER_CONFIG');
+    // chrome.storage.local.remove('DYNAMIC_THEME_USER_CONFIG');
     loadUserThemeFromLocal()
       .then((result) => {
         if (result) {

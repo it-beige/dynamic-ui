@@ -155,7 +155,7 @@ Object.defineProperty(PopupManager, 'zIndex', {
   configurable: true,
   get() {
     if (!hasInitZIndex) {
-      zIndex = zIndex || (Vue.prototype.$ELEMENT || {}).zIndex || 2000;
+      zIndex = zIndex || (Vue.prototype.$DYNAMIC || {}).zIndex || 2000;
       hasInitZIndex = true;
     }
     return zIndex;
