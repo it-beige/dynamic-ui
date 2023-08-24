@@ -83,8 +83,8 @@ export default function genAttrsMixin(component) {
         });
       },
       useRef() {
-        const Select = component.name;
-        return this.$refs[Select];
+        const refName = component.name;
+        return this.$refs[refName];
       }
     }
   };

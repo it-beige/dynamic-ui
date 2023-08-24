@@ -1,8 +1,8 @@
 ## UploadGenerate Upload 生成
 
-基于`Upload`组件的封装, 扩展了及功能, 对`list-type`的文件样式列表进行了封装
+基于`Upload`组件的封装, 扩展了及功能, 对`list-type`的文件样式列表进行了封装, 对各种类型文件提供对应的 icon 展示, 所有类型都内置大图预览、下载、删除功能
 
-<!-- ### 基础用法
+### 基础用法
 
 :::demo
 
@@ -13,13 +13,22 @@
   :parseResponse="parseResponse"
   listType="text"
   :action="exampleUploadUrl"
+  :limit="3"
   ref="uploadGenerateRef"
+  :disabled="disabled"
 ></dy-upload-generate>
-
+<dy-button
+  style="margin-top: 20px"
+  type="primary"
+  @click="() => disabled = !disabled"
+>
+  {{ !disabled ? '禁用' : '解除禁用' }}
+</dy-button>
 <script>
   export default {
     data() {
       return {
+        disabled: false,
         fileList: [
           {
             fieldname: 'file',
@@ -33,7 +42,7 @@
               '/Users/chenkun/personal/code/Nest/01/learn-multer/my-uploads/file-1692683296660-853058701-article.png',
             size: 42369,
             url:
-              '/Users/chenkun/personal/code/Nest/01/learn-multer/my-uploads/file-1692683296660-853058701-article.png',
+              'http://localhost:3333/preview/file-1692683296660-853058701-article.png',
             fileName: 'article.png',
             name: 'article.png',
             status: 'success',
@@ -45,44 +54,44 @@
         baseUploadURI:
           process.env.VUE_APP_UPLOAD_API || 'http://localhost:3333',
         exampleUploadUrl: '/upload',
-      };
+      }
     },
     mounted() {
-      this.getSelectRef();
+      this.getSelectRef()
     },
     methods: {
       getSelectRef() {
-        console.log(this.$refs.uploadGenerateRef.$refs.DyUpload);
+        console.log(this.$refs.uploadGenerateRef.$refs.DyUpload)
         // or
-        console.log(this.$refs.uploadGenerateRef.useRef());
+        console.log(this.$refs.uploadGenerateRef.useRef())
       },
       parseResponse(response, props) {
-        let data = response.data;
-        const { name, url } = props;
+        let data = response.data
+        const { name, url } = props
         return {
           ...data,
           name: data.fileName,
           url: data.url,
-        };
+        }
       },
     },
-  };
+  }
 </script>
 ```
 
 `action`为当前上传的接口路径, `baseUploadURI`一般为项目的的基础路径, 如果这里没有设置, 将会用全局的`baseURI`做为基础路径
-::: -->
+:::
 
-### picture-card
+### 缩略图扩展
 
 ```js
-import Dynamic from 'main/index.js';
+import Dynamic from 'main/index.js'
 Vue.use(Dynamic, {
   // 数据请求的baseURI
   baseURI: 'http://localhost:2222',
   // 上传接口请求的baseURI, 使用第三方服务可能会用到, 比如使用oss上传, 如果没传入默认会用baseURI
   baseUploadURI: 'http://localhost:3333',
-});
+})
 ```
 
 :::demo
@@ -94,12 +103,22 @@ Vue.use(Dynamic, {
   listType="picture-card"
   :action="exampleUploadUrl"
   :limit="3"
+  multiple
+  :disabled="disabled"
 ></dy-upload-generate>
+<dy-button
+  style="margin-top: 20px"
+  type="primary"
+  @click="() => disabled = !disabled"
+>
+  {{ !disabled ? '禁用' : '解除禁用' }}
+</dy-button>
 
 <script>
   export default {
     data() {
       return {
+        disabled: false,
         fileList: [],
         headers: {
           'dynamic-example': 'Auth example....',
@@ -107,123 +126,178 @@ Vue.use(Dynamic, {
         baseUploadURI:
           process.env.VUE_APP_UPLOAD_API || 'http://localhost:3333',
         exampleUploadUrl: '/upload',
-      };
+      }
     },
     mounted() {},
     methods: {
       parseResponse(response, props) {
-        let data = response.data;
-        const { name, url } = props;
+        let data = response.data
+        const { name, url } = props
         return {
           ...data,
           name: data.fileName,
           url: data.url,
-        };
+        }
       },
     },
-  };
+  }
 </script>
 ```
 
-### Request 提供的 Select Attributes
+:::
 
-组件引入`mixins/request`会提供数据请求相关支持的 attrs
+<!-- ### 图片列表缩略图扩展
 
-| 参数                   | 说明                                       | 类型     | 可选值      | 默认值                           |
-| ---------------------- | ------------------------------------------ | -------- | ----------- | -------------------------------- |
-| baseURI                | 数据请求的 baseURI                         | string   | —           | globalConfig.baseURI             |
-| useRequestHeaders      | 请求头                                     | function | —           | globalConfig.useRequestHeaders() |
-| useRequest             | 请求数据的方法                             | function | —           | globalConfig.useRequest()        |
-| useParseData           | 解析数据的方法                             | function | —           | globalConfig.useParseData()      |
-| useParseTotal          | 解析 total 的方法                          | function | —           | globalConfig.useParseTotal()     |
-| resolveData            | 获取请求接口的数据                         | function | —           | []                               |
-| url                    | 异步获取配置项与 options 互斥              | string   |             |                                  |
-| method                 | 请求方式「需配合`url`使用」                | string   | RESTful API | GET                              |
-| params                 | query 参数「需配合`url`使用」              | object   | —           | {}                               |
-| data                   | body 参数「需配合`url`使用」               | object   | —           | {}                               |
-| pageParamsKey          | 分页参数字段名                             | object   | —           | globalConfig.pageParamsKey       |
-| pageParamsValue        | 分页参数值                                 | object   | —           | globalConfig.pageParamsValue     |
-| disabledRequest        | 是否禁止异步的请求「需配合`url`使用」      | boolean  | —           | false                            |
-| lazy                   | 是否懒加载「需配合`url`使用」              | boolean  | —           | false                            |
-| loadMoreMethod         | 懒加载方法「需`lazy`为 true」              | function | —           | globalConfig.loadMoreMethod      |
-| infiniteScrollDistance | 触发加载的距离阈值，单位为 px              | number   | —           | 50                               |
-| remote-method          | 远程搜索方法                               | function | —           | —                                |
-| showLoading            | 懒加载中 loading「需`lazy`为 true」        | boolean  | —           | true」                           |
-| dynamicLoadingText     | 加载时显示的文字「需`showLoading`为 true」 | string   | —           | 数据加载中                       |
+:::demo
+
+```html
+<dy-upload-generate
+  v-model="fileList"
+  :parseResponse="parseResponse"
+  listType="picture"
+  :action="exampleUploadUrl"
+  :limit="3"
+  :disabled="disabled"
+></dy-upload-generate>
+<dy-button
+  style="margin-top: 20px"
+  type="primary"
+  @click="() => disabled = !disabled"
+>
+  {{ !disabled ? '禁用' : '解除禁用' }}
+</dy-button>
+
+<script>
+  export default {
+    data() {
+      return {
+        disabled: false,
+        fileList: [],
+        headers: {
+          'dynamic-example': 'Auth example....',
+        },
+        baseUploadURI:
+          process.env.VUE_APP_UPLOAD_API || 'http://localhost:3333',
+        exampleUploadUrl: '/upload',
+      }
+    },
+    mounted() {},
+    methods: {
+      parseResponse(response, props) {
+        let data = response.data
+        const { name, url } = props
+        return {
+          ...data,
+          name: data.fileName,
+          url: data.url,
+        }
+      },
+    },
+  }
+</script>
+```
+:::
+-->
+
+<!-- ### 内置 helper 方法
+
+:::demo
+
+```html
+<dy-upload-generate
+  v-model="fileList"
+  :parseResponse="parseResponse"
+  listType="picture"
+  :action="exampleUploadUrl"
+  :limit="3"
+  :disabled="disabled"
+></dy-upload-generate>
+<dy-button
+  style="margin-top: 20px"
+  type="primary"
+  @click="() => disabled = !disabled"
+>
+  {{ !disabled ? '禁用' : '解除禁用' }}
+</dy-button>
+
+<script>
+  export default {
+    data() {
+      return {
+        disabled: false,
+        fileList: [],
+        headers: {
+          'dynamic-example': 'Auth example....',
+        },
+        baseUploadURI:
+          process.env.VUE_APP_UPLOAD_API || 'http://localhost:3333',
+        exampleUploadUrl: '/upload',
+      }
+    },
+    mounted() {},
+    methods: {
+      parseResponse(response, props) {
+        let data = response.data
+        const { name, url } = props
+        return {
+          ...data,
+          name: data.fileName,
+          url: data.url,
+        }
+      },
+    },
+  }
+</script>
+```
+
+::: -->
 
 ### 扩展 Select Attributes
 
-| 参数      | 说明               | 类型     | 可选值 | 默认值                        |
-| --------- | ------------------ | -------- | ------ | ----------------------------- |
-| formatter | 格式化 option 数据 | function | —      | globalConfig.useOptionProps() |
+| 参数             | 说明                                | 类型    | 可选值 | 默认值 |
+| ---------------- | ----------------------------------- | ------- | ------ | ------ |
+| disableRendering | disabled 为 true 不渲染 upload 组件 | boolean | -      | true   |
 
-### Select Attributes
+### Attribute
 
-| 参数                  | 说明                                                                           | 类型                      | 可选值            | 默认值     |
-| --------------------- | ------------------------------------------------------------------------------ | ------------------------- | ----------------- | ---------- |
-| value / v-model       | 绑定值                                                                         | boolean / string / number | —                 | —          |
-| multiple              | 是否多选                                                                       | boolean                   | —                 | false      |
-| disabled              | 是否禁用                                                                       | boolean                   | —                 | false      |
-| value-key             | 作为 value 唯一标识的键名，绑定值为对象类型时必填                              | string                    | —                 | value      |
-| size                  | 输入框尺寸                                                                     | string                    | medium/small/mini | —          |
-| clearable             | 是否可以清空选项                                                               | boolean                   | —                 | false      |
-| collapse-tags         | 多选时是否将选中值按文字的形式展示                                             | boolean                   | —                 | false      |
-| multiple-limit        | 多选时用户最多可以选择的项目数，为 0 则不限制                                  | number                    | —                 | 0          |
-| name                  | select input 的 name 属性                                                      | string                    | —                 | —          |
-| autocomplete          | select input 的 autocomplete 属性                                              | string                    | —                 | off        |
-| auto-complete         | 下个主版本弃用                                                                 | string                    | —                 | off        |
-| placeholder           | 占位符                                                                         | string                    | —                 | 请选择     |
-| filterable            | 是否可搜索                                                                     | boolean                   | —                 | false      |
-| allow-create          | 是否允许用户创建新条目，需配合 `filterable` 使用                               | boolean                   | —                 | false      |
-| filter-method         | 自定义搜索方法                                                                 | function                  | —                 | —          |
-| remote                | 是否为远程搜索                                                                 | boolean                   | —                 | false      |
-| remote-method         | 远程搜索方法                                                                   | function                  | —                 | —          |
-| loading               | 是否正在从远程获取数据                                                         | boolean                   | —                 | false      |
-| loading-text          | 远程加载时显示的文字                                                           | string                    | —                 | 加载中     |
-| no-match-text         | 搜索条件无匹配时显示的文字，也可以使用`slot="empty"`设置                       | string                    | —                 | 无匹配数据 |
-| no-data-text          | 选项为空时显示的文字，也可以使用`slot="empty"`设置                             | string                    | —                 | 无数据     |
-| popper-class          | Select 下拉框的类名                                                            | string                    | —                 | —          |
-| reserve-keyword       | 多选且可搜索时，是否在选中一个选项后保留当前的搜索关键词                       | boolean                   | —                 | false      |
-| default-first-option  | 在输入框按下回车，选择第一个匹配项。需配合 `filterable` 或 `remote` 使用       | boolean                   | -                 | false      |
-| popper-append-to-body | 是否将弹出框插入至 body 元素。在弹出框的定位出现问题时，可将该属性设置为 false | boolean                   | -                 | true       |
-| automatic-dropdown    | 对于不可搜索的 Select，是否在输入框获得焦点后自动弹出选项菜单                  | boolean                   | -                 | false      |
+| 参数             | 说明                                                                                                                                 | 类型                               | 可选值                    | 默认值 |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------- | ------------------------- | ------ |
+| action           | 必选参数，上传的地址                                                                                                                 | string                             | —                         | —      |
+| headers          | 设置上传的请求头部                                                                                                                   | object                             | —                         | —      |
+| multiple         | 是否支持多选文件                                                                                                                     | boolean                            | —                         | —      |
+| data             | 上传时附带的额外参数                                                                                                                 | object                             | —                         | —      |
+| name             | 上传的文件字段名                                                                                                                     | string                             | —                         | file   |
+| with-credentials | 支持发送 cookie 凭证信息                                                                                                             | boolean                            | —                         | false  |
+| show-file-list   | 是否显示已上传文件列表                                                                                                               | boolean                            | —                         | true   |
+| drag             | 是否启用拖拽上传                                                                                                                     | boolean                            | —                         | false  |
+| accept           | 接受上传的[文件类型](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept)（thumbnail-mode 模式下此参数无效） | string                             | —                         | —      |
+| on-preview       | 点击文件列表中已上传的文件时的钩子                                                                                                   | function(file)                     | —                         | —      |
+| on-remove        | 文件列表移除文件时的钩子                                                                                                             | function(file, fileList)           | —                         | —      |
+| on-success       | 文件上传成功时的钩子                                                                                                                 | function(response, file, fileList) | —                         | —      |
+| on-error         | 文件上传失败时的钩子                                                                                                                 | function(err, file, fileList)      | —                         | —      |
+| on-progress      | 文件上传时的钩子                                                                                                                     | function(event, file, fileList)    | —                         | —      |
+| on-change        | 文件状态改变时的钩子，添加文件、上传成功和上传失败时都会被调用                                                                       | function(file, fileList)           | —                         | —      |
+| before-upload    | 上传文件之前的钩子，参数为上传的文件，若返回 false 或者返回 Promise 且被 reject，则停止上传。                                        | function(file)                     | —                         | —      |
+| before-remove    | 删除文件之前的钩子，参数为上传的文件和文件列表，若返回 false 或者返回 Promise 且被 reject，则停止删除。                              | function(file, fileList)           | —                         | —      |
+| list-type        | 文件列表的类型                                                                                                                       | string                             | text/picture/picture-card | text   |
+| auto-upload      | 是否在选取文件后立即进行上传                                                                                                         | boolean                            | —                         | true   |
+| file-list        | 上传的文件列表, 例如: [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]                                                       | array                              | —                         | []     |
+| http-request     | 覆盖默认的上传行为，可以自定义上传的实现                                                                                             | function                           | —                         | —      |
+| disabled         | 是否禁用                                                                                                                             | boolean                            | —                         | false  |
+| limit            | 最大允许上传个数                                                                                                                     | number                             | —                         | —      |
+| on-exceed        | 文件超出个数限制时的钩子                                                                                                             | function(files, fileList)          | —                         | -      |
 
-### Select Events
+### Slot
 
-| 事件名称       | 说明                                     | 回调参数                      |
-| -------------- | ---------------------------------------- | ----------------------------- |
-| change         | 选中值发生变化时触发                     | 目前的选中值                  |
-| visible-change | 下拉框出现/隐藏时触发                    | 出现则为 true，隐藏则为 false |
-| remove-tag     | 多选模式下移除 tag 时触发                | 移除的 tag 值                 |
-| clear          | 可清空的单选模式下用户点击清空按钮时触发 | —                             |
-| blur           | 当 input 失去焦点时触发                  | (event: Event)                |
-| focus          | 当 input 获得焦点时触发                  | (event: Event)                |
-
-### 扩展 Select Events
-
-| 事件名称 | 说明                                | 回调参数 |
-| -------- | ----------------------------------- | -------- |
-| load     | lazy 为 true 情况下懒加载数据前触发 | -        |
-
-### Select Slots
-
-|   name  | 说明                | 参数                                          |
-| ------- | ------------------- | --------------------------------------------- |
-| option  | Option 组件列表     | {props: { label,value,disabled,children }, i} |
-| prefix  | Select 组件头部内容 |                                               |
-| empty   | 无选项时的列表      |                                               |
-
-### Option Attributes
-
-| 参数     | 说明                                      | 类型                 | 可选值 | 默认值 |
-| -------- | ----------------------------------------- | -------------------- | ------ | ------ |
-| value    | 选项的值                                  | string/number/object | —      | —      |
-| label    | 选项的标签，若不设置则默认与 `value` 相同 | string/number        | —      | —      |
-| disabled | 是否禁用该选项/将该分组下所有选项置为禁用 | boolean              | —      | false  |
+| name    | 说明                 |
+| ------- | -------------------- |
+| trigger | 触发文件选择框的内容 |
+| tip     | 提示说明文字         |
 
 ### Methods
 
-| 方法名 | 说明                            | 参数 |
-| ------ | ------------------------------- | ---- |
-| focus  | 使 input 获取焦点               | -    |
-| blur   | 使 input 失去焦点，并隐藏下拉框 | -    |
+| 方法名     | 说明                                                        | 参数                                |
+| ---------- | ----------------------------------------------------------- | ----------------------------------- |
+| clearFiles | 清空已上传的文件列表（该方法不支持在 before-upload 中调用） | —                                   |
+| abort      | 取消上传请求                                                | （ file: fileList 中的 file 对象 ） |
+| submit     | 手动上传文件列表                                            | —                                   |

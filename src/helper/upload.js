@@ -9,6 +9,7 @@ export function parseResponse(response, props, resolve = defaultResolve) {
   const { name, url } = props;
   return {
     ...data,
+    uid: file.uid,
     [name]: data[name],
     url: data[url]
   };

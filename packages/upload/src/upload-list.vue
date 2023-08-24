@@ -23,11 +23,12 @@
           class="dy-upload-list__item-thumbnail"
           v-if="file.status !== 'uploading' && ['picture-card', 'picture'].indexOf(listType) > -1"
           :src="file.url" alt=""
+          @click="handlePreview(file)"
         >
         <a class="dy-upload-list__item-name" @click="handleClick(file)">
           <dy-svg-icon :icon-class="getFileIconByExt(file.name)" v-if="svgIcon"></dy-svg-icon>
           <i class="dy-icon-document" v-else></i>
-          {{file.name}}
+          <label class="file-name"> {{file.name}}</label>
         </a>
         <label class="dy-upload-list__item-status-label">
           <i :class="{
@@ -36,6 +37,7 @@
             'dy-icon-check': ['picture-card', 'picture'].indexOf(listType) > -1
           }"></i>
         </label>
+        <i class="dy-icon-download" v-if="listType === 'text'" @click="$emit('download', file)"></i>
         <i class="dy-icon-close" v-if="!disabled" @click="$emit('remove', file)"></i>
         <i class="dy-icon-close-tip" v-if="!disabled">{{ t('dy.upload.deleteTip') }}</i> <!--因为close按钮只在li:focus的时候 display, li blur后就不存在了，所以键盘导航时永远无法 focus到 close按钮上-->
         <dy-progress

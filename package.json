@@ -68,6 +68,7 @@
     "babel-helper-vue-jsx-merge-props": "^2.0.0",
     "css-what": "^6.1.0",
     "deepmerge": "^1.2.0",
+    "file-saver": "^2.0.5",
     "normalize-wheel": "^1.0.1",
     "resize-observer-polyfill": "^1.5.0",
     "svg-sprite-loader": "^6.0.11",

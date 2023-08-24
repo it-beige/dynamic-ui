@@ -5,7 +5,7 @@ import {
 } from 'main/utils/util';
 import {
   parseResponse
-} from 'main/help/upload';
+} from 'main/helper/upload';
 
 const getExtraProps = () => {
   return {
@@ -29,7 +29,7 @@ const getExtraProps = () => {
       type: Function,
       default: parseResponse
     },
-    value: {
+    fileList: {
       type: [Object, Array],
       require: true
     },
@@ -98,19 +98,25 @@ export default function genUploadMixin() {
         props.onError = this.callOriginalHook(this.callError, props.onError);
         props.beforeRemove = this.callOriginalHook(this.callBeforeRemove, props.beforeRemove);
         props.onRemove = this.callOriginalHook(this.callRemove, props.onRemove);
+        props.onPreview = this.callOriginalHook(this.callPreview, props.onPreview);
       },
-      callSuccess(response, file) {
-        let data = file;
-        if (isFunction(this.parseResponse)) {
-          data = this.parseResponse(response, this.props);
-          if (!isPlainObject(file)) {
-            console.error('[Dynamic Error][UploadGenerate]', 'parseResponse Function must return object');
+      callSuccess(response, file, fileList) {
+        const uploadFiles = fileList.filter(i => i.raw);
+        const getFile = (file) => {
+          let data = file;
+          if (isFunction(this.parseResponse)) {
+            data = this.parseResponse(file.response, this.props);
+            if (!isPlainObject(file)) {
+              console.error('[Dynamic Error][UploadGenerate]', 'parseResponse Function must return object');
+            }
           }
-        }
-        if (!data.name) {
-          data.name = file.name;
-        }
-        this.bindFileList.push(data);
+          if (!data.name) {
+            data.name = file.name;
+          }
+          data.uid = file.uid;
+          return data;
+        };
+        this.bindFileList.push(...uploadFiles.map(getFile));
         this.$emit('input', this.bindFileList);
       },
       callError() {
@@ -122,6 +128,10 @@ export default function genUploadMixin() {
       callRemove(file) {
         this.bindFileList = this.bindFileList.filter((i)=> i.uid !== file.uid);
         this.$emit('input', this.bindFileList);
+      },
+      callPreview(file) {
+        let url = file.url;
+        this.previewUrl = url;
       },
       callOriginalHook(call, originalHook) {
         const exist = isFunction(originalHook);
