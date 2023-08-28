@@ -96,7 +96,7 @@ export default {
 
       return createElement(Upload, {
         staticClass: 'dy-upload-generate',
-        class: this.disableRendering ? 'is-disabled' : '',
+        class: [this.disableRendering ? 'is-disabled' : '', this.isUploadValidError ? 'is-error' : ''],
         attrs,
         props,
         on,

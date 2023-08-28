@@ -1,10 +1,18 @@
 import globalConfig from 'main/config/global';
-import { isFunction, isPlainObject } from 'main/utils/lodash';
+import { isFunction, isPlainObject, isNumber } from 'main/utils/lodash';
 import {
   stitchUrl
 } from 'main/utils/util';
 import {
-  parseResponse
+  multiply
+} from 'main/utils/operate';
+import {
+  parseResponse,
+  getMimeType,
+  processFileUnitToMb,
+  getTip,
+  getFileType,
+  limitFileContourSize
 } from 'main/helper/upload';
 
 const getExtraProps = () => {
@@ -40,16 +48,42 @@ const getExtraProps = () => {
         url: 'url'
       })
     },
-    isCallBuilt: {
+    // 严格对比文件后缀对应的MIME类型
+    strictAccept: {
       type: Boolean,
       default: true
+    },
+    // 文件最大限制, 默认单位MB, 「2, '2MB'」
+    maxFileSize: {
+      type: [Number, String],
+      validator: val => {
+        if (isNumber(val)) return true;
+        return ['KB', 'MB', 'GB'].indexOf(val.toUpperCase().slice(-2)) > -1;
+      }
+    },
+    limitFile: {
+      type: Object
+      /* {
+        width: '', 限定宽度
+        height: '', 限定高度
+        maxWidth: 最大的宽度
+        maxHeight: 最大的高度
+        mminWidth: 最小的宽度
+        mminHeight: 最小的高度
+        offsetWidth: 可以偏移的宽度值
+        offsetHeight: 可以偏移的高度值
+      } */
+    },
+    getTip: {
+      type: Function,
+      default: getTip
     }
   };
 };
 
 const getExtraData = (self = {}) => {
-
   return {
+    isUploadValidError: false
   };
 };
 
@@ -94,11 +128,12 @@ export default function genUploadMixin() {
     },
     methods: {
       bindPropsHook(props) {
-        props.onSuccess = this.callOriginalHook(this.callSuccess, props.onSuccess);
-        props.onError = this.callOriginalHook(this.callError, props.onError);
-        props.beforeRemove = this.callOriginalHook(this.callBeforeRemove, props.beforeRemove);
-        props.onRemove = this.callOriginalHook(this.callRemove, props.onRemove);
-        props.onPreview = this.callOriginalHook(this.callPreview, props.onPreview);
+        props.onSuccess = this.callSuccess;
+        props.onError = this.callError;
+        props.beforeRemove = this.callBeforeRemove;
+        props.beforeUpload = this.callBeforeUpload;
+        props.onRemove = this.callRemove;
+        props.onPreview = this.callPreview;
       },
       callSuccess(response, file, fileList) {
         const uploadFiles = fileList.filter(i => i.raw);
@@ -118,36 +153,117 @@ export default function genUploadMixin() {
         };
         this.bindFileList.push(...uploadFiles.map(getFile));
         this.$emit('input', this.bindFileList);
+        this.$message.success(this.getTip('successText'));
+        this.callOriginalHook(this.onSuccess, [response, file, fileList]);
       },
-      callError() {
-        this.$message.error('文件上传失败');
+      callError(err, file, fileList) {
+        this.callOriginalHook(this.onError, [err, file, fileList], () => {
+          this.$message.error(this.getTip('errorText'));
+        });
       },
-      callBeforeRemove(file) {
-        return this.$confirm(`确定移除 ${file.name}?`, '删除文件');
+      callBeforeRemove(file, fileList) {
+        this.callOriginalHook(this.beforeRemove, [file, fileList], () => {
+          if (this.isUploadValidError) {
+            this.isUploadValidError = false;
+            return Promise.resolve();
+          }
+          const msg = this.getTip('removeConfirmText', file.name);
+          return this.$confirm(msg, '删除文件');
+        });
+
       },
-      callRemove(file) {
+      callBeforeUpload(file) {
+        this.callOriginalHook(this.beforeUpload, [file], () => {
+          let r = Promise.resolve;
+          // 限制类型
+          if (this.accept) {
+            r = this.acceptFile(file);
+          }
+          // 限制大小
+          if (this.maxFileSize) {
+            r = this.limitMaxFileSize(file);
+          }
+          // 限制尺寸
+          if (this.limitFile) {
+            r = this.limitFileWidthOrHeight(file);
+          }
+          this.isUploadValidError = r.name !== Promise.resolve.name;
+          return r;
+        });
+
+      },
+      callRemove(file, fileList) {
         this.bindFileList = this.bindFileList.filter((i)=> i.uid !== file.uid);
         this.$emit('input', this.bindFileList);
+        this.callOriginalHook(this.beforeRemove, [file, fileList]);
       },
-      callPreview(file) {
+      callPreview(file, fileList) {
         let url = file.url;
         this.previewUrl = url;
+        this.callOriginalHook(this.onPreview, [file, fileList]);
       },
-      callOriginalHook(call, originalHook) {
-        const exist = isFunction(originalHook);
-        return (...arg) => {
-          let r = this.isCallBuilt && call(...arg);
-          if (exist) {
-            try {
-              r = originalHook(...arg);
-            } catch (e) {
-              console.log(e);
-            }
-          }
-          return r;
+      callOriginalHook(originalHook, args, call) {
+        if (isFunction(call)) {
+          return call();
+        }
+        if (isFunction(originalHook)) {
+          return originalHook(...args);
+        }
+      },
+      acceptFile(file) {
+        const extType = file.name.split('.').at(-1);
+        const mimeType = file.type;
+        const toUpperCase = (string) => String.prototype.toUpperCase.call(string);
+        let message = '';
+        let r = Promise.resolve;
+        const accept = getFileType(
+          this.accept.split(',').map(toUpperCase),
+          toUpperCase
+        );
+        if (!accept.includes(toUpperCase(extType))) {
+          message = this.getTip('noAccept', extType);
+        }
+        const exactMimeType = getMimeType(extType);
+        if (this.strictAccept && exactMimeType && mimeType !== exactMimeType) {
+          message = this.getTip('noAcceptContent');
+        }
+        if (message) {
+          this.$message.error(message);
+        }
+        return r;
+      },
 
+      limitMaxFileSize(file) {
+        const limitMb = processFileUnitToMb(this.maxFileSize);
+        const transformToMb = (size) => {
+          let idx = 2;
+          let v = size;
+          while (idx) {
+            v = multiply(v, 1024);
+            --idx;
+          }
+          return v;
         };
+        const mb = transformToMb(file.size);
+        let r = Promise.resolve;
+        if (mb > limitMb) {
+          r = Promise.reject;
+          this.$message.error(this.getTip('exceedSize', this.maxFileSize));
+        }
+
+        return r;
+      },
+      limitFileWidthOrHeight(file) {
+        return limitFileContourSize(file, this.limitFile).then(message => {
+          if (message) {
+            this.$message.error(message);
+            return Promise.reject;
+          }
+          return Promise.resolve;
+        });
+
       }
     }
+
   };
 }

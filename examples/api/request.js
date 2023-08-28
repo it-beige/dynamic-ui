@@ -1,4 +1,3 @@
-import Message from 'packages/message/index.js';
 
 export const API = {
   getList: '/api/list',
@@ -276,10 +275,6 @@ function offsetData(res, params) {
 }
 
 export default function axios({ url, params }) {
-  Message.success({
-    message: `接口请求: url: ${url} params: ${JSON.stringify(params)}`,
-    duration: 5000
-  });
   console.log(`接口请求: url: ${url} params: ${JSON.stringify(params)}`);
   let response;
   if (url === API.getList) {

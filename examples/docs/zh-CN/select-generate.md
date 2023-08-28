@@ -1,6 +1,11 @@
 ## SelectGenerate Select 生成
 
-基于`Select`组件的封装, 扩展了及功能, 如传入 `URL` 自动请求数据来渲染组件、基于分页懒加载数据、 对`GroupOption`和`Option`组件进行了整合
+> 基于`Select`组件的封装, 扩展了及功能
+
+- 传入 `URL` 自动请求数据来渲染组件
+- 支持懒加载数据
+- 参数监听, 值变动后根据新值自动请求数据
+- 对`GroupOption`和`Option`组件进行了整合
 
 ### 基础用法
 
@@ -47,19 +52,19 @@
             label: '北京烤鸭',
           },
         ],
-      };
+      }
     },
     mounted() {
-      this.getSelectRef();
+      this.getSelectRef()
     },
     methods: {
       getSelectRef() {
-        console.log(this.$refs.selectGenerateRef.$refs.DySelect);
+        console.log(this.$refs.selectGenerateRef.$refs.DySelect)
         // or
-        console.log(this.$refs.selectGenerateRef.useRef());
+        console.log(this.$refs.selectGenerateRef.useRef())
       },
     },
-  };
+  }
 </script>
 ```
 
@@ -71,7 +76,7 @@
 :::
 
 ```js
-import Dynamic from 'main/index.js';
+import Dynamic from 'main/index.js'
 Vue.use(Dynamic, {
   // 配置需要data数据项的展示项和绑定值
   useOptionProps: () => ({
@@ -79,7 +84,7 @@ Vue.use(Dynamic, {
     value: 'value',
     children: 'children',
   }),
-});
+})
 ```
 
 ### 树形数据
@@ -107,11 +112,7 @@ Vue.use(Dynamic, {
           disabled: 'isDisabled',
           labelRender: (label, i) => {
             if (i.code === 'Shanghai') {
-              return this.$createElement(
-                'span',
-                { style: 'color: red' },
-                label,
-              );
+              return this.$createElement('span', { style: 'color: red' }, label)
             }
           },
         },
@@ -152,21 +153,21 @@ Vue.use(Dynamic, {
             ],
           },
         ],
-      };
+      }
     },
     methods: {
       formatter(i) {
-        let ret = {};
+        let ret = {}
         if (i.name === '成都') {
-          ret.name = `${i.name}-${i.code}`;
+          ret.name = `${i.name}-${i.code}`
         }
         if (i.name === '城市名') {
-          ret.isDisabled = true;
+          ret.isDisabled = true
         }
-        return ret;
+        return ret
       },
     },
-  };
+  }
 </script>
 ```
 
@@ -216,7 +217,7 @@ Vue.use(Dynamic, {
         },
         value: '',
         options: [],
-      };
+      }
     },
     methods: {
       getOptions() {
@@ -243,14 +244,14 @@ Vue.use(Dynamic, {
               name: '选项5',
               code: '北京烤鸭',
             },
-          ];
-        }, 1000 * 5);
+          ]
+        }, 1000 * 5)
       },
       visibleChange() {
-        this.getOptions();
+        this.getOptions()
       },
     },
-  };
+  }
 </script>
 ```
 
@@ -285,17 +286,17 @@ Vue.use(Dynamic, {
           a: 1,
           b: 2,
         },
-      };
+      }
     },
     methods: {
       // 模拟接口请求
       axios() {
-        const vm = this;
+        const vm = this
         return function request({ url, params }) {
           vm.$message.success({
             message: `接口请求: url: ${url} params: ${JSON.stringify(params)}`,
             duration: 5000,
-          });
+          })
           return new Promise(resolve => {
             setTimeout(() => {
               const options = [
@@ -339,23 +340,23 @@ Vue.use(Dynamic, {
                   value: '选项55',
                   label: '北京烤鸭55',
                 },
-              ];
+              ]
               resolve({
                 data: { list: options, total: 10 },
                 code: '200',
-              });
-            }, 1000 * 5);
-          });
-        };
+              })
+            }, 1000 * 5)
+          })
+        }
       },
       useParseData(res) {
-        return res.data.list;
+        return res.data.list
       },
       useParseTotal(res) {
-        return res.data.total;
+        return res.data.total
       },
     },
-  };
+  }
 </script>
 ```
 
@@ -367,16 +368,16 @@ Vue.use(Dynamic, {
 `examples/api/request`
 
 ```javascript
-import Message from 'packages/message/index.js';
+import Message from 'packages/message/index.js'
 
 export const API = {
   getList: '/api/list',
   getTreeList: '/api/tree',
-};
+}
 
 const successResponse = {
   code: '200',
-};
+}
 
 export const data = {
   list: {
@@ -463,24 +464,24 @@ export const data = {
       },
     ],
   },
-};
+}
 
 export default function axios({ url, params }) {
   Message.success({
     message: `接口请求: url: ${url} params: ${JSON.stringify(params)}`,
     duration: 5000,
-  });
-  let response;
+  })
+  let response
   if (url === API.getList) {
-    response = data.list;
+    response = data.list
   } else if (url === API.getTreeList) {
-    response = data.tree;
+    response = data.tree
   }
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(response);
-    }, 5000);
-  });
+      resolve(response)
+    }, 5000)
+  })
 }
 ```
 
@@ -489,10 +490,10 @@ export default function axios({ url, params }) {
 :::
 
 ```javascript
-import Vue from 'vue';
-import Dynamic from 'dynamic-ui';
-import { isPlainObject, isArray } from 'dynamic-ui/utils/lodash';
-import axios from 'examples/api/request';
+import Vue from 'vue'
+import Dynamic from 'dynamic-ui'
+import { isPlainObject, isArray } from 'dynamic-ui/utils/lodash'
+import axios from 'examples/api/request'
 
 Vue.use(Dynamic, {
   // 数据请求的baseURI
@@ -509,7 +510,7 @@ Vue.use(Dynamic, {
   }),
   // 自定义解析数据接口返回的data
   useParseData: res => {
-    const noop = [];
+    const noop = []
     return isPlainObject(res.data)
       ? isArray(res.data.list)
         ? res.data.list
@@ -518,18 +519,18 @@ Vue.use(Dynamic, {
         : noop
       : isArray(res.data)
       ? res.data
-      : noop;
+      : noop
   },
   // 自定义解析数据接口返回的total
   useParseTotal: res => {
-    const total = 0;
+    const total = 0
     return isPlainObject(res.data)
       ? Reflect.has(res.data, 'total')
         ? res.data.total
         : total
       : Reflect.has(res, 'total')
       ? res.total
-      : total;
+      : total
   },
   // 配置需要data数据项的展示项和绑定
   useOptionProps: () => ({
@@ -537,7 +538,7 @@ Vue.use(Dynamic, {
     value: 'value',
     children: 'children',
   }),
-});
+})
 ```
 
 :::demo
@@ -561,15 +562,15 @@ Vue.use(Dynamic, {
           a: 1,
           b: 2,
         },
-      };
+      }
     },
     methods: {
       // 获取自动请求已经解析好的数据
       resolveData(options) {
-        console.log(options);
+        console.log(options)
       },
     },
-  };
+  }
 </script>
 ```
 
@@ -600,15 +601,15 @@ Vue.use(Dynamic, {
           a: 1,
           b: 2,
         },
-      };
+      }
     },
     methods: {
       // 获取自动请求已经解析好的数据
       resolveData(options) {
-        console.log(options);
+        console.log(options)
       },
     },
-  };
+  }
 </script>
 ```
 
@@ -670,8 +671,8 @@ Vue.use(Dynamic, {
             },
           },
         ],
-      ]);
-      const reqOptions = requestMaps.get('list');
+      ])
+      const reqOptions = requestMaps.get('list')
       return {
         value: '',
         ...reqOptions,
@@ -680,28 +681,28 @@ Vue.use(Dynamic, {
         pageParamsKey: { page: 'pageNo', size: 'pageSize' },
         // 分页默认的参数值
         pageParamsValue: { pageNo: 1, pageSize: 10 },
-      };
+      }
     },
     methods: {
       // 获取自动请求已经解析好的数据
       resolveData(options) {
-        console.log(options);
+        console.log(options)
       },
       loadHandle() {
         this.$message({
           type: 'waring',
           message: '请求中...',
-        });
+        })
       },
       changeType(type) {
-        const { url, params, props } = this.requestMaps.get(type);
-        this.url = url;
-        this.params = params;
-        this.props = props;
-        this.pageParamsValue.pageSize = type === 'tree' ? 3 : 10;
+        const { url, params, props } = this.requestMaps.get(type)
+        this.url = url
+        this.params = params
+        this.props = props
+        this.pageParamsValue.pageSize = type === 'tree' ? 3 : 10
       },
     },
-  };
+  }
 </script>
 ```
 

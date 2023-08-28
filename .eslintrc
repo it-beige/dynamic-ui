@@ -4,7 +4,8 @@
     "chrome": true,
     "Reflect": "readonly",
     "Promise": true,
-    "h": true
+    "h": true,
+    "Map": true
   },
   "plugins": ["html", "json"],
   "extends": "elemefe",
