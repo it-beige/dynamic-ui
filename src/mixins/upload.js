@@ -4,8 +4,9 @@ import {
   stitchUrl
 } from 'main/utils/util';
 import {
-  multiply
+  divide
 } from 'main/utils/operate';
+
 import {
   parseResponse,
   getMimeType,
@@ -64,8 +65,8 @@ const getExtraProps = () => {
     limitFile: {
       type: Object
       /* {
-        width: '', 限定宽度
-        height: '', 限定高度
+        width 限定宽度
+        height 限定高度
         maxWidth: 最大的宽度
         maxHeight: 最大的高度
         mminWidth: 最小的宽度
@@ -154,7 +155,7 @@ export default function genUploadMixin() {
         this.bindFileList.push(...uploadFiles.map(getFile));
         this.$emit('input', this.bindFileList);
         this.$message.success(this.getTip('successText'));
-        this.callOriginalHook(this.onSuccess, [response, file, fileList]);
+        return this.callOriginalHook(this.onSuccess, [response, file, fileList]);
       },
       callError(err, file, fileList) {
         this.callOriginalHook(this.onError, [err, file, fileList], () => {
@@ -162,7 +163,7 @@ export default function genUploadMixin() {
         });
       },
       callBeforeRemove(file, fileList) {
-        this.callOriginalHook(this.beforeRemove, [file, fileList], () => {
+        return this.callOriginalHook(this.beforeRemove, [file, fileList], () => {
           if (this.isUploadValidError) {
             this.isUploadValidError = false;
             return Promise.resolve();
@@ -172,42 +173,55 @@ export default function genUploadMixin() {
         });
 
       },
-      callBeforeUpload(file) {
-        this.callOriginalHook(this.beforeUpload, [file], () => {
+       callBeforeUpload(file) {
+        return this.callOriginalHook(this.beforeUpload, [file], async () => {
           let r = Promise.resolve;
+          const isInvalid = (r) => {
+            this.isUploadValidError = r.name !== Promise.resolve.name;
+            return [this.isUploadValidError, r];
+          };
+          let valids = [];
           // 限制类型
           if (this.accept) {
-            r = this.acceptFile(file);
+            valids.push(this.acceptFile(file));
           }
           // 限制大小
           if (this.maxFileSize) {
-            r = this.limitMaxFileSize(file);
+            valids.push(this.limitMaxFileSize(file));
           }
           // 限制尺寸
           if (this.limitFile) {
-            r = this.limitFileWidthOrHeight(file);
+            valids.push(this.limitFileWidthOrHeight(file));
           }
-          this.isUploadValidError = r.name !== Promise.resolve.name;
-          return r;
+
+          while (valids.length) {
+            const [invalid, callback] = isInvalid(valids.shift());
+            if (invalid) {
+              r = callback;
+              break;
+            }
+          }
+          // https://stackoverflow.com/questions/60980357/typeerror-promisereject-called-on-non-object
+          return r.call(Promise);
         });
 
       },
       callRemove(file, fileList) {
         this.bindFileList = this.bindFileList.filter((i)=> i.uid !== file.uid);
         this.$emit('input', this.bindFileList);
-        this.callOriginalHook(this.beforeRemove, [file, fileList]);
+        return this.callOriginalHook(this.beforeRemove, [file, fileList]);
       },
       callPreview(file, fileList) {
         let url = file.url;
         this.previewUrl = url;
-        this.callOriginalHook(this.onPreview, [file, fileList]);
+        return this.callOriginalHook(this.onPreview, [file, fileList]);
       },
       callOriginalHook(originalHook, args, call) {
-        if (isFunction(call)) {
-          return call();
-        }
         if (isFunction(originalHook)) {
           return originalHook(...args);
+        }
+        if (isFunction(call)) {
+          return call();
         }
       },
       acceptFile(file) {
@@ -235,18 +249,9 @@ export default function genUploadMixin() {
 
       limitMaxFileSize(file) {
         const limitMb = processFileUnitToMb(this.maxFileSize);
-        const transformToMb = (size) => {
-          let idx = 2;
-          let v = size;
-          while (idx) {
-            v = multiply(v, 1024);
-            --idx;
-          }
-          return v;
-        };
-        const mb = transformToMb(file.size);
+        const actualMb = divide(file.size, 1024).toFixed(2);
         let r = Promise.resolve;
-        if (mb > limitMb) {
+        if (actualMb > limitMb) {
           r = Promise.reject;
           this.$message.error(this.getTip('exceedSize', this.maxFileSize));
         }
@@ -254,13 +259,14 @@ export default function genUploadMixin() {
         return r;
       },
       limitFileWidthOrHeight(file) {
-        return limitFileContourSize(file, this.limitFile).then(message => {
-          if (message) {
-            this.$message.error(message);
-            return Promise.reject;
-          }
-          return Promise.resolve;
-        });
+        return limitFileContourSize(file, this.limitFile)
+          .then(message => {
+            if (message) {
+              this.$message.error(message);
+              return Promise.reject;
+            }
+            return Promise.resolve;
+          });
 
       }
     }

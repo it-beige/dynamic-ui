@@ -1,5 +1,8 @@
 import { isPlainObject } from 'main/utils/lodash';
 import { getValueByPath } from 'main/utils/util';
+import {
+  multiply
+} from 'main/utils/operate';
 
 const defaultResolve = (response) => {
   return response.data;
@@ -119,7 +122,7 @@ export function processFileUnitToMb(size) {
   const num = size.slice(0, -2);
   const unit = size.slice(-2);
   let unitIdx = units.indexOf(unit) + 1;
-  const transform = (num) => num * 1024;
+  const transform = (num) => multiply(num, 1024);
   let processNum;
   while (unitIdx) {
     processNum = transform(num);
@@ -192,10 +195,10 @@ export function limitFileContourSize(file, fileContour) {
     return;
   }
 
-  return new Promise((resolve, reject) => {
-    const _URL = window.URL || window.webkitURL;
-    const img = new Image();
-    let message = '';
+  const _URL = window.URL || window.webkitURL;
+  const img = new Image();
+  let message = '';
+  return new Promise((resolve) => {
     img.onload = () => {
       if (width && img.width !== width) {
         message = getTip('limitFile.width');
@@ -210,7 +213,7 @@ export function limitFileContourSize(file, fileContour) {
       if (offsetWidth && offsetHeight) {
         // 当前宽高不能超过最多可以向下偏移的值
         const isExceedOffset =
-          Math.max(restWidth + offsetWidth, restHeight + offsetHeight) < 0;
+            Math.max(restWidth + offsetWidth, restHeight + offsetHeight) < 0;
 
         if (isExceedOffset) {
           message = `文件尺寸超过最小可以向下偏移的值(可以向下偏移：${offsetWidth}*${offsetHeight})`;
@@ -238,8 +241,11 @@ export function limitFileContourSize(file, fileContour) {
           message = getTip('limitFile.maxWidth', maxWidth);
         }
       }
+
       resolve(message);
     };
-    img.src = _URL.createObjectURL(file.url || file.raw);
+
+    img.src = _URL.createObjectURL(file);
   });
+
 }

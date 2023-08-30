@@ -14,7 +14,7 @@
   - onRemove
   - onPreview
 
-### 基础用法
+<!-- ### 基础用法
 
 :::demo
 
@@ -92,9 +92,9 @@
 ```
 
 `action`为当前上传的接口路径, `baseUploadURI`一般为项目的的基础路径, 如果这里没有设置, 将会用全局的`baseURI`做为基础路径; `parseResponse` 方法用于解析接口返回的数据, 如果接口返回了 `name` 和 `url` 此方法一般不用配置
-:::
+::: -->
 
-### 缩略图扩展
+<!-- ### 缩略图扩展
 
 ```js
 import Dynamic from 'main/index.js'
@@ -156,9 +156,9 @@ Vue.use(Dynamic, {
 </script>
 ```
 
-:::
+::: -->
 
-### 图片列表缩略图扩展
+<!-- ### 图片列表缩略图扩展
 
 :::demo
 
@@ -209,7 +209,7 @@ Vue.use(Dynamic, {
 </script>
 ```
 
-:::
+::: -->
 
 ### 内置 helper 方法
 
@@ -223,13 +223,19 @@ Vue.use(Dynamic, {
   :action="exampleUploadUrl"
   accept="image/*,pdf"
   :maxFileSize="maxFileSize"
+  :limitFile="limitFile"
 ></dy-upload-generate>
 
 <script>
   export default {
     data() {
       return {
-        maxFileSize: '1MB' || 1,
+        // 限定图片最大可以上传的宽度和高度
+        limitFile: {
+          maxWidth: 400,
+          maxHeight: 400,
+        },
+        maxFileSize: '1MB' || 1024,
         fileList: [],
         headers: {
           'dynamic-example': 'Auth example....',
@@ -264,8 +270,18 @@ Vue.use(Dynamic, {
 | value        | v-model 双向绑定值(可以不使用 file-list) | array/object  | -        | -             |
 | strictAccept | 是否严格对比文件后缀对应的 MIME 类型     | boolean       | -        | true          |
 | maxFileSize  | 文件最大限制                             | number/string | KB/MB/GB | 数值默认为 MB |
-| limitFile    | 对图片尺寸进行限制                       | object        | -        | -             |
+| limitFile    | 对图片尺寸进行限制, 配置选项具体看下表   | object        | -        | -             |
 | showProgress | 是否显示上传进度条                       | boolean       | -        | true          |
+
+### limitFile
+
+| 参数   | 说明     | 类型   | 可选值 | 默认值 |
+| ------ | -------- | ------ | ------ | ------ |
+| width  | 限定宽度 | number | -      | -      |
+| height | 限定高度 | number | -      | -      |
+| width  | 限定宽度 | number | -      | -      |
+| width  | 限定宽度 | number | -      | -      |
+| width  | 限定宽度 | number | -      | -      |
 
 ### Attribute
 
