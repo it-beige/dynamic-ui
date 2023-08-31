@@ -18,7 +18,7 @@ export default {
   },
 
   computed: {
-    style() {
+    style () {
       const ret = {};
 
       if (this.gutter) {
@@ -30,7 +30,7 @@ export default {
     }
   },
 
-  render(h) {
+  render (h) {
     return h(this.tag, {
       class: [
         'dy-row',

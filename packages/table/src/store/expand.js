@@ -1,7 +1,7 @@
 import { toggleRowStatus, getKeysMap, getRowIdentity } from '../util';
 
 export default {
-  data() {
+  data () {
     return {
       states: {
         defaultExpandAll: false,
@@ -11,7 +11,7 @@ export default {
   },
 
   methods: {
-    updateExpandRows() {
+    updateExpandRows () {
       const { data = [], rowKey, defaultExpandAll, expandRows } = this.states;
       if (defaultExpandAll) {
         this.states.expandRows = data.slice();
@@ -31,7 +31,7 @@ export default {
       }
     },
 
-    toggleRowExpansion(row, expanded) {
+    toggleRowExpansion (row, expanded) {
       const changed = toggleRowStatus(this.states.expandRows, row, expanded);
       if (changed) {
         this.table.$emit('expand-change', row, this.states.expandRows.slice());
@@ -39,7 +39,7 @@ export default {
       }
     },
 
-    setExpandRowKeys(rowKeys) {
+    setExpandRowKeys (rowKeys) {
       this.assertRowKey();
       // TODO：这里的代码可以优化
       const { data, rowKey } = this.states;
@@ -53,7 +53,7 @@ export default {
       }, []);
     },
 
-    isRowExpanded(row) {
+    isRowExpanded (row) {
       const { expandRows = [], rowKey } = this.states;
       if (rowKey) {
         const expandMap = getKeysMap(expandRows, rowKey);

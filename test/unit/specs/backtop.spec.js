@@ -6,7 +6,7 @@ describe('Backtop', () => {
     destroyVM(vm);
   });
 
-  it('create', async() => {
+  it('create', async () => {
     vm = createVue({
       template: `
         <div ref="scrollTarget" class="test-scroll"  style="height: 100px; overflow: auto">

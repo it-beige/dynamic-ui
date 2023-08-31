@@ -161,17 +161,17 @@ describe('Pagination', () => {
       `,
 
       methods: {
-        handleChange(val) {
+        handleChange (val) {
           this.currentPage = val;
           this.page = val;
         },
-        resetTotal() {
+        resetTotal () {
           this.total = 30;
           this.currentPage = 1;
         }
       },
 
-      data() {
+      data () {
         return {
           currentPage: 10
         };
@@ -230,19 +230,19 @@ describe('Pagination', () => {
       `,
 
       methods: {
-        handleChange(val) {
+        handleChange (val) {
           this.page = val;
         }
       },
 
-      data() {
+      data () {
         return {
           page: 1,
           inputer: null
         };
       },
 
-      mounted() {
+      mounted () {
         this.inputer = this.$children[0].$children[1].$children[0];
       }
     }, true);
@@ -284,7 +284,7 @@ describe('Pagination', () => {
           @current-change="change = true" />
       `,
 
-      data() {
+      data () {
         return { change: false };
       }
     });
@@ -314,7 +314,7 @@ describe('Pagination', () => {
           @current-change="emitCount++" />
       `,
 
-      data() {
+      data () {
         return {
           emitCount: 0,
           currentPage: 1
@@ -347,7 +347,7 @@ describe('Pagination', () => {
           :pageSize="10" />
       `,
 
-      data() {
+      data () {
         return { trigger: false };
       }
     }, true);
@@ -374,7 +374,7 @@ describe('Pagination', () => {
           :pageSize="10" />
       `,
 
-      data() {
+      data () {
         return { trigger: false };
       }
     }, true);
@@ -401,12 +401,12 @@ describe('Pagination', () => {
       `,
 
       methods: {
-        handleChange(val) {
+        handleChange (val) {
           this.page = val;
         }
       },
 
-      data() {
+      data () {
         return { page: 1 };
       }
     });

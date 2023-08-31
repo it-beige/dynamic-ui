@@ -6,20 +6,20 @@ describe('InfiniteScroll', () => {
     destroyVM(vm);
   });
 
-  it('create', async() => {
+  it('create', async () => {
     vm = createVue({
       template: `
       <ul ref="scrollTarget" v-infinite-scroll="load" style="height: 300px;overflow: auto;">
         <li v-for="i in count" style="display: flex;height: 50px;">{{ i }}</li>
       </ul>
       `,
-      data() {
+      data () {
         return {
           count: 0
         };
       },
       methods: {
-        load() {
+        load () {
           this.count += 2;
         }
       }
@@ -29,7 +29,7 @@ describe('InfiniteScroll', () => {
     expect(vm.$el.innerText.indexOf('2') > -1).to.be.true;
   });
 
-  it('invisible element not trigger', async() => {
+  it('invisible element not trigger', async () => {
     vm = createVue({
       template: `
       <div v-show="false">
@@ -38,13 +38,13 @@ describe('InfiniteScroll', () => {
         </ul>
       </div>
       `,
-      data() {
+      data () {
         return {
           count: 0
         };
       },
       methods: {
-        load() {
+        load () {
           this.count += 2;
         }
       }

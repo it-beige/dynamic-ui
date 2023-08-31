@@ -6,7 +6,7 @@ export default {
     }
   },
   inject: ['dyDescriptions'],
-  render(h) {
+  render (h) {
     const { dyDescriptions } = this;
     const row = (this.row || []).map(item => {
       return {

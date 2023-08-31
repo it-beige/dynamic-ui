@@ -29,7 +29,7 @@ describe('Loading', () => {
         <div v-loading="loading"></div>
       `,
 
-        data() {
+        data () {
           return {
             loading: true
           };
@@ -52,7 +52,7 @@ describe('Loading', () => {
         <div v-if="show" v-loading="loading"></div>
       `,
 
-        data() {
+        data () {
           return {
             show: true,
             loading: true
@@ -64,7 +64,7 @@ describe('Loading', () => {
         <div v-if="show" v-loading.body="loading"></div>
       `,
 
-        data() {
+        data () {
           return {
             show: true,
             loading: true
@@ -91,7 +91,7 @@ describe('Loading', () => {
         <div v-loading.body="loading"></div>
       `,
 
-        data() {
+        data () {
           return {
             loading: true
           };
@@ -113,7 +113,7 @@ describe('Loading', () => {
         <div v-loading.fullscreen="loading"></div>
       `,
 
-        data() {
+        data () {
           return {
             loading: true
           };
@@ -136,7 +136,7 @@ describe('Loading', () => {
         <div v-loading.fullscreen.lock="loading"></div>
       `,
 
-        data() {
+        data () {
           return {
             loading: true
           };
@@ -157,7 +157,7 @@ describe('Loading', () => {
         <div v-loading="loading" dynamic-loading-text="拼命加载中"></div>
       `,
 
-        data() {
+        data () {
           return {
             loading: true
           };
@@ -178,7 +178,7 @@ describe('Loading', () => {
         <div v-loading="loading" dynamic-loading-custom-class="loading-custom-class"></div>
       `,
 
-        data() {
+        data () {
           return {
             loading: true
           };

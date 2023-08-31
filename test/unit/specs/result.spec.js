@@ -20,7 +20,7 @@ describe('Result', () => {
   it('should render title props', () => {
     vm = createVue({
       template: '<dy-result :title="title"/>',
-      data() {
+      data () {
         return {
           title: AXIOM
         };
@@ -32,7 +32,7 @@ describe('Result', () => {
   it('should render sub-title props', () => {
     vm = createVue({
       template: '<dy-result :sub-title="subTitle"/>',
-      data() {
+      data () {
         return {
           subTitle: AXIOM
         };
@@ -41,10 +41,10 @@ describe('Result', () => {
     expect(vm.$el.querySelector('.dy-result__subtitle').innerText).to.be.equal(AXIOM);
   });
 
-  it('should render icon props', async() => {
+  it('should render icon props', async () => {
     vm = createVue({
       template: '<dy-result :icon="icon"/>',
-      data() {
+      data () {
         return {
           icon: 'success'
         };
@@ -69,7 +69,7 @@ describe('Result', () => {
   it('should render icon slots', () => {
     vm = createVue({
       template: '<dy-result><template slot="icon">{{icon}}</template></dy-result>',
-      data() {
+      data () {
         return {
           icon: AXIOM
         };
@@ -82,7 +82,7 @@ describe('Result', () => {
   it('should render title slots', () => {
     vm = createVue({
       template: '<dy-result><template slot="title">{{title}}</template></dy-result>',
-      data() {
+      data () {
         return {
           title: AXIOM
         };
@@ -95,7 +95,7 @@ describe('Result', () => {
   it('should render sub-title slots', () => {
     vm = createVue({
       template: '<dy-result><template slot="subTitle">{{subTitle}}</template></dy-result>',
-      data() {
+      data () {
         return {
           subTitle: AXIOM
         };
@@ -108,7 +108,7 @@ describe('Result', () => {
   it('should render extra slots', () => {
     vm = createVue({
       template: '<dy-result><template slot="extra">{{extra}}</template></dy-result>',
-      data() {
+      data () {
         return {
           extra: AXIOM
         };

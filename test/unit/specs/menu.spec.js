@@ -58,12 +58,12 @@ describe('Menu', () => {
         </dy-menu>
       `,
       methods: {
-        onMenuItemClick(el) {
+        onMenuItemClick (el) {
           expect(el).to.be.equal(vm.$refs.item1);
           this.clicksCount = this.clicksCount + 1;
         }
       },
-      data() {
+      data () {
         return {
           clicksCount: 0
         };
@@ -119,7 +119,7 @@ describe('Menu', () => {
             <dy-menu-item index="2" ref="item2">active watch订单管理</dy-menu-item>
           </dy-menu>
         `,
-        data() {
+        data () {
           return {
             active: '2'
           };
@@ -184,7 +184,7 @@ describe('Menu', () => {
       }, 20);
     });
   });
-  describe('submenu', function() {
+  describe('submenu', function () {
     it('toggle', done => {
       vm = createVue({
         template: `
@@ -199,7 +199,7 @@ describe('Menu', () => {
             <dy-menu-item index="3">订单管理</dy-menu-item>
           </dy-menu>
         `,
-        data() {
+        data () {
           return {
           };
         }
@@ -239,7 +239,7 @@ describe('Menu', () => {
             </dy-submenu>
           </dy-menu>
         `,
-        data() {
+        data () {
           return {
             defaultOpeneds: ['2', '3']
           };
@@ -296,7 +296,7 @@ describe('Menu', () => {
           </dy-submenu>
         </dy-menu>
       `,
-      data() {
+      data () {
         return {
         };
       }
@@ -321,7 +321,7 @@ describe('Menu', () => {
           <dy-menu-item index="3">订单管理</dy-menu-item>
         </dy-menu>
       `,
-      data() {
+      data () {
         return {
         };
       }
@@ -348,7 +348,7 @@ describe('Menu', () => {
           <dy-menu-item index="3">订单管理</dy-menu-item>
         </dy-menu>
       `,
-      data() {
+      data () {
         return {
         };
       }
@@ -401,7 +401,7 @@ describe('Menu', () => {
             </dy-menu-item>
           </dy-menu>
         `,
-      data() {
+      data () {
         return {
           active: '',
           menus: []

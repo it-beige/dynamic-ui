@@ -41,7 +41,7 @@ describe('DatePicker', () => {
       template: `
         <dy-date-picker ref="compo" v-model="value"></dy-date-picker>
       `,
-      data() {
+      data () {
         return {
           value: ''
         };
@@ -88,7 +88,7 @@ describe('DatePicker', () => {
       template: `
         <dy-date-picker v-model="value" ref="compo"></dy-date-picker>
       `,
-      data() {
+      data () {
         return {
           value: ''
         };
@@ -116,7 +116,7 @@ describe('DatePicker', () => {
       template: `
         <dy-date-picker v-model="value" ref="compo" :clearable="false"></dy-date-picker>
       `,
-      data() {
+      data () {
         return {
           value: ''
         };
@@ -143,7 +143,7 @@ describe('DatePicker', () => {
       template: `
         <dy-date-picker ref="compo" v-model="value"></dy-date-picker>
       `,
-      data() {
+      data () {
         return {
           value: ''
         };
@@ -198,12 +198,12 @@ describe('DatePicker', () => {
           @change="handleChange" />`,
 
       methods: {
-        handleChange(val) {
+        handleChange (val) {
           onChangeValue = val;
         }
       },
 
-      data() {
+      data () {
         return {
           value: ''
         };
@@ -239,7 +239,7 @@ describe('DatePicker', () => {
           ref="compo"
           v-model="value"
         />`,
-      data() {
+      data () {
         return {
           value: new Date()
         };
@@ -263,7 +263,7 @@ describe('DatePicker', () => {
   it('nuke invalid input on close', done => {
     vm = createVue({
       template: '<dy-date-picker v-model="value" value-format="yyyy-MM-dd" ref="compo" />',
-      data() {
+      data () {
         return {
           value: '2010-10-01'
         };
@@ -292,7 +292,7 @@ describe('DatePicker', () => {
       template: `
         <dy-date-picker ref="compo" type="datetime" v-model="value" default-time="12:00:00"></dy-date-picker>
       `,
-      data() {
+      data () {
         return {
           value: ''
         };
@@ -331,12 +331,12 @@ describe('DatePicker', () => {
             @input="handleInput" />`,
 
         methods: {
-          handleInput(val) {
+          handleInput (val) {
             emitted = true;
           }
         },
 
-        data() {
+        data () {
           return {
             value: ''
           };
@@ -381,12 +381,12 @@ describe('DatePicker', () => {
             @input="handleInput" />`,
 
         methods: {
-          handleInput(val) {
+          handleInput (val) {
             emitted = true;
           }
         },
 
-        data() {
+        data () {
           return {
             value: ''
           };
@@ -462,7 +462,7 @@ describe('DatePicker', () => {
             v-model="value"
             type="date"
             value-format="dd/MM yyyy" />`,
-        data() {
+        data () {
           return {
             value: ''
           };
@@ -497,7 +497,7 @@ describe('DatePicker', () => {
             v-model="value"
             type="date"
             value-format="dd/MM yyyy [Element]" />`,
-        data() {
+        data () {
           return {
             value: ''
           };
@@ -529,7 +529,7 @@ describe('DatePicker', () => {
             type="date"
             format="yyyy-MM-dd"
             value-format="dd/MM yyyy" />`,
-        data() {
+        data () {
           return {
             value: '01/02 2000'
           };
@@ -561,7 +561,7 @@ describe('DatePicker', () => {
             type="date"
             format="yyyy-MM-dd"
             value-format="dd/MM yyyy" />`,
-        data() {
+        data () {
           return {
             value: ''
           };
@@ -589,7 +589,7 @@ describe('DatePicker', () => {
             type="date"
             format="[Element] yyyy-MM-dd"
             value-format="dd/MM yyyy [UI]" />`,
-        data() {
+        data () {
           return {
             value: ''
           };
@@ -617,7 +617,7 @@ describe('DatePicker', () => {
             type="daterange"
             format="yyyy-MM-dd"
             value-format="dd/MM yyyy" />`,
-        data() {
+        data () {
           return {
             value: ''
           };
@@ -651,7 +651,7 @@ describe('DatePicker', () => {
             type="date"
             format="yyyy-MM-dd"
             value-format="timestamp" />`,
-        data() {
+        data () {
           return {
             value: Date.now()
           };
@@ -681,7 +681,7 @@ describe('DatePicker', () => {
             type="daterange"
             format="yyyy-MM-dd"
             value-format="timestamp" />`,
-        data() {
+        data () {
           return {
             value: [Date.now(), Date.now() + 86400 * 1000]
           };
@@ -722,7 +722,7 @@ describe('DatePicker', () => {
 
       vm = createVue({
         template: `<dy-date-picker v-model="value" ref="compo" default-value="${defaultValue}" />`,
-        data() {
+        data () {
           return {
             value: ''
           };
@@ -750,7 +750,7 @@ describe('DatePicker', () => {
 
       vm = createVue({
         template: '<dy-date-picker v-model="value" ref="compo" :default-value="defaultValue" />',
-        data() {
+        data () {
           return {
             value: new Date(),
             defaultValue: null
@@ -792,7 +792,7 @@ describe('DatePicker', () => {
     beforeEach(done => {
       vm = createVue({
         template: '<dy-date-picker ref="compo" v-model="value"></dy-date-picker>',
-        data() {
+        data () {
           return {
             value: ''
           };
@@ -866,7 +866,7 @@ describe('DatePicker', () => {
         template: `
           <dy-date-picker ref="compo" v-model="value" format="yyyy-MM-dd" type="date" />
         `,
-        data() {
+        data () {
           return {
             value: new Date()
           };
@@ -894,7 +894,7 @@ describe('DatePicker', () => {
         template: `
           <dy-date-picker ref="compo" v-model="value" format="yyyy-MM-dd" type="date" />
         `,
-        data() {
+        data () {
           return {
             value: new Date()
           };
@@ -930,10 +930,10 @@ describe('DatePicker', () => {
 
     let prevMonth, prevYear, nextMonth, nextYear, getYearLabel, getMonthLabel;
 
-    const initNavigationTest = async(value) => {
+    const initNavigationTest = async (value) => {
       vm = createVue({
         template: '<dy-date-picker v-model="value" ref="compo" />',
-        data() {
+        data () {
           return {
             value
           };
@@ -950,7 +950,7 @@ describe('DatePicker', () => {
       getMonthLabel = () => $el.querySelectorAll('.dy-date-picker__header-label')[1].textContent;
     };
 
-    it('month, year', async() => {
+    it('month, year', async () => {
       await initNavigationTest(new Date(2000, 0, 1));
       expect(getYearLabel()).to.include('2000');
       expect(getMonthLabel()).to.include('1');
@@ -972,7 +972,7 @@ describe('DatePicker', () => {
       expect(getMonthLabel()).to.include('1');
     });
 
-    it('month with fewer dates', async() => {
+    it('month with fewer dates', async () => {
       // July has 31 days, June has 30
       await initNavigationTest(new Date(2000, 6, 31));
       await clickAndWait(prevMonth);
@@ -980,7 +980,7 @@ describe('DatePicker', () => {
       expect(getMonthLabel()).to.include('6');
     });
 
-    it('year with fewer Feburary dates', async() => {
+    it('year with fewer Feburary dates', async () => {
       // Feburary 2008 has 29 days, Feburary 2007 has 28
       await initNavigationTest(new Date(2008, 1, 29));
       await clickAndWait(prevYear);
@@ -988,7 +988,7 @@ describe('DatePicker', () => {
       expect(getMonthLabel()).to.include('2');
     });
 
-    it('month label with fewer dates', async() => {
+    it('month label with fewer dates', async () => {
       await initNavigationTest(new Date(2000, 6, 31));
       const $el = vm.$refs.compo.picker.$el;
       const monthLabel = $el.querySelectorAll('.dy-date-picker__header-label')[1];
@@ -1057,7 +1057,7 @@ describe('DatePicker', () => {
     it('create', done => {
       vm = createVue({
         template: '<dy-date-picker type="datetime" v-model="value" ref="compo" />',
-        data() {
+        data () {
           return {
             value: ''
           };
@@ -1077,7 +1077,7 @@ describe('DatePicker', () => {
     it('both picker show correct formated value (extract date-format and time-format from format property)', done => {
       vm = createVue({
         template: '<dy-date-picker type="datetime" v-model="value" :format="format" :pickerOptions="pickerOptions" ref="compo" />',
-        data() {
+        data () {
           return {
             value: new Date(2018, 2, 5, 10, 15, 24),
             format: 'yyyy/MM/dd hh:mm A',
@@ -1120,7 +1120,7 @@ describe('DatePicker', () => {
     it('both picker show correct value', done => {
       vm = createVue({
         template: '<dy-date-picker type="datetime" v-model="value" ref="compo" />',
-        data() {
+        data () {
           return {
             value: new Date(2000, 9, 1, 10, 0, 1)
           };
@@ -1282,7 +1282,7 @@ describe('DatePicker', () => {
       it('pick date, emits on confirm', done => {
         vm = createVue({
           template: '<dy-date-picker type="datetime" v-model="value" ref="compo" />',
-          data() {
+          data () {
             return {
               value: ''
             };
@@ -1313,7 +1313,7 @@ describe('DatePicker', () => {
       it('input date, enter, emits on confirm', done => {
         vm = createVue({
           template: '<dy-date-picker type="datetime" v-model="value" ref="compo" />',
-          data() {
+          data () {
             return {
               value: ''
             };
@@ -1335,7 +1335,7 @@ describe('DatePicker', () => {
             expect(picker.$el.querySelector('td.current').innerText.trim()).to.equal('2');
             expect(spy.called).to.equal(false);
             // keyDown does not work, event listener attached to document.body
-            picker.handleKeydown({ keyCode: ENTER, stopPropagation() {}, preventDefault() {} });
+            picker.handleKeydown({ keyCode: ENTER, stopPropagation () {}, preventDefault () {} });
             setTimeout(_ => {
               expect(vm.value).is.a('date');
               expect(spy.calledOnce).to.equal(true);
@@ -1352,7 +1352,7 @@ describe('DatePicker', () => {
       it('cancel to empty', done => {
         vm = createVue({
           template: '<dy-date-picker type="datetime" v-model="value" ref="compo" />',
-          data() {
+          data () {
             return {
               value: ''
             };
@@ -1381,7 +1381,7 @@ describe('DatePicker', () => {
       it('cancel to old value', done => {
         vm = createVue({
           template: '<dy-date-picker type="datetime" v-model="value" ref="compo" />',
-          data() {
+          data () {
             return {
               value: new Date(2000, 9, 1, 10, 0, 0)
             };
@@ -1417,11 +1417,11 @@ describe('DatePicker', () => {
     it('now button: can not choose disabled date', done => {
       vm = createVue({
         template: '<dy-date-picker type="datetime" v-model="value" ref="compo" :pickerOptions="pickerOptions" />',
-        data() {
+        data () {
           return {
             value: '',
             pickerOptions: {
-              disabledDate() { return true; }
+              disabledDate () { return true; }
             }
           };
         }
@@ -1440,7 +1440,7 @@ describe('DatePicker', () => {
     it('select time honors picked date', done => {
       vm = createVue({
         template: '<dy-date-picker type="datetime" v-model="value" ref="compo" />',
-        data() {
+        data () {
           return {
             value: new Date(2000, 9, 1, 12, 0, 0) // 2010-10-01 12:00:00
           };
@@ -1473,7 +1473,7 @@ describe('DatePicker', () => {
     it('confirm button honors picked date', done => {
       vm = createVue({
         template: '<dy-date-picker type="datetime" v-model="value" ref="compo" />',
-        data() {
+        data () {
           return {
             value: new Date(2000, 9, 1, 12, 0, 0) // 2010-10-01 12:00:00
           };
@@ -1557,7 +1557,7 @@ describe('DatePicker', () => {
     it('highlight correctly', done => {
       vm = createVue({
         template: '<dy-date-picker type="week" v-model="value" ref="compo" />',
-        data() {
+        data () {
           return {
             value: null
           };
@@ -1605,7 +1605,7 @@ describe('DatePicker', () => {
     beforeEach(done => {
       vm = createVue({
         template: '<dy-date-picker type="dates" value-format="timestamp" v-model="value" ref="compo" />',
-        data() {
+        data () {
           return {
             value: []
           };
@@ -1651,7 +1651,7 @@ describe('DatePicker', () => {
     it('works', done => {
       vm = createVue({
         template: '<dy-date-picker type="daterange" v-model="value" ref="compo" />',
-        data() {
+        data () {
           return {
             value: ''
           };
@@ -1693,7 +1693,7 @@ describe('DatePicker', () => {
     it('works: reverse selection', done => {
       vm = createVue({
         template: '<dy-date-picker type="daterange" v-model="value" ref="compo" />',
-        data() {
+        data () {
           return {
             value: ''
           };
@@ -1737,7 +1737,7 @@ describe('DatePicker', () => {
     it('type:daterange unlink:true', done => {
       vm = createVue({
         template: '<dy-date-picker type="daterange" unlink-panels v-model="value" ref="compo" />',
-        data() {
+        data () {
           return {
             value: [new Date(2000, 9, 1), new Date(2000, 9, 2)]
           };
@@ -1797,7 +1797,7 @@ describe('DatePicker', () => {
       // AEST -> AEDT shift happened on 2016-10-02 02:00:00
       vm = createVue({
         template: '<dy-date-picker type="daterange" v-model="value" ref="compo" />',
-        data() {
+        data () {
           return {
             value: [new Date(2016, 9, 1), new Date(2016, 9, 3)]
           };
@@ -1820,7 +1820,7 @@ describe('DatePicker', () => {
     it('clear value', done => {
       vm = createVue({
         template: '<dy-date-picker type="daterange" v-model="value" ref="compo" />',
-        data() {
+        data () {
           return {
             value: [new Date(2000, 9, 1), new Date(2000, 9, 2)]
           };
@@ -1846,7 +1846,7 @@ describe('DatePicker', () => {
             ref="compo"
             v-model="value"
             type="daterange" />`,
-        data() {
+        data () {
           return {
             value: ''
           };
@@ -1898,7 +1898,7 @@ describe('DatePicker', () => {
 
         vm = createVue({
           template: '<dy-date-picker type="daterange" v-model="value" ref="compo" :default-value="defaultValue" />',
-          data() {
+          data () {
             return {
               value: '',
               defaultValue
@@ -1928,7 +1928,7 @@ describe('DatePicker', () => {
 
         vm = createVue({
           template: '<dy-date-picker type="daterange" v-model="value" ref="compo" :default-value="defaultValue" />',
-          data() {
+          data () {
             return {
               value: '',
               defaultValue
@@ -2003,7 +2003,7 @@ describe('DatePicker', () => {
         template: `
           <dy-date-picker ref="compo" type="datetimerange" v-model="value" :default-time="defaultTime"></dy-date-picker>
         `,
-        data() {
+        data () {
           return {
             value: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
             defaultTime: ['11:59:59']
@@ -2065,7 +2065,7 @@ describe('DatePicker', () => {
         template: `
           <dy-date-picker ref="compo" type="datetimerange" v-model="value" :format="format"></dy-date-picker>
         `,
-        data() {
+        data () {
           return {
             value: [new Date(2018, 8, 5, 10, 20, 30), new Date(2018, 8, 15, 15, 35, 45)],
             format: 'yyyy/MM/dd hh:mm A'
@@ -2115,7 +2115,7 @@ describe('DatePicker', () => {
         template: `
           <dy-date-picker ref="compo" type="datetimerange" v-model="value" :default-time="defaultTime"></dy-date-picker>
         `,
-        data() {
+        data () {
           return {
             value: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
             defaultTime: ['11:59:59', '18:00:00']
@@ -2307,10 +2307,10 @@ describe('DatePicker', () => {
 
       vm = createVue({
         template: '<dy-date-picker type="datetimerange" value-format="yyyy-MM-dd HH:mm:ss" v-model="value" :picker-options="pickerOptions" ref="compo" />',
-        data() {
+        data () {
           return {
             pickerOptions: {
-              disabledDate(date) {
+              disabledDate (date) {
                 return date.getTime() < new Date(2000, 9, 1); // 2000-10-01
               }
             },
@@ -2348,7 +2348,7 @@ describe('DatePicker', () => {
     it('works', done => {
       vm = createVue({
         template: '<dy-date-picker type="monthrange" v-model="value" ref="compo" />',
-        data() {
+        data () {
           return {
             value: ''
           };
@@ -2390,7 +2390,7 @@ describe('DatePicker', () => {
     it('works: reverse selection', done => {
       vm = createVue({
         template: '<dy-date-picker type="monthrange" v-model="value" ref="compo" />',
-        data() {
+        data () {
           return {
             value: ''
           };
@@ -2434,7 +2434,7 @@ describe('DatePicker', () => {
     it('type:monthrange unlink:true', done => {
       vm = createVue({
         template: '<dy-date-picker type="monthrange" unlink-panels v-model="value" ref="compo" />',
-        data() {
+        data () {
           return {
             value: [new Date(2000, 9), new Date(2000, 10)]
           };
@@ -2490,7 +2490,7 @@ describe('DatePicker', () => {
       // AEST -> AEDT shift happened on 2016-10-02 02:00:00
       vm = createVue({
         template: '<dy-date-picker type="monthrange" v-model="value" ref="compo" />',
-        data() {
+        data () {
           return {
             value: [new Date(2016, 6), new Date(2016, 12)]
           };
@@ -2513,7 +2513,7 @@ describe('DatePicker', () => {
     it('clear value', done => {
       vm = createVue({
         template: '<dy-date-picker type="monthrange" v-model="value" ref="compo" />',
-        data() {
+        data () {
           return {
             value: [new Date(2000, 9), new Date(2000, 10)]
           };
@@ -2539,7 +2539,7 @@ describe('DatePicker', () => {
             ref="compo"
             v-model="value"
             type="monthrange" />`,
-        data() {
+        data () {
           return {
             value: ''
           };
@@ -2593,7 +2593,7 @@ describe('DatePicker', () => {
 
         vm = createVue({
           template: '<dy-date-picker type="monthrange" v-model="value" ref="compo" :default-value="defaultValue" />',
-          data() {
+          data () {
             return {
               value: '',
               defaultValue
@@ -2623,7 +2623,7 @@ describe('DatePicker', () => {
 
         vm = createVue({
           template: '<dy-date-picker type="monthrange" v-model="value" ref="compo" :default-value="defaultValue" />',
-          data() {
+          data () {
             return {
               value: '',
               defaultValue
@@ -2680,7 +2680,7 @@ describe('DatePicker', () => {
       pickerOptions: {
         shortcuts: [{
           text: '今天',
-          onClick(picker) {
+          onClick (picker) {
             test = true;
             picker.$emit('pick', new Date());
           }
@@ -2714,7 +2714,7 @@ describe('DatePicker', () => {
         template: `
         <dy-date-picker v-model="value" type="datetime" :picker-options="pickerOptions" ref="compo"></dy-date-picker>
         `,
-        data() {
+        data () {
           return {
             value: new Date(2019, 0, 1, 18, 50),
             pickerOptions: {
@@ -2757,7 +2757,7 @@ describe('DatePicker', () => {
       vm = createTest(DatePicker, {
         value: new Date(),
         pickerOptions: {
-          disabledDate(time) {
+          disabledDate (time) {
             return time.getTime() < Date.now() - 8.64e7;
           }
         }
@@ -2832,14 +2832,14 @@ describe('DatePicker', () => {
     });
   });
   describe('picker-options:className', () => {
-    it('set custom class name', async() => {
+    it('set custom class name', async () => {
       vm = createVue({
         template: '<dy-date-picker type="datetime" v-model="value" ref="compo" :pickerOptions="pickerOptions" />',
-        data() {
+        data () {
           return {
             value: '',
             pickerOptions: {
-              cellClassName() { return 'test-class'; }
+              cellClassName () { return 'test-class'; }
             }
           };
         }

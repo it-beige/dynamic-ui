@@ -3,7 +3,7 @@ import Watcher from './watcher';
 import { arrayFind } from 'dynamic-ui/src/utils/util';
 
 Watcher.prototype.mutations = {
-  setData(states, data) {
+  setData (states, data) {
     const dataInstanceChanged = states._data !== data;
     states._data = data;
 
@@ -27,7 +27,7 @@ Watcher.prototype.mutations = {
     this.updateTableScrollY();
   },
 
-  insertColumn(states, column, index, parent) {
+  insertColumn (states, column, index, parent) {
     let array = states._columns;
     if (parent) {
       array = parent.children;
@@ -51,7 +51,7 @@ Watcher.prototype.mutations = {
     }
   },
 
-  removeColumn(states, column, parent) {
+  removeColumn (states, column, parent) {
     let array = states._columns;
     if (parent) {
       array = parent.children;
@@ -67,7 +67,7 @@ Watcher.prototype.mutations = {
     }
   },
 
-  sort(states, options) {
+  sort (states, options) {
     const { prop, order, init } = options;
     if (prop) {
       const column = arrayFind(states.columns, column => column.property === prop);
@@ -79,7 +79,7 @@ Watcher.prototype.mutations = {
     }
   },
 
-  changeSortCondition(states, options) {
+  changeSortCondition (states, options) {
     // 修复 pr https://github.com/ElemeFE/element/pull/15012 导致的 bug
     const { sortingColumn: column, sortProp: prop, sortOrder: order } = states;
     if (order === null) {
@@ -100,7 +100,7 @@ Watcher.prototype.mutations = {
     this.updateTableScrollY();
   },
 
-  filterChange(states, options) {
+  filterChange (states, options) {
     let { column, values, silent } = options;
     const newFilters = this.updateFilters(column, values);
 
@@ -113,25 +113,25 @@ Watcher.prototype.mutations = {
     this.updateTableScrollY();
   },
 
-  toggleAllSelection() {
+  toggleAllSelection () {
     this.toggleAllSelection();
   },
 
-  rowSelectedChanged(states, row) {
+  rowSelectedChanged (states, row) {
     this.toggleRowSelection(row);
     this.updateAllSelected();
   },
 
-  setHoverRow(states, row) {
+  setHoverRow (states, row) {
     states.hoverRow = row;
   },
 
-  setCurrentRow(states, row) {
+  setCurrentRow (states, row) {
     this.updateCurrentRow(row);
   }
 };
 
-Watcher.prototype.commit = function(name, ...args) {
+Watcher.prototype.commit = function (name, ...args) {
   const mutations = this.mutations;
   if (mutations[name]) {
     mutations[name].apply(this, [this.states].concat(args));
@@ -140,7 +140,7 @@ Watcher.prototype.commit = function(name, ...args) {
   }
 };
 
-Watcher.prototype.updateTableScrollY = function() {
+Watcher.prototype.updateTableScrollY = function () {
   Vue.nextTick(this.table.updateScrollY);
 };
 

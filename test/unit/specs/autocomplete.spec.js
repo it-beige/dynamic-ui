@@ -18,24 +18,24 @@ describe('Autocomplete', () => {
           ></dy-autocomplete>
         </div>
       `,
-      data() {
+      data () {
         return {
           restaurants: [],
           state: ''
         };
       },
       methods: {
-        querySearch(queryString, cb) {
+        querySearch (queryString, cb) {
           var restaurants = this.restaurants;
           var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
           cb(results);
         },
-        createFilter(queryString) {
+        createFilter (queryString) {
           return (restaurant) => {
             return (restaurant.value.indexOf(queryString.toLowerCase()) === 0);
           };
         },
-        loadAll() {
+        loadAll () {
           return [
             { 'value': '三全鲜食（北新泾店）', 'address': '长宁区新渔路144号' },
             { 'value': 'Hot honey 首尔炸鸡（仙霞路）', 'address': '上海市长宁区淞虹路661号' },
@@ -44,7 +44,7 @@ describe('Autocomplete', () => {
           ];
         }
       },
-      mounted() {
+      mounted () {
         this.restaurants = this.loadAll();
       }
     }, true);
@@ -76,24 +76,24 @@ describe('Autocomplete', () => {
           placeholder="请输入内容autocomplete2"
         ></dy-autocomplete>
       `,
-      data() {
+      data () {
         return {
           restaurants: [],
           state: ''
         };
       },
       methods: {
-        querySearch(queryString, cb) {
+        querySearch (queryString, cb) {
           var restaurants = this.restaurants;
           var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
           cb(results);
         },
-        createFilter(queryString) {
+        createFilter (queryString) {
           return (restaurant) => {
             return (restaurant.value.indexOf(queryString.toLowerCase()) === 0);
           };
         },
-        loadAll() {
+        loadAll () {
           return [
             { 'value': '三全鲜食（北新泾店）', 'address': '长宁区新渔路144号' },
             { 'value': 'Hot honey 首尔炸鸡（仙霞路）', 'address': '上海市长宁区淞虹路661号' },
@@ -102,7 +102,7 @@ describe('Autocomplete', () => {
           ];
         }
       },
-      mounted() {
+      mounted () {
         this.restaurants = this.loadAll();
       }
     }, true);
@@ -137,24 +137,24 @@ describe('Autocomplete', () => {
           :fetch-suggestions="querySearch"
         ></dy-autocomplete>
       `,
-      data() {
+      data () {
         return {
           restaurants: [],
           state: ''
         };
       },
       methods: {
-        querySearch(queryString, cb) {
+        querySearch (queryString, cb) {
           var restaurants = this.restaurants;
           var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
           cb(results);
         },
-        createFilter(queryString) {
+        createFilter (queryString) {
           return (restaurant) => {
             return (restaurant.value.indexOf(queryString.toLowerCase()) === 0);
           };
         },
-        loadAll() {
+        loadAll () {
           return [
             { 'value': '三全鲜食（北新泾店）', 'address': '长宁区新渔路144号' },
             { 'value': 'Hot honey 首尔炸鸡（仙霞路）', 'address': '上海市长宁区淞虹路661号' },
@@ -163,7 +163,7 @@ describe('Autocomplete', () => {
           ];
         }
       },
-      mounted() {
+      mounted () {
         this.restaurants = this.loadAll();
       }
     }, true);
@@ -194,7 +194,7 @@ describe('Autocomplete', () => {
             :fetch-suggestions="querySearch"
           ></dy-autocomplete>
         `,
-        data() {
+        data () {
           return {
             restaurants: [],
             state: '',
@@ -203,17 +203,17 @@ describe('Autocomplete', () => {
           };
         },
         methods: {
-          querySearch(queryString, cb) {
+          querySearch (queryString, cb) {
             var restaurants = this.restaurants;
             var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
             cb(results);
           },
-          createFilter(queryString) {
+          createFilter (queryString) {
             return (restaurant) => {
               return (restaurant.value.indexOf(queryString.toLowerCase()) === 0);
             };
           },
-          loadAll() {
+          loadAll () {
             return [
               { 'value': '三全鲜食（北新泾店）', 'address': '长宁区新渔路144号' },
               { 'value': 'Hot honey 首尔炸鸡（仙霞路）', 'address': '上海市长宁区淞虹路661号' },
@@ -221,11 +221,11 @@ describe('Autocomplete', () => {
               { 'value': '泷千家(天山西路店)', 'address': '天山西路438号' }
             ];
           },
-          handleSelect(item) {
+          handleSelect (item) {
             this.item = item;
           }
         },
-        mounted() {
+        mounted () {
           this.restaurants = this.loadAll();
         }
       }, true);
@@ -274,24 +274,24 @@ describe('Autocomplete', () => {
           placeholder="请输入内容autocomplete2"
         ></dy-autocomplete>
       `,
-      data() {
+      data () {
         return {
           restaurants: [],
           state: ''
         };
       },
       methods: {
-        querySearch(queryString, cb) {
+        querySearch (queryString, cb) {
           var restaurants = this.restaurants;
           var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
           cb(results);
         },
-        createFilter(queryString) {
+        createFilter (queryString) {
           return (restaurant) => {
             return (restaurant.value.indexOf(queryString.toLowerCase()) === 0);
           };
         },
-        loadAll() {
+        loadAll () {
           return [
             { 'name': '三全鲜食（北新泾店）', 'address': '长宁区新渔路144号' },
             { 'name': 'Hot honey 首尔炸鸡（仙霞路）', 'address': '上海市长宁区淞虹路661号' },
@@ -300,7 +300,7 @@ describe('Autocomplete', () => {
           ];
         }
       },
-      mounted() {
+      mounted () {
         this.restaurants = this.loadAll();
       }
     }, true);
@@ -336,24 +336,24 @@ describe('Autocomplete', () => {
           placeholder="请输入内容autocomplete3"
         ></dy-autocomplete>
       `,
-      data() {
+      data () {
         return {
           restaurants: [],
           state: ''
         };
       },
       methods: {
-        querySearch(queryString, cb) {
+        querySearch (queryString, cb) {
           var restaurants = this.restaurants;
           var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
           cb(results);
         },
-        createFilter(queryString) {
+        createFilter (queryString) {
           return (restaurant) => {
             return (restaurant.value.indexOf(queryString.toLowerCase()) === 0);
           };
         },
-        loadAll() {
+        loadAll () {
           return [
             { 'value': '三全鲜食（北新泾店）', 'address': '长宁区新渔路144号' },
             { 'value': 'Hot honey 首尔炸鸡（仙霞路）', 'address': '上海市长宁区淞虹路661号' },
@@ -380,7 +380,7 @@ describe('Autocomplete', () => {
           ];
         }
       },
-      mounted() {
+      mounted () {
         this.restaurants = this.loadAll();
       }
     }, true);
@@ -411,24 +411,24 @@ describe('Autocomplete', () => {
           placeholder="请输入内容autocomplete3"
         ></dy-autocomplete>
       `,
-      data() {
+      data () {
         return {
           restaurants: [],
           state: ''
         };
       },
       methods: {
-        querySearch(queryString, cb) {
+        querySearch (queryString, cb) {
           var restaurants = this.restaurants;
           var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
           cb(results);
         },
-        createFilter(queryString) {
+        createFilter (queryString) {
           return (restaurant) => {
             return (restaurant.value.indexOf(queryString.toLowerCase()) === 0);
           };
         },
-        loadAll() {
+        loadAll () {
           return [
             { 'value': '三全鲜食（北新泾店）', 'address': '长宁区新渔路144号' },
             { 'value': 'Hot honey 首尔炸鸡（仙霞路）', 'address': '上海市长宁区淞虹路661号' },
@@ -445,7 +445,7 @@ describe('Autocomplete', () => {
           ];
         }
       },
-      mounted() {
+      mounted () {
         this.restaurants = this.loadAll();
       }
     }, true);
@@ -475,24 +475,24 @@ describe('Autocomplete', () => {
           placeholder="请输入内容autocomplete1"
         ></dy-autocomplete>
       `,
-      data() {
+      data () {
         return {
           restaurants: [],
           state: ''
         };
       },
       methods: {
-        querySearch(queryString, cb) {
+        querySearch (queryString, cb) {
           var restaurants = this.restaurants;
           var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
           cb(results);
         },
-        createFilter(queryString) {
+        createFilter (queryString) {
           return (restaurant) => {
             return (restaurant.value.indexOf(queryString.toLowerCase()) === 0);
           };
         },
-        loadAll() {
+        loadAll () {
           return [
             { 'value': '三全鲜食（北新泾店）', 'address': '长宁区新渔路144号' },
             { 'value': 'Hot honey 首尔炸鸡（仙霞路）', 'address': '上海市长宁区淞虹路661号' },
@@ -501,7 +501,7 @@ describe('Autocomplete', () => {
           ];
         }
       },
-      mounted() {
+      mounted () {
         this.restaurants = this.loadAll();
       }
     }, true);
@@ -525,24 +525,24 @@ describe('Autocomplete', () => {
           placeholder="请输入内容autocomplete1"
         ></dy-autocomplete>
       `,
-      data() {
+      data () {
         return {
           restaurants: [],
           state: ''
         };
       },
       methods: {
-        querySearch(queryString, cb) {
+        querySearch (queryString, cb) {
           var restaurants = this.restaurants;
           var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
           cb(results);
         },
-        createFilter(queryString) {
+        createFilter (queryString) {
           return (restaurant) => {
             return (restaurant.value.indexOf(queryString.toLowerCase()) === 0);
           };
         },
-        loadAll() {
+        loadAll () {
           return [
             { 'value': '三全鲜食（北新泾店）', 'address': '长宁区新渔路144号' },
             { 'value': 'Hot honey 首尔炸鸡（仙霞路）', 'address': '上海市长宁区淞虹路661号' },
@@ -551,7 +551,7 @@ describe('Autocomplete', () => {
           ];
         }
       },
-      mounted() {
+      mounted () {
         this.restaurants = this.loadAll();
       }
     }, true);
@@ -580,14 +580,14 @@ describe('Autocomplete', () => {
           highlight-first-item
         ></dy-autocomplete>
       `,
-      data() {
+      data () {
         return {
           restaurants: [],
           state: ''
         };
       },
       methods: {
-        querySearch(queryString, cb) {
+        querySearch (queryString, cb) {
           const opts = [
             { 'value': '1' },
             { 'value': '11' },

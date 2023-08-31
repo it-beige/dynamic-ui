@@ -14,7 +14,7 @@
   - onRemove
   - onPreview
 
-<!-- ### 基础用法
+### 基础用法
 
 :::demo
 
@@ -92,9 +92,9 @@
 ```
 
 `action`为当前上传的接口路径, `baseUploadURI`一般为项目的的基础路径, 如果这里没有设置, 将会用全局的`baseURI`做为基础路径; `parseResponse` 方法用于解析接口返回的数据, 如果接口返回了 `name` 和 `url` 此方法一般不用配置
-::: -->
+:::
 
-<!-- ### 缩略图扩展
+### 缩略图扩展
 
 ```js
 import Dynamic from 'main/index.js'
@@ -156,9 +156,9 @@ Vue.use(Dynamic, {
 </script>
 ```
 
-::: -->
+:::
 
-<!-- ### 图片列表缩略图扩展
+### 图片列表缩略图扩展
 
 :::demo
 
@@ -209,7 +209,7 @@ Vue.use(Dynamic, {
 </script>
 ```
 
-::: -->
+:::
 
 ### 内置 helper 方法
 
@@ -275,13 +275,16 @@ Vue.use(Dynamic, {
 
 ### limitFile
 
-| 参数   | 说明     | 类型   | 可选值 | 默认值 |
-| ------ | -------- | ------ | ------ | ------ |
-| width  | 限定宽度 | number | -      | -      |
-| height | 限定高度 | number | -      | -      |
-| width  | 限定宽度 | number | -      | -      |
-| width  | 限定宽度 | number | -      | -      |
-| width  | 限定宽度 | number | -      | -      |
+| 参数         | 说明             | 类型   | 可选值 | 默认值 |
+| ------------ | ---------------- | ------ | ------ | ------ |
+| width        | 限定宽度         | number | -      | -      |
+| height       | 限定高度         | number | -      | -      |
+| maxWidth     | 最大的高度       | number | -      | -      |
+| maxHeight    | 限定宽度         | number | -      | -      |
+| mminWidth    | 最小的宽度       | number | -      | -      |
+| mminHeight   | 最小的高度       | number | -      | -      |
+| offsetWidth  | 可以偏移的宽度值 | number | -      | -      |
+| offsetHeight | 可以偏移的高度值 | number | -      | -      |
 
 ### Attribute
 

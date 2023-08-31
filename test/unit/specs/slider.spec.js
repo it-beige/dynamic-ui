@@ -21,7 +21,7 @@ describe('Slider', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: 50
         };
@@ -49,7 +49,7 @@ describe('Slider', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: 0
         };
@@ -71,7 +71,7 @@ describe('Slider', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: 0
         };
@@ -81,7 +81,7 @@ describe('Slider', () => {
     expect(slider.$refs.tooltip.disabled).to.true;
   });
 
-  it('format tooltip', async() => {
+  it('format tooltip', async () => {
     vm = createVue({
       template: `
         <div>
@@ -90,13 +90,13 @@ describe('Slider', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: 0
         };
       },
       methods: {
-        formatTooltip(val) {
+        formatTooltip (val) {
           return '$' + val;
         }
       }
@@ -114,7 +114,7 @@ describe('Slider', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           vertical: false,
           value: 0
@@ -122,7 +122,7 @@ describe('Slider', () => {
       }
     }, true);
     const slider = vm.$children[0].$children[0];
-    slider.onButtonDown({ clientX: 0, preventDefault() {} });
+    slider.onButtonDown({ clientX: 0, preventDefault () {} });
     slider.onDragging({ clientX: 100 });
     slider.onDragEnd();
     setTimeout(() => {
@@ -131,7 +131,7 @@ describe('Slider', () => {
       vm.value = 0;
       vm.$nextTick(() => {
         expect(vm.value === 0).to.true;
-        slider.onButtonDown({ clientY: 0, preventDefault() {} });
+        slider.onButtonDown({ clientY: 0, preventDefault () {} });
         slider.onDragging({ clientY: -100 });
         slider.onDragEnd();
         setTimeout(() => {
@@ -150,7 +150,7 @@ describe('Slider', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: 0.1
         };
@@ -176,14 +176,14 @@ describe('Slider', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: 0
         };
       }
     }, true);
     const slider = vm.$children[0].$children[0];
-    slider.onButtonDown({ clientX: 0, preventDefault() {} });
+    slider.onButtonDown({ clientX: 0, preventDefault () {} });
     slider.onDragging({ clientX: 100 });
     slider.onDragEnd();
     setTimeout(() => {
@@ -200,7 +200,7 @@ describe('Slider', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: 0
         };
@@ -225,14 +225,14 @@ describe('Slider', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           data: 0,
           value: 0
         };
       },
       methods: {
-        onChange(val) {
+        onChange (val) {
           this.data = val;
         }
       }
@@ -257,7 +257,7 @@ describe('Slider', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: 0
         };
@@ -281,7 +281,7 @@ describe('Slider', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: 0
         };
@@ -315,7 +315,7 @@ describe('Slider', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: 0
         };
@@ -340,7 +340,7 @@ describe('Slider', () => {
         </div>
       `,
 
-        data() {
+        data () {
           return {
             value: [10, 20]
           };
@@ -359,7 +359,7 @@ describe('Slider', () => {
         </div>
       `,
 
-        data() {
+        data () {
           return {
             value: [50, 60]
           };
@@ -386,7 +386,7 @@ describe('Slider', () => {
         </div>
       `,
 
-        data() {
+        data () {
           return {
             value: [0, 100]
           };
@@ -412,7 +412,7 @@ describe('Slider', () => {
         </div>
       `,
 
-        data() {
+        data () {
           return {
             min: 0,
             max: 100,
@@ -446,7 +446,7 @@ describe('Slider', () => {
         </div>
       `,
 
-        data() {
+        data () {
           return {
             value: [30, 60]
           };
@@ -459,7 +459,7 @@ describe('Slider', () => {
       }, 10);
     });
 
-    it('marks', async() => {
+    it('marks', async () => {
       vm = createVue({
         template: `
         <div>
@@ -473,7 +473,7 @@ describe('Slider', () => {
         </div>
       `,
 
-        data() {
+        data () {
           return {
             value: [30, 60],
             marks: {

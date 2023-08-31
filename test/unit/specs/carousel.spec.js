@@ -93,14 +93,14 @@ describe('Carousel', () => {
           </dy-carousel>
         </div>
       `,
-      data() {
+      data () {
         return {
           val: -1,
           oldVal: -1
         };
       },
       methods: {
-        handleChange(val, oldVal) {
+        handleChange (val, oldVal) {
           this.val = val;
           this.oldVal = oldVal;
         }

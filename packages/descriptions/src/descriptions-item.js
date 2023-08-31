@@ -24,7 +24,7 @@ export default {
       type: Object
     }
   },
-  render() {
+  render () {
     return null;
   }
 };

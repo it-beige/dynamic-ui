@@ -78,7 +78,7 @@ describe('Button', () => {
         <dy-button @click="handleClick"></dy-button>
       `,
       methods: {
-        handleClick(evt) {
+        handleClick (evt) {
           result = evt;
         }
       }
@@ -98,7 +98,7 @@ describe('Button', () => {
         <dy-button @click="handleClick"><span class="inner-slot"></span></dy-button>
       `,
       methods: {
-        handleClick(evt) {
+        handleClick (evt) {
           result = evt;
         }
       }
@@ -118,7 +118,7 @@ describe('Button', () => {
         <dy-button loading @click="handleClick"><span class="inner-slot"></span></dy-button>
       `,
       methods: {
-        handleClick(evt) {
+        handleClick (evt) {
           result = evt;
         }
       }

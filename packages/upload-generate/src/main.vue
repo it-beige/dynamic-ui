@@ -30,7 +30,7 @@ export default {
       default: true
     }
   },
-  data() {
+  data () {
     return {
       extraProps: [...getAttrMixExtra('prop'), ...getUploadMixExtra('prop')],
       extraData: [...getAttrMixExtra('data'), ...getUploadMixExtra('data')],
@@ -40,31 +40,31 @@ export default {
   },
   computed: {
     // 不渲染upload组件
-    disableRendering({ disabled, isExceed }) {
+    disableRendering ({ disabled, isExceed }) {
       return disabled || isExceed;
     }
   },
-  render() {
+  render () {
     const UploadVnode = this.renderUpload();
     return UploadVnode;
   },
   methods: {
-    getUploadProps() {
+    getUploadProps () {
       const props = this._excludeExtraProps(this.$props);
       props.action = this.url;
       props.fileList = this.bindFileList;
       this.bindPropsHook(props);
       return props;
     },
-    getUploadOn() {
+    getUploadOn () {
       const listeners = this._getListners();
       return listeners;
     },
-    getUploadSlots() {
+    getUploadSlots () {
       const slots = this.$slots;
       return this._getVnodesBySlots(slots);
     },
-    getUploadScopedSlots() {
+    getUploadScopedSlots () {
       const { listType } = this;
       let scopedSlots = {};
       if (listType === 'picture-card') {
@@ -72,11 +72,11 @@ export default {
       }
       return scopedSlots;
     },
-    notDefaultTemplate(slots) {
+    notDefaultTemplate (slots) {
       return !slots.find(s => s.data.slot === 'default');
     },
 
-    renderUpload() {
+    renderUpload () {
       const self = this;
       let createElement = self.$createElement;
       const { getUploadProps, getUploadOn, getUploadSlots, getUploadScopedSlots, disabled } = self;
@@ -105,7 +105,7 @@ export default {
       }, nodes);
     },
 
-    renderDefaultSlotVnode() {
+    renderDefaultSlotVnode () {
       const { listType } = this;
       let render;
       switch (listType) {
@@ -122,26 +122,26 @@ export default {
       return render();
     },
 
-    renderTextVnode() {
+    renderTextVnode () {
       return (
         <Button.name type="primary" icon="dy-icon-upload2">
           { this.t('dy.upload.buttonText')}
         </Button.name>
       );
     },
-    renderPictureVnode() {
+    renderPictureVnode () {
       return (
         <Button.name type="primary" icon="dy-icon-upload2">
           { this.t('dy.upload.buttonText')}
         </Button.name>
       );
     },
-    renderPictureCardVnode() {
+    renderPictureCardVnode () {
       return (
         <i class="dy-icon-plus"></i>
       );
     },
-    renderPictureCardFileVnode({ file }) {
+    renderPictureCardFileVnode ({ file }) {
       const { listType, showProgress, disabled } = this;
       const { status } = file;
       let nodes = [];
@@ -199,25 +199,25 @@ export default {
 
       return nodes;
     },
-    getPreviewUrl(file) {
+    getPreviewUrl (file) {
       let url = file.url;
       if (isFunction(this.onPreview)) {
         url = this.onPreview(file);
       }
       return url;
     },
-    viewFile(file) {
+    viewFile (file) {
       this.$refs[`imageRef-${file.uid}`].clickHandler();
     },
-    downloadFile(file) {
+    downloadFile (file) {
       const url = this.getPreviewUrl(file);
       saveAs(url, file.name);
     },
-    deleteFile(file) {
+    deleteFile (file) {
       const upload = this.useRef();
       upload.handleRemove(file);
     },
-    renderPreivewImage(file) {
+    renderPreivewImage (file) {
       let previewSrcList = this.bindFileList.map(i => this.getPreviewUrl(i));
       return (
         <Image.name
@@ -229,14 +229,14 @@ export default {
         </Image.name>
       );
     },
-    preventBodyScroll() {
+    preventBodyScroll () {
       this.prevOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
     },
-    restoreBodyScroll() {
+    restoreBodyScroll () {
       document.body.style.overflow = this.prevOverflow;
     },
-    renderImageViewer() {
+    renderImageViewer () {
       const previewSrcList = this.bindFileList.map(this.getPreviewUrl);
       const srcIndex = previewSrcList.indexOf(this.previewUrl);
       let initialIndex = ~srcIndex ? srcIndex : 0 ;

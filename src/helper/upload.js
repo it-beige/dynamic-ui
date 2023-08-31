@@ -8,7 +8,7 @@ const defaultResolve = (response) => {
   return response.data;
 };
 
-export function parseResponse(response, props, resolve = defaultResolve) {
+export function parseResponse (response, props, resolve = defaultResolve) {
   let data = resolve(response);
   const { name, url } = props;
   return {
@@ -85,7 +85,7 @@ export const fileTypeHash = {
   application: new Map([...pdfTypeMap, ...compressionTypeMap, ...officeTypeMap ])
 };
 
-export function getFileType(accept, toUpperCase) {
+export function getFileType (accept, toUpperCase) {
   const mimeReg = /(.+)\/(.+)/g;
   return accept.reduce((_, i) => {
     const reg = new RegExp(mimeReg.source);
@@ -106,12 +106,12 @@ export function getFileType(accept, toUpperCase) {
   }, []);
 }
 
-export function getMimeType(fileExtension) {
+export function getMimeType (fileExtension) {
   const mime = fileTypeMap.get(fileExtension.toLowerCase());
   return mime;
 }
 
-export function processFileUnitToMb(size) {
+export function processFileUnitToMb (size) {
   const toUpperCase = (s) => String.prototype.toUpperCase.call(s);
   const units = ['KB', 'MB', 'GB'];
   const isUnit = units.some(unit => toUpperCase(size).endsWith(unit));
@@ -157,7 +157,7 @@ const tipConfig = {
   }
 };
 
-export function getTip(attr, replaceValue) {
+export function getTip (attr, replaceValue) {
   const placeholderReg = /\{([A-z]+)\}/g;
   let placeholderText = getValueByPath(tipConfig, attr);
   if (placeholderReg.test(placeholderText)) {
@@ -166,7 +166,7 @@ export function getTip(attr, replaceValue) {
   return placeholderText;
 }
 
-export function limitFileContourSize(file, fileContour) {
+export function limitFileContourSize (file, fileContour) {
   if (!isPlainObject(fileContour)) {
     console.error('[Dynamic Error UploadGenerate]' + 'limitFile props must be an object');
     return;

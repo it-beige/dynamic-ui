@@ -3,7 +3,7 @@ import {
   PopupManager
 } from 'dynamic-ui/src/utils/popup';
 
-const PopperJS = Vue.prototype.$isServer ? function() {} : require('./popper');
+const PopperJS = Vue.prototype.$isServer ? function () {} : require('./popper');
 const stop = e => e.stopPropagation();
 
 /**
@@ -45,7 +45,7 @@ export default {
     },
     popperOptions: {
       type: Object,
-      default() {
+      default () {
         return {
           gpuAcceleration: false
         };
@@ -53,7 +53,7 @@ export default {
     }
   },
 
-  data() {
+  data () {
     return {
       showPopper: false,
       currentPlacement: ''
@@ -63,13 +63,13 @@ export default {
   watch: {
     value: {
       immediate: true,
-      handler(val) {
+      handler (val) {
         this.showPopper = val;
         this.$emit('input', val);
       }
     },
 
-    showPopper(val) {
+    showPopper (val) {
       if (this.disabled) return;
       val ? this.updatePopper() : this.destroyPopper();
       this.$emit('input', val);
@@ -77,7 +77,7 @@ export default {
   },
 
   methods: {
-    createPopper() {
+    createPopper () {
       if (this.$isServer) return;
       this.currentPlacement = this.currentPlacement || this.placement;
       if (!/^(top|bottom|left|right)(-start|-end)?$/g.test(this.currentPlacement)) {
@@ -117,7 +117,7 @@ export default {
       this.popperElm.addEventListener('click', stop);
     },
 
-    updatePopper() {
+    updatePopper () {
       const popperJS = this.popperJS;
       if (popperJS) {
         popperJS.update();
@@ -129,20 +129,20 @@ export default {
       }
     },
 
-    doDestroy(forceDestroy) {
+    doDestroy (forceDestroy) {
       /* istanbul ignore if */
       if (!this.popperJS || (this.showPopper && !forceDestroy)) return;
       this.popperJS.destroy();
       this.popperJS = null;
     },
 
-    destroyPopper() {
+    destroyPopper () {
       if (this.popperJS) {
         this.resetTransformOrigin();
       }
     },
 
-    resetTransformOrigin() {
+    resetTransformOrigin () {
       if (!this.transformOrigin) return;
       let placementMap = {
         top: 'bottom',
@@ -157,7 +157,7 @@ export default {
         : ['top', 'bottom'].indexOf(placement) > -1 ? `center ${ origin }` : `${ origin } center`;
     },
 
-    appendArrow(element) {
+    appendArrow (element) {
       let hash;
       if (this.appended) {
         return;
@@ -183,7 +183,7 @@ export default {
     }
   },
 
-  beforeDestroy() {
+  beforeDestroy () {
     this.doDestroy(true);
     if (this.popperElm && this.popperElm.parentNode === document.body) {
       this.popperElm.removeEventListener('click', stop);
@@ -192,7 +192,7 @@ export default {
   },
 
   // call destroy in keep-alive mode
-  deactivated() {
+  deactivated () {
     this.$options.beforeDestroy[0].call(this);
   }
 };

@@ -86,7 +86,7 @@ const getScrollOptions = (el, vm) => {
 
 const getElementTop = el => el.getBoundingClientRect().top;
 
-const handleScroll = function(cb) {
+const handleScroll = function (cb) {
   const { el, vm, container, observer } = this[scope];
   const { distance, disabled } = getScrollOptions(el, vm);
 
@@ -119,7 +119,7 @@ const handleScroll = function(cb) {
 
 export default {
   name: 'InfiniteScroll',
-  inserted(el, binding, vnode) {
+  inserted (el, binding, vnode) {
     const cb = binding.value;
 
     const vm = vnode.context;
@@ -140,7 +140,7 @@ export default {
       }
     }
   },
-  unbind(el) {
+  unbind (el) {
     const { container, onScroll } = el[scope];
     if (container) {
       container.removeEventListener('scroll', onScroll);

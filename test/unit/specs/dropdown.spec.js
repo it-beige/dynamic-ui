@@ -55,7 +55,7 @@ describe('Dropdown', () => {
           </dy-dropdown-menu>
         </dy-dropdown>
       `,
-      data() {
+      data () {
         return {
           myCommandObject
         };

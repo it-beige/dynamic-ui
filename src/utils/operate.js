@@ -1,5 +1,5 @@
 // 加法
-export function add(num1, num2) {
+export function add (num1, num2) {
   const num1Str = num1.toString();
   const num2Str = num2.toString();
   const num1Decimal = num1Str.includes('.') ? num1Str.length - num1Str.indexOf('.') - 1 : 0;
@@ -11,12 +11,12 @@ export function add(num1, num2) {
 }
 
 // 减法
-export function subtract(num1, num2) {
+export function subtract (num1, num2) {
   return add(num1, -num2);
 }
 
 // 乘法
-export function multiply(num1, num2) {
+export function multiply (num1, num2) {
   const num1Str = num1.toString();
   const num2Str = num2.toString();
   const num1Decimal = num1Str.includes('.') ? num1Str.length - num1Str.indexOf('.') - 1 : 0;
@@ -26,7 +26,7 @@ export function multiply(num1, num2) {
 }
 
 // 除法
-export function divide(num1, num2) {
+export function divide (num1, num2) {
   const num1Str = num1.toString();
   const num2Str = num2.toString();
   const num1Decimal = num1Str.includes('.') ? num1Str.length - num1Str.indexOf('.') - 1 : 0;

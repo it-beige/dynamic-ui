@@ -14,7 +14,7 @@ describe('Dialog', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           title: 'dialog test',
           visible: true
@@ -44,7 +44,7 @@ describe('Dialog', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           title: 'dialog test',
           visible: true
@@ -69,7 +69,7 @@ describe('Dialog', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           title: 'dialog test',
           visible: true
@@ -93,7 +93,7 @@ describe('Dialog', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           title: 'dialog test',
           visible: false
@@ -124,7 +124,7 @@ describe('Dialog', () => {
           </div>
         `,
 
-        data() {
+        data () {
           return {
             title: 'dialog test',
             visible: true
@@ -168,24 +168,24 @@ describe('Dialog', () => {
       `,
 
       methods: {
-        handleOpen() {
+        handleOpen () {
           this.state = 'open';
         },
 
-        handleOpened() {
+        handleOpened () {
           this.animationState = 'opened';
         },
 
-        handleClose() {
+        handleClose () {
           this.state = 'close';
         },
 
-        handleClosed() {
+        handleClosed () {
           this.animationState = 'closed';
         }
       },
 
-      data() {
+      data () {
         return {
           state: '',
           animationState: '',
@@ -216,7 +216,7 @@ describe('Dialog', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           title: 'dialog test',
           visible: true
@@ -242,7 +242,7 @@ describe('Dialog', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           title: 'dialog test',
           visible: true
@@ -267,14 +267,14 @@ describe('Dialog', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           title: 'dialog test',
           visible: true
         };
       },
       methods: {
-        beforeClose(done) {
+        beforeClose (done) {
           spy();
           done();
         }
@@ -290,7 +290,7 @@ describe('Dialog', () => {
     }, 10);
   });
 
-  it('destroyOnClose', async() => {
+  it('destroyOnClose', async () => {
     vm = createVue({
       template: `
         <div>
@@ -300,7 +300,7 @@ describe('Dialog', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           title: 'dialog test',
           visible: true

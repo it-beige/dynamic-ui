@@ -37,21 +37,21 @@ export const getExtra = (key) => {
   return Object.keys(get());
 };
 
-export default function genAttrsMixin(component) {
+export default function genAttrsMixin (component) {
   const props = getCompPropsBySourceOpt(component);
   return {
     props: {
       ...props,
       ...getExtraProps()
     },
-    data(self) {
+    data (self) {
       return {
         ...getExtraData(self)
       };
     },
     watch: {
       props: {
-        handler() {
+        handler () {
           this.bindProps = {...this.bindProps, ...this.props};
         },
         deep: true
@@ -59,7 +59,7 @@ export default function genAttrsMixin(component) {
 
     },
     methods: {
-      _excludeExtraProps(props) {
+      _excludeExtraProps (props) {
         const extraProps = this.extraProps;
         return Object.keys(props).reduce((_, k) => {
           if (!extraProps.includes(k)) {
@@ -68,7 +68,7 @@ export default function genAttrsMixin(component) {
           return _;
         }, {});
       },
-      _getListners() {
+      _getListners () {
         const consumeListeners = this.$options._parentListeners || {};
         const listeners = getProvidesOptionBySourceOpt(
           consumeListeners,
@@ -76,13 +76,13 @@ export default function genAttrsMixin(component) {
         );
         return listeners;
       },
-      _getVnodesBySlots(slots) {
+      _getVnodesBySlots (slots) {
         return Object.keys(slots).map(k => {
           const vnode = Array.isArray(slots[k]) ? slots[k].at(0) : slots[k];
           return <template slot={k}>{vnode}</template>;
         });
       },
-      useRef() {
+      useRef () {
         const refName = component.name;
         return this.$refs[refName];
       }

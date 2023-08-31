@@ -2,7 +2,7 @@ import { once, on } from 'dynamic-ui/src/utils/dom';
 import { isMac } from 'dynamic-ui/src/utils/util';
 
 export default {
-  bind(el, binding, vnode) {
+  bind (el, binding, vnode) {
     let interval = null;
     let startTime;
     const maxIntervals = isMac() ? 100 : 200;

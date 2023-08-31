@@ -22,7 +22,7 @@ describe('ColorPicker', () => {
         <dy-color-picker v-model="color" show-alpha></dy-color-picker>
       `,
 
-      data() {
+      data () {
         return {
           color: null
         };
@@ -60,7 +60,7 @@ describe('ColorPicker', () => {
         <dy-color-picker v-model="color"></dy-color-picker>
       `,
 
-      data() {
+      data () {
         return {
           color: null
         };
@@ -86,7 +86,7 @@ describe('ColorPicker', () => {
         <dy-color-picker v-model="color"></dy-color-picker>
       `,
 
-      data() {
+      data () {
         return {
           color: '#20A0FF'
         };
@@ -109,7 +109,7 @@ describe('ColorPicker', () => {
         <dy-color-picker v-model="color"></dy-color-picker>
       `,
 
-      data() {
+      data () {
         return {
           color: '#0f0'
         };
@@ -137,7 +137,7 @@ describe('ColorPicker', () => {
         <dy-color-picker v-model="color"></dy-color-picker>
       `,
 
-      data() {
+      data () {
         return {
           color: '#f00'
         };
@@ -163,7 +163,7 @@ describe('ColorPicker', () => {
         <dy-color-picker v-model="color"></dy-color-picker>
       `,
 
-      data() {
+      data () {
         return {
           color: '#f00'
         };
@@ -190,7 +190,7 @@ describe('ColorPicker', () => {
         <dy-color-picker v-model="color"></dy-color-picker>
       `,
 
-      data() {
+      data () {
         return {
           color: '#FFFFFF'
         };
@@ -217,7 +217,7 @@ describe('ColorPicker', () => {
         <dy-color-picker v-model="color" show-alpha></dy-color-picker>
       `,
 
-      data() {
+      data () {
         return {
           color: '#f00'
         };
@@ -244,7 +244,7 @@ describe('ColorPicker', () => {
         <dy-color-picker v-model="color" color-format="hsv"></dy-color-picker>
       `,
 
-      data() {
+      data () {
         return {
           color: 'hsv(0, 50%, 50%)'
         };
@@ -271,7 +271,7 @@ describe('ColorPicker', () => {
       template: `
         <dy-color-picker v-model="color" show-alpha :predefine="colors"></dy-color-picker>
       `,
-      data() {
+      data () {
         return {
           color: 'hsva(180, 65, 20, 0.5)',
           colors: [
@@ -322,7 +322,7 @@ describe('ColorPicker', () => {
       template: `
         <dy-color-picker v-model="color" show-alpha :predefine="colors"></dy-color-picker>
       `,
-      data() {
+      data () {
         return {
           color: 'hsva(180, 65, 20, 0.5)',
           colors: [

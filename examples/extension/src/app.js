@@ -8,7 +8,7 @@ export default () => {
   const root = document.createElement('div');
   document.body.appendChild(root);
 
-  window.ga = function() {
+  window.ga = function () {
     console.log(arguments);
   };
 

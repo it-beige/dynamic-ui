@@ -44,19 +44,19 @@ export default {
     }
   },
 
-  beforeMount() {
+  beforeMount () {
     this._popupId = 'popup-' + idSeed++;
     PopupManager.register(this._popupId, this);
   },
 
-  beforeDestroy() {
+  beforeDestroy () {
     PopupManager.deregister(this._popupId);
     PopupManager.closeModal(this._popupId);
 
     this.restoreBodyStyle();
   },
 
-  data() {
+  data () {
     return {
       opened: false,
       bodyPaddingRight: null,
@@ -67,7 +67,7 @@ export default {
   },
 
   watch: {
-    visible(val) {
+    visible (val) {
       if (val) {
         if (this._opening) return;
         if (!this.rendered) {
@@ -85,7 +85,7 @@ export default {
   },
 
   methods: {
-    open(options) {
+    open (options) {
       if (!this.rendered) {
         this.rendered = true;
       }
@@ -109,7 +109,7 @@ export default {
       }
     },
 
-    doOpen(props) {
+    doOpen (props) {
       if (this.$isServer) return;
       if (this.willOpen && !this.willOpen()) return;
       if (this.opened) return;
@@ -159,11 +159,11 @@ export default {
       this.doAfterOpen();
     },
 
-    doAfterOpen() {
+    doAfterOpen () {
       this._opening = false;
     },
 
-    close() {
+    close () {
       if (this.willClose && !this.willClose()) return;
 
       if (this._openTimer !== null) {
@@ -184,7 +184,7 @@ export default {
       }
     },
 
-    doClose() {
+    doClose () {
       this._closing = true;
 
       this.onClose && this.onClose();
@@ -198,12 +198,12 @@ export default {
       this.doAfterClose();
     },
 
-    doAfterClose() {
+    doAfterClose () {
       PopupManager.closeModal(this._popupId);
       this._closing = false;
     },
 
-    restoreBodyStyle() {
+    restoreBodyStyle () {
       if (this.modal && this.withoutHiddenClass) {
         document.body.style.paddingRight = this.bodyPaddingRight;
         removeClass(document.body, 'el-popup-parent--hidden');

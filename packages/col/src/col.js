@@ -21,7 +21,7 @@ export default {
   },
 
   computed: {
-    gutter() {
+    gutter () {
       let parent = this.$parent;
       while (parent && parent.$options.componentName !== 'DyRow') {
         parent = parent.$parent;
@@ -29,7 +29,7 @@ export default {
       return parent ? parent.gutter : 0;
     }
   },
-  render(h) {
+  render (h) {
     let classList = [];
     let style = {};
 

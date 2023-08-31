@@ -2,7 +2,7 @@ import { arrayFind } from 'dynamic-ui/src/utils/util';
 import { getRowIdentity } from '../util';
 
 export default {
-  data() {
+  data () {
     return {
       states: {
         // 不可响应的，设置 currentRowKey 时，data 不一定存在，也许无法算出正确的 currentRow
@@ -14,17 +14,17 @@ export default {
   },
 
   methods: {
-    setCurrentRowKey(key) {
+    setCurrentRowKey (key) {
       this.assertRowKey();
       this.states._currentRowKey = key;
       this.setCurrentRowByKey(key);
     },
 
-    restoreCurrentRowKey() {
+    restoreCurrentRowKey () {
       this.states._currentRowKey = null;
     },
 
-    setCurrentRowByKey(key) {
+    setCurrentRowByKey (key) {
       const { states } = this;
       const { data = [], rowKey } = states;
       let currentRow = null;
@@ -34,7 +34,7 @@ export default {
       states.currentRow = currentRow;
     },
 
-    updateCurrentRow(currentRow) {
+    updateCurrentRow (currentRow) {
       const { states, table } = this;
       const oldCurrentRow = states.currentRow;
       if (currentRow && currentRow !== oldCurrentRow) {
@@ -48,7 +48,7 @@ export default {
       }
     },
 
-    updateCurrentRowData() {
+    updateCurrentRowData () {
       const { states, table } = this;
       const { rowKey, _currentRowKey } = states;
       // data 为 null 时，解构时的默认值会被忽略

@@ -72,7 +72,7 @@ describe('Avatar', () => {
     expect(imgElm.src).to.equal(IMAGE_SUCCESS);
   });
 
-  it('image fallback', async() => {
+  it('image fallback', async () => {
     vm = createVue({
       template: `
         <dy-avatar src="${IMAGE_FAIL}" @error="errorHandler">
@@ -80,7 +80,7 @@ describe('Avatar', () => {
         </dy-avatar>
       `,
       methods: {
-        errorHandler() {
+        errorHandler () {
           return true;
         }
       }
@@ -90,7 +90,7 @@ describe('Avatar', () => {
     expect(avatarElm.textContent.trim()).to.equal('fallback');
   });
 
-  it('image fit', async() => {
+  it('image fit', async () => {
     vm = createVue({
       template: `
         <div>
@@ -99,7 +99,7 @@ describe('Avatar', () => {
         </div>
         
       `,
-      data() {
+      data () {
         return {
           fits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
           url: IMAGE_SUCCESS

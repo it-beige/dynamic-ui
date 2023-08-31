@@ -1,6 +1,6 @@
 import SelectGenerate from './src/main';
 
-SelectGenerate.install = function(Vue) {
+SelectGenerate.install = function (Vue) {
   Vue.component(SelectGenerate.name, SelectGenerate);
 };
 

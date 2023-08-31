@@ -36,7 +36,7 @@ describe('Container', () => {
           <dy-main></dy-main>
         </dy-container>
       `,
-      data() {
+      data () {
         return {
           direction: 'horizontal'
         };

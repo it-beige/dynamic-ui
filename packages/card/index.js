@@ -1,7 +1,7 @@
 import Card from './src/main';
 
 /* istanbul ignore next */
-Card.install = function(Vue) {
+Card.install = function (Vue) {
   Vue.component(Card.name, Card);
 };
 

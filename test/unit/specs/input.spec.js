@@ -6,7 +6,7 @@ describe('Input', () => {
     destroyVM(vm);
   });
 
-  it('create', async() => {
+  it('create', async () => {
     vm = createVue({
       template: `
         <dy-input
@@ -17,14 +17,14 @@ describe('Input', () => {
           :value="input">
         </dy-input>
       `,
-      data() {
+      data () {
         return {
           input: 'input',
           inputFocus: false
         };
       },
       methods: {
-        handleFocus() {
+        handleFocus () {
           this.inputFocus = true;
         }
       }
@@ -113,7 +113,7 @@ describe('Input', () => {
   });
 
   // Github issue #2836
-  it('resize', async() => {
+  it('resize', async () => {
     vm = createVue({
       template: `
         <div>
@@ -131,7 +131,7 @@ describe('Input', () => {
     expect(vm.$el.querySelector('.dy-textarea__inner').style.resize).to.be.equal(vm.resize);
   });
 
-  it('autosize', async() => {
+  it('autosize', async () => {
     vm = createVue({
       template: `
         <div>
@@ -151,7 +151,7 @@ describe('Input', () => {
           </dy-input>
         </div>
       `,
-      data() {
+      data () {
         return {
           textareaValue: 'sda\ndasd\nddasdsda\ndasd\nddasdsda\ndasd\nddasdsda\ndasd\nddasd'
         };
@@ -170,7 +170,7 @@ describe('Input', () => {
     expect(limitlessSizeInput.textareaStyle.height).to.be.equal('33px');
   });
 
-  it('focus', async() => {
+  it('focus', async () => {
     vm = createVue({
       template: `
         <dy-input ref="input">
@@ -187,7 +187,7 @@ describe('Input', () => {
     expect(spy.calledOnce).to.be.true;
   });
 
-  it('Input contains Select and append slot', async() => {
+  it('Input contains Select and append slot', async () => {
     vm = createVue({
       template: `
       <dy-input v-model="value" clearable class="input-with-select" ref="input">
@@ -199,7 +199,7 @@ describe('Input', () => {
         <dy-button slot="append" icon="dy-icon-search"></dy-button>
       </dy-input>
       `,
-      data() {
+      data () {
         return {
           value: '1234',
           select: '1'
@@ -214,7 +214,7 @@ describe('Input', () => {
     expect(suffixEl.style.transform).to.not.be.empty;
   });
 
-  it('validateEvent', async() => {
+  it('validateEvent', async () => {
     const spy = sinon.spy();
     vm = createVue({
       template: `
@@ -225,7 +225,7 @@ describe('Input', () => {
           </dy-form-item>
         </dy-form>
       `,
-      data() {
+      data () {
         const validator = (rule, value, callback) => {
           spy();
           callback();
@@ -249,7 +249,7 @@ describe('Input', () => {
   });
 
   describe('Input Events', () => {
-    it('event:focus & blur', async() => {
+    it('event:focus & blur', async () => {
       vm = createVue({
         template: `
           <dy-input
@@ -272,7 +272,7 @@ describe('Input', () => {
       expect(spyFocus.calledOnce).to.be.true;
       expect(spyBlur.calledOnce).to.be.true;
     });
-    it('event:change', async() => {
+    it('event:change', async () => {
       // NOTE: should be same as native's change behavior
       vm = createVue({
         template: `
@@ -282,7 +282,7 @@ describe('Input', () => {
             :value="input">
           </dy-input>
         `,
-        data() {
+        data () {
           return {
             input: 'a'
           };
@@ -305,7 +305,7 @@ describe('Input', () => {
       expect(spy.calledWith('2')).to.be.true;
       expect(spy.calledOnce).to.be.true;
     });
-    it('event:clear', async() => {
+    it('event:clear', async () => {
       vm = createVue({
         template: `
           <dy-input
@@ -315,7 +315,7 @@ describe('Input', () => {
             :value="input">
           </dy-input>
         `,
-        data() {
+        data () {
           return {
             input: 'a'
           };
@@ -333,7 +333,7 @@ describe('Input', () => {
       await waitImmediate();
       expect(spyClear.calledOnce).to.be.true;
     });
-    it('event:input', async() => {
+    it('event:input', async () => {
       vm = createVue({
         template: `
           <dy-input
@@ -343,7 +343,7 @@ describe('Input', () => {
             :value="input">
           </dy-input>
         `,
-        data() {
+        data () {
           return {
             input: 'a'
           };
@@ -372,7 +372,7 @@ describe('Input', () => {
   });
 
   describe('Input Methods', () => {
-    it('method:select', async() => {
+    it('method:select', async () => {
       const testContent = 'test';
 
       vm = createVue({
@@ -395,12 +395,12 @@ describe('Input', () => {
     });
   });
 
-  it('sets value on textarea / input type change', async() => {
+  it('sets value on textarea / input type change', async () => {
     vm = createVue({
       template: `
         <dy-input :type="type" v-model="val" />
       `,
-      data() {
+      data () {
         return {
           type: 'text',
           val: '123'
@@ -417,7 +417,7 @@ describe('Input', () => {
     expect(vm.$el.querySelector('input').value).to.equal('123');
   });
 
-  it('limit input and show word count', async() => {
+  it('limit input and show word count', async () => {
     vm = createVue({
       template: `
         <div>
@@ -451,7 +451,7 @@ describe('Input', () => {
           </dy-input>
         </div>
       `,
-      data() {
+      data () {
         return {
           input1: '',
           input2: '',

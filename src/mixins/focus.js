@@ -1,7 +1,7 @@
-export default function(ref) {
+export default function (ref) {
   return {
     methods: {
-      focus() {
+      focus () {
         this.$refs[ref].focus();
       }
     }

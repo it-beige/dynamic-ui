@@ -12,7 +12,7 @@ describe('Checkbox', () => {
         <dy-checkbox v-model="checked">
         </dy-checkbox>
       `,
-      data() {
+      data () {
         return {
           checked: false
         };
@@ -35,7 +35,7 @@ describe('Checkbox', () => {
         >
         </dy-checkbox>
       `,
-      data() {
+      data () {
         return {
           checked: false
         };
@@ -51,11 +51,11 @@ describe('Checkbox', () => {
         </dy-checkbox>
       `,
       methods: {
-        onChange(val) {
+        onChange (val) {
           this.data = val;
         }
       },
-      data() {
+      data () {
         return {
           data: '',
           checked: false
@@ -83,7 +83,7 @@ describe('Checkbox', () => {
           <dy-checkbox label="d" ref="d"></dy-checkbox>
         </dy-checkbox-group>
       `,
-      data() {
+      data () {
         return {
           checkList: []
         };
@@ -106,11 +106,11 @@ describe('Checkbox', () => {
         </dy-checkbox-group>
       `,
       methods: {
-        onChange(val) {
+        onChange (val) {
           this.data = val;
         }
       },
-      data() {
+      data () {
         return {
           data: '',
           checkList: []
@@ -139,7 +139,7 @@ describe('Checkbox', () => {
           <dy-checkbox label="d" ref="d"></dy-checkbox>
         </dy-checkbox-group>
       `,
-      data() {
+      data () {
         return {
           checkList: ['a'],
           lastEvent: null
@@ -179,7 +179,7 @@ describe('Checkbox', () => {
           </dy-row>
         </dy-checkbox-group>
       `,
-      data() {
+      data () {
         return {
           checkList: []
         };
@@ -198,7 +198,7 @@ describe('Checkbox', () => {
       template: `
         <dy-checkbox true-label="a" :false-label="3" v-model="checked"></dy-checkbox>
       `,
-      data() {
+      data () {
         return {
           checked: 'a'
         };
@@ -220,7 +220,7 @@ describe('Checkbox', () => {
           </dy-checkbox-group>
         </div>
       `,
-      data() {
+      data () {
         return {
           checked: false,
           checklist: []
@@ -243,7 +243,7 @@ describe('Checkbox', () => {
           <dy-checkbox-button v-model="checked">
           </dy-checkbox-button>
         `,
-        data() {
+        data () {
           return {
             checked: false
           };
@@ -266,7 +266,7 @@ describe('Checkbox', () => {
           >
           </dy-checkbox-button>
         `,
-        data() {
+        data () {
           return {
             checked: false
           };
@@ -283,11 +283,11 @@ describe('Checkbox', () => {
         </dy-checkbox-button>
       `,
         methods: {
-          onChange(val) {
+          onChange (val) {
             this.data = val;
           }
         },
-        data() {
+        data () {
           return {
             data: '',
             checked: false
@@ -316,7 +316,7 @@ describe('Checkbox', () => {
             <dy-checkbox-button label="d" ref="d"></dy-checkbox-button>
           </dy-checkbox-group>
         `,
-        data() {
+        data () {
           return {
             checkList: []
           };
@@ -346,11 +346,11 @@ describe('Checkbox', () => {
         </dy-checkbox-group>
       `,
         methods: {
-          onChange(val) {
+          onChange (val) {
             this.data = val;
           }
         },
-        data() {
+        data () {
           return {
             data: '',
             checkList: []
@@ -378,7 +378,7 @@ describe('Checkbox', () => {
             <dy-checkbox-button label="d" ref="d"></dy-checkbox-button>
           </dy-checkbox-group>
         `,
-        data() {
+        data () {
           return {
             checkList: ['a', 'd']
           };
@@ -410,7 +410,7 @@ describe('Checkbox', () => {
             <dy-checkbox-button label="d" ref="d"></dy-checkbox-button>
           </dy-checkbox-group>
         `,
-        data() {
+        data () {
           return {
             checkList: ['a'],
             lastEvent: null
@@ -447,7 +447,7 @@ describe('Checkbox', () => {
             </dy-row>
           </dy-checkbox-group>
         `,
-        data() {
+        data () {
           return {
             checkList: []
           };
@@ -470,7 +470,7 @@ describe('Checkbox', () => {
             v-model="checked"
           ></dy-checkbox-button>
         `,
-        data() {
+        data () {
           return {
             checked: 'a'
           };
@@ -492,7 +492,7 @@ describe('Checkbox', () => {
             </dy-checkbox-group>
           </div>
         `,
-        data() {
+        data () {
           return {
             checked: false,
             checklist: []

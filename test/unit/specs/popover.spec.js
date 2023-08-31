@@ -223,15 +223,15 @@ describe('Popover', () => {
       `,
 
       methods: {
-        handleShow() {
+        handleShow () {
           this.trigger = true;
         },
-        handleHide() {
+        handleHide () {
           this.trigger = false;
         }
       },
 
-      data() {
+      data () {
         return {
           trigger: false
         };
@@ -250,7 +250,7 @@ describe('Popover', () => {
   });
 
   describe('open/close delays', () => {
-    it('100ms open / instant close', async() => {
+    it('100ms open / instant close', async () => {
       vm = createVue(`
         <div>
           <dy-popover
@@ -274,7 +274,7 @@ describe('Popover', () => {
       expect(compo.showPopper).to.false;
     });
 
-    it('instant open / 100ms close', async() => {
+    it('instant open / 100ms close', async () => {
       vm = createVue(`
         <div>
           <dy-popover

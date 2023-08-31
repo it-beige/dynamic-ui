@@ -11,7 +11,7 @@ describe('Empty', () => {
   it('render test', () => {
     vm = createVue({
       template: '<dy-empty>{{ AXIOM }}</dy-empty>',
-      data() {
+      data () {
         return {
           AXIOM
         };
@@ -29,10 +29,10 @@ describe('Empty', () => {
     expect(vm.$el.querySelector('.dy-empty__image img')).to.exist;
   });
 
-  it('should render imageSize props', async() => {
+  it('should render imageSize props', async () => {
     vm = createVue({
       template: '<dy-empty :image-size="imageSize"></dy-empty>',
-      data() {
+      data () {
         return {
           imageSize: 500
         };
@@ -54,7 +54,7 @@ describe('Empty', () => {
   it('should render image slots', () => {
     vm = createVue({
       template: '<dy-empty><template slot="image">{{AXIOM}}</template></dy-empty>',
-      data() {
+      data () {
         return {
           AXIOM
         };
@@ -66,7 +66,7 @@ describe('Empty', () => {
   it('should render description slots', () => {
     vm = createVue({
       template: '<dy-empty><template slot="description">{{AXIOM}}</template></dy-empty>',
-      data() {
+      data () {
         return {
           AXIOM
         };
@@ -78,7 +78,7 @@ describe('Empty', () => {
   it('should render default slots', () => {
     vm = createVue({
       template: '<dy-empty>{{AXIOM}}</dy-empty>',
-      data() {
+      data () {
         return {
           AXIOM
         };

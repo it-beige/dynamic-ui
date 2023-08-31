@@ -50,16 +50,16 @@ export default {
     index: [Number, Function],
     sortOrders: {
       type: Array,
-      default() {
+      default () {
         return ['ascending', 'descending', null];
       },
-      validator(val) {
+      validator (val) {
         return val.every(order => ['ascending', 'descending', null].indexOf(order) > -1);
       }
     }
   },
 
-  data() {
+  data () {
     return {
       isSubColumn: false,
       columns: []
@@ -67,7 +67,7 @@ export default {
   },
 
   computed: {
-    owner() {
+    owner () {
       let parent = this.$parent;
       while (parent && !parent.tableId) {
         parent = parent.$parent;
@@ -75,7 +75,7 @@ export default {
       return parent;
     },
 
-    columnOrTableParent() {
+    columnOrTableParent () {
       let parent = this.$parent;
       while (parent && !parent.tableId && !parent.columnId) {
         parent = parent.$parent;
@@ -83,25 +83,25 @@ export default {
       return parent;
     },
 
-    realWidth() {
+    realWidth () {
       return parseWidth(this.width);
     },
 
-    realMinWidth() {
+    realMinWidth () {
       return parseMinWidth(this.minWidth);
     },
 
-    realAlign() {
+    realAlign () {
       return this.align ? 'is-' + this.align : null;
     },
 
-    realHeaderAlign() {
+    realHeaderAlign () {
       return this.headerAlign ? 'is-' + this.headerAlign : this.realAlign;
     }
   },
 
   methods: {
-    getPropsData(...props) {
+    getPropsData (...props) {
       return props.reduce((prev, cur) => {
         if (Array.isArray(cur)) {
           cur.forEach((key) => {
@@ -112,11 +112,11 @@ export default {
       }, {});
     },
 
-    getColumnElIndex(children, child) {
+    getColumnElIndex (children, child) {
       return [].indexOf.call(children, child);
     },
 
-    setColumnWidth(column) {
+    setColumnWidth (column) {
       if (this.realWidth) {
         column.width = this.realWidth;
       }
@@ -130,7 +130,7 @@ export default {
       return column;
     },
 
-    setColumnForcedProps(column) {
+    setColumnForcedProps (column) {
       // 对于特定类型的 column，某些属性不允许设置
       const type = column.type;
       const source = cellForced[type] || {};
@@ -143,7 +143,7 @@ export default {
       return column;
     },
 
-    setColumnRenders(column) {
+    setColumnRenders (column) {
       // renderHeader 属性不推荐使用。
       if (this.renderHeader) {
         console.warn('[Dynamic Warn][TableColumn]Comparing to render-header, scoped-slot header is easier to use. We recommend users to use scoped-slot header.');
@@ -194,7 +194,7 @@ export default {
       return column;
     },
 
-    registerNormalWatchers() {
+    registerNormalWatchers () {
       const props = ['label', 'property', 'filters', 'filterMultiple', 'sortable', 'index', 'formatter', 'className', 'labelClassName', 'showOverflowTooltip'];
       // 一些属性具有别名
       const aliases = {
@@ -217,7 +217,7 @@ export default {
       });
     },
 
-    registerComplexWatchers() {
+    registerComplexWatchers () {
       const props = ['fixed'];
       const aliases = {
         realWidth: 'width',
@@ -244,14 +244,14 @@ export default {
     DyCheckbox
   },
 
-  beforeCreate() {
+  beforeCreate () {
     this.row = {};
     this.column = {};
     this.$index = 0;
     this.columnId = '';
   },
 
-  created() {
+  created () {
     const parent = this.columnOrTableParent;
     this.isSubColumn = this.owner !== parent;
     this.columnId = (parent.tableId || parent.columnId) + '_column_' + columnIdSeed++;
@@ -297,7 +297,7 @@ export default {
     this.registerComplexWatchers();
   },
 
-  mounted() {
+  mounted () {
     const owner = this.owner;
     const parent = this.columnOrTableParent;
     const children = this.isSubColumn ? parent.$el.children : parent.$refs.hiddenColumns.children;
@@ -306,13 +306,13 @@ export default {
     owner.store.commit('insertColumn', this.columnConfig, columnIndex, this.isSubColumn ? parent.columnConfig : null);
   },
 
-  destroyed() {
+  destroyed () {
     if (!this.$parent) return;
     const parent = this.$parent;
     this.owner.store.commit('removeColumn', this.columnConfig, this.isSubColumn ? parent.columnConfig : null);
   },
 
-  render(h) {
+  render (h) {
     // slots 也要渲染，需要计算合并表头
     return h('div', this.$slots.default);
   }

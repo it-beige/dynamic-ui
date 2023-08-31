@@ -7,7 +7,7 @@ var themes = [
 Components = Object.keys(Components);
 var basepath = path.resolve(__dirname, '../../packages/');
 
-function fileExists(filePath) {
+function fileExists (filePath) {
   try {
     return fs.statSync(filePath).isFile();
   } catch (err) {
@@ -18,7 +18,7 @@ function fileExists(filePath) {
 themes.forEach((theme) => {
   var isSCSS = theme !== 'theme-default';
   var indexContent = isSCSS ? '@import "./base.scss";\n' : '@import "./base.css";\n';
-  Components.forEach(function(key) {
+  Components.forEach(function (key) {
     if (['icon', 'option', 'option-group'].indexOf(key) > -1) return;
     var fileName = key + (isSCSS ? '.scss' : '.css');
     indexContent += '@import "./' + fileName + '";\n';

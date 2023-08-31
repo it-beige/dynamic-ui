@@ -22,7 +22,7 @@ export default {
 
     pagerCount: {
       type: Number,
-      validator(value) {
+      validator (value) {
         return (value | 0) === value && value > 4 && value < 22 && (value % 2) === 1;
       },
       default: 7
@@ -39,7 +39,7 @@ export default {
 
     pageSizes: {
       type: Array,
-      default() {
+      default () {
         return [10, 20, 30, 40, 50, 100];
       }
     },
@@ -57,7 +57,7 @@ export default {
     hideOnSinglePage: Boolean
   },
 
-  data() {
+  data () {
     return {
       internalCurrentPage: 1,
       internalPageSize: 0,
@@ -66,7 +66,7 @@ export default {
     };
   },
 
-  render(h) {
+  render (h) {
     const layout = this.layout;
     if (!layout) return null;
     if (this.hideOnSinglePage && (!this.internalPageCount || this.internalPageCount === 1)) return null;
@@ -112,7 +112,7 @@ export default {
 
   components: {
     Prev: {
-      render(h) {
+      render (h) {
         return (
           <button
             type="button"
@@ -130,7 +130,7 @@ export default {
     },
 
     Next: {
-      render(h) {
+      render (h) {
         return (
           <button
             type="button"
@@ -157,7 +157,7 @@ export default {
       watch: {
         pageSizes: {
           immediate: true,
-          handler(newVal, oldVal) {
+          handler (newVal, oldVal) {
             if (valueEquals(newVal, oldVal)) return;
             if (Array.isArray(newVal)) {
               this.$parent.internalPageSize = newVal.indexOf(this.$parent.pageSize) > -1
@@ -168,7 +168,7 @@ export default {
         }
       },
 
-      render(h) {
+      render (h) {
         return (
           <span class="dy-pagination__sizes">
             <dy-select
@@ -196,7 +196,7 @@ export default {
       },
 
       methods: {
-        handleChange(val) {
+        handleChange (val) {
           if (val !== this.$parent.internalPageSize) {
             this.$parent.internalPageSize = val = parseInt(val, 10);
             this.$parent.userChangePageSize = true;
@@ -212,20 +212,20 @@ export default {
 
       components: { DyInput },
 
-      data() {
+      data () {
         return {
           userInput: null
         };
       },
 
       watch: {
-        '$parent.internalCurrentPage'() {
+        '$parent.internalCurrentPage' () {
           this.userInput = null;
         }
       },
 
       methods: {
-        handleKeyup({ keyCode, target }) {
+        handleKeyup ({ keyCode, target }) {
           // Chrome, Safari, Firefox triggers change event on Enter
           // Hack for IE: https://github.com/ElemeFE/element/issues/11710
           // Drop this method when we no longer supports IE
@@ -233,17 +233,17 @@ export default {
             this.handleChange(target.value);
           }
         },
-        handleInput(value) {
+        handleInput (value) {
           this.userInput = value;
         },
-        handleChange(value) {
+        handleChange (value) {
           this.$parent.internalCurrentPage = this.$parent.getValidCurrentPage(value);
           this.$parent.emitChange();
           this.userInput = null;
         }
       },
 
-      render(h) {
+      render (h) {
         return (
           <span class="dy-pagination__jump">
             { this.t('dy.pagination.goto') }
@@ -266,7 +266,7 @@ export default {
     Total: {
       mixins: [Locale],
 
-      render(h) {
+      render (h) {
         return (
           typeof this.$parent.total === 'number'
             ? <span class="dy-pagination__total">{ this.t('dy.pagination.total', { total: this.$parent.total }) }</span>
@@ -279,13 +279,13 @@ export default {
   },
 
   methods: {
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.internalCurrentPage = this.getValidCurrentPage(val);
       this.userChangePageSize = true;
       this.emitChange();
     },
 
-    prev() {
+    prev () {
       if (this.disabled) return;
       const newVal = this.internalCurrentPage - 1;
       this.internalCurrentPage = this.getValidCurrentPage(newVal);
@@ -293,7 +293,7 @@ export default {
       this.emitChange();
     },
 
-    next() {
+    next () {
       if (this.disabled) return;
       const newVal = this.internalCurrentPage + 1;
       this.internalCurrentPage = this.getValidCurrentPage(newVal);
@@ -301,7 +301,7 @@ export default {
       this.emitChange();
     },
 
-    getValidCurrentPage(value) {
+    getValidCurrentPage (value) {
       value = parseInt(value, 10);
 
       const havePageCount = typeof this.internalPageCount === 'number';
@@ -326,7 +326,7 @@ export default {
       return resetValue === undefined ? value : resetValue;
     },
 
-    emitChange() {
+    emitChange () {
       this.$nextTick(() => {
         if (this.internalCurrentPage !== this.lastEmittedPage || this.userChangePageSize) {
           this.$emit('current-change', this.internalCurrentPage);
@@ -338,7 +338,7 @@ export default {
   },
 
   computed: {
-    internalPageCount() {
+    internalPageCount () {
       if (typeof this.total === 'number') {
         return Math.max(1, Math.ceil(this.total / this.internalPageSize));
       } else if (typeof this.pageCount === 'number') {
@@ -351,27 +351,27 @@ export default {
   watch: {
     currentPage: {
       immediate: true,
-      handler(val) {
+      handler (val) {
         this.internalCurrentPage = this.getValidCurrentPage(val);
       }
     },
 
     pageSize: {
       immediate: true,
-      handler(val) {
+      handler (val) {
         this.internalPageSize = isNaN(val) ? 10 : val;
       }
     },
 
     internalCurrentPage: {
       immediate: true,
-      handler(newVal) {
+      handler (newVal) {
         this.$emit('update:currentPage', newVal);
         this.lastEmittedPage = -1;
       }
     },
 
-    internalPageCount(newVal) {
+    internalPageCount (newVal) {
       /* istanbul ignore if */
       const oldPage = this.internalCurrentPage;
       if (newVal > 0 && oldPage === 0) {

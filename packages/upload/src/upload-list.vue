@@ -80,7 +80,7 @@
 
     mixins: [Locale],
 
-    data() {
+    data () {
       return {
         focusing: false
       };
@@ -90,7 +90,7 @@
     props: {
       files: {
         type: Array,
-        default() {
+        default () {
           return [];
         }
       },
@@ -103,13 +103,13 @@
       svgIcon: true
     },
     methods: {
-      parsePercentage(val) {
+      parsePercentage (val) {
         return parseInt(val, 10);
       },
-      handleClick(file) {
+      handleClick (file) {
         this.handlePreview && this.handlePreview(file);
       },
-      getFileIconByExt(filename) {
+      getFileIconByExt (filename) {
         const ext = filename.split('.').at(-1);
         return getSvgIconByType(ext);
       }

@@ -2,11 +2,11 @@ import { createVue, triggerEvent, destroyVM, waitImmediate, wait } from '../util
 
 const DELAY = 10;
 const testDataArr = [];
-const toArray = function(obj) {
+const toArray = function (obj) {
   return [].slice.call(obj);
 };
 
-const getTestData = function() {
+const getTestData = function () {
   return [
     { id: 1, name: 'Toy Story', release: '1995-11-22', director: 'John Lasseter', runtime: 80 },
     { id: 2, name: 'A Bug\'s Life', release: '1998-11-25', director: 'John Lasseter', runtime: 95 },
@@ -35,7 +35,7 @@ describe('Table', () => {
         </dy-table>
       `,
 
-      created() {
+      created () {
         this.testData = getTestData();
       }
     });
@@ -64,7 +64,7 @@ describe('Table', () => {
   });
 
   describe('attributes', () => {
-    const createTable = function(props, opts) {
+    const createTable = function (props, opts) {
       return createVue(Object.assign({
         template: `
           <dy-table :data="testData" ${props}>
@@ -75,7 +75,7 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        created() {
+        created () {
           this.testData = getTestData();
         }
       }, opts));
@@ -147,7 +147,7 @@ describe('Table', () => {
     it('tableRowClassName', done => {
       const vm = createTable(':row-class-name="tableRowClassName"', {
         methods: {
-          tableRowClassName({row, rowIndex}) {
+          tableRowClassName ({row, rowIndex}) {
             if (rowIndex === 1) {
               return 'info-row';
             } else if (rowIndex === 3) {
@@ -180,7 +180,7 @@ describe('Table', () => {
     it('tableRowStyle[Function]', done => {
       const vm = createTable(':row-style="tableRowStyle"', {
         methods: {
-          tableRowStyle({row, rowIndex}) {
+          tableRowStyle ({row, rowIndex}) {
             if (rowIndex === 1) {
               return { height: '60px', display: 'none' };
             }
@@ -213,11 +213,11 @@ describe('Table', () => {
         </dy-table>
       `,
 
-        created() {
+        created () {
           this.testData = getTestData();
         },
 
-        data() {
+        data () {
           return { currentRowKey: null };
         }
       }, true);
@@ -251,20 +251,20 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        created() {
+        created () {
           this.testData = getTestData();
         },
 
-        mounted() {
+        mounted () {
           this.$refs.table.toggleRowSelection(this.testData[0]);
         },
 
-        data() {
+        data () {
           return { selected: [] };
         },
 
         methods: {
-          change(val) {
+          change (val) {
             this.selected = val;
           }
         }
@@ -304,15 +304,15 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        created() {
+        created () {
           this.testData = getTestData();
         },
 
         methods: {
-          filterMethod(value, row) {
+          filterMethod (value, row) {
             return value === row.director;
           },
-          handleFilterChange(filters) {
+          handleFilterChange (filters) {
             this.filters = filters;
           }
         }
@@ -385,7 +385,7 @@ describe('Table', () => {
   });
 
   describe('events', () => {
-    const createTable = function(prop = '', opts) {
+    const createTable = function (prop = '', opts) {
       return createVue({
         template: `
           <dy-table :data="testData" @${prop}="handleEvent">
@@ -398,16 +398,16 @@ describe('Table', () => {
         `,
 
         methods: {
-          handleEvent(...args) {
+          handleEvent (...args) {
             this.result = args;
           }
         },
 
-        created() {
+        created () {
           this.testData = getTestData();
         },
 
-        data() {
+        data () {
           return { result: '', testData: this.testData };
         }
       }, true);
@@ -560,7 +560,7 @@ describe('Table', () => {
       }, DELAY);
     });
 
-    it('sort-change', async() => {
+    it('sort-change', async () => {
       const vm = createVue({
         template: `
           <dy-table ref="table" :data="testData" :default-sort = "{prop: 'runtime', order: 'ascending'}">
@@ -571,7 +571,7 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        data() {
+        data () {
           return { testData: getTestData() };
         }
       });
@@ -590,7 +590,7 @@ describe('Table', () => {
   });
 
   describe('column attributes', () => {
-    const createTable = function(props1, props2, props3, props4, opts, tableProps) {
+    const createTable = function (props1, props2, props3, props4, opts, tableProps) {
       return createVue(Object.assign({
         template: `
           <dy-table :data="testData" ${tableProps || ''}>
@@ -601,7 +601,7 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        created() {
+        created () {
           this.testData = getTestData();
         }
       }, opts));
@@ -672,7 +672,7 @@ describe('Table', () => {
       const vm = createTable(
         ':formatter="renderCell"', '', '', '', {
           methods: {
-            renderCell(row, column) {
+            renderCell (row, column) {
               return `[${row.name}]`;
             }
           }
@@ -719,7 +719,7 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        created() {
+        created () {
           this.testData = getTestData();
         }
       });
@@ -768,20 +768,20 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        created() {
+        created () {
           this.testData = getTestData();
         },
 
-        data() {
+        data () {
           return { selected: [] };
         },
 
         methods: {
-          change(rows) {
+          change (rows) {
             this.selected = rows;
           },
 
-          filterSelect(row, index) {
+          filterSelect (row, index) {
             return index > 2;
           }
         }
@@ -809,19 +809,19 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        created() {
+        created () {
         },
 
-        data() {
+        data () {
           return { selected: [], testData: null };
         },
 
         methods: {
-          change(rows) {
+          change (rows) {
             this.selected = rows;
           },
 
-          filterSelect(row, index) {
+          filterSelect (row, index) {
             return false;
           }
         }
@@ -851,20 +851,20 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        created() {
+        created () {
           this.testData = getTestData();
         },
 
-        data() {
+        data () {
           return { selected: [], testData: null };
         },
 
         methods: {
-          change(rows) {
+          change (rows) {
             this.selected = rows;
           },
 
-          filterSelect(row, index) {
+          filterSelect (row, index) {
             return index > 2;
           }
         }
@@ -885,7 +885,7 @@ describe('Table', () => {
     });
 
     describe('type', () => {
-      const createTable = function(type) {
+      const createTable = function (type) {
         return createVue({
           template: `
             <dy-table :data="testData" @selection-change="change">
@@ -897,16 +897,16 @@ describe('Table', () => {
             </dy-table>
           `,
 
-          created() {
+          created () {
             this.testData = getTestData();
           },
 
-          data() {
+          data () {
             return { selected: [] };
           },
 
           methods: {
-            change(rows) {
+            change (rows) {
               this.selected = rows;
             }
           }
@@ -972,7 +972,7 @@ describe('Table', () => {
       });
 
       describe('= expand', () => {
-        const createInstance = function(extra) {
+        const createInstance = function (extra) {
           extra = extra || '';
           return createVue({
             template: `
@@ -988,15 +988,15 @@ describe('Table', () => {
             </dy-table>
           `,
 
-            data() {
+            data () {
               return { expandCount: 0, expandRowKeys: [], testData: getTestData() };
             },
 
             methods: {
-              handleExpand() {
+              handleExpand () {
                 this.expandCount++;
               },
-              refreshData() {
+              refreshData () {
                 this.testData = getTestData();
               }
             }
@@ -1055,7 +1055,7 @@ describe('Table', () => {
           }, DELAY);
         });
 
-        it('should unexpand after refresh data and click', function(done) {
+        it('should unexpand after refresh data and click', function (done) {
           const vm = createInstance();
           setTimeout(_ => {
             vm.$el.querySelector('td.dy-table__expand-column .dy-table__expand-icon').click();
@@ -1111,7 +1111,7 @@ describe('Table', () => {
         const vm = createTable(
           'sortable :sort-method="sortMethod"', '', '', '', {
             methods: {
-              sortMethod(a, b) {
+              sortMethod (a, b) {
                 // sort method should return number
                 if (a.runtime < b.runtime) {
                   return 1;
@@ -1141,7 +1141,7 @@ describe('Table', () => {
         const vm = createTable(
           'sortable :sort-by="sortBy"', '', '', '', {
             methods: {
-              sortBy(a) {
+              sortBy (a) {
                 return -a.runtime;
               }
             }
@@ -1220,7 +1220,7 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        created() {
+        created () {
           this.testData = getTestData();
         }
       }, true);
@@ -1246,7 +1246,7 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        created() {
+        created () {
           this.testData = getTestData();
         }
       }, true);
@@ -1270,12 +1270,12 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        created() {
+        created () {
           this.testData = getTestData();
         },
 
         methods: {
-          getSummary(param) {
+          getSummary (param) {
             const { columns, data } = param;
             const result = [];
             columns.forEach(column => {
@@ -1318,7 +1318,7 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        created() {
+        created () {
           this.testData = null;
         }
       }, true);
@@ -1354,7 +1354,7 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        created() {
+        created () {
           this.testData = null;
         }
       }, true);
@@ -1389,7 +1389,7 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        created() {
+        created () {
           this.testData = null;
         }
       }, true);
@@ -1424,13 +1424,13 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        data() {
+        data () {
           return {
             label: 'name'
           };
         },
 
-        created() {
+        created () {
           this.testData = getTestData();
         }
       }, true);
@@ -1454,13 +1454,13 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        data() {
+        data () {
           return {
             align: 'left'
           };
         },
 
-        created() {
+        created () {
           this.testData = getTestData();
         }
       }, true);
@@ -1484,14 +1484,14 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        data() {
+        data () {
           return {
             align: 'left',
             headerAlign: null
           };
         },
 
-        created() {
+        created () {
           this.testData = getTestData();
         }
       }, true);
@@ -1531,13 +1531,13 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        data() {
+        data () {
           return {
             width: 100
           };
         },
 
-        created() {
+        created () {
           this.testData = getTestData();
         }
       }, true);
@@ -1561,13 +1561,13 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        data() {
+        data () {
           return {
             width: 100
           };
         },
 
-        created() {
+        created () {
           this.testData = getTestData();
         }
       }, true);
@@ -1594,13 +1594,13 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        data() {
+        data () {
           return {
             fixed: false
           };
         },
 
-        created() {
+        created () {
           this.testData = getTestData();
         }
       }, true);
@@ -1627,13 +1627,13 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        data() {
+        data () {
           return {
             prop: 'name'
           };
         },
 
-        created() {
+        created () {
           this.testData = getTestData();
         }
       }, true);
@@ -1655,7 +1655,7 @@ describe('Table', () => {
   });
 
   describe('methods', () => {
-    const createTable = function(prop = '', opts) {
+    const createTable = function (prop = '', opts) {
       return createVue({
         template: `
           <dy-table ref="table" :data="testData" @${prop}="handleEvent">
@@ -1668,17 +1668,17 @@ describe('Table', () => {
         `,
 
         methods: {
-          handleEvent(selection) {
+          handleEvent (selection) {
             this.fireCount++;
             this.selection = selection;
           }
         },
 
-        created() {
+        created () {
           this.testData = getTestData();
         },
 
-        data() {
+        data () {
           return { selection: null, testData: this.testData, fireCount: 0 };
         }
       }, true);
@@ -1716,7 +1716,7 @@ describe('Table', () => {
       }, 50);
     });
 
-    it('toggleAllSelection debounce', async() => {
+    it('toggleAllSelection debounce', async () => {
       const spy = sinon.spy();
       const vm = createVue({
         template: `
@@ -1732,7 +1732,7 @@ describe('Table', () => {
         </div>
         `,
 
-        data() {
+        data () {
           return {
             testData: getTestData(),
             testData1: getTestData()
@@ -1740,12 +1740,12 @@ describe('Table', () => {
         },
 
         methods: {
-          change(selection) {
+          change (selection) {
             spy(selection);
           }
         },
 
-        mounted() {
+        mounted () {
           this.$refs.table.toggleAllSelection();
           this.$refs.table1.toggleAllSelection();
         }
@@ -1786,11 +1786,11 @@ describe('Table', () => {
           </dy-table>
         `,
 
-        created() {
+        created () {
           this.testData = getTestData();
         },
 
-        data() {
+        data () {
           return { testData: this.testData };
         }
       });
@@ -1813,8 +1813,8 @@ describe('Table', () => {
       }, DELAY);
     });
 
-    it('sort correct change icon', async() => {
-      function assertSortIconCount($el, msg, count = 1) {
+    it('sort correct change icon', async () => {
+      function assertSortIconCount ($el, msg, count = 1) {
         const sortIconCount = $el.querySelectorAll('th.ascending, th.descending').length;
         expect(sortIconCount).to.equal(count, msg);
       }
@@ -1828,7 +1828,7 @@ describe('Table', () => {
             <dy-table-column prop="runtime" sortable />
           </dy-table>
         `,
-        data() {
+        data () {
           return { testData: getTestData() };
         }
       });
@@ -1848,7 +1848,7 @@ describe('Table', () => {
       destroyVM(vm);
     });
 
-    it('setCurrentRow', async() => {
+    it('setCurrentRow', async () => {
       const vm = createVue({
         template: `
         <div>
@@ -1861,11 +1861,11 @@ describe('Table', () => {
           <button class="clear" @click="clear">clear</button>
         </div>
         `,
-        data() {
+        data () {
           return { testData: getTestData() };
         },
         methods: {
-          clear() {
+          clear () {
             this.$refs.table.setCurrentRow();
           }
         }
@@ -1884,7 +1884,7 @@ describe('Table', () => {
     });
   });
 
-  it('hover', async() => {
+  it('hover', async () => {
     const vm = createVue({
       template: `
         <dy-table :data="testData">
@@ -1894,7 +1894,7 @@ describe('Table', () => {
           <dy-table-column prop="runtime" label="时长（分）" />
         </dy-table>
       `,
-      data() {
+      data () {
         return {
           testData: getTestData()
         };
@@ -1924,7 +1924,7 @@ describe('Table', () => {
         </dy-table>
       `,
 
-      created() {
+      created () {
         this.testData = getTestData();
       }
     }, true);
@@ -1966,7 +1966,7 @@ describe('Table', () => {
           <dy-table-column prop="runtime" label="时长（分）" sortable />
         </dy-table>
       `,
-      data() {
+      data () {
         return {
           testData: getTestData()
         };
@@ -2008,7 +2008,7 @@ describe('Table', () => {
           <dy-table-column prop="runtime" label="时长（分）" sortable />
         </dy-table>
       `,
-      data() {
+      data () {
         return {
           testData: getTestData()
         };
@@ -2032,7 +2032,7 @@ describe('Table', () => {
     }, DELAY);
   });
 
-  it('table append is visible in viewport if height is 100%', async() => {
+  it('table append is visible in viewport if height is 100%', async () => {
     const vm = createVue({
       template: `
       <dy-table :data="[]" height="100%">
@@ -2057,7 +2057,7 @@ describe('Table', () => {
   describe('tree', () => {
     let vm;
     afterEach(() => destroyVM(vm));
-    it('render tree structual data', async() => {
+    it('render tree structual data', async () => {
       vm = createVue({
         template: `
           <dy-table :data="testData" row-key="release">
@@ -2067,7 +2067,7 @@ describe('Table', () => {
             <dy-table-column prop="runtime" label="时长（分）" />
           </dy-table>
         `,
-        data() {
+        data () {
           const testData = getTestData();
           testData[1].children = [
             {
@@ -2099,7 +2099,7 @@ describe('Table', () => {
       });
     });
 
-    it('load substree row data', async() => {
+    it('load substree row data', async () => {
       vm = createVue({
         template: `
           <dy-table :data="testData" row-key="release" lazy :load="load">
@@ -2109,7 +2109,7 @@ describe('Table', () => {
             <dy-table-column prop="runtime" label="时长（分）" />
           </dy-table>
         `,
-        data() {
+        data () {
           const testData = getTestData();
           testData[testData.length - 1].children = [
             {
@@ -2122,7 +2122,7 @@ describe('Table', () => {
           };
         },
         methods: {
-          load(row, treeNode, resolve) {
+          load (row, treeNode, resolve) {
             resolve([
               {
                 name: 'A Bug\'s Life copy 1', release: '1998-11-25-1', director: 'John Lasseter', runtime: 95
@@ -2145,7 +2145,7 @@ describe('Table', () => {
       expect(vm.$el.querySelectorAll('.dy-table__row').length).to.equal(8);
     });
 
-    it('tree-props & default-expand-all & expand-change', async() => {
+    it('tree-props & default-expand-all & expand-change', async () => {
       const spy = sinon.spy();
       vm = createVue({
         template: `
@@ -2158,7 +2158,7 @@ describe('Table', () => {
             <dy-table-column prop="runtime" label="时长（分）" />
           </dy-table>
         `,
-        data() {
+        data () {
           const testData = getTestData();
           testData[testData.length - 1].childrenTest = [
             {
@@ -2171,7 +2171,7 @@ describe('Table', () => {
           };
         },
         methods: {
-          load(row, treeNode, resolve) {
+          load (row, treeNode, resolve) {
             resolve([
               {
                 name: 'A Bug\'s Life copy 1', release: '1998-11-25-1', director: 'John Lasseter', runtime: 95
@@ -2200,7 +2200,7 @@ describe('Table', () => {
       expect(spy.args[0][1]).to.be.true;
     });
 
-    it('expand-row-keys & toggleRowExpansion', async() => {
+    it('expand-row-keys & toggleRowExpansion', async () => {
       vm = createVue({
         template: `
           <dy-table :data="testData" row-key="release" lazy :load="load" :expand-row-keys="['2003-5-30']" ref="table">
@@ -2210,7 +2210,7 @@ describe('Table', () => {
             <dy-table-column prop="runtime" label="时长（分）" />
           </dy-table>
         `,
-        data() {
+        data () {
           const testData = getTestData();
           testData[testData.length - 1].children = [
             {
@@ -2223,14 +2223,14 @@ describe('Table', () => {
           };
         },
         methods: {
-          load(row, treeNode, resolve) {
+          load (row, treeNode, resolve) {
             resolve([
               {
                 name: 'A Bug\'s Life copy 1', release: '2003-5-30-2', director: 'John Lasseter', runtime: 95
               }
             ]);
           },
-          closeExpandRow() {
+          closeExpandRow () {
             const testData = this.testData;
             const row = testData[testData.length - 1].children[0];
             this.$refs.table.toggleRowExpansion(row);

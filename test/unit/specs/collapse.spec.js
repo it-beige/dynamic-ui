@@ -8,7 +8,7 @@ describe('Collapse', () => {
 
   it('create', done => {
     vm = createVue({
-      data() {
+      data () {
         return {
           activeNames: ['1']
         };
@@ -53,7 +53,7 @@ describe('Collapse', () => {
 
   it('accordion', done => {
     vm = createVue({
-      data() {
+      data () {
         return {
           activeNames: ['1']
         };
@@ -92,7 +92,7 @@ describe('Collapse', () => {
 
   it('event:change', done => {
     vm = createVue({
-      data() {
+      data () {
         return {
           activeNames: ['1']
         };

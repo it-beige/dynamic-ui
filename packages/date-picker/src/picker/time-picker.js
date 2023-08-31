@@ -12,14 +12,14 @@ export default {
     arrowControl: Boolean
   },
 
-  data() {
+  data () {
     return {
       type: ''
     };
   },
 
   watch: {
-    isRange(isRange) {
+    isRange (isRange) {
       if (this.picker) {
         this.unmountPicker();
         this.type = isRange ? 'timerange' : 'time';
@@ -32,7 +32,7 @@ export default {
     }
   },
 
-  created() {
+  created () {
     this.type = this.isRange ? 'timerange' : 'time';
     this.panel = this.isRange ? TimeRangePanel : TimePanel;
   }

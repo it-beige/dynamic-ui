@@ -262,7 +262,7 @@ export const data = {
   }
 };
 
-function offsetData(res, params) {
+function offsetData (res, params) {
   let page = params.page || params.pageNo;
   let size = params.size || params.pageSize;
   let data = res.data;
@@ -274,7 +274,7 @@ function offsetData(res, params) {
   return {...res, data};
 }
 
-export default function axios({ url, params }) {
+export default function axios ({ url, params }) {
   console.log(`接口请求: url: ${url} params: ${JSON.stringify(params)}`);
   let response;
   if (url === API.getList) {

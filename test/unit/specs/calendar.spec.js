@@ -6,12 +6,12 @@ describe('Calendar', () => {
     destroyVM(vm);
   });
 
-  it('create', async() => {
+  it('create', async () => {
     vm = createVue({
       template: `
       <dy-calendar v-model="value"></dy-calendar>
       `,
-      data() {
+      data () {
         return {
           value: new Date('2019-04-01')
         };
@@ -46,7 +46,7 @@ describe('Calendar', () => {
     expect(vm.$el.querySelector('.dy-calendar__button-group')).to.be.a('null');
   });
 
-  it('range tow monthes', async() => {
+  it('range tow monthes', async () => {
     vm = createVue({
       template: `
       <dy-calendar :range="['2019-04-15', '2019-05-19']"></dy-calendar>
@@ -67,12 +67,12 @@ describe('Calendar', () => {
     expect(cell.classList.contains('is-selected')).to.be.true;
   });
 
-  it('firstDayOfWeek', async() => {
+  it('firstDayOfWeek', async () => {
     vm = createVue({
       template: `
       <dy-calendar v-model="value" :first-day-of-week="0"></dy-calendar>
       `,
-      data() {
+      data () {
         return {
           value: new Date('2019-04-01')
         };
@@ -86,12 +86,12 @@ describe('Calendar', () => {
     expect(firstRow.lastElementChild.innerText).to.be.equal('6');
   });
 
-  it('firstDayOfWeek in range mode', async() => {
+  it('firstDayOfWeek in range mode', async () => {
     vm = createVue({
       template: `
       <dy-calendar v-model="value" :first-day-of-week="7" :range="['2019-02-03', '2019-03-23']"></dy-calendar>
       `,
-      data() {
+      data () {
         return {
           value: new Date('2019-03-04')
         };

@@ -15,7 +15,7 @@ export default {
     }
   },
 
-  beforeCreate() {
+  beforeCreate () {
     this.panel = Panel;
   }
 };

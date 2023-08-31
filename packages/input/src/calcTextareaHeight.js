@@ -28,7 +28,7 @@ const CONTEXT_STYLE = [
   'box-sizing'
 ];
 
-function calculateNodeStyling(targetElement) {
+function calculateNodeStyling (targetElement) {
   const style = window.getComputedStyle(targetElement);
 
   const boxSizing = style.getPropertyValue('box-sizing');
@@ -50,7 +50,7 @@ function calculateNodeStyling(targetElement) {
   return { contextStyle, paddingSize, borderSize, boxSizing };
 }
 
-export default function calcTextareaHeight(
+export default function calcTextareaHeight (
   targetElement,
   minRows = 1,
   maxRows = null

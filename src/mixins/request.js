@@ -120,7 +120,7 @@ export const getExtra = (key) => {
   return Object.keys(get());
 };
 
-export default function genRequestMixin() {
+export default function genRequestMixin () {
   const LoadingProps = getCompPropsBySourceOpt(LoadingComponent);
   const InfiniteScrollProps = getCompPropsBySourceOpt(InfiniteScrollComponent);
   return {
@@ -142,12 +142,12 @@ export default function genRequestMixin() {
         default: '数据加载中'
       }
     },
-    data(self) {
+    data (self) {
       return getExtraData(self);
     },
     watch: {
       url: {
-        handler(v) {
+        handler (v) {
           this.updateRequestParams('url', v);
           // url变动之后分页参数重置
           this.setPageParams();
@@ -156,24 +156,24 @@ export default function genRequestMixin() {
         }
       },
       method: {
-        handler(v) {
+        handler (v) {
           this.updateRequestParams('method', v);
         }
       },
       params: {
-        handler(v) {
+        handler (v) {
           this.updateRequestParams('params', v);
         },
         deep: true
       },
       data: {
-        handler(v) {
+        handler (v) {
           this.updateRequestParams('data', v);
         },
         deep: true
       },
       pageParamsValue: {
-        handler() {
+        handler () {
           this.setPageParams();
           this.bindRequestParamsChanged = true;
         },
@@ -181,7 +181,7 @@ export default function genRequestMixin() {
       },
       // 如果变动url、params、data, method, 根据新的参数重新触发获取options
       bindRequestParamsChanged: {
-        handler(v) {
+        handler (v) {
           // 存在同时变动, 只生效一次
           if (v) {
             this.dispatchGetOptions(true).then(() => {
@@ -191,7 +191,7 @@ export default function genRequestMixin() {
         }
       }
     },
-    created() {
+    created () {
       this.$unWatchs = [];
       if (this.url) {
         this.setPageParams();
@@ -200,11 +200,11 @@ export default function genRequestMixin() {
       }
       this.dispatchGetOptions();
     },
-    beforeDestroy() {
+    beforeDestroy () {
       this.$unWatchs.forEach(i => i());
     },
     methods: {
-      $request(reqOptions) {
+      $request (reqOptions) {
         // 请求数据的方法
         const request = this.useRequest();
 
@@ -219,7 +219,7 @@ export default function genRequestMixin() {
         });
 
       },
-      setPageParams() {
+      setPageParams () {
         this.pageParams = {
           [this.pageParamsKey.page]: this.pageParamsValue[this.pageParamsKey.page],
           [this.pageParamsKey.size]: this.pageParamsValue[this.pageParamsKey.size],
@@ -227,7 +227,7 @@ export default function genRequestMixin() {
           count: 0
         };
       },
-      dispatchGetOptions(reset) {
+      dispatchGetOptions (reset) {
         if (reset) {
           // options、value重置
           this.$emit('input', undefined);
@@ -241,18 +241,18 @@ export default function genRequestMixin() {
           }
         }
       },
-      watchPropWithOption() {
+      watchPropWithOption () {
         this.$unWatchs.push(
           this.$watch('options', (v) => {
             this.bindOptions = v;
           })
         );
       },
-      updateRequestParams(key, value) {
+      updateRequestParams (key, value) {
         this.bindRequestParams[key] = value;
         this.bindRequestParamsChanged = true;
       },
-      getAsyncOptions(params) {
+      getAsyncOptions (params) {
         this.requestPending = true;
         return this.$request(params)
           .then((options) => {
@@ -269,7 +269,7 @@ export default function genRequestMixin() {
             this.requestPending = false;
           });
       },
-      offsetRequestOptions() {
+      offsetRequestOptions () {
         // eslint-disable-next-line
         const {count, total, ...pageParams} = this.pageParams;
         return this.getAsyncOptions({
@@ -280,7 +280,7 @@ export default function genRequestMixin() {
           }
         });
       },
-      load() {
+      load () {
         const {count, total, ...pageParams} = this.pageParams;
         if (count === Number(total)) {
           return;

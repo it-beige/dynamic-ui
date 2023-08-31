@@ -68,7 +68,7 @@ export default {
 
   mixins: [LayoutObserver],
 
-  render(h) {
+  render (h) {
     const originColumns = this.store.states.originColumns;
     const columnRows = convertToRows(originColumns, this.columns);
     // 是否拥有多级表头
@@ -154,7 +154,7 @@ export default {
     border: Boolean,
     defaultSort: {
       type: Object,
-      default() {
+      default () {
         return {
           prop: '',
           order: ''
@@ -168,11 +168,11 @@ export default {
   },
 
   computed: {
-    table() {
+    table () {
       return this.$parent;
     },
 
-    hasGutter() {
+    hasGutter () {
       return !this.fixed && this.tableLayout.gutterWidth;
     },
 
@@ -187,11 +187,11 @@ export default {
     })
   },
 
-  created() {
+  created () {
     this.filterPanels = {};
   },
 
-  mounted() {
+  mounted () {
     // nextTick 是有必要的 https://github.com/ElemeFE/element/pull/11311
     this.$nextTick(() => {
       const { prop, order } = this.defaultSort;
@@ -200,7 +200,7 @@ export default {
     });
   },
 
-  beforeDestroy() {
+  beforeDestroy () {
     const panels = this.filterPanels;
     for (let prop in panels) {
       if (panels.hasOwnProperty(prop) && panels[prop]) {
@@ -210,7 +210,7 @@ export default {
   },
 
   methods: {
-    isCellHidden(index, columns) {
+    isCellHidden (index, columns) {
       let start = 0;
       for (let i = 0; i < index; i++) {
         start += columns[i].colSpan;
@@ -225,7 +225,7 @@ export default {
       }
     },
 
-    getHeaderRowStyle(rowIndex) {
+    getHeaderRowStyle (rowIndex) {
       const headerRowStyle = this.table.headerRowStyle;
       if (typeof headerRowStyle === 'function') {
         return headerRowStyle.call(null, { rowIndex });
@@ -233,7 +233,7 @@ export default {
       return headerRowStyle;
     },
 
-    getHeaderRowClass(rowIndex) {
+    getHeaderRowClass (rowIndex) {
       const classes = [];
 
       const headerRowClassName = this.table.headerRowClassName;
@@ -246,7 +246,7 @@ export default {
       return classes.join(' ');
     },
 
-    getHeaderCellStyle(rowIndex, columnIndex, row, column) {
+    getHeaderCellStyle (rowIndex, columnIndex, row, column) {
       const headerCellStyle = this.table.headerCellStyle;
       if (typeof headerCellStyle === 'function') {
         return headerCellStyle.call(null, {
@@ -259,7 +259,7 @@ export default {
       return headerCellStyle;
     },
 
-    getHeaderCellClass(rowIndex, columnIndex, row, column) {
+    getHeaderCellClass (rowIndex, columnIndex, row, column) {
       const classes = [column.id, column.order, column.headerAlign, column.className, column.labelClassName];
 
       if (rowIndex === 0 && this.isCellHidden(columnIndex, row)) {
@@ -291,11 +291,11 @@ export default {
       return classes.join(' ');
     },
 
-    toggleAllSelection() {
+    toggleAllSelection () {
       this.store.commit('toggleAllSelection');
     },
 
-    handleFilterClick(event, column) {
+    handleFilterClick (event, column) {
       event.stopPropagation();
       const target = event.target;
       let cell = target.tagName === 'TH' ? target : target.parentNode;
@@ -327,7 +327,7 @@ export default {
       }, 16);
     },
 
-    handleHeaderClick(event, column) {
+    handleHeaderClick (event, column) {
       if (!column.filters && column.sortable) {
         this.handleSortClick(event, column);
       } else if (column.filterable && !column.sortable) {
@@ -337,11 +337,11 @@ export default {
       this.$parent.$emit('header-click', column, event);
     },
 
-    handleHeaderContextMenu(event, column) {
+    handleHeaderContextMenu (event, column) {
       this.$parent.$emit('header-contextmenu', column, event);
     },
 
-    handleMouseDown(event, column) {
+    handleMouseDown (event, column) {
       if (this.$isServer) return;
       if (column.children && column.children.length > 0) return;
       /* istanbul ignore if */
@@ -369,8 +369,8 @@ export default {
         const resizeProxy = table.$refs.resizeProxy;
         resizeProxy.style.left = this.dragState.startLeft + 'px';
 
-        document.onselectstart = function() { return false; };
-        document.ondragstart = function() { return false; };
+        document.onselectstart = function () { return false; };
+        document.ondragstart = function () { return false; };
 
         const handleMouseMove = (event) => {
           const deltaLeft = event.clientX - this.dragState.startMouseLeft;
@@ -405,7 +405,7 @@ export default {
           document.onselectstart = null;
           document.ondragstart = null;
 
-          setTimeout(function() {
+          setTimeout(function () {
             removeClass(columnEl, 'noclick');
           }, 0);
         };
@@ -415,7 +415,7 @@ export default {
       }
     },
 
-    handleMouseMove(event, column) {
+    handleMouseMove (event, column) {
       if (column.children && column.children.length > 0) return;
       let target = event.target;
       while (target && target.tagName !== 'TH') {
@@ -444,18 +444,18 @@ export default {
       }
     },
 
-    handleMouseOut() {
+    handleMouseOut () {
       if (this.$isServer) return;
       document.body.style.cursor = '';
     },
 
-    toggleOrder({ order, sortOrders }) {
+    toggleOrder ({ order, sortOrders }) {
       if (order === '') return sortOrders[0];
       const index = sortOrders.indexOf(order || null);
       return sortOrders[index > sortOrders.length - 2 ? 0 : index + 1];
     },
 
-    handleSortClick(event, column, givenOrder) {
+    handleSortClick (event, column, givenOrder) {
       event.stopPropagation();
       let order = column.order === givenOrder
         ? null
@@ -501,7 +501,7 @@ export default {
     }
   },
 
-  data() {
+  data () {
     return {
       draggingColumn: null,
       dragging: false,

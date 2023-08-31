@@ -1,7 +1,7 @@
 import Breadcrumb from './src/breadcrumb';
 
 /* istanbul ignore next */
-Breadcrumb.install = function(Vue) {
+Breadcrumb.install = function (Vue) {
   Vue.component(Breadcrumb.name, Breadcrumb);
 };
 

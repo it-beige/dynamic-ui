@@ -13,7 +13,7 @@ describe('InputNumber', () => {
         <dy-input-number v-model="value">
         </dy-input-number>
       `,
-      data() {
+      data () {
         return {
           value: 1
         };
@@ -30,7 +30,7 @@ describe('InputNumber', () => {
         <dy-input-number v-model="value" ref="input">
         </dy-input-number>
       `,
-      data() {
+      data () {
         return {
           value: 5
         };
@@ -55,7 +55,7 @@ describe('InputNumber', () => {
         <dy-input-number v-model="value">
         </dy-input-number>
       `,
-      data() {
+      data () {
         return {
           value: 1.5
         };
@@ -80,7 +80,7 @@ describe('InputNumber', () => {
         <dy-input-number v-model="value" disabled>
         </dy-input-number>
       `,
-      data() {
+      data () {
         return {
           value: 2
         };
@@ -114,7 +114,7 @@ describe('InputNumber', () => {
         <dy-input-number v-model="value" :step="3.2">
         </dy-input-number>
       `,
-      data() {
+      data () {
         return {
           value: 5
         };
@@ -142,13 +142,13 @@ describe('InputNumber', () => {
       });
     });
   });
-  it('step strictly', async() => {
+  it('step strictly', async () => {
     vm = createVue({
       template: `
         <dy-input-number v-model="value" :step="1.2" step-strictly>
         </dy-input-number>
       `,
-      data() {
+      data () {
         return {
           value: 5
         };
@@ -171,7 +171,7 @@ describe('InputNumber', () => {
         <dy-input-number v-model="value" :min="6">
         </dy-input-number>
       `,
-      data() {
+      data () {
         return {
           value: 6
         };
@@ -182,7 +182,7 @@ describe('InputNumber', () => {
         <dy-input-number v-model="value" :min="6">
         </dy-input-number>
       `,
-      data() {
+      data () {
         return {
           value: 3
         };
@@ -210,7 +210,7 @@ describe('InputNumber', () => {
         <dy-input-number v-model="value" :max="8">
         </dy-input-number>
       `,
-      data() {
+      data () {
         return {
           value: 8
         };
@@ -221,7 +221,7 @@ describe('InputNumber', () => {
         <dy-input-number v-model="value" :max="8">
         </dy-input-number>
       `,
-      data() {
+      data () {
         return {
           value: 100
         };
@@ -250,7 +250,7 @@ describe('InputNumber', () => {
           <dy-input-number v-model="value" :max="8" :precision="2">
           </dy-input-number>
         `,
-        data() {
+        data () {
           return {
             value: 6.999
           };
@@ -266,7 +266,7 @@ describe('InputNumber', () => {
           <dy-input-number v-model="value" :max="8" :precision="0" :step="0.1">
           </dy-input-number>
         `,
-        data() {
+        data () {
           return {
             value: 6.999
           };
@@ -294,7 +294,7 @@ describe('InputNumber', () => {
         <dy-input-number :controls="false" v-model="value" :max="8">
         </dy-input-number>
       `,
-      data() {
+      data () {
         return {
           value: 8
         };
@@ -310,7 +310,7 @@ describe('InputNumber', () => {
         <dy-input-number v-model="value" :min="5" :max="10" ref="inputNumber">
         </dy-input-number>
       `,
-      data() {
+      data () {
         return {
           value: 5
         };
@@ -342,7 +342,7 @@ describe('InputNumber', () => {
           <dy-input-number v-model="value" ref="compo" :min='2' :max='3' :step='1'>
           </dy-input-number>
         `,
-        data() {
+        data () {
           return {
             value: 2
           };

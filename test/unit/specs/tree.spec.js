@@ -14,7 +14,7 @@ describe('Tree', () => {
         <dy-tree ref="tree" :data="data" ${ props }></dy-tree>
         `,
 
-      data() {
+      data () {
         return {
           defaultExpandedKeys: [],
           defaultCheckedKeys: [],
@@ -67,7 +67,7 @@ describe('Tree', () => {
         <dy-tree ref="tree" :data="data" ${ props }></dy-tree>
         `,
 
-      data() {
+      data () {
         return {
           defaultExpandedKeys: [],
           defaultCheckedKeys: [],
@@ -131,7 +131,7 @@ describe('Tree', () => {
   it('click node', done => {
     vm = getTreeVm(':props="defaultProps" @node-click="handleNodeClick"', {
       methods: {
-        handleNodeClick(data) {
+        handleNodeClick (data) {
           this.clickedNode = data;
         }
       }
@@ -152,7 +152,7 @@ describe('Tree', () => {
   it('current change', done => {
     vm = getTreeVm(':props="defaultProps" @current-change="handleCurrentChange"', {
       methods: {
-        handleCurrentChange(data) {
+        handleCurrentChange (data) {
           this.currentNode = data;
         }
       }
@@ -216,7 +216,7 @@ describe('Tree', () => {
 
   it('defaultExpandedKeys', () => {
     vm = getTreeVm(':props="defaultProps" :default-expanded-keys="defaultExpandedKeys" node-key="id"', {
-      created() {
+      created () {
         this.defaultExpandedKeys = [1, 3];
       }
     });
@@ -225,7 +225,7 @@ describe('Tree', () => {
 
   it('defaultExpandedKeys set', (done) => {
     vm = getTreeVm(':props="defaultProps" :default-expanded-keys="defaultExpandedKeys" node-key="id"', {
-      created() {
+      created () {
         this.defaultExpandedKeys = [1, 3];
       }
     });
@@ -241,7 +241,7 @@ describe('Tree', () => {
   it('filter-node-method', (done) => {
     vm = getTreeVm(':props="defaultProps" :filter-node-method="filterNode"', {
       methods: {
-        filterNode(value, data) {
+        filterNode (value, data) {
           if (!value) return true;
           return data.label.indexOf(value) !== -1;
         }
@@ -259,7 +259,7 @@ describe('Tree', () => {
 
   it('autoExpandParent = true', () => {
     vm = getTreeVm(':props="defaultProps" :default-expanded-keys="defaultExpandedKeys" node-key="id"', {
-      created() {
+      created () {
         this.defaultExpandedKeys = [111];
       }
     });
@@ -268,7 +268,7 @@ describe('Tree', () => {
 
   it('autoExpandParent = false', (done) => {
     vm = getTreeVm(':props="defaultProps" :default-expanded-keys="defaultExpandedKeys" node-key="id" :auto-expand-parent="false"', {
-      created() {
+      created () {
         this.defaultExpandedKeys = [11];
       }
     });
@@ -283,7 +283,7 @@ describe('Tree', () => {
 
   it('defaultCheckedKeys & check-strictly = false', () => {
     vm = getTreeVm(':props="defaultProps" default-expand-all show-checkbox :default-checked-keys="defaultCheckedKeys" node-key="id"', {
-      created() {
+      created () {
         this.defaultCheckedKeys = [1];
       }
     });
@@ -292,7 +292,7 @@ describe('Tree', () => {
 
   it('defaultCheckedKeys & check-strictly', () => {
     vm = getTreeVm(':props="defaultProps" default-expand-all show-checkbox :default-checked-keys="defaultCheckedKeys" node-key="id" check-strictly', {
-      created() {
+      created () {
         this.defaultCheckedKeys = [1];
       }
     });
@@ -359,7 +359,7 @@ describe('Tree', () => {
     }, 10);
   });
 
-  it('setCheckedKeys', async() => {
+  it('setCheckedKeys', async () => {
     vm = getTreeVm(':props="defaultProps" show-checkbox node-key="id"');
     const tree = vm.$children[0];
     tree.setCheckedKeys([111]);
@@ -383,7 +383,7 @@ describe('Tree', () => {
     expect(tree.getCheckedKeys().length).to.equal(1);
   });
 
-  it('setCheckedKeys with checkStrictly', async() => {
+  it('setCheckedKeys with checkStrictly', async () => {
     vm = getTreeVm(':props="defaultProps" checkStrictly show-checkbox node-key="id"');
     const tree = vm.$children[0];
     tree.setCheckedKeys([111]);
@@ -418,7 +418,7 @@ describe('Tree', () => {
     expect(tree.getCheckedKeys().length).to.equal(0);
   });
 
-  it('setCheckedKeys with leafOnly=false', async() => {
+  it('setCheckedKeys with leafOnly=false', async () => {
     vm = getTreeVm(':props="defaultProps" show-checkbox node-key="id"');
     const tree = vm.$children[0];
     tree.setCheckedKeys([1, 11, 111, 2], false);
@@ -427,7 +427,7 @@ describe('Tree', () => {
     expect(tree.getCheckedKeys().length).to.equal(6);
   });
 
-  it('setCheckedKeys with leafOnly=true', async() => {
+  it('setCheckedKeys with leafOnly=true', async () => {
     vm = getTreeVm(':props="defaultProps" show-checkbox node-key="id"');
     const tree = vm.$children[0];
     tree.setCheckedKeys([2], true);
@@ -565,7 +565,7 @@ describe('Tree', () => {
   it('render content', () => {
     vm = getTreeVm(':props="defaultProps" :render-content="renderContent"', {
       methods: {
-        renderContent(h, node) {
+        renderContent (h, node) {
           return (
             <span class="custom-content">
               <dy-button>{ node.node.label }</dy-button>
@@ -592,7 +592,7 @@ describe('Tree', () => {
         </dy-tree>
         `,
 
-      data() {
+      data () {
         return {
           data: [{
             id: 1,
@@ -641,7 +641,7 @@ describe('Tree', () => {
   it('load node', done => {
     vm = getTreeVm(':props="defaultProps" lazy :load="loadNode" show-checkbox', {
       methods: {
-        loadNode(node, resolve) {
+        loadNode (node, resolve) {
           if (node.level === 0) {
             return resolve([{ label: 'region1' }, { label: 'region2' }]);
           }
@@ -668,7 +668,7 @@ describe('Tree', () => {
   it('lazy defaultChecked', done => {
     vm = getTreeVm(':props="defaultProps" node-key="id" lazy :load="loadNode" show-checkbox', {
       methods: {
-        loadNode(node, resolve) {
+        loadNode (node, resolve) {
           if (node.level === 0) {
             return resolve([{ label: 'region1', id: this.count++ }, { label: 'region2', id: this.count++ }]);
           }
@@ -703,7 +703,7 @@ describe('Tree', () => {
   it('lazy expandOnChecked', done => {
     vm = getTreeVm(':props="defaultProps" node-key="id" lazy :load="loadNode" show-checkbox check-descendants', {
       methods: {
-        loadNode(node, resolve) {
+        loadNode (node, resolve) {
           if (node.level === 0) {
             return resolve([{ label: 'region1', id: this.count++ }, { label: 'region2', id: this.count++ }]);
           }
@@ -732,7 +732,7 @@ describe('Tree', () => {
   it('lazy without expandOnChecked', done => {
     vm = getTreeVm(':props="defaultProps" node-key="id" lazy :load="loadNode" show-checkbox', {
       methods: {
-        loadNode(node, resolve) {
+        loadNode (node, resolve) {
           if (node.level === 0) {
             return resolve([{ label: 'region1', id: this.count++ }, { label: 'region2', id: this.count++ }]);
           }
@@ -777,7 +777,7 @@ describe('Tree', () => {
   it('handleNodeOpen & handleNodeClose', (done) => {
     vm = getTreeVm(':props="defaultProps" lazy :load="loadNode" @node-expand="handleNodeOpen" @node-collapse="handleNodeClose"', {
       methods: {
-        loadNode(node, resolve) {
+        loadNode (node, resolve) {
           if (node.level === 0) {
             return resolve([{label: 'region1'}, {label: 'region2'}]);
           }
@@ -790,11 +790,11 @@ describe('Tree', () => {
             }]);
           }, 50);
         },
-        handleNodeOpen(data, node, vm) {
+        handleNodeOpen (data, node, vm) {
           this.currentNode = data;
           this.nodeExpended = true;
         },
-        handleNodeClose(data, node, vm) {
+        handleNodeClose (data, node, vm) {
           this.currentNode = data;
           this.nodeExpended = false;
         }
@@ -832,7 +832,7 @@ describe('Tree', () => {
     });
   });
 
-  it('update multi tree data', async() => {
+  it('update multi tree data', async () => {
     const vm = createVue({
       template: `
         <div>
@@ -841,7 +841,7 @@ describe('Tree', () => {
         </div>
         `,
 
-      data() {
+      data () {
         return {
           data: [{
             id: 1,

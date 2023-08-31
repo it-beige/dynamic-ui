@@ -197,7 +197,7 @@ const components = [
   CollapseTransition
 ];
 
-const install = function(Vue, opts = {}) {
+const install = function (Vue, opts = {}) {
   const {
     baseURI,
     baseUploadURI,

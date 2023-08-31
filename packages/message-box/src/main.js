@@ -120,7 +120,7 @@ const showNextMsg = () => {
   }
 };
 
-const MessageBox = function(options, callback) {
+const MessageBox = function (options, callback) {
   if (Vue.prototype.$isServer) return;
   if (typeof options === 'string' || isVNode(options)) {
     options = {

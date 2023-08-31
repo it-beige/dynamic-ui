@@ -45,7 +45,7 @@ describe('Switch', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: true
         };
@@ -76,17 +76,17 @@ describe('Switch', () => {
           </dy-switch>
         </div>
       `,
-      mounted() {
+      mounted () {
         setTimeout(() => {
           this.value = false;
         }, 10);
       },
       methods: {
-        handleChange(val) {
+        handleChange (val) {
           this.target = val;
         }
       },
-      data() {
+      data () {
         return {
           target: 1,
           value: true
@@ -113,7 +113,7 @@ describe('Switch', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: true
         };
@@ -134,7 +134,7 @@ describe('Switch', () => {
           <dy-switch v-model="value" :active-value="onValue" :inactive-value="offValue"></dy-switch>
         </div>
       `,
-      data() {
+      data () {
         return {
           value: '100',
           onValue: '100',
@@ -189,7 +189,7 @@ describe('Switch', () => {
           <dy-switch v-model="value"></dy-switch>
         </div>
       `,
-      data() {
+      data () {
         return {
           value: false
         };

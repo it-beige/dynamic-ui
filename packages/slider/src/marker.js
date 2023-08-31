@@ -6,7 +6,7 @@ export default {
       type: [String, Object]
     }
   },
-  render() {
+  render () {
     let label = typeof this.mark === 'string' ? this.mark : this.mark.label;
 
     return (

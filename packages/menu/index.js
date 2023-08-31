@@ -1,7 +1,7 @@
 import DyMenu from './src/menu';
 
 /* istanbul ignore next */
-DyMenu.install = function(Vue) {
+DyMenu.install = function (Vue) {
   Vue.component(DyMenu.name, DyMenu);
 };
 

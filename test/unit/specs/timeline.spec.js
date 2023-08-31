@@ -18,7 +18,7 @@ describe('Timeline', () => {
           </dy-timeline-item>
         </dy-timeline>
       `,
-      data() {
+      data () {
         return {
           activities: [{
             content: '创建成功',
@@ -56,7 +56,7 @@ describe('Timeline', () => {
         </dy-timeline>
       `,
 
-      data() {
+      data () {
         return {
           reverse: true,
           activities: [{
@@ -102,7 +102,7 @@ describe('Timeline', () => {
         </dy-timeline>
       `,
 
-      data() {
+      data () {
         return {
           activities: [{
             content: '创建成功',
@@ -137,7 +137,7 @@ describe('Timeline', () => {
         </dy-timeline>
       `,
 
-      data() {
+      data () {
         return {
           activities: [{
             content: '创建成功',

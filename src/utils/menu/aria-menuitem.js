@@ -1,13 +1,13 @@
 import Utils from '../aria-utils';
 import SubMenu from './aria-submenu';
 
-const MenuItem = function(domNode) {
+const MenuItem = function (domNode) {
   this.domNode = domNode;
   this.submenu = null;
   this.init();
 };
 
-MenuItem.prototype.init = function() {
+MenuItem.prototype.init = function () {
   this.domNode.setAttribute('tabindex', '0');
   let menuChild = this.domNode.querySelector('.dy-menu');
   if (menuChild) {
@@ -16,7 +16,7 @@ MenuItem.prototype.init = function() {
   this.addListeners();
 };
 
-MenuItem.prototype.addListeners = function() {
+MenuItem.prototype.addListeners = function () {
   const keys = Utils.keys;
   this.domNode.addEventListener('keydown', event => {
     let prevDef = false;

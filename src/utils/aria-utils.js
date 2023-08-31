@@ -10,7 +10,7 @@ aria.Utils = aria.Utils || {};
  * @returns
  *  true if a focusable element is found and focus is set.
  */
-aria.Utils.focusFirstDescendant = function(element) {
+aria.Utils.focusFirstDescendant = function (element) {
   for (var i = 0; i < element.childNodes.length; i++) {
     var child = element.childNodes[i];
     if (aria.Utils.attemptFocus(child) || aria.Utils.focusFirstDescendant(child)) {
@@ -28,7 +28,7 @@ aria.Utils.focusFirstDescendant = function(element) {
  *  true if a focusable element is found and focus is set.
  */
 
-aria.Utils.focusLastDescendant = function(element) {
+aria.Utils.focusLastDescendant = function (element) {
   for (var i = element.childNodes.length - 1; i >= 0; i--) {
     var child = element.childNodes[i];
     if (aria.Utils.attemptFocus(child) || aria.Utils.focusLastDescendant(child)) {
@@ -45,7 +45,7 @@ aria.Utils.focusLastDescendant = function(element) {
  * @returns
  *  true if element is focused.
  */
-aria.Utils.attemptFocus = function(element) {
+aria.Utils.attemptFocus = function (element) {
   if (!aria.Utils.isFocusable(element)) {
     return false;
   }
@@ -58,7 +58,7 @@ aria.Utils.attemptFocus = function(element) {
   return (document.activeElement === element);
 };
 
-aria.Utils.isFocusable = function(element) {
+aria.Utils.isFocusable = function (element) {
   if (element.tabIndex > 0 || (element.tabIndex === 0 && element.getAttribute('tabIndex') !== null)) {
     return true;
   }
@@ -88,7 +88,7 @@ aria.Utils.isFocusable = function(element) {
  * @param  {String} name
  * @param  {*} opts
  */
-aria.Utils.triggerEvent = function(elm, name, ...opts) {
+aria.Utils.triggerEvent = function (elm, name, ...opts) {
   let eventName;
 
   if (/^mouse|click/.test(name)) {

@@ -111,25 +111,25 @@ describe('Progress', () => {
     }, true);
     expect(vm.$el.querySelector('.dy-progress-bar__inner').style.backgroundColor).to.equal('rgb(0, 0, 0)');
   });
-  it('color is function', async() => {
+  it('color is function', async () => {
     vm = createVue({
       template: `
       <dy-progress :percentage="percentage" :color="customColor"></dy-progress>
       `,
-      data() {
+      data () {
         return {
           percentage: 50
         };
       },
       methods: {
-        customColor(percentage) {
+        customColor (percentage) {
           if (percentage > 50) {
             return '#13ce66';
           } else {
             return '#20a0ff';
           }
         },
-        increase() {
+        increase () {
           this.percentage = 60;
         }
       }
@@ -142,12 +142,12 @@ describe('Progress', () => {
     expect(vm.$el.querySelector('.dy-progress-bar__inner').style.backgroundColor).to.equal('rgb(19, 206, 102)');
   });
 
-  it('color is array', async() => {
+  it('color is array', async () => {
     vm = createVue({
       template: `
       <dy-progress :percentage="percentage" :color="colors"></dy-progress>
       `,
-      data() {
+      data () {
         return {
           percentage: 50,
           colors: [
@@ -160,7 +160,7 @@ describe('Progress', () => {
         };
       },
       methods: {
-        increase() {
+        increase () {
           this.percentage = 70;
         }
       }
@@ -181,7 +181,7 @@ describe('Progress', () => {
       <dy-progress :percentage="50" :format="format"></dy-progress>
       `,
       methods: {
-        format(percentage) {
+        format (percentage) {
           return `占比${percentage}%`;
         }
       }
