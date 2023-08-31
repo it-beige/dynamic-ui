@@ -1,7 +1,7 @@
 {
   "presets": [
     [
-      "env",
+      "@babel/preset-env",
       {
         "loose": true,
         "modules": false,
@@ -9,15 +9,27 @@
           "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
         }
       }
-    ],
-    "stage-2"
+    ]
   ],
-  "plugins": ["transform-vue-jsx"],
+  "plugins": [
+    "@vue/babel-plugin-transform-vue-jsx",
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    "@babel/plugin-proposal-function-sent",
+    "@babel/plugin-proposal-export-namespace-from",
+    "@babel/plugin-proposal-numeric-separator",
+    "@babel/plugin-proposal-throw-expressions",
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-syntax-import-meta",
+    ["@babel/plugin-proposal-class-properties", { "loose": false }],
+    ["@babel/plugin-transform-private-methods", { "loose": false }],
+    ["@babel/plugin-transform-private-property-in-object", { "loose": false }],
+    "@babel/plugin-proposal-json-strings"
+  ],
   "env": {
     "utils": {
       "presets": [
         [
-          "env",
+          "@babel/preset-env",
           {
             "loose": true,
             "modules": "commonjs",

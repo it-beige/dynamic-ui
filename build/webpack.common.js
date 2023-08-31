@@ -27,9 +27,7 @@ module.exports = {
   performance: {
     hints: false
   },
-  stats: {
-    children: false
-  },
+  stats: 'normal', // 或者 'errors-only'
   optimization: {
     minimize: false
   },

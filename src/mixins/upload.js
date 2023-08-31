@@ -173,8 +173,8 @@ export default function genUploadMixin() {
         });
 
       },
-       callBeforeUpload(file) {
-        return this.callOriginalHook(this.beforeUpload, [file], async () => {
+      callBeforeUpload(file) {
+        return this.callOriginalHook(this.beforeUpload, [file], async() => {
           let r = Promise.resolve;
           const isInvalid = (r) => {
             this.isUploadValidError = r.name !== Promise.resolve.name;
