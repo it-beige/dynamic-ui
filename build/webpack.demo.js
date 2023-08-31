@@ -148,6 +148,9 @@ const webpackConfig = {
           preserveWhitespace: false
         }
       }
+    }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser'
     })
   ],
   optimization: {

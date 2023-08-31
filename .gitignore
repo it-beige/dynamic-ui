@@ -14,8 +14,6 @@ lib
 examples/dynamic-ui
 examples/pages/en-US
 examples/pages/zh-CN
-examples/pages/es
-examples/pages/fr-FR
 fe.dynamic/dynamic-ui
 .npmrc
 coverage

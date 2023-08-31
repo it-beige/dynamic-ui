@@ -10,7 +10,8 @@
   "extends": "elemefe",
   "rules": {
     "no-restricted-globals": ["error", "event", "fdescribe"],
-    "no-spaced-func": 2 //函数调用时 函数名与()之间不能有空格
+    // 函数定义时括号前面要不要有空格
+    "space-before-function-paren": [2, "always"]
   },
   "parserOptions": {
     "ecmaVersion": 8,

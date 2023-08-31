@@ -101,18 +101,18 @@ export const getExtra = (key) => {
   return Object.keys(get());
 };
 
-export default function genUploadMixin() {
+export default function genUploadMixin () {
   return {
     props: getExtraProps(),
-    data(self) {
+    data (self) {
       return getExtraData(self);
     },
     computed: {
       // 是否超出上传限制数量
-      isExceed({ limit, fileList }) {
+      isExceed ({ limit, fileList }) {
         return limit ? fileList.length >= limit : false;
       },
-      url({ baseURI, baseUploadURI, action}) {
+      url ({ baseURI, baseUploadURI, action}) {
         let url = baseURI;
         // upload相关接口地址单独配置的情况
         if (baseUploadURI) {
@@ -122,13 +122,13 @@ export default function genUploadMixin() {
       }
     },
     watch: {},
-    created() {
+    created () {
 
     },
-    beforeDestroy() {
+    beforeDestroy () {
     },
     methods: {
-      bindPropsHook(props) {
+      bindPropsHook (props) {
         props.onSuccess = this.callSuccess;
         props.onError = this.callError;
         props.beforeRemove = this.callBeforeRemove;
@@ -136,7 +136,7 @@ export default function genUploadMixin() {
         props.onRemove = this.callRemove;
         props.onPreview = this.callPreview;
       },
-      callSuccess(response, file, fileList) {
+      callSuccess (response, file, fileList) {
         const uploadFiles = fileList.filter(i => i.raw);
         const getFile = (file) => {
           let data = file;
@@ -157,12 +157,12 @@ export default function genUploadMixin() {
         this.$message.success(this.getTip('successText'));
         return this.callOriginalHook(this.onSuccess, [response, file, fileList]);
       },
-      callError(err, file, fileList) {
+      callError (err, file, fileList) {
         this.callOriginalHook(this.onError, [err, file, fileList], () => {
           this.$message.error(this.getTip('errorText'));
         });
       },
-      callBeforeRemove(file, fileList) {
+      callBeforeRemove (file, fileList) {
         return this.callOriginalHook(this.beforeRemove, [file, fileList], () => {
           if (this.isUploadValidError) {
             this.isUploadValidError = false;
@@ -173,8 +173,8 @@ export default function genUploadMixin() {
         });
 
       },
-      callBeforeUpload(file) {
-        return this.callOriginalHook(this.beforeUpload, [file], async() => {
+      callBeforeUpload (file) {
+        return this.callOriginalHook(this.beforeUpload, [file], async () => {
           let r = Promise.resolve;
           const isInvalid = (r) => {
             this.isUploadValidError = r.name !== Promise.resolve.name;
@@ -191,7 +191,7 @@ export default function genUploadMixin() {
           }
           // 限制尺寸
           if (this.limitFile) {
-            valids.push(this.limitFileWidthOrHeight(file));
+            valids.push(await this.limitFileWidthOrHeight(file));
           }
 
           while (valids.length) {
@@ -206,17 +206,17 @@ export default function genUploadMixin() {
         });
 
       },
-      callRemove(file, fileList) {
+      callRemove (file, fileList) {
         this.bindFileList = this.bindFileList.filter((i)=> i.uid !== file.uid);
         this.$emit('input', this.bindFileList);
         return this.callOriginalHook(this.beforeRemove, [file, fileList]);
       },
-      callPreview(file, fileList) {
+      callPreview (file, fileList) {
         let url = file.url;
         this.previewUrl = url;
         return this.callOriginalHook(this.onPreview, [file, fileList]);
       },
-      callOriginalHook(originalHook, args, call) {
+      callOriginalHook (originalHook, args, call) {
         if (isFunction(originalHook)) {
           return originalHook(...args);
         }
@@ -224,7 +224,7 @@ export default function genUploadMixin() {
           return call();
         }
       },
-      acceptFile(file) {
+      acceptFile (file) {
         const extType = file.name.split('.').at(-1);
         const mimeType = file.type;
         const toUpperCase = (string) => String.prototype.toUpperCase.call(string);
@@ -247,7 +247,7 @@ export default function genUploadMixin() {
         return r;
       },
 
-      limitMaxFileSize(file) {
+      limitMaxFileSize (file) {
         const limitMb = processFileUnitToMb(this.maxFileSize);
         const actualMb = divide(file.size, 1024).toFixed(2);
         let r = Promise.resolve;
@@ -258,15 +258,13 @@ export default function genUploadMixin() {
 
         return r;
       },
-      limitFileWidthOrHeight(file) {
-        return limitFileContourSize(file, this.limitFile)
-          .then(message => {
-            if (message) {
-              this.$message.error(message);
-              return Promise.reject;
-            }
-            return Promise.resolve;
-          });
+      async limitFileWidthOrHeight (file) {
+        const message = await limitFileContourSize(file, this.limitFile);
+        if (message) {
+          this.$message.error(message);
+          return Promise.reject;
+        }
+        return Promise.resolve;
 
       }
     }
