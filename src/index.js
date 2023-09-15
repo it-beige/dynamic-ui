@@ -92,6 +92,7 @@ import DescriptionsItem from '../packages/descriptions-item/index.js';
 import Result from '../packages/result/index.js';
 import SelectGenerate from '../packages/select-generate/index.js';
 import RadioGenerate from '../packages/radio-generate/index.js';
+import CheckboxGenerate from '../packages/checkbox-generate/index.js';
 import UploadGenerate from '../packages/upload-generate/index.js';
 import FormGenerate from '../packages/form-generate/index.js';
 import locale from 'dynamic-ui/src/locale';
@@ -194,6 +195,7 @@ const components = [
   Result,
   SelectGenerate,
   RadioGenerate,
+  CheckboxGenerate,
   UploadGenerate,
   FormGenerate,
   CollapseTransition
@@ -369,6 +371,7 @@ export default {
   Result,
   SelectGenerate,
   RadioGenerate,
+  CheckboxGenerate,
   UploadGenerate,
   FormGenerate
 };

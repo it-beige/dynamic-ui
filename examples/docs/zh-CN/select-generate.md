@@ -748,7 +748,7 @@ Vue.use(Dynamic, {
 | 参数      | 说明               | 类型     | 可选值 | 默认值                        |
 | --------- | ------------------ | -------- | ------ | ----------------------------- |
 | props | 配置选项，具体看下表 | object | —      | global.useOptionProps() |  
-| formatter | 格式化 option 数据 | function | —      | - |
+| formatter | 格式化 option 数据 | function | —0      | - |
 
 ### props
 
