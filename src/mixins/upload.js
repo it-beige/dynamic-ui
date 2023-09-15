@@ -259,7 +259,7 @@ export default function genUploadMixin () {
         return r;
       },
       async limitFileWidthOrHeight (file) {
-        const message = await limitFileContourSize(file, this.limitFile);
+        const message = await limitFileContourSize(file, this.limitFile, this.getTip);
         if (message) {
           this.$message.error(message);
           return Promise.reject;

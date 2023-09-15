@@ -747,7 +747,19 @@ Vue.use(Dynamic, {
 
 | 参数      | 说明               | 类型     | 可选值 | 默认值                        |
 | --------- | ------------------ | -------- | ------ | ----------------------------- |
-| formatter | 格式化 option 数据 | function | —      | globalConfig.useOptionProps() |
+| props | 配置选项，具体看下表 | object | —      | global.useOptionProps() |  
+| formatter | 格式化 option 数据 | function | —      | - |
+
+### props
+
+| 参数      | 说明               | 类型     | 可选值 | 默认值                        |
+| --------- | ------------------ | -------- | ------ | ----------------------------- |
+| label    | option组件的label属性                       | string  | —      | label     |
+| value    | option组件的value属性                       | string  | —      | value     |
+| children | 指定子树为节点对象的某个属性值                           | string                        | —      |     |
+| disabled | 子节点否禁用的属性值              | string | —      | children     |
+
+
 
 ### Select Attributes
 

@@ -1,6 +1,17 @@
 import Vue from 'vue';
 import { isString, isObject } from 'dynamic-ui/src/utils/types';
 
+export function kebabToCamel(kebabString) {
+  const replaceKebabReg = /-+([A-z])/g;
+  return kebabString.replace(replaceKebabReg, (execStr, $1) => {
+    return $1.toUpperCase();
+  });
+}
+
+export function camelToKebab(camelString) {
+  return camelString.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+}
+
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 export function stitchUrl (baseUrl, url) {

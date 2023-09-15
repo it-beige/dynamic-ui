@@ -151,8 +151,6 @@ export default function genRequestMixin () {
           this.updateRequestParams('url', v);
           // url变动之后分页参数重置
           this.setPageParams();
-          // 重新触发获取options
-          // this.dispatchGetOptions(true);
         }
       },
       method: {
@@ -270,7 +268,6 @@ export default function genRequestMixin () {
           });
       },
       offsetRequestOptions () {
-        // eslint-disable-next-line
         const {count, total, ...pageParams} = this.pageParams;
         return this.getAsyncOptions({
           ...this.bindRequestParams,

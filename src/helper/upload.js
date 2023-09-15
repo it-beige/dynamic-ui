@@ -146,27 +146,20 @@ const tipConfig = {
     minWidth: '图片宽度不可小于{minWidth}',
     minHeight: '图片高度不可小于{minHeight}',
     offset: '文件尺寸超过最小可以向下偏移的值(可以向下偏移：{offsetWidth}*{offsetHeight})'
-  },
-  tip: {
-    accept: '只能上传{accept}文件',
-    size: '且不超过{size}MB'
-  },
-  message: {
-    accpet: '不支持的文件类型: {accept}',
-    size: '文件不能超过{size}'
   }
 };
+const PLACEHOLDE_RREG = /\{([A-z]+)\}/g;
 
 export function getTip (attr, replaceValue) {
-  const placeholderReg = /\{([A-z]+)\}/g;
+
   let placeholderText = getValueByPath(tipConfig, attr);
-  if (placeholderReg.test(placeholderText)) {
-    placeholderText = placeholderText.replace(placeholderReg, replaceValue);
+  if (PLACEHOLDE_RREG.test(placeholderText)) {
+    placeholderText = placeholderText.replace(PLACEHOLDE_RREG, replaceValue);
   }
   return placeholderText;
 }
 
-export function limitFileContourSize (file, fileContour) {
+export function limitFileContourSize (file, fileContour, getTip) {
   if (!isPlainObject(fileContour)) {
     console.error('[Dynamic Error UploadGenerate]' + 'limitFile props must be an object');
     return;

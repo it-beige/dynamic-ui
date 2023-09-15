@@ -31,7 +31,7 @@
           "path": "/i18n",
           "name": "国际化"
         },
-        
+
         {
           "path": "/custom-theme",
           "name": "自定义主题"
@@ -53,8 +53,16 @@
               "title": "Select JSON生成"
             },
             {
+              "path": "/radio-generate",
+              "title": "Radio JSON生成"
+            },
+            {
               "path": "/upload-generate",
               "title": "Upload JSON生成"
+            },
+            {
+              "path": "/form-generate",
+              "title": "Form JSON生成"
             }
           ]
         }

@@ -90,9 +90,10 @@ import Empty from '../packages/empty/index.js';
 import Descriptions from '../packages/descriptions/index.js';
 import DescriptionsItem from '../packages/descriptions-item/index.js';
 import Result from '../packages/result/index.js';
-import FormGenerate from '../packages/form-generate/index.js';
 import SelectGenerate from '../packages/select-generate/index.js';
+import RadioGenerate from '../packages/radio-generate/index.js';
 import UploadGenerate from '../packages/upload-generate/index.js';
+import FormGenerate from '../packages/form-generate/index.js';
 import locale from 'dynamic-ui/src/locale';
 import CollapseTransition from 'dynamic-ui/src/transitions/collapse-transition';
 import {
@@ -191,13 +192,14 @@ const components = [
   Descriptions,
   DescriptionsItem,
   Result,
-  FormGenerate,
   SelectGenerate,
+  RadioGenerate,
   UploadGenerate,
+  FormGenerate,
   CollapseTransition
 ];
 
-const install = function (Vue, opts = {}) {
+const install = function(Vue, opts = {}) {
   const {
     baseURI,
     baseUploadURI,
@@ -365,7 +367,8 @@ export default {
   Descriptions,
   DescriptionsItem,
   Result,
-  FormGenerate,
   SelectGenerate,
-  UploadGenerate
+  RadioGenerate,
+  UploadGenerate,
+  FormGenerate
 };
