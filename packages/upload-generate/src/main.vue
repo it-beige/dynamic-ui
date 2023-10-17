@@ -94,7 +94,7 @@ export default {
       }
       this.previewUrl && nodes.push(this.renderImageViewer());
 
-      return createElement(Upload, {
+      return createElement(Upload.name, {
         staticClass: 'dy-upload-generate',
         class: [this.disableRendering ? 'is-disabled' : '', this.isUploadValidError ? 'is-error' : ''],
         attrs,

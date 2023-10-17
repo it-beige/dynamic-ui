@@ -77,6 +77,7 @@ import CascaderPanel from 'packages/cascader-panel/index.js';
 import Avatar from 'packages/avatar/index.js';
 import Drawer from 'packages/drawer/index.js';
 import Statistic from 'packages/statistic/index.js';
+import SvgIcon from 'packages/svg-icon/index.js';
 import Popconfirm from 'packages/popconfirm/index.js';
 import Skeleton from 'packages/skeleton/index.js';
 import SkeletonItem from 'packages/skeleton-item/index.js';
@@ -163,6 +164,7 @@ var CONFIG_COMPONENTS = {
   Avatar: Avatar,
   Drawer: Drawer,
   Statistic: Statistic,
+  SvgIcon: SvgIcon,
   Popconfirm: Popconfirm,
   Skeleton: Skeleton,
   SkeletonItem: SkeletonItem,
@@ -174,11 +176,11 @@ var CONFIG_COMPONENTS = {
 
 var COMPONENT_PREFIX = 'Dy';
 
-export function getComponentPrefix () {
+export function getComponentPrefix() {
   return COMPONENT_PREFIX;
 };
 
-export function injectComponent (injectComps) {
+export function injectComponent(injectComps) {
   injectComps.forEach(([name, component]) => {
     if (!name) {
       console.error('[Dynamic Error]注册表单项名称不能为空');
@@ -193,7 +195,7 @@ export function injectComponent (injectComps) {
   });
 };
 
-export function getComponentByName (name) {
+export function getComponentByName(name) {
   if (!name) {
     console.error('[Dynamic Error]表单项不能为空');
     return;
@@ -206,6 +208,6 @@ export function getComponentByName (name) {
   return CONFIG_COMPONENTS[name];
 };
 
-export function installComponent (Vue, component) {
+export function installComponent(Vue, component) {
   Vue.component(component.name, component);
 }

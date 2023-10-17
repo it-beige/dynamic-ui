@@ -1,18 +1,11 @@
-## UploadGenerate Upload 生成
+## FormGenerate Form 生成
 
-> 基于`Upload`组件的封装, 扩展了及功能
+> 基于`Form`组件的封装, 扩展了及功能
 
-- 对`list-type`的文件样式列表进行了封装
-- 对各种类型文件提供对应的`icon`展示
-- 所有类型都内置大图预览、下载、删除功能
-- 提供严格对比文件`MIME`类型校验, 文件大小、宽高校验
-- 对下面方法都进行了封装, 用户也可自定义
-  - onSuccess
-  - onError
-  - beforeRemove
-  - beforeUpload
-  - onRemove
-  - onPreview
+- 通过`JSON`方式的配置可以生成表单项, 灵活可应用于多数下的表单场景
+- 可将组件库封装扩展的`Generate`组件注入进去也作为可配置的表单项
+- 所有表单项都可选择使用默认的`Dynamic`提供的组件还是自行注入组件
+- 表单项的配置项支持: Slot、On、所有在 `template` 支持的功能, 配置项都提供
 
 ### 基础用法
 
@@ -50,9 +43,11 @@
             destination:
               '/Users/chenkun/personal/code/Nest/01/learn-multer/my-uploads',
             filename: 'file-1692683296660-853058701-article.png',
-            path: '/Users/chenkun/personal/code/Nest/01/learn-multer/my-uploads/file-1692683296660-853058701-article.png',
+            path:
+              '/Users/chenkun/personal/code/Nest/01/learn-multer/my-uploads/file-1692683296660-853058701-article.png',
             size: 42369,
-            url: 'http://localhost:3333/preview/file-1692683296660-853058701-article.png',
+            url:
+              'http://localhost:3333/preview/file-1692683296660-853058701-article.png',
             fileName: 'article.png',
             name: 'article.png',
             status: 'success',
@@ -209,58 +204,6 @@ Vue.use(Dynamic, {
 
 :::
 
-### 文件限制
-
-:::demo
-
-```html
-<dy-upload-generate
-  v-model="fileList"
-  :parseResponse="parseResponse"
-  listType="picture"
-  :action="exampleUploadUrl"
-  accept="image/*,pdf"
-  :maxFileSize="maxFileSize"
-  :limitFile="limitFile"
-></dy-upload-generate>
-
-<script>
-  export default {
-    data() {
-      return {
-        // 限定图片最大可以上传的宽度和高度
-        limitFile: {
-          maxWidth: 400,
-          maxHeight: 400,
-        },
-        maxFileSize: '1MB' || 1024,
-        fileList: [],
-        headers: {
-          'dynamic-example': 'Auth example....',
-        },
-        baseUploadURI:
-          process.env.VUE_APP_UPLOAD_API || 'http://localhost:3333',
-        exampleUploadUrl: '/upload',
-      }
-    },
-    mounted() {},
-    methods: {
-      parseResponse(response, props) {
-        let data = response.data
-        const { name, url } = props
-        return {
-          ...data,
-          name: data.fileName,
-          url: data.url,
-        }
-      },
-    },
-  }
-</script>
-```
-
-:::
-
 ### 内置 helper 方法
 
 :::demo
@@ -274,7 +217,6 @@ Vue.use(Dynamic, {
   accept="image/*,pdf"
   :maxFileSize="maxFileSize"
   :limitFile="limitFile"
-  :getTip="getTip"
 ></dy-upload-generate>
 
 <script>
@@ -307,44 +249,12 @@ Vue.use(Dynamic, {
           url: data.url,
         }
       },
-      getTip(attr, replaceValue) {
-        if (attr === 'successText') {
-          return 'dy: 文件上传成功'
-        } else if (attr === 'limitFile.maxWidth') {
-          // 调用helper提供的方法
-          return `dy: 图片高度不可大于${replaceValue}px`
-        }
-      },
     },
   }
 </script>
 ```
 
-通过`getTip`可以自定义组件内的提示
-
 :::
-
-组件内置的提示配置如下
-
-```javascript
-{
-  errorText: '文件上传失败',
-  successText: '文件上传成功',
-  removeConfirmText: '确定移除{name}?',
-  noAccept: '不支持的文件类型: {accept}',
-  noAcceptContent: '文件类型后缀对应的文件内容不匹配',
-  exceedSize: '文件不能超过{size}',
-  limitFile: {
-    width: '宽度只能为{width}像素',
-    height: '高度只能为{height}像素',
-    maxWidth: '图片宽度不可大于{maxWidth}',
-    maxHeight: '图片高度不可大于{maxHeight}',
-    minWidth: '图片宽度不可小于{minWidth}',
-    minHeight: '图片高度不可小于{minHeight}',
-    offset: '文件尺寸超过最小可以向下偏移的值(可以向下偏移：{offsetWidth}*{offsetHeight})'
-  }
-}
-```
 
 ### 扩展 Upload Attributes
 
