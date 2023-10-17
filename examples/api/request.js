@@ -283,6 +283,6 @@ export default function axios ({ url, params }) {
     response = offsetData(data.tree, params);
   }
   return new Promise(resolve => {
-    setTimeout(() => {resolve(response);}, 5000);
+    setTimeout(() => {resolve(response);}, 5000 * 0);
   });
 }

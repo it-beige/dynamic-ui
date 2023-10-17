@@ -4,8 +4,10 @@
     "chrome": true,
     "Promise": true,
     "Reflect": true,
-    "Map": true
+    "Map": true,
+    "Set": true
   },
+  "parser": "@babel/eslint-parser",
   "plugins": ["html", "json"],
   "extends": "elemefe",
   "rules": {
@@ -15,7 +17,8 @@
     "no-unused-vars": 0
   },
   "parserOptions": {
-    "ecmaVersion": 8,
+    "ecmaVersion": 2020,
+    "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
     }

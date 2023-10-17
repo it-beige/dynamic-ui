@@ -28,6 +28,7 @@
         type="radio"
         aria-hidden="true"
         v-model="model"
+        @click="handleClick"
         @focus="focus = true"
         @blur="focus = false"
         @change="handleChange"
@@ -128,7 +129,11 @@
           this.$emit('change', this.model);
           this.isGroup && this.dispatch('DyRadioGroup', 'handleChange', this.model);
         });
+      },
+      handleClick() {
+        this.$emit('click');
       }
+  
     }
   };
 </script>

@@ -90,6 +90,8 @@
   "descriptions-item": "./packages/descriptions-item/index.js",
   "result": "./packages/result/index.js",
   "select-generate": "./packages/select-generate/index.js",
+  "radio-generate": "./packages/radio-generate/index.js",
+  "checkbox-generate": "./packages/checkbox-generate/index.js",
   "upload-generate": "./packages/upload-generate/index.js",
   "form-generate": "./packages/form-generate/index.js"
 }

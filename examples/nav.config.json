@@ -5,11 +5,11 @@
       "path": "/changelog"
     },
     {
-      "name": "Element React",
+      "name": "Dynamic React",
       "href": "https://elemefe.github.io/element-react/"
     },
     {
-      "name": "Element Angular",
+      "name": "Dynamic Angular",
       "href": "https://element-angular.faas.ele.me/"
     },
     {
@@ -51,6 +51,14 @@
             {
               "path": "/select-generate",
               "title": "Select JSON生成"
+            },
+            {
+              "path": "/radio-generate",
+              "title": "Radio JSON生成"
+            },
+            {
+              "path": "/checkbox-generate",
+              "title": "Checkbox JSON生成"
             },
             {
               "path": "/upload-generate",
@@ -350,11 +358,11 @@
       "path": "/changelog"
     },
     {
-      "name": "Element React",
+      "name": "Dynamic React",
       "href": "https://elemefe.github.io/element-react/"
     },
     {
-      "name": "Element Angular",
+      "name": "Dynamic Angular",
       "href": "https://element-angular.faas.ele.me/"
     },
     {
