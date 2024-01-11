@@ -1,4 +1,4 @@
-import { cloneDeep } from './lodash';
+import { cloneDeep, isString, isPlainObject, isArray } from './lodash';
 import {
   kebabToCamel
 } from './util';
@@ -33,3 +33,20 @@ export const getProvidesOptionBySourceOpt = (provide, consumer) => {
   }, {});
 };
 
+export const buildClass = (classSheet) => {
+  if (isString(classSheet)) {
+    return classSheet;
+  }
+  if (isPlainObject(classSheet)) {
+    return Object.keys(classSheet).reduce((className, i) => {
+      const isTrue = !!classSheet[i];
+      if (isTrue) {
+        className += ` ${i}`;
+      }
+      return className;
+    }, '');
+  }
+  if (isArray(classSheet)) {
+    return classSheet.map(i => buildClass(i)).join(' ');
+  }
+};

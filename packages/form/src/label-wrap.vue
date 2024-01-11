@@ -6,7 +6,7 @@ export default {
     updateAll: Boolean
   },
 
-  inject: ['elForm', 'elFormItem'],
+  inject: ['dyForm', 'dyFormItem'],
 
   render() {
     const slots = this.$slots.default;

@@ -13,6 +13,34 @@ const FORM_COMPONENTS = {
   upload: UploadGenerate
 };
 
+const commonAttreibutes = [
+  'accept',
+  'autocomplete',
+  'capture',
+  'crossorigin',
+  'dirname',
+  'disabled',
+  'elementtiming',
+  'for',
+  'max',
+  'maxlength',
+  'min',
+  'minlength',
+  'multiple',
+  'pattern',
+  'placeholder',
+  'readonly',
+  'rel',
+  'required',
+  'size',
+  'step'
+];
+
+const COMPONENT_ATTRIBUTES = Object.keys(FORM_COMPONENTS).reduce((o, name) => {
+  o[name] = [...commonAttreibutes];
+  return o;
+}, {});
+
 export function injectFormComponent(injectComps) {
   injectComps.forEach(([name, component]) => {
     if (!name) {
@@ -40,3 +68,17 @@ export function getComponentByName(name) {
   return FORM_COMPONENTS[name];
 };
 
+export function getFormItemComponentAttribute(name) {
+  if (!name) {
+    console.error('[FormGlobal Error]表单项不能为空');
+    return;
+  }
+  // eslint-disable-next-line
+  if (!COMPONENT_ATTRIBUTES[name]) {
+    console.error(
+      `[FormGlobal Error] 不存在的attribute：${name}`,
+    );
+    return;
+  }
+  return COMPONENT_ATTRIBUTES[name];
+}
