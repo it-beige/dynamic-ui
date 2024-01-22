@@ -38,6 +38,7 @@ const install = function(Vue, opts = {}) {
     useRequestHeaders,
     useParseData,
     useParseTotal,
+    useOptionProps,
     size,
     zIndex
   } = opts;
@@ -50,7 +51,8 @@ const install = function(Vue, opts = {}) {
     useRequestHeaders,
     useRequest,
     useParseData,
-    useParseTotal
+    useParseTotal,
+    useOptionProps
   };
   const installPagination = {
     pageParamsKey,

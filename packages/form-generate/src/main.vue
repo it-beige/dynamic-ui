@@ -1,7 +1,10 @@
 <script>
-import genAttrsMixin, {getExtra as getAttrMixExtra} from 'main/mixins/attrs';
+import genAttrsMixin, { getExtra as getAttrMixExtra } from 'main/mixins/attrs';
 import { getComponentByName } from 'main/config/component';
-import { getComponentByName as getFormComponentByName, getFormItemComponentAttribute } from 'main/config/form';
+import {
+  getComponentByName as getFormComponentByName,
+  getFormItemComponentAttribute
+} from 'main/config/form';
 import _, { isFunction } from 'lodash';
 import { buildClass } from 'main/utils/component';
 
@@ -32,15 +35,15 @@ export default {
     },
     classSheets: {
       type: Object,
-      default: ()=> ({})
+      default: () => ({})
     },
     itemClassSheets: {
       type: Object,
-      default: ()=> ({})
+      default: () => ({})
     },
     colClassSheets: {
       type: Object,
-      default: ()=> ({})
+      default: () => ({})
     }
   },
   components: {
@@ -57,26 +60,32 @@ export default {
     return FormVnode;
   },
   methods: {
-    getFormProps () {
+    getFormProps() {
       const props = this._excludeExtraProps(this.$props);
       return props;
     },
-    getFormOn () {
+    getFormOn() {
       const listeners = this._getListners();
       return listeners;
     },
-    getFormSlots () {
+    getFormSlots() {
       const slots = this.$slots;
       return this._getVnodesBySlots(slots);
     },
-    getFormScopedSlots () {
+    getFormScopedSlots() {
       let scopedSlots = {};
       return scopedSlots;
     },
     renderForm() {
       const self = this;
       let createElement = self.$createElement;
-      const { getFormProps, getFormOn, getFormSlots, getFormScopedSlots, disabled } = self;
+      const {
+        getFormProps,
+        getFormOn,
+        getFormSlots,
+        getFormScopedSlots,
+        disabled
+      } = self;
       const props = getFormProps();
       const on = getFormOn();
       const slots = getFormSlots();
@@ -86,15 +95,19 @@ export default {
       const rowVnode = this.renderFormLayout();
       children.push(rowVnode);
 
-      return createElement(Form.name, {
-        staticClass: 'dy-form-generate',
-        class: [],
-        attrs,
-        props,
-        on,
-        ref: Form.name,
-        scopedSlots
-      }, children);
+      return createElement(
+        Form.name,
+        {
+          staticClass: 'dy-form-generate',
+          class: [],
+          attrs,
+          props,
+          on,
+          ref: Form.name,
+          scopedSlots
+        },
+        children,
+      );
     },
     genFormItemAttrs(data, componentName) {
       const attributes = getFormItemComponentAttribute(componentName) || [];
@@ -107,67 +120,78 @@ export default {
     },
     renderFormLayout() {
       const updateValue = (on, i) => {
-        return (value) => {
-          this.updateModelValue(i, value);
+        return value => {
+          this.updateModelValue(this.value, i, value);
           if (isFunction(on.input)) {
-            this.updateModelValue(i, on.input(this.value[i.prop]));
+            this.updateModelValue(this.value, i, on.input(this.value[i.prop]));
           }
         };
       };
       return (
         <Row.name>
-          {
-            this.config.map((i, idx) => {
-              const { props = {}, on = {}, nativeOn, slots, itemProps, colProps, component, span, label, prop } = i;
-              const attrs = this.genFormItemAttrs(props, component);
-              const data = {
-                props: {
-                  props,
-                  slots,
-                  colProps,
-                  itemProps,
-                  classSheet: this.classSheets[prop],
-                  itemClassSheet: this.itemClassSheets[prop]
-                },
-                attrs,
-                nativeOn,
-                on: {
-                  ...on,
-                  input: updateValue(on, i)
-                },
-                slots
-              };
-              return (
-                <GenerateFormItem.name
-                  class={this.colClassSheets[prop]}
-                  value={this.getModelValue(this.value, i)}
-                  span={span}
-                  label={label}
-                  prop={prop}
-                  component={component}
-                  key={i.prop}
-                  {...data}
-                />
-              );
-            })
-          }
+          {this.config.map((i, idx) => {
+            const {
+              props = {},
+              on = {},
+              nativeOn,
+              slots,
+              itemProps,
+              colProps,
+              component,
+              span,
+              label,
+              prop
+            } = i;
+            const attrs = this.genFormItemAttrs(props, component);
+            const data = {
+              props: {
+                props,
+                slots,
+                colProps,
+                itemProps,
+                classSheet: this.classSheets[prop],
+                itemClassSheet: this.itemClassSheets[prop]
+              },
+              attrs,
+              nativeOn,
+              on: {
+                ...on,
+                input: updateValue(on, i)
+              },
+              slots
+            };
+            return (
+              <GenerateFormItem.name
+                class={this.colClassSheets[prop]}
+                value={this.getModelValue(this.value, i)}
+                span={span}
+                label={label}
+                prop={prop}
+                component={component}
+                key={i.prop}
+                {...data}
+              />
+            );
+          })}
         </Row.name>
       );
     },
-    getModelValue(model, { prop, formatter }) {
+    getModelValue(model, i) {
+      const { prop, formatter } = i;
       let value = _.get(model, prop);
       if (isFunction(formatter)) {
         value = formatter(value);
       }
       return value;
     },
-    updateModelValue({ formatter, prop }, value) {
+    updateModelValue(model, i, value) {
+      const { prop, formatter } = i;
       if (isFunction(formatter)) {
         value = formatter(value);
       }
-      return _.set(this.value, prop, value);
+      _.set(model, prop, value);
+      return this.getModelValue(model, i);
     }
-
   }
 };
 </script>

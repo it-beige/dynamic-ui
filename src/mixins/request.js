@@ -1,8 +1,6 @@
 import globalConfig from 'main/config/global';
 import { isFunction } from 'main/utils/lodash';
-import {
-  getCompPropsBySourceOpt
-} from 'main/utils/component.js';
+import { getCompPropsBySourceOpt } from 'main/utils/component.js';
 import LoadingComponent from 'packages/loading';
 import InfiniteScrollComponent from 'packages/infinite-scroll';
 
@@ -23,15 +21,20 @@ const getExtraProps = () => {
       type: Function,
       default: () => globalConfig.useRequest()
     },
+    // 配置需要data数据项的展示项和绑定值
+    useOptionProps: {
+      type: Function,
+      default: () => globalConfig.useOptionProps()
+    },
     // 解析数据的方法
     useParseData: {
       type: Function,
-      default: (res) => globalConfig.useParseData(res)
+      default: res => globalConfig.useParseData(res)
     },
     // 解析total的方法
     useParseTotal: {
       type: Function,
-      default: (res) => globalConfig.useParseTotal(res)
+      default: res => globalConfig.useParseTotal(res)
     },
     // 获取请求接口的数据
     resolveData: {
@@ -41,7 +44,7 @@ const getExtraProps = () => {
     url: String,
     options: {
       type: Array,
-      default: () => ([])
+      default: () => []
     },
     // 请求方式
     method: {
@@ -80,18 +83,11 @@ const getExtraProps = () => {
       type: Function,
       default: (...arg) => globalConfig.loadMoreMethod(...arg)
     }
-
   };
 };
 
 const getExtraData = (self = {}) => {
-  const {
-    url,
-    method,
-    params,
-    data,
-    options
-  } = self;
+  const { url, method, params, data, options } = self;
   return {
     // 分页的数据
     pageParams: {},
@@ -107,7 +103,7 @@ const getExtraData = (self = {}) => {
   };
 };
 
-export const getExtra = (key) => {
+export const getExtra = key => {
   let get;
   switch (key) {
     case 'data':
@@ -120,7 +116,7 @@ export const getExtra = (key) => {
   return Object.keys(get());
 };
 
-export default function genRequestMixin () {
+export default function genRequestMixin() {
   const LoadingProps = getCompPropsBySourceOpt(LoadingComponent);
   const InfiniteScrollProps = getCompPropsBySourceOpt(InfiniteScrollComponent);
   return {
@@ -142,36 +138,36 @@ export default function genRequestMixin () {
         default: '数据加载中'
       }
     },
-    data (self) {
+    data(self) {
       return getExtraData(self);
     },
     watch: {
       url: {
-        handler (v) {
+        handler(v) {
           this.updateRequestParams('url', v);
           // url变动之后分页参数重置
           this.setPageParams();
         }
       },
       method: {
-        handler (v) {
+        handler(v) {
           this.updateRequestParams('method', v);
         }
       },
       params: {
-        handler (v) {
+        handler(v) {
           this.updateRequestParams('params', v);
         },
         deep: true
       },
       data: {
-        handler (v) {
+        handler(v) {
           this.updateRequestParams('data', v);
         },
         deep: true
       },
       pageParamsValue: {
-        handler () {
+        handler() {
           this.setPageParams();
           this.bindRequestParamsChanged = true;
         },
@@ -179,7 +175,7 @@ export default function genRequestMixin () {
       },
       // 如果变动url、params、data, method, 根据新的参数重新触发获取options
       bindRequestParamsChanged: {
-        handler (v) {
+        handler(v) {
           // 存在同时变动, 只生效一次
           if (v) {
             this.dispatchGetOptions(true).then(() => {
@@ -189,7 +185,7 @@ export default function genRequestMixin () {
         }
       }
     },
-    created () {
+    created() {
       this.$unWatchs = [];
       if (this.url) {
         this.setPageParams();
@@ -198,34 +194,36 @@ export default function genRequestMixin () {
       }
       this.dispatchGetOptions();
     },
-    beforeDestroy () {
+    beforeDestroy() {
       this.$unWatchs.forEach(i => i());
     },
     methods: {
-      $request (reqOptions) {
+      $request(reqOptions) {
         // 请求数据的方法
         const request = this.useRequest();
 
-        return new Promise((resolve) => {
-          request({ ...reqOptions, headers: this.useRequestHeaders() })
-            .then((res) => {
+        return new Promise(resolve => {
+          request({ ...reqOptions, headers: this.useRequestHeaders() }).then(
+            res => {
               let data = this.useParseData(res);
               this.pageParams.total = this.useParseTotal(res);
               // 返回解析之后的接口数据
               resolve(data);
-            });
+            },
+          );
         });
-
       },
-      setPageParams () {
+      setPageParams() {
         this.pageParams = {
-          [this.pageParamsKey.page]: this.pageParamsValue[this.pageParamsKey.page],
-          [this.pageParamsKey.size]: this.pageParamsValue[this.pageParamsKey.size],
+          [this.pageParamsKey.page]:
+            this.pageParamsValue[this.pageParamsKey.page],
+          [this.pageParamsKey.size]:
+            this.pageParamsValue[this.pageParamsKey.size],
           total: 0,
           count: 0
         };
       },
-      dispatchGetOptions (reset) {
+      dispatchGetOptions(reset) {
         if (reset) {
           // options、value重置
           this.$emit('input', undefined);
@@ -239,36 +237,35 @@ export default function genRequestMixin () {
           }
         }
       },
-      watchPropWithOption () {
+      watchPropWithOption() {
         this.$unWatchs.push(
-          this.$watch('options', (v) => {
+          this.$watch('options', v => {
             this.bindOptions = v;
-          })
+          }),
         );
       },
-      updateRequestParams (key, value) {
+      updateRequestParams(key, value) {
         this.bindRequestParams[key] = value;
         this.bindRequestParamsChanged = true;
       },
-      getAsyncOptions (params) {
+      getAsyncOptions(params) {
         this.requestPending = true;
-        return this.$request(params)
-          .then((options) => {
-            if (this.lazy) {
-              this.bindOptions = this.bindOptions.concat(options);
-              this.pageParams.count += options.length;
-            } else {
-              this.bindOptions = options;
-            }
-            // 用户需要获取异步请求数据的情况
-            if (isFunction(this.resolveData)) {
-              this.resolveData(this.bindOptions);
-            }
-            this.requestPending = false;
-          });
+        return this.$request(params).then(options => {
+          if (this.lazy) {
+            this.bindOptions = this.bindOptions.concat(options);
+            this.pageParams.count += options.length;
+          } else {
+            this.bindOptions = options;
+          }
+          // 用户需要获取异步请求数据的情况
+          if (isFunction(this.resolveData)) {
+            this.resolveData(this.bindOptions);
+          }
+          this.requestPending = false;
+        });
       },
-      offsetRequestOptions () {
-        const {count, total, ...pageParams} = this.pageParams;
+      offsetRequestOptions() {
+        const { count, total, ...pageParams } = this.pageParams;
         return this.getAsyncOptions({
           ...this.bindRequestParams,
           params: {
@@ -277,24 +274,22 @@ export default function genRequestMixin () {
           }
         });
       },
-      load () {
-        const {count, total, ...pageParams} = this.pageParams;
+      load() {
+        const { count, total, ...pageParams } = this.pageParams;
         if (count === Number(total)) {
           return;
         }
         if (this.requestPending) return;
         this.$emit('load');
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
           const page = pageParams[this.pageParamsKey.page];
           const size = pageParams[this.pageParamsKey.size];
           this.loadMoreMethod([page, size], resolve);
-        })
-          .then(([page, size]) => {
-            this.pageParams[this.pageParamsKey.page] = page;
-            this.pageParams[this.pageParamsKey.size] = size;
-            this.offsetRequestOptions();
-          });
-
+        }).then(([page, size]) => {
+          this.pageParams[this.pageParamsKey.page] = page;
+          this.pageParams[this.pageParamsKey.size] = size;
+          this.offsetRequestOptions();
+        });
       }
     }
   };
