@@ -1,24 +1,25 @@
 import globalConfig from 'main/config/global';
-import { getCompPropsBySourceOpt } from 'main/utils/component.js';
+import { getCompPropsBySourceOpt, genComponentPorps } from 'main/utils/component.js';
 import PaginationComponent from 'packages/pagination';
 import { getComponentByName } from 'main/config/component';
 
+export const [Ctor, pick] = genComponentPorps(getCompPropsBySourceOpt(PaginationComponent));
+
 const getExtraProps = () => {
+  const props = new Ctor();
+  // 组件布局，子组件名用逗号分隔
+  props.layout.default = globalConfig.usePaginationLayout();
+  // 每页显示个数选择器的选项设置
+  props.pageSizes.default = () => globalConfig.usePaginationPageSizes();
   return {
+    paginationProps: {
+      type: Ctor,
+      default: () => new Ctor()
+    },
     // 使用分页
     pagination: {
       type: Boolean,
       default: false
-    },
-    // 组件布局，子组件名用逗号分隔
-    layout: {
-      type: String,
-      default: globalConfig.usePaginationLayout()
-    },
-    // 每页显示个数选择器的选项设置
-    pageSizes: {
-      type: Array,
-      default: () => globalConfig.usePaginationPageSizes()
     }
   };
 };
@@ -42,11 +43,9 @@ export const getExtra = key => {
 };
 
 export default function genPaginationMixin() {
-  const PaginationProps = getCompPropsBySourceOpt(PaginationComponent, ['total', 'pageCount']);
 
   return {
     props: {
-      // ...PaginationProps,
       ...getExtraProps()
     },
     data(self) {
@@ -76,6 +75,12 @@ export default function genPaginationMixin() {
 
         };
         const data = {
+          props: {
+            ...pick(this.paginationProps),
+            total: this.pageParams.total,
+            currentPage: page,
+            pageSize: size
+          },
           on: {
             'size-change': onSizeChange,
             'current-change': onCurrentChange,
@@ -86,11 +91,6 @@ export default function genPaginationMixin() {
           <Pagination.name
             slot="append"
             class="dy-select-pagination"
-            layout={this.layout}
-            pageSizes={this.pageSizes}
-            total={this.pageParams.total}
-            currentPage={page}
-            pageSize={size}
             {...data}
           >
           </Pagination.name>

@@ -1,4 +1,4 @@
-import { cloneDeep, isString, isPlainObject, isArray } from './lodash';
+import { cloneDeep, isString, isPlainObject, isArray, isFunction } from './lodash';
 import {
   kebabToCamel
 } from './util';
@@ -56,4 +56,32 @@ export const buildClass = (classSheet) => {
   if (isArray(classSheet)) {
     return classSheet.map(i => buildClass(i)).join(' ');
   }
+};
+
+export const genComponentPorps = (props) => {
+  return [class ComponentProps {
+    constructor(option = {}) {
+      Object.keys(props).forEach(k => {
+        let value = props[k];
+        if (Reflect.has(option, k)) {
+          value = option[k];
+        }
+        this[k] = value;
+      });
+    }
+  }, function pick (props) {
+    return Object.keys(props).reduce((p, k) => {
+      const prop = props[k];
+      if (isPlainObject(prop)) {
+        if (isFunction(prop.default)) {
+          p[k] = prop.default();
+        } else {
+          p[k] = prop.default;
+        }
+      } else {
+        p[k] = isFunction(prop) ? prop() : prop;
+      }
+      return p;
+    }, {});
+  }];
 };
