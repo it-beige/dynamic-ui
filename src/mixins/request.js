@@ -230,7 +230,7 @@ export default function genRequestMixin() {
           this.bindOptions = [];
         }
         if (this.url && !this.disabledRequest) {
-          if (this.lazy) {
+          if (this.lazy || this.pagination) {
             return this.offsetRequestOptions();
           } else {
             return this.getAsyncOptions(this.bindRequestParams);

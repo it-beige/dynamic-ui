@@ -1,48 +1,54 @@
 <script>
-import genAttrsMixin, {getExtra as getAttrMixExtra} from 'main/mixins/attrs';
-import genRequestMixin, {getExtra as getRequestMixExtra} from 'main/mixins/request';
+import genAttrsMixin, { getExtra as getAttrMixExtra } from 'main/mixins/attrs';
+import genRequestMixin, { getExtra as getRequestMixExtra } from 'main/mixins/request';
+import genPaginationMixin, { getExtra as getPaginationMixExtra } from 'main/mixins/pagination';
 import { getComponentByName } from 'main/config/component';
 import { isFunction, isArray } from 'main/utils/lodash';
 
 const Select = getComponentByName('Select');
-// eslint-disable-next-line
 const OptionGroup = getComponentByName('OptionGroup');
-// eslint-disable-next-line
 const Option = getComponentByName('Option');
 
 export default {
   name: 'DySelectGenerate',
-  mixins: [genAttrsMixin(Select), genRequestMixin()],
+  mixins: [genAttrsMixin(Select), genRequestMixin(), genPaginationMixin()],
   props: {
     // 格式化option数据
     formatter: {
       type: Function
+    },
+    activePopper: {
+      type: Boolean,
+      default: true
     }
   },
-  data () {
+  data() {
     return {
-      extraProps: [...getAttrMixExtra('prop'), ...getRequestMixExtra('prop')],
-      extraData: [...getAttrMixExtra('data'), ...getRequestMixExtra('data')]
+      extraProps: [...getAttrMixExtra('prop'), ...getRequestMixExtra('prop'), ...getPaginationMixExtra('prop')],
+      extraData: [...getAttrMixExtra('data'), ...getRequestMixExtra('data'), ...getPaginationMixExtra('data')]
     };
   },
-  render () {
+  render() {
     const SelectVnode = this.renderSelect();
     return SelectVnode;
   },
   methods: {
-    getSelectProps () {
+    getSelectProps() {
       const props = this._excludeExtraProps(this.$props);
       return props;
     },
-    getSelectOn () {
+    getSelectOn() {
       const listeners = this._getListners();
       return listeners;
     },
-    getSelectSlots () {
-      const slots = this.$slots;
-      return this._getVnodesBySlots(slots);
+    getSelectSlots() {
+      const slots = [...this._getVnodesBySlots(this.$slots)];
+      if (this.pagination) {
+        slots.push(this.renderPagination());
+      }
+      return slots;
     },
-    renderSelect () {
+    renderSelect() {
       const self = this;
       let createElement = self.$createElement;
       const { getSelectProps, getSelectOn, getSelectSlots } = self;
@@ -81,7 +87,7 @@ export default {
         ref: Select.name
       }, nodes);
     },
-    getPropsWithFormatter (i) {
+    getPropsWithFormatter(i) {
       const { bindProps, formatter } = this;
       const { label, value, disabled, children } = bindProps;
       let bindLabel = i[label];
@@ -111,22 +117,22 @@ export default {
       };
       return props;
     },
-    getOptionsVnode (i, idx) {
+    getOptionsVnode(i, idx) {
       const { bindProps, getPropsWithFormatter } = this;
       const { labelRender } = bindProps;
       const props = getPropsWithFormatter(i);
-      const {value, label} = props;
+      const { value, label } = props;
 
       return <Option.name
         {
-        ...{props}
+        ...{ props }
         }
         key={`${value}-${idx}`}
       >
         {isFunction(labelRender) && labelRender(label, i)}
       </Option.name>;
     },
-    getGroupVnode (i, idx) {
+    getGroupVnode(i, idx) {
       const { getOptionsVnode, getPropsWithFormatter } = this;
       const { label, children, disabled } = getPropsWithFormatter(i);
 
@@ -145,7 +151,7 @@ export default {
         </OptionGroup.name>
       );
     },
-    renderOptions () {
+    renderOptions() {
       const self = this;
       const { getOptionsVnode, getGroupVnode, bindProps, getPropsWithFormatter } = self;
       const { children } = bindProps;
@@ -153,7 +159,7 @@ export default {
       return this.bindOptions.reduce((optionsVnode, i, idx) => {
         const props = getPropsWithFormatter(i);
         if (isFunction(optionTemplateRender)) {
-          optionsVnode.push(optionTemplateRender({props, i}));
+          optionsVnode.push(optionTemplateRender({ props, i }));
         } else if (children && isArray(i[children])) {
           optionsVnode.push(getGroupVnode(i, idx));
         } else {
@@ -162,7 +168,7 @@ export default {
         return optionsVnode;
       }, []);
     },
-    renderLoading () {
+    renderLoading() {
       const directives = [
         { name: 'loading', value: this.requestPending }
       ];

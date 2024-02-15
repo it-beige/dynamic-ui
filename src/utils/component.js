@@ -15,9 +15,16 @@ export function getAttrsName($attrs, name) {
   return $attrs[camelCaseName];
 }
 
-export const getCompPropsBySourceOpt = component => {
+export const getCompPropsBySourceOpt = (component, skipProps = []) => {
   const selfProps = component.props;
   let props = { ...selfProps };
+  if (skipProps.length) {
+    skipProps.forEach(prop => {
+      if (Reflect.has(props, prop)) {
+        Reflect.deleteProperty(props, prop);
+      }
+    });
+  }
   if (component.mixins) {
     component.mixins.reduce((props, opt) => {
       return Object.assign(props, opt.props || {});

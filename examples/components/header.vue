@@ -226,6 +226,7 @@
       }
       .nav-logo-small {
         display: inline-block;
+        width: 40px;
       }
       .nav-item {
         margin-left: 6px;

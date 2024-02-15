@@ -6,6 +6,7 @@
 - 支持懒加载数据
 - 参数监听, 值变动后根据新值自动请求数据
 - 对`GroupOption`和`Option`组件进行了整合
+<!--
 
 ### 基础用法
 
@@ -613,8 +614,48 @@ Vue.use(Dynamic, {
 </script>
 ```
 
+::: -->
+
+### 分页请求
+
+:::demo
+
+```html
+<dy-select-generate
+  v-model="value"
+  clearable
+  url="/api/list"
+  filterable
+  pagination
+  :params="params"
+  :resolve-data="resolveData"
+></dy-select-generate>
+
+<script>
+  export default {
+    data() {
+      return {
+        value: '',
+        url: '/api/list',
+        params: {
+          a: 1,
+          b: 2,
+        },
+      }
+    },
+    methods: {
+      // 获取自动请求已经解析好的数据
+      resolveData(options) {
+        console.log(options)
+      },
+    },
+  }
+</script>
+```
+
 :::
 
+<!--
 ### 参数监听
 
 :::demo
@@ -715,7 +756,7 @@ Vue.use(Dynamic, {
 
 :::warning
 `url`、`pageParamsValue` 的变动势必会重新变动接口请求的数据, 所以涉及这两个的变动 **会重置`value`的值**。
-:::
+::: -->
 
 ### Request 提供的 Select Attributes
 
@@ -743,23 +784,38 @@ Vue.use(Dynamic, {
 | showLoading            | 懒加载中 loading「需`lazy`为 true」        | boolean  | —           | true」                           |
 | dynamicLoadingText     | 加载时显示的文字「需`showLoading`为 true」 | string   | —           | 数据加载中                       |
 
+### Pagination 提供的 Attributes
+
+| 参数                | 说明                                                                                                                  | 类型     | 可选值                                                            | 默认值                                 |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------- | -------- | ----------------------------------------------------------------- | -------------------------------------- |
+| small               | 是否使用小型分页样式                                                                                                  | boolean  | —                                                                 | false                                  |
+| background          | 是否为分页按钮添加背景色                                                                                              | boolean  | —                                                                 | false                                  |
+| page-size           | 每页显示条目个数，支持 .sync 修饰符                                                                                   | number   | —                                                                 | 10                                     |
+| page-count          | 总页数，total 和 page-count 设置任意一个就可以达到显示页码的功能；如果要支持 page-sizes 的更改，则需要使用 total 属性 | Number   | —                                                                 | —                                      |
+| pager-count         | 页码按钮的数量，当总页数超过该值时会折叠                                                                              | number   | 大于等于 5 且小于等于 21 的奇数                                   | 7                                      |
+| layout              | 组件布局，子组件名用逗号分隔                                                                                          | String   | `sizes`, `prev`, `pager`, `next`, `jumper`, `->`, `total`, `slot` | 'prev, pager, next, jumper, ->, total' |
+| page-sizes          | 每页显示个数选择器的选项设置                                                                                          | number[] | —                                                                 | [10, 20, 30, 40, 50, 100]              |
+| popper-class        | 每页显示个数选择器的下拉框类名                                                                                        | string   | —                                                                 | —                                      |
+| prev-text           | 替代图标显示的上一页文字                                                                                              | string   | —                                                                 | —                                      |
+| next-text           | 替代图标显示的下一页文字                                                                                              | string   | —                                                                 | —                                      |
+| disabled            | 是否禁用                                                                                                              | boolean  | —                                                                 | false                                  |
+| hide-on-single-page | 只有一页时是否隐藏                                                                                                    | boolean  | —                                                                 | true                                   |
+
 ### 扩展 Select Attributes
 
-| 参数      | 说明               | 类型     | 可选值 | 默认值                        |
-| --------- | ------------------ | -------- | ------ | ----------------------------- |
-| props | 配置选项，具体看下表 | object | —      | global.useOptionProps() |  
-| formatter | 格式化 option 数据 | function | —0      | - |
+| 参数      | 说明                 | 类型     | 可选值 | 默认值                  |
+| --------- | -------------------- | -------- | ------ | ----------------------- |
+| props     | 配置选项，具体看下表 | object   | —      | global.useOptionProps() |
+| formatter | 格式化 option 数据   | function | —0     | -                       |
 
 ### props
 
-| 参数      | 说明               | 类型     | 可选值 | 默认值                        |
-| --------- | ------------------ | -------- | ------ | ----------------------------- |
-| label    | option组件的label属性                       | string  | —      | label     |
-| value    | option组件的value属性                       | string  | —      | value     |
-| children | 指定子树为节点对象的某个属性值                           | string                        | —      |     |
-| disabled | 子节点否禁用的属性值              | string | —      | children     |
-
-
+| 参数     | 说明                           | 类型   | 可选值 | 默认值   |
+| -------- | ------------------------------ | ------ | ------ | -------- |
+| label    | option 组件的 label 属性       | string | —      | label    |
+| value    | option 组件的 value 属性       | string | —      | value    |
+| children | 指定子树为节点对象的某个属性值 | string | —      |          |
+| disabled | 子节点否禁用的属性值           | string | —      | children |
 
 ### Select Attributes
 

@@ -28,6 +28,10 @@
           "name": "注入其他组件库"
         },
         {
+          "path": "/gobal-config",
+          "name": "全局配置"
+        },
+        {
           "path": "/i18n",
           "name": "国际化"
         },
@@ -379,6 +383,10 @@
         {
           "path": "/custom-component",
           "name": "Inject other component libraries"
+        },
+        {
+          "path": "/gobal-config",
+          "name": "Global Configuration"
         },
         {
           "path": "/i18n",

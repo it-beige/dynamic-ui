@@ -225,3 +225,13 @@ export const isInContainer = (el, container) => {
     elRect.right > containerRect.left &&
     elRect.left < containerRect.right;
 };
+
+export const findParentElement = (el, className) => {
+  let elm = el.parentElement;
+  while (elm) {
+    if (elm.classList.contains(className)) {
+      return elm;
+    }
+    elm = elm.parentElement;
+  }
+};

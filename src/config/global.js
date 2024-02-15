@@ -23,6 +23,14 @@ const globalConfig = {
   loadMoreMethod: ([page, size], resolve) => {
     // 支持异步
     resolve([++page, size]);
+  },
+  // 分页的总条目数
+  usePaginationLayout: () => {
+    return 'total, sizes, prev, pager, next, jumper';
+  },
+  // 分页的每页显示个数选择器的选项设置
+  usePaginationPageSizes: () => {
+    return [10, 20, 30, 40, 50, 100];
   }
 };
 

@@ -29,9 +29,9 @@ function createDocumentHandler (el, binding, vnode) {
     if (binding.expression &&
       el[ctx].methodName &&
       vnode.context[el[ctx].methodName]) {
-      vnode.context[el[ctx].methodName]();
+      vnode.context[el[ctx].methodName](mouseup.target);
     } else {
-      el[ctx].bindingFn && el[ctx].bindingFn();
+      el[ctx].bindingFn && el[ctx].bindingFn(mouseup.target);
     }
   };
 }
