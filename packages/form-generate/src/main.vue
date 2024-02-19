@@ -2,11 +2,11 @@
 import genAttrsMixin, { getExtra as getAttrMixExtra } from 'main/mixins/attrs';
 import { getComponentByName } from 'main/config/component';
 import {
-  getComponentByName as getFormComponentByName,
   getFormItemComponentAttribute
 } from 'main/config/form';
+import { genFormItemValue } from 'main/utils/component';
+
 import _, { isFunction } from 'lodash';
-import { buildClass } from 'main/utils/component';
 
 const Form = getComponentByName('Form');
 const Row = getComponentByName('Row');
@@ -55,6 +55,22 @@ export default {
       extraData: [...getAttrMixExtra('data')]
     };
   },
+  watch: {
+    config: {
+      immediate: true,
+      handler() {
+        const model = genFormItemValue(this.value, this.config);
+        this.$emit('input', model);
+        // 重置因初始化数据导致的change校验
+        this.$once('hook:mounted', () =>
+          this.$nextTick(() => {
+            const formRef = this.useRef();
+            formRef && formRef.clearValidate();
+          }),
+        );
+      }
+    }
+  },
   render() {
     const FormVnode = this.renderForm();
     return FormVnode;
@@ -62,6 +78,7 @@ export default {
   methods: {
     getFormProps() {
       const props = this._excludeExtraProps(this.$props);
+      props.model = this.value;
       return props;
     },
     getFormOn() {
@@ -83,8 +100,7 @@ export default {
         getFormProps,
         getFormOn,
         getFormSlots,
-        getFormScopedSlots,
-        disabled
+        getFormScopedSlots
       } = self;
       const props = getFormProps();
       const on = getFormOn();

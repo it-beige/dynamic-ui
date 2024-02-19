@@ -129,6 +129,45 @@
                 },
               ],
             },
+            on: {
+              'visible-change': visible => {
+                console.log(visible)
+              },
+            },
+          },
+          {
+            label: '单选框',
+            prop: 'radio-field',
+            component: 'radio',
+            props: {
+              url: '/api/list',
+              params: { page: 1, size: 4 },
+              toggle: true,
+            },
+          },
+          {
+            label: '多选框',
+            prop: 'checkbox-field',
+            component: 'checkbox',
+            props: {
+              url: '/api/list',
+              params: { page: 1, size: 4 },
+              toggle: true,
+              updateValue: ({ value }) => {
+                this.$message.success(`点击了${value}`)
+              },
+            },
+          },
+          {
+            label: '上传',
+            prop: 'update-field',
+            component: 'upload',
+            props: {
+              baseUploadURI:
+                process.env.VUE_APP_UPLOAD_API || 'http://localhost:3333',
+              action: '/upload',
+              listType: 'picture-card',
+            },
           },
         ],
         classSheets: { 'input-field': 'component-class' },

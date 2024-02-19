@@ -1,4 +1,4 @@
-import { cloneDeep, isString, isPlainObject, isArray, isFunction } from './lodash';
+import _, { cloneDeep, isString, isPlainObject, isArray, isFunction, isUndefined, isNull } from './lodash';
 import {
   kebabToCamel
 } from './util';
@@ -84,4 +84,27 @@ export const genComponentPorps = (props) => {
       return p;
     }, {});
   }];
+};
+
+export const genFormItemValue = (model, config) => {
+  model = cloneDeep(model);
+  const enumComponent = ['checkbox', 'upload'];
+  for (let n of config) {
+    let { prop, component, value, cascaderConfig } = n;
+
+    // 对象有设置值不进行初始化
+    if (_.has(model, prop)) {
+      continue;
+    }
+
+    // 给表单项设置初始值
+    if (isUndefined(value) || isNull(value)) {
+      _.set(model, prop, enumComponent.includes(component) ? [] : value);
+    }
+
+    if (isArray(cascaderConfig)) {
+      genFormItemValue(cascaderConfig);
+    }
+  }
+  return model;
 };

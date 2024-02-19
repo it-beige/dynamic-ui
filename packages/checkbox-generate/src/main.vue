@@ -173,7 +173,7 @@ export default {
       let data = {
         props,
         on: {
-          input: (v) => this.updateValue(i, v)
+          change: (v) => this.updateValue(i, v)
         }
       };
 
