@@ -1,8 +1,8 @@
 
-export const API = {
-  getList: '/api/list',
-  getTreeList: '/api/tree'
-};
+import axios from 'axios';
+import Dynamic from 'main/index.js';
+
+const { Message } = Dynamic;
 
 const successResponse = {
   code: '200'
@@ -274,15 +274,77 @@ function offsetData (res, params) {
   return {...res, data};
 }
 
-export default function axios ({ url, params }) {
-  console.log(`接口请求: url: ${url} params: ${JSON.stringify(params)}`);
-  let response;
-  if (url === API.getList) {
-    response = offsetData(data.list, params);
-  } else if (url === API.getTreeList) {
-    response = offsetData(data.tree, params);
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {resolve(response);}, 5000 * 0);
-  });
-}
+// export default function axios ({ url, params }) {
+//   console.log(`接口请求: url: ${url} params: ${JSON.stringify(params)}`);
+//   let response;
+//   if (url === API.getList) {
+//     response = offsetData(data.list, params);
+//   } else if (url === API.getTreeList) {
+//     response = offsetData(data.tree, params);
+//   }
+//   return new Promise(resolve => {
+//     setTimeout(() => {resolve(response);}, 5000 * 0);
+//   });
+// }
+
+const request = axios.create({
+  withCredentials: true,
+  timeout: 1000 * 60
+});
+
+request.interceptors.response.use(
+  response => {
+    let res = response.data;
+    return res;
+  },
+
+  error => {
+    let message = '';
+
+    if (error.response) {
+      switch (error.response.status) {
+        case 400:
+          message = '错误请求';
+          break;
+        case 403:
+          message = '拒绝访问';
+          break;
+        case 404:
+          message = '请求错误,未找到该资源';
+          break;
+        case 405:
+          message = '请求方法未允许';
+          break;
+        case 408:
+          message = '请求超时';
+          break;
+        case 500:
+          message = '服务器端出错';
+          break;
+        case 501:
+          message = '网络未实现';
+          break;
+        case 502:
+          message = '网络错误';
+          break;
+        case 503:
+          message = '服务不可用';
+          break;
+        case 504:
+          message = '网络超时';
+          break;
+        case 505:
+          message = 'http版本不支持该请求';
+          break;
+        default:
+          message = `连接错误${error.response.status}`;
+      }
+    }
+
+    message && Message.error(message);
+
+    return Promise.reject(error);
+  },
+);
+
+export default request;

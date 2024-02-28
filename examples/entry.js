@@ -15,8 +15,9 @@ import 'packages/theme-chalk/src/index.scss';
 import './demo-styles/index.scss';
 import './assets/styles/common.css';
 import './assets/styles/fonts/style.css';
+import './mock/index.js';
 import icon from './icon.json';
-import axios from './api/request';
+import request from './api/request';
 import { isPlainObject, isArray } from 'main/utils/lodash';
 
 Vue.use(Dynamic, {
@@ -29,7 +30,7 @@ Vue.use(Dynamic, {
   // 分页默认的参数值
   pageParamsValue: { page: 1, size: 10 },
   //  自定义组件内部请求接口所使用方法
-  useRequest: () => axios,
+  useRequest: () => request,
   // 请求接口默认携带的请求头参数, 项目中一般需要携带的鉴权token
   useRequestHeaders: () => ({ 'Dynamic-Auth': localStorage.getItem('access_token') }),
   // 自定义解析数据接口返回的data, 后续FormGenerate组件会介绍

@@ -36,7 +36,8 @@ const webpackConfig = {
     hot: true,
     onBeforeSetupMiddleware: (devServer) => {
       devServer.app.use('/__open-in-editor', launchEditorMiddleware('code'));
-    }
+    },
+    setupMiddlewares: require('../examples/mock')
   },
   performance: {
     hints: false
