@@ -171,8 +171,8 @@ const treeData = {
       }
     ],
     total: 7
-  }
-
+  },
+  total: 7
 };
 
 module.exports = function beforeMock(middlewares, devServer) {
