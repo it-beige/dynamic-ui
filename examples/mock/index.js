@@ -1,5 +1,28 @@
 const Mock = require('mockjs');
 const URL = require('../api/url');
+const _ = require('lodash');
+
+const getParams = (url) => {
+  const [baseUrl, queryString] = _.split(url, '?');
+  const queryParams = _.split(queryString, '&');
+  const params = _.map(queryParams, param => _.split(param, '='));
+  const queryParamsObject = _.fromPairs(params);
+  return queryParamsObject;
+
+};
+
+function offsetData (res, params) {
+  let page = params.page || params.pageNo;
+  let size = params.size || params.pageSize;
+  let data = res.data;
+  let list = data.list;
+  if (page && size) {
+    const start = (page - 1) * size;
+    const end = page * size;
+    list = list.slice(start, end);
+  }
+  return {...res, data: {...data, list}};
+}
 
 const common = {
   code: '200',
@@ -9,19 +32,23 @@ const common = {
 const listData = Mock.mock({
   ...common,
   data: {
-    'list|25': [{
-      'id|+1': 1,
-      'label': function() {
-        const labels = ['黄金糕', '双皮奶', '蚵仔煎', '龙须面', '北京烤鸭'];
-        const idx = this.id - 1;
-        let label = labels[idx % labels.length];
-        const coefficient = parseInt(idx / labels.length, 10);
-        return `${label}${Array(coefficient).fill(this.id % labels.length).join('')}`;
-      },
-      'value|+10': function() {
-        return '选项' + this.id;
+    'list|25': [
+      {
+        'id|+1': 1,
+        label: function () {
+          const labels = ['黄金糕', '双皮奶', '蚵仔煎', '龙须面', '北京烤鸭'];
+          const idx = this.id - 1;
+          let label = labels[idx % labels.length];
+          const coefficient = parseInt(idx / labels.length, 10);
+          return `${label}${Array(coefficient)
+            .fill(this.id % labels.length)
+            .join('')}`;
+        },
+        'value|+10': function () {
+          return '选项' + this.id;
+        }
       }
-    }],
+    ],
     total: 25
   }
 });
@@ -65,107 +92,107 @@ const treeData = {
         ]
       },
       {
-        'name': '一组城市',
-        'options': [
+        name: '一组城市',
+        options: [
           {
-            'code': 'Chengdu',
-            'name': '成都'
+            code: 'Chengdu',
+            name: '成都'
           },
           {
-            'code': 'Shenzhen',
-            'name': '深圳'
+            code: 'Shenzhen',
+            name: '深圳'
           },
           {
-            'code': 'Guangzhou',
-            'name': '广州'
+            code: 'Guangzhou',
+            name: '广州'
           },
           {
-            'code': 'Dalian',
-            'name': '大连'
+            code: 'Dalian',
+            name: '大连'
           }
         ]
       },
       {
-        'name': '二组城市',
-        'options': [
+        name: '二组城市',
+        options: [
           {
-            'code': 'Qingdao',
-            'name': '青岛'
+            code: 'Qingdao',
+            name: '青岛'
           },
           {
-            'code': 'Ningbo',
-            'name': '宁波'
+            code: 'Ningbo',
+            name: '宁波'
           },
           {
-            'code': 'Xiamen',
-            'name': '厦门'
+            code: 'Xiamen',
+            name: '厦门'
           },
           {
-            'code': 'Changchun',
-            'name': '长春'
+            code: 'Changchun',
+            name: '长春'
           }
         ]
       },
       {
-        'name': '三组城市',
-        'options': [
+        name: '三组城市',
+        options: [
           {
-            'code': 'Wuhan',
-            'name': '武汉'
+            code: 'Wuhan',
+            name: '武汉'
           },
           {
-            'code': 'Tianjin',
-            'name': '天津'
+            code: 'Tianjin',
+            name: '天津'
           },
           {
-            'code': "Xi'an",
-            'name': '西安'
+            code: "Xi'an",
+            name: '西安'
           },
           {
-            'code': 'Qingdao',
-            'name': '青岛'
+            code: 'Qingdao',
+            name: '青岛'
           }
         ]
       },
       {
-        'name': '四组城市',
-        'options': [
+        name: '四组城市',
+        options: [
           {
-            'code': 'Dalian',
-            'name': '大连'
+            code: 'Dalian',
+            name: '大连'
           },
           {
-            'code': 'Shijiazhuang',
-            'name': '石家庄'
+            code: 'Shijiazhuang',
+            name: '石家庄'
           },
           {
-            'code': 'Jinan',
-            'name': '济南'
+            code: 'Jinan',
+            name: '济南'
           },
           {
-            'code': 'Ningbo',
-            'name': '宁波'
+            code: 'Ningbo',
+            name: '宁波'
           }
         ]
       },
       {
-        'name': '五组城市',
-        'options': [
+        name: '五组城市',
+        options: [
           {
-            'code': 'Harbin',
-            'name': '哈尔滨'
+            code: 'Harbin',
+            name: '哈尔滨'
           },
           {
-            'code': 'Changsha',
-            'name': '长沙'
+            code: 'Changsha',
+            name: '长沙'
           },
           {
-            'code': 'Fuzhou',
-            'name': '福州'
+            code: 'Fuzhou',
+            name: '福州'
           },
           {
-            'code': 'Hefei',
-            'name': '合肥'
+            code: 'Hefei',
+            name: '合肥'
           }
         ]
       }
@@ -177,7 +204,8 @@ const treeData = {
 
 module.exports = function beforeMock(middlewares, devServer) {
   devServer.app.get(URL.getList, (req, res) => {
-    res.json(listData);treeData;
+    const params = getParams(req.url);
+    res.json(offsetData(listData, params));
   });
   devServer.app.get(URL.getTreeList, (req, res) => {
     res.json(treeData);

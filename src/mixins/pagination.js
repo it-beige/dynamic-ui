@@ -3,18 +3,18 @@ import { getCompPropsBySourceOpt, genComponentPorps } from 'main/utils/component
 import PaginationComponent from 'packages/pagination';
 import { getComponentByName } from 'main/config/component';
 
-export const [Ctor, pick] = genComponentPorps(getCompPropsBySourceOpt(PaginationComponent));
+export const [PaginationCtor, PaginationPick] = genComponentPorps(getCompPropsBySourceOpt(PaginationComponent));
 
 const getExtraProps = () => {
-  const props = new Ctor();
+  const props = new PaginationCtor();
   // 组件布局，子组件名用逗号分隔
   props.layout.default = globalConfig.usePaginationLayout();
   // 每页显示个数选择器的选项设置
   props.pageSizes.default = () => globalConfig.usePaginationPageSizes();
   return {
     paginationProps: {
-      type: Ctor,
-      default: () => new Ctor()
+      type: PaginationCtor,
+      default: () => new PaginationCtor()
     },
     // 使用分页
     pagination: {
@@ -76,7 +76,7 @@ export default function genPaginationMixin() {
         };
         const data = {
           props: {
-            ...pick(this.paginationProps),
+            ...PaginationPick(this.paginationProps),
             total: this.pageParams.total,
             currentPage: page,
             pageSize: size

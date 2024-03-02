@@ -787,9 +787,9 @@ Vue.use(Dynamic, {
 组件通过引入帮助函数可以生成`Pagination`的 prop
 
 ```js
-import Ctor from 'dynamic-ui/src/mixins/pagination.js'
+import PaginationCtor from 'dynamic-ui/src/mixins/pagination.js'
 
-const props = new Ctor({
+const props = new PaginationCtor({
   small: true,
 })
 
