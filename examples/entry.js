@@ -16,7 +16,9 @@ import './demo-styles/index.scss';
 import './assets/styles/common.css';
 import './assets/styles/fonts/style.css';
 import './mock/index.js';
-import icon from './icon.json';
+import icon from './icons/icon.json';
+import icon1 from './icons/icon1.json';
+import icon2 from './icons/icon2.json';
 import request from './api/request';
 import { isPlainObject, isArray } from 'main/utils/lodash';
 
@@ -81,7 +83,10 @@ Vue.mixin({
   }
 });
 
-Vue.prototype.$icon = icon; // Icon 列表页用
+// Icon 列表页用
+Vue.prototype.$icon = icon;
+Vue.prototype.$icon1 = icon1;
+Vue.prototype.$icon2 = icon2;
 
 const router = new VueRouter({
   mode: 'hash',

@@ -27,3 +27,25 @@
     </span>
   </li>
 </ul>
+
+### 数字产品图标集合
+
+<ul class="icon-list">
+  <li v-for="name in $icon1" :key="name">
+    <span>
+      <i :class="'dy-icon1-' + name"></i>
+      <span class="icon-name">{{'dy-icon1-' + name}}</span>
+    </span>
+  </li>
+</ul>
+
+### 扩展组件库图标集合
+
+<ul class="icon-list">
+  <li v-for="name in $icon2" :key="name">
+    <span>
+      <i :class="'dy-icon2-' + name"></i>
+      <span class="icon-name">{{'dy-icon2-' + name}}</span>
+    </span>
+  </li>
+</ul>
