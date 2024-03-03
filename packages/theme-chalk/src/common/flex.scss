@@ -1,0 +1,71 @@
+@import '../mixins/mixins.scss';
+
+$classes: (
+  '#{$namespace}-flex__center',
+  '#{$namespace}-flex__justify-center',
+  '#{$namespace}-flex__justify-between',
+  '#{$namespace}-flex__justify-start',
+  '#{$namespace}-flex__justify-end',
+  '#{$namespace}-flex__align-center',
+  '#{$namespace}-flex__align-between',
+  '#{$namespace}-flex__align-start',
+  '#{$namespace}-flex__align-end'
+);
+@mixin flex {
+  display: flex;
+}
+@mixin justify-content($justify: center) {
+  justify-content: $justify;
+}
+@mixin align-items($align: center) {
+  align-items: $align;
+}
+
+// 使用 @each 循环为每个类名添加样式
+@each $class in $classes {
+  .#{$class} {
+    @include flex;
+  }
+}
+
+@include b(flex) {
+  &-column {
+    flex-direction: column;
+  }
+  @include e(center) {
+    @include justify-content;
+    @include align-items;
+  }
+
+  @include e(justify-center) {
+    @include justify-content;
+  }
+
+  @include e(justify-between) {
+    @include justify-content(space-between);
+  }
+
+  @include e(justify-start) {
+    @include justify-content(flex-start);
+  }
+
+  @include e(justify-end) {
+    @include justify-content(flex-end);
+  }
+
+  @include e(align-center) {
+    @include align-items;
+  }
+
+  @include e(align-between) {
+    @include align-items(space-between);
+  }
+
+  @include e(align-start) {
+    @include align-items(start);
+  }
+
+  @include e(align-end) {
+    @include align-items(end);
+  }
+}
