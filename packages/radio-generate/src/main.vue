@@ -97,6 +97,7 @@ export default {
       const props = this.getProps(RadioGroup, this.$attrs);
       props.value = this.value;
       const data = {
+        staticClass: 'dy-radio-group-generate',
         props,
         on: this.$listeners,
         ref: RadioGroup.name
@@ -181,6 +182,7 @@ export default {
       }
       const component = getComponentByType();
       let data = {
+        staticClass: 'dy-radio-generate',
         props,
         on: {
           input: (v) => this.updateValue(i, v),

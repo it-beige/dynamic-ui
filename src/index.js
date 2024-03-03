@@ -90,11 +90,13 @@ import Empty from '../packages/empty/index.js';
 import Descriptions from '../packages/descriptions/index.js';
 import DescriptionsItem from '../packages/descriptions-item/index.js';
 import Result from '../packages/result/index.js';
+import DraggableResizable from '../packages/draggable-resizable/index.js';
 import SelectGenerate from '../packages/select-generate/index.js';
 import RadioGenerate from '../packages/radio-generate/index.js';
 import CheckboxGenerate from '../packages/checkbox-generate/index.js';
 import UploadGenerate from '../packages/upload-generate/index.js';
 import FormGenerate from '../packages/form-generate/index.js';
+import DialogGenerate from '../packages/dialog-generate/index.js';
 import locale from 'dynamic-ui/src/locale';
 import CollapseTransition from 'dynamic-ui/src/transitions/collapse-transition';
 import {
@@ -193,11 +195,13 @@ const components = [
   Descriptions,
   DescriptionsItem,
   Result,
+  DraggableResizable,
   SelectGenerate,
   RadioGenerate,
   CheckboxGenerate,
   UploadGenerate,
   FormGenerate,
+  DialogGenerate,
   CollapseTransition
 ];
 
@@ -371,9 +375,11 @@ export default {
   Descriptions,
   DescriptionsItem,
   Result,
+  DraggableResizable,
   SelectGenerate,
   RadioGenerate,
   CheckboxGenerate,
   UploadGenerate,
-  FormGenerate
+  FormGenerate,
+  DialogGenerate
 };

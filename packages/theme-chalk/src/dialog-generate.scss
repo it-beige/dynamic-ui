@@ -1,0 +1,88 @@
+@import "mixins/mixins";
+@import "common/var";
+
+@include b(dialog-generate) {
+  @include b(title__wrap) {
+    color: $--color-primary;
+    @include b(icon-view) {
+      font-size: 18px;
+    }
+    @include b(title__text) {
+      padding-left: 6px;
+      font-size: 16px;
+    }
+  }
+
+  @include b(dialog__header) {
+    position: relative;
+   
+  }
+
+  @include b(dialog__draggable) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: move;
+  }
+
+  .button__wrap {
+    button {
+      padding: 0;
+      margin-right: 6px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+    .dy-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+    .fullscreen-btn {
+      background: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+
+      .cancel-fullscreen {
+        width: 26px;
+        height: 26px;
+      }
+    }
+    .dy-svg-icon {
+      width: 24px;
+      height: 24px;
+      color: $--color-info;
+
+      &:focus,
+      &:hover {
+        color: $--color-primary;
+      }
+    }
+    
+    
+  }
+
+  .handle {
+    box-sizing: border-box;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #EEE;
+    border: 1px solid #333;
+
+    &-tl {
+      top: -10px;
+      left: -10px;
+      cursor: nw-resize;
+    }
+
+    &-tr {
+      top: -10px;
+      right: -10px;
+      cursor: ne-resize;
+    }
+  }
+  
+}

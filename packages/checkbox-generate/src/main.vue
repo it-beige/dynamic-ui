@@ -92,6 +92,7 @@ export default {
       const props = this.getProps(CheckboxGroup, this.$attrs);
       props.value = this.value;
       const data = {
+        staticClass: 'dy-checkbox-group-generate',
         props,
         on: this.$listeners,
         ref: CheckboxGroup.name
@@ -171,6 +172,7 @@ export default {
       }
       const component = getComponentByType();
       let data = {
+        staticClass: 'dy-checkbox-generate',
         props,
         on: {
           change: (v) => this.updateValue(i, v)

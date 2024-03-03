@@ -81,6 +81,7 @@ export default {
         nodes.push(loadingVnode);
       }
       return createElement(Select.name, {
+        staticClass: 'dy-select-generate',
         attrs,
         props,
         on,

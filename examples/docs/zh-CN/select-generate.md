@@ -1,6 +1,6 @@
 ## SelectGenerate Select 生成
 
-> 基于`Select`组件的封装, 扩展了及功能
+> 基于`Select`组件的封装, 扩展了其功能
 
 - 传入 `URL` 自动请求数据来渲染组件
 - 支持懒加载数据

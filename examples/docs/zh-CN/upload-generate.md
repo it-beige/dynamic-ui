@@ -1,6 +1,6 @@
 ## UploadGenerate Upload 生成
 
-> 基于`Upload`组件的封装, 扩展了及功能
+> 基于`Upload`组件的封装, 扩展了其功能
 
 - 对`list-type`的文件样式列表进行了封装
 - 对各种类型文件提供对应的`icon`展示

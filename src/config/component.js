@@ -85,6 +85,7 @@ import Empty from 'packages/empty/index.js';
 import Descriptions from 'packages/descriptions/index.js';
 import DescriptionsItem from 'packages/descriptions-item/index.js';
 import Result from 'packages/result/index.js';
+import DraggableResizable from 'packages/draggable-resizable/index.js';
 
 var CONFIG_COMPONENTS = {
   Pagination: Pagination,
@@ -171,7 +172,8 @@ var CONFIG_COMPONENTS = {
   Empty: Empty,
   Descriptions: Descriptions,
   DescriptionsItem: DescriptionsItem,
-  Result: Result
+  Result: Result,
+  DraggableResizable: DraggableResizable
 };
 
 var COMPONENT_PREFIX = 'Dy';

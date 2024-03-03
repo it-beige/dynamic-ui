@@ -37,12 +37,13 @@ export const getExtra = (key) => {
   return Object.keys(get());
 };
 
-export default function genAttrsMixin (component) {
+export default function genAttrsMixin (component, extra = true) {
   const props = getCompPropsBySourceOpt(component);
+  const extraProps = extra ? getExtraProps() : {};
   return {
     props: {
       ...props,
-      ...getExtraProps()
+      ...extraProps
     },
     data (self) {
       return {

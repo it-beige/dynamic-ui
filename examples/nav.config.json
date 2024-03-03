@@ -71,6 +71,10 @@
             {
               "path": "/form-generate",
               "title": "Form JSON生成"
+            },
+            {
+              "path": "/dialog-generate",
+              "title": "Dialog JSON生成"
             }
           ]
         }

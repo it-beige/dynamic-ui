@@ -89,9 +89,11 @@
   "descriptions": "./packages/descriptions/index.js",
   "descriptions-item": "./packages/descriptions-item/index.js",
   "result": "./packages/result/index.js",
+  "draggable-resizable": "./packages/draggable-resizable",
   "select-generate": "./packages/select-generate/index.js",
   "radio-generate": "./packages/radio-generate/index.js",
   "checkbox-generate": "./packages/checkbox-generate/index.js",
   "upload-generate": "./packages/upload-generate/index.js",
-  "form-generate": "./packages/form-generate/index.js"
+  "form-generate": "./packages/form-generate/index.js",
+  "dialog-generate": "./packages/dialog-generate/index.js"
 }

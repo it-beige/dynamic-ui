@@ -77,7 +77,8 @@
     "resize-observer-polyfill": "^1.5.0",
     "svg-sprite-loader": "^6.0.11",
     "svgo-loader": "3",
-    "throttle-debounce": "^1.0.1"
+    "throttle-debounce": "^1.0.1",
+    "vue-draggable-resizable": "^2.3.0"
   },
   "peerDependencies": {
     "vue": "~2.6.10"

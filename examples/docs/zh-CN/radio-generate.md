@@ -1,6 +1,6 @@
 ## RadioGenerate Radio 生成
 
-> 基于`Radio`组件的封装, 扩展了及功能
+> 基于`Radio`组件的封装, 扩展了其功能
 
 - 传入 `URL` 自动请求数据来渲染组件
 - 对`radioGroup`和`Radio`及`RadioButton`组件进行了整合
@@ -134,7 +134,7 @@
     :params="params"
     :group="false"
     :toggle="true"
-></dy-radio-generate>
+  ></dy-radio-generate>
 </div>
 <script>
   export default {
@@ -181,40 +181,36 @@
 
 ### 扩展 Select Attributes
 
-| 参数      | 说明               | 类型     | 可选值 | 默认值                        |
-| --------- | ------------------ | -------- | ------ | ----------------------------- |
-| props | 配置选项，具体看下表 | object | —      | global.useOptionProps() |  
-| formatter | 格式化 option 数据 | function | - | - | 
-| type | 格支持的类型 | string |`circle`、`button`     |circle |
-| group | 是否分组 | boolean | -     |  true |
-| toggle | 是否可取消选中 | boolean | -     |  false |
+| 参数      | 说明                 | 类型     | 可选值             | 默认值                  |
+| --------- | -------------------- | -------- | ------------------ | ----------------------- |
+| props     | 配置选项，具体看下表 | object   | —                  | global.useOptionProps() |
+| formatter | 格式化 option 数据   | function | -                  | -                       |
+| type      | 格支持的类型         | string   | `circle`、`button` | circle                  |
+| group     | 是否分组             | boolean  | -                  | true                    |
+| toggle    | 是否可取消选中       | boolean  | -                  | false                   |
+
 ### props
 
-| 参数      | 说明               | 类型     | 可选值 | 默认值                        |
-| --------- | ------------------ | -------- | ------ | ----------------------------- |
-| label    | option组件的label属性                       | string  | —      | label     |
-| value    | option组件的value属性                       | string  | —      | value     |
-| disabled | 子节点否禁用的属性值              | string | —      | children     |
-
-
-
+| 参数     | 说明                     | 类型   | 可选值 | 默认值   |
+| -------- | ------------------------ | ------ | ------ | -------- |
+| label    | option 组件的 label 属性 | string | —      | label    |
+| value    | option 组件的 value 属性 | string | —      | value    |
+| disabled | 子节点否禁用的属性值     | string | —      | children |
 
 ### Radio Attributes
 
-| 参数            | 说明                                 | 类型                      | 可选值                | 默认值 |
-| --------------- | ------------------------------------ | ------------------------- | --------------------- | ------ |
-| formatter | 格式化 option 数据 | function | —      | - |
-
+| 参数      | 说明               | 类型     | 可选值 | 默认值 |
+| --------- | ------------------ | -------- | ------ | ------ |
+| formatter | 格式化 option 数据 | function | —      | -      |
 
 ### props
 
-| 参数      | 说明               | 类型     | 可选值 | 默认值                        |
-| --------- | ------------------ | -------- | ------ | ----------------------------- |
-| label    | option组件的label属性                       | string  | —      | label     |
-| value    | option组件的value属性                       | string  | —      | value     |
-| children | 指定子树为节点对象的某个属性值                           | string                        | —      |     |
-| disabled | 子节点否禁用的属性值              | string | —      | children     |
-
+| 参数     | 说明                           | 类型   | 可选值 | 默认值   |
+| -------- | ------------------------------ | ------ | ------ | -------- |
+| label    | option 组件的 label 属性       | string | —      | label    |
+| value    | option 组件的 value 属性       | string | —      | value    |
+| children | 指定子树为节点对象的某个属性值 | string | —      |          |
+| disabled | 子节点否禁用的属性值           | string | —      | children |
 
 ### Radio Events
 
