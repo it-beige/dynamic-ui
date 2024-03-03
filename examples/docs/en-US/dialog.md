@@ -261,6 +261,7 @@ If the variable bound to `visible` is managed in Vuex store, the `.sync` can not
 | ------ | ---------------------------- |
 | —      | content of Dialog            |
 | header | content of the Dialog header |
+| button | content of the Dialog button |
 | title  | content of the Dialog title  |
 | footer | content of the Dialog footer |
 

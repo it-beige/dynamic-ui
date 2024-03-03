@@ -248,12 +248,13 @@ Dialog 的内容是懒渲染的，即在第一次被打开之前，传入的默�
 
 ### Slot
 
-| name   | 说明                    |
-| ------ | ----------------------- |
-| —      | Dialog 的内容           |
-| header | Dialog 头部区的内容     |
-| title  | Dialog 标题区的内容     |
-| footer | Dialog 按钮操作区的内容 |
+| name   | 说明                      |
+| ------ | ------------------------- |
+| —      | Dialog 的内容             |
+| header | Dialog 头部区的内容       |
+| button | Dialog 右上角按钮区的内容 |
+| title  | Dialog 标题区的内容       |
+| footer | Dialog 按钮操作区的内容   |
 
 ### Events
 
