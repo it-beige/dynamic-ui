@@ -31,18 +31,18 @@ Dialog pops up a dialog box, and it's quite customizable.
     data() {
       return {
         dialogVisible: false,
-      };
+      }
     },
     methods: {
       handleClose(done) {
         this.$confirm('Are you sure to close this dialog?')
           .then(_ => {
-            done();
+            done()
           })
-          .catch(_ => {});
+          .catch(_ => {})
       },
     },
-  };
+  }
 </script>
 ```
 
@@ -136,9 +136,9 @@ The content of Dialog can be anything, even a table or a form. This example show
           desc: '',
         },
         formLabelWidth: '120px',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -177,9 +177,9 @@ If a Dialog is nested in another Dialog, `append-to-body` is required.
       return {
         outerVisible: false,
         innerVisible: false,
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -218,9 +218,9 @@ Dialog's content can be centered.
     data() {
       return {
         centerDialogVisible: false,
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -260,6 +260,7 @@ If the variable bound to `visible` is managed in Vuex store, the `.sync` can not
 | Name   | Description                  |
 | ------ | ---------------------------- |
 | —      | content of Dialog            |
+| header | content of the Dialog header |
 | title  | content of the Dialog title  |
 | footer | content of the Dialog footer |
 

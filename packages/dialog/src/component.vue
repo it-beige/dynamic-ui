@@ -15,7 +15,8 @@
         :class="['dy-dialog', { 'is-fullscreen': fullscreen, 'dy-dialog--center': center }, customClass]"
         ref="dialog"
         :style="style">
-        <div class="dy-dialog__header">
+        <slot name="header">
+          <div class="dy-dialog__header  dy-flex__justify-between dy-flex__align-center">
           <slot name="title">
             <span class="dy-dialog__title">{{ title }}</span>
           </slot>
@@ -28,6 +29,7 @@
             <i class="dy-dialog__close dy-icon dy-icon-close"></i>
           </button>
         </div>
+        </slot>
         <div class="dy-dialog__body" v-if="rendered"><slot></slot></div>
         <div class="dy-dialog__footer" v-if="$slots.footer">
           <slot name="footer"></slot>
