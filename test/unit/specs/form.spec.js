@@ -31,7 +31,7 @@ describe('Form', () => {
           </dy-form-item>
         </dy-form>
       `,
-      data() {
+      data () {
         return {
           form: {
             name: ''
@@ -43,7 +43,7 @@ describe('Form', () => {
     expect(vm.$el.querySelector('.dy-form-item__content').style.marginLeft).to.equal('80px');
     done();
   });
-  it('auto label width', async() => {
+  it('auto label width', async () => {
     vm = createVue({
       template: `
         <dy-form ref="form" :model="form" label-width="auto">
@@ -55,7 +55,7 @@ describe('Form', () => {
           </dy-form-item>
         </dy-form>
       `,
-      data() {
+      data () {
         return {
           display: true,
           form: {
@@ -92,7 +92,7 @@ describe('Form', () => {
           </dy-form-item>
         </dy-form>
       `,
-      data() {
+      data () {
         return {
           form: {
             name: '',
@@ -126,7 +126,7 @@ describe('Form', () => {
           </dy-form>
         </div>
       `,
-      data() {
+      data () {
         return {
           form: {
             name: '',
@@ -150,7 +150,7 @@ describe('Form', () => {
           </dy-form>
         </div>
       `,
-      data() {
+      data () {
         return {
           form: {
             name: ''
@@ -177,7 +177,7 @@ describe('Form', () => {
           </dy-form-item>
         </dy-form>
       `,
-      data() {
+      data () {
         return {
           form: {
             name: ''
@@ -213,7 +213,7 @@ describe('Form', () => {
           </dy-form-item>
         </dy-form>
       `,
-      data() {
+      data () {
         return {
           form: {
             name: '',
@@ -234,7 +234,7 @@ describe('Form', () => {
         };
       },
       methods: {
-        setValue() {
+        setValue () {
           this.form.name = 'jack';
           this.form.address = 'aaaa';
           this.form.type.push('地推活动');
@@ -270,7 +270,7 @@ describe('Form', () => {
           </dy-form-item>
         </dy-form>
       `,
-      data() {
+      data () {
         return {
           form: {
             name: '',
@@ -327,7 +327,7 @@ describe('Form', () => {
           </dy-form-item>
         </dy-form>
       `,
-      data() {
+      data () {
         return {
           form: {
             date1: '',
@@ -341,7 +341,7 @@ describe('Form', () => {
         };
       },
       methods: {
-        setValue() {
+        setValue () {
           this.name = 'jack';
           this.address = 'aaaa';
         }
@@ -362,7 +362,7 @@ describe('Form', () => {
             </dy-form-item>
           </dy-form>
         `,
-        data() {
+        data () {
           return {
             form: {
               name: ''
@@ -375,7 +375,7 @@ describe('Form', () => {
           };
         },
         methods: {
-          setValue(value) {
+          setValue (value) {
             this.form.name = value;
           }
         }
@@ -408,7 +408,7 @@ describe('Form', () => {
             </dy-form-item>
           </dy-form>
         `,
-        data() {
+        data () {
           return {
             form: {
               name: ''
@@ -421,7 +421,7 @@ describe('Form', () => {
           };
         },
         methods: {
-          setValue(value) {
+          setValue (value) {
             this.form.name = value;
           }
         }
@@ -457,7 +457,7 @@ describe('Form', () => {
             </dy-form-item>
           </dy-form>
         `,
-        data() {
+        data () {
           return {
             form: {
               region: ''
@@ -502,7 +502,7 @@ describe('Form', () => {
             </dy-form-item>
           </dy-form>
         `,
-        data() {
+        data () {
           return {
             form: {
               date: ''
@@ -558,7 +558,7 @@ describe('Form', () => {
             </dy-form-item>
           </dy-form>
         `,
-        data() {
+        data () {
           return {
             form: {
               date: ''
@@ -607,7 +607,7 @@ describe('Form', () => {
             </dy-form-item>
           </dy-form>
         `,
-        data() {
+        data () {
           return {
             form: {
               accept: true
@@ -625,7 +625,7 @@ describe('Form', () => {
           };
         },
         methods: {
-          setValue(value) {
+          setValue (value) {
             this.form.accept = value;
           }
         }
@@ -662,7 +662,7 @@ describe('Form', () => {
             </dy-form-item>
           </dy-form>
         `,
-        data() {
+        data () {
           return {
             form: {
               type: []
@@ -675,7 +675,7 @@ describe('Form', () => {
           };
         },
         methods: {
-          setValue(value) {
+          setValue (value) {
             this.form.type = value;
           }
         }
@@ -706,7 +706,7 @@ describe('Form', () => {
             </dy-form-item>
           </dy-form>
         `,
-        data() {
+        data () {
           return {
             form: {
               type: ''
@@ -719,7 +719,7 @@ describe('Form', () => {
           };
         },
         methods: {
-          setValue(value) {
+          setValue (value) {
             this.form.type = value;
           }
         }
@@ -747,7 +747,7 @@ describe('Form', () => {
             </dy-form-item>
           </dy-form>
         `,
-        data() {
+        data () {
           return {
             form: {
               name: ''
@@ -760,7 +760,7 @@ describe('Form', () => {
           };
         },
         methods: {
-          setValue(value) {
+          setValue (value) {
             this.form.name = value;
           }
         }
@@ -786,7 +786,7 @@ describe('Form', () => {
             </dy-form-item>
           </dy-form>
         `,
-        data() {
+        data () {
           return {
             form: {
               name: ''
@@ -799,7 +799,7 @@ describe('Form', () => {
           };
         },
         methods: {
-          setValue(value) {
+          setValue (value) {
             this.form.name = value;
           }
         }
@@ -827,7 +827,7 @@ describe('Form', () => {
             </dy-form-item>
           </dy-form>
         `,
-        data() {
+        data () {
           return {
             error: 'dsad',
             form: {
@@ -841,7 +841,7 @@ describe('Form', () => {
           };
         },
         methods: {
-          setValue(value) {
+          setValue (value) {
             this.form.name = value;
           }
         }
@@ -874,7 +874,7 @@ describe('Form', () => {
             </dy-form-item>
           </dy-form>
         `,
-        data() {
+        data () {
           return {
             form: {
               name: ''
@@ -908,7 +908,7 @@ describe('Form', () => {
             </dy-form-item>
           </dy-form>
         `,
-        data() {
+        data () {
           return {
             form: {
               name: ''
@@ -939,7 +939,7 @@ describe('Form', () => {
             </dy-form-item>
           </dy-form>
         `,
-      data() {
+      data () {
         return {
           form: {
             name: '',
@@ -964,11 +964,11 @@ describe('Form', () => {
         };
       },
       methods: {
-        onValidate(prop, valid, msg) {
+        onValidate (prop, valid, msg) {
           this.valid[prop] = valid;
           this.error[prop] = msg;
         },
-        setValue(prop, value) {
+        setValue (prop, value) {
           this.form[prop] = value;
         }
       }

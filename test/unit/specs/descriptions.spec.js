@@ -54,14 +54,14 @@ describe('Descriptions', () => {
     expect(Array.from(vm.$el.querySelector('.dy-descriptions-item__content').classList)).to.contain('content-class-name');
   });
 
-  it('should render column props', async() => {
+  it('should render column props', async () => {
     vm = createVue({
       template: `
       <dy-descriptions :column="5" :border="border">
         <dy-descriptions-item v-for="item in 10" :label="item" :key="item">{{ item }}</dy-descriptions-item>
       </dy-descriptions>
     `,
-      data() {
+      data () {
         return {
           border: false
         };
@@ -74,7 +74,7 @@ describe('Descriptions', () => {
     expect(vm.$el.querySelector('tr').children.length).to.equal(10);
   });
 
-  it('should render direction props', async() => {
+  it('should render direction props', async () => {
     vm = createVue({
 
       template: `
@@ -82,7 +82,7 @@ describe('Descriptions', () => {
         <dy-descriptions-item v-for="item in 10" :label="item" :key="item">{{ item }}</dy-descriptions-item>
       </dy-descriptions>
     `,
-      data() {
+      data () {
         return {
           direction: 'horizontal'
         };
@@ -97,7 +97,7 @@ describe('Descriptions', () => {
     expect(vm.$el.querySelectorAll('tr')[0].children[0].innerHTML).to.equal(vm.$el.querySelectorAll('tr')[1].children[0].innerHTML);
   });
 
-  it('should render title slots', async() => {
+  it('should render title slots', async () => {
     vm = createVue({
       template: `
       <dy-descriptions>
@@ -110,7 +110,7 @@ describe('Descriptions', () => {
     expect(vm.$el.querySelector('.dy-descriptions__title').innerText).to.equal('title');
   });
 
-  it('should render span props', async() => {
+  it('should render span props', async () => {
     vm = createVue({
       template: `
         <dy-descriptions :column="3">
@@ -124,7 +124,7 @@ describe('Descriptions', () => {
     expect(vm.$el.querySelectorAll('td')[1].getAttribute('colSpan')).to.equal('2');
   });
 
-  it('re-rendered when slots is updated', async() => {
+  it('re-rendered when slots is updated', async () => {
     const CHANGE_VALUE = 'company';
     vm = createVue({
       template: `
@@ -137,13 +137,13 @@ describe('Descriptions', () => {
           <button @click="onClick">click</button>
         </div>
       `,
-      data() {
+      data () {
         return {
           remarks: ['school', 'hospital']
         };
       },
       methods: {
-        onClick() {
+        onClick () {
           this.$set(this.remarks, 0, CHANGE_VALUE);
         }
       }

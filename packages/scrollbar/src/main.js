@@ -24,7 +24,7 @@ export default {
     }
   },
 
-  data() {
+  data () {
     return {
       sizeWidth: '0',
       sizeHeight: '0',
@@ -34,12 +34,12 @@ export default {
   },
 
   computed: {
-    wrap() {
+    wrap () {
       return this.$refs.wrap;
     }
   },
 
-  render(h) {
+  render (h) {
     let gutter = scrollbarWidth();
     let style = this.wrapStyle;
 
@@ -97,14 +97,14 @@ export default {
   },
 
   methods: {
-    handleScroll() {
+    handleScroll () {
       const wrap = this.wrap;
 
       this.moveY = ((wrap.scrollTop * 100) / wrap.clientHeight);
       this.moveX = ((wrap.scrollLeft * 100) / wrap.clientWidth);
     },
 
-    update() {
+    update () {
       let heightPercentage, widthPercentage;
       const wrap = this.wrap;
       if (!wrap) return;
@@ -117,13 +117,13 @@ export default {
     }
   },
 
-  mounted() {
+  mounted () {
     if (this.native) return;
     this.$nextTick(this.update);
     !this.noresize && addResizeListener(this.$refs.resize, this.update);
   },
 
-  beforeDestroy() {
+  beforeDestroy () {
     if (this.native) return;
     !this.noresize && removeResizeListener(this.$refs.resize, this.update);
   }

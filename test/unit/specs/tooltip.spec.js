@@ -37,7 +37,7 @@ describe('Tooltip', () => {
         </dy-tooltip>
       `,
 
-      data() {
+      data () {
         return { show: false };
       }
     }, true);

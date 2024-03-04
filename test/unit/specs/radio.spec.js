@@ -12,7 +12,7 @@ describe('Radio', () => {
         <dy-radio v-model="radio" label="a">
         </dy-radio>
       `,
-      data() {
+      data () {
         return {
           radio: ''
         };
@@ -36,7 +36,7 @@ describe('Radio', () => {
         >
         </dy-radio>
       `,
-      data() {
+      data () {
         return {
           radio: ''
         };
@@ -60,7 +60,7 @@ describe('Radio', () => {
         >
         </dy-radio>
       `,
-      data() {
+      data () {
         return {
           radio: ''
         };
@@ -79,14 +79,14 @@ describe('Radio', () => {
         >
         </dy-radio>
       `,
-      data() {
+      data () {
         return {
           radio: '',
           data: ''
         };
       },
       methods: {
-        handleChange(val) {
+        handleChange (val) {
           this.data = val;
         }
       }
@@ -108,14 +108,14 @@ describe('Radio', () => {
         >
         </dy-radio>
       `,
-      data() {
+      data () {
         return {
           radio: '',
           data: ''
         };
       },
       methods: {
-        handleChange(val) {
+        handleChange (val) {
           this.data = val;
         }
       }
@@ -136,7 +136,7 @@ describe('Radio', () => {
             <dy-radio :label="9">备选项</dy-radio>
           </dy-radio-group>
         `,
-        data() {
+        data () {
           return {
             radio: 3
           };
@@ -162,7 +162,7 @@ describe('Radio', () => {
             <dy-radio :label="9">备选项</dy-radio>
           </dy-radio-group>
         `,
-        data() {
+        data () {
           return {
             radio: 3
           };
@@ -188,11 +188,11 @@ describe('Radio', () => {
           </dy-radio-group>
         `,
         methods: {
-          onChange(val) {
+          onChange (val) {
             this.data = val;
           }
         },
-        data() {
+        data () {
           return {
             radio: 3,
             data: 0
@@ -216,11 +216,11 @@ describe('Radio', () => {
           </dy-radio-group>
         `,
         methods: {
-          onChange(val) {
+          onChange (val) {
             this.data = val;
           }
         },
-        data() {
+        data () {
           return {
             radio: 3,
             data: 0
@@ -242,7 +242,7 @@ describe('Radio', () => {
             <dy-radio-button :label="9">备选项</dy-radio-button>
           </dy-radio-group>
         `,
-        data() {
+        data () {
           return {
             radio: 3
           };
@@ -267,7 +267,7 @@ describe('Radio', () => {
             <dy-radio-button ref="radio3" :label="9">备选项</dy-radio-button>
           </dy-radio-group>
         `,
-        data() {
+        data () {
           return {
             radio: 6
           };
@@ -308,7 +308,7 @@ describe('Radio', () => {
               <dy-radio-button :label="9">备选项</dy-radio-button>
             </dy-radio-group>
           `,
-          data() {
+          data () {
             return {
               radio: 3
             };
@@ -332,7 +332,7 @@ describe('Radio', () => {
               <dy-radio-button :label="9">备选项</dy-radio-button>
             </dy-radio-group>
           `,
-          data() {
+          data () {
             return {
               radio: 3
             };
@@ -355,11 +355,11 @@ describe('Radio', () => {
             </dy-radio-group>
           `,
           methods: {
-            onChange(val) {
+            onChange (val) {
               this.data = val;
             }
           },
-          data() {
+          data () {
             return {
               data: 0,
               radio: 3
@@ -383,11 +383,11 @@ describe('Radio', () => {
             </dy-radio-group>
           `,
           methods: {
-            onChange(val) {
+            onChange (val) {
               this.data = val;
             }
           },
-          data() {
+          data () {
             return {
               data: 0,
               radio: 3
@@ -409,7 +409,7 @@ describe('Radio', () => {
               <dy-radio-button :label="9">备选项</dy-radio-button>
             </dy-radio-group>
           `,
-          data() {
+          data () {
             return {
               radio: 3
             };

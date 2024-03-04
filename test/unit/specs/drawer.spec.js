@@ -9,13 +9,13 @@ describe('Drawer', () => {
     destroyVM(vm);
   });
 
-  it('create', async() => {
+  it('create', async () => {
     vm = createVue(
       {
         template: `
         <dy-drawer :title='title' :visible='visible'></dy-drawer>
       `,
-        data() {
+        data () {
           return {
             title,
             visible: true
@@ -33,7 +33,7 @@ describe('Drawer', () => {
     expect(drawer.$el.style.display).to.not.equal('none');
   });
 
-  it('render correct content', async() => {
+  it('render correct content', async () => {
     vm = createVue(
       {
         template: `
@@ -44,7 +44,7 @@ describe('Drawer', () => {
           </dy-drawer>
       `,
 
-        data() {
+        data () {
           return {
             title: 'drawer test',
             visible: true
@@ -63,7 +63,7 @@ describe('Drawer', () => {
     expect(footerBtns[1].querySelector('span').textContent).to.equal('确定');
   });
 
-  it('should append to body, when append-to-body flag is true', async() => {
+  it('should append to body, when append-to-body flag is true', async () => {
     vm = createVue(
       {
         template: `
@@ -71,7 +71,7 @@ describe('Drawer', () => {
            <span> content </span>
         </dy-drawer>
       `,
-        data() {
+        data () {
           return {
             title,
             visible: true
@@ -84,14 +84,14 @@ describe('Drawer', () => {
     expect(vm.$el.parentNode).to.equal(document.body);
   });
 
-  it('should open and close drawer properly', async() => {
+  it('should open and close drawer properly', async () => {
     vm = createVue({
       template: `
         <dy-drawer :title='title' :visible='visible' ref='drawer'>
            <span>${content}</span>
         </dy-drawer>
       `,
-      data() {
+      data () {
         return {
           title,
           visible: false
@@ -108,14 +108,14 @@ describe('Drawer', () => {
     expect(drawer.style.display).to.equal('none');
   });
 
-  it('should destroy every child after drawer was closed when destroy-on-close flag is true', async() => {
+  it('should destroy every child after drawer was closed when destroy-on-close flag is true', async () => {
     vm = createVue({
       template: `
         <dy-drawer :title='title' :visible='visible' :append-to-body='true' :destroy-on-close='true' ref='drawer'>
            <span>${content}</span>
         </dy-drawer>
       `,
-      data() {
+      data () {
         return {
           title,
           visible: true
@@ -132,14 +132,14 @@ describe('Drawer', () => {
     expect(vm.$el.querySelector('.dy-drawer__body')).not.to.exist;
   });
 
-  it('should destroy every child by visible change when destroy-on-close flag is true', async() => {
+  it('should destroy every child by visible change when destroy-on-close flag is true', async () => {
     vm = createVue({
       template: `
         <dy-drawer :title='title' :visible='visible' :append-to-body='true' :destroy-on-close='true' ref='drawer'>
            <span>${content}</span>
         </dy-drawer>
       `,
-      data() {
+      data () {
         return {
           title,
           visible: true
@@ -156,14 +156,14 @@ describe('Drawer', () => {
     expect(vm.$el.querySelector('.dy-drawer__body')).not.to.exist;
   });
 
-  it('should close dialog by clicking the close button', async() => {
+  it('should close dialog by clicking the close button', async () => {
     vm = createVue({
       template: `
         <dy-drawer :title='title' :visible.sync='visible' :append-to-body='true' :destroy-on-close='true' ref='drawer'>
            <span>${content}</span>
         </dy-drawer>
       `,
-      data() {
+      data () {
         return {
           title,
           visible: true
@@ -176,7 +176,7 @@ describe('Drawer', () => {
     expect(vm.visible).to.equal(false);
   });
 
-  it('should invoke before-close', async() => {
+  it('should invoke before-close', async () => {
     const beforeClose = sinon.spy();
     vm = createVue({
       template: `
@@ -191,7 +191,7 @@ describe('Drawer', () => {
            <span>${content}</span>
         </dy-drawer>
       `,
-      data() {
+      data () {
         return {
           title,
           visible: true,
@@ -206,14 +206,14 @@ describe('Drawer', () => {
     expect(beforeClose.called).to.be.true;
   });
 
-  it('should not show close button when show-close flag is false', async() => {
+  it('should not show close button when show-close flag is false', async () => {
     vm = createVue({
       template: `
         <dy-drawer :title='title' :visible='visible' ref='drawer' :show-close='false'>
            <span>${content}</span>
         </dy-drawer>
       `,
-      data() {
+      data () {
         return {
           title,
           visible: false
@@ -223,7 +223,7 @@ describe('Drawer', () => {
     expect(vm.$el.querySelector('.dy-drawer__close-btn')).not.to.exist;
   });
 
-  it('should have custom classes when custom classes were given', async() => {
+  it('should have custom classes when custom classes were given', async () => {
     const classes = 'some-custom-class';
     vm = createVue({
       template: `
@@ -231,7 +231,7 @@ describe('Drawer', () => {
            <span>${content}</span>
         </dy-drawer>
       `,
-      data() {
+      data () {
         return {
           title,
           visible: false
@@ -249,7 +249,7 @@ describe('Drawer', () => {
            <span>${content}</span>
         </dy-drawer>
       `,
-      data() {
+      data () {
         return {
           title,
           visible: true
@@ -274,32 +274,32 @@ describe('Drawer', () => {
         }
       });
     };
-    it('should render from left to right', async() => {
+    it('should render from left to right', async () => {
       vm = renderer('ltr');
       await waitImmediate();
       expect(vm.$el.querySelector('.ltr')).to.exist;
     });
 
-    it('should render from right to left', async() => {
+    it('should render from right to left', async () => {
       vm = renderer('rtl');
       await waitImmediate();
       expect(vm.$el.querySelector('.rtl')).to.exist;
     });
 
-    it('should render from top to bottom', async() => {
+    it('should render from top to bottom', async () => {
       vm = renderer('ttb');
       await waitImmediate();
       expect(vm.$el.querySelector('.ttb')).to.exist;
     });
 
-    it('should render from bottom to top', async() => {
+    it('should render from bottom to top', async () => {
       vm = renderer('btt');
       await waitImmediate();
       expect(vm.$el.querySelector('.btt')).to.exist;
     });
   });
 
-  it('events', async() => {
+  it('events', async () => {
     const open = sinon.spy();
     const opened = sinon.spy();
     const close = sinon.spy();
@@ -318,7 +318,7 @@ describe('Drawer', () => {
           <span>${content}</span>
          </dy-drawer>
       `,
-      data() {
+      data () {
         return {
           content,
           visible: false,
@@ -358,14 +358,14 @@ describe('Drawer', () => {
         }
       });
 
-    it('should effect height when drawer is vertical', async() => {
+    it('should effect height when drawer is vertical', async () => {
       const size = '50%';
       vm = renderer(size, true);
 
       expect(vm.$el.querySelector('.dy-drawer').style.width).to.equal('50%');
     });
 
-    it('should effect width when drawer is horizontal', async() => {
+    it('should effect width when drawer is horizontal', async () => {
       const size = '50%';
       vm = renderer(size, false);
       expect(vm.$el.querySelector('.dy-drawer').style.height).to.equal('50%');

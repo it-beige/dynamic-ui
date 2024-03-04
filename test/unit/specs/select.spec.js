@@ -59,7 +59,7 @@ describe('Select', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           options,
           multiple: configs.multiple,
@@ -125,7 +125,7 @@ describe('Select', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           options: [{
             value: '选项1',
@@ -160,7 +160,7 @@ describe('Select', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           options: [{
             value: '选项1',
@@ -184,7 +184,7 @@ describe('Select', () => {
       },
 
       methods: {
-        handleChange() {
+        handleChange () {
           this.count++;
         }
       }
@@ -240,7 +240,7 @@ describe('Select', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           options: [],
           value: '',
@@ -249,7 +249,7 @@ describe('Select', () => {
       },
 
       methods: {
-        handleVisibleChange(val) {
+        handleVisibleChange (val) {
           this.visible = val;
         }
       }
@@ -308,7 +308,7 @@ describe('Select', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           options: [{
             id: 1,
@@ -347,7 +347,7 @@ describe('Select', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           options: [],
           value: ''
@@ -373,7 +373,7 @@ describe('Select', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           options: [{
             value: 'value',
@@ -407,7 +407,7 @@ describe('Select', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           options: [{
             label: '热门城市',
@@ -497,7 +497,7 @@ describe('Select', () => {
           </dy-select>
         </div>
       `,
-      data() {
+      data () {
         return {
           options: ['1', '2', '3', '4', '5'],
           value: ''
@@ -575,7 +575,7 @@ describe('Select', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           options: [{
             value: '选项1',
@@ -598,7 +598,7 @@ describe('Select', () => {
       },
 
       methods: {
-        handleRemoveTag() {
+        handleRemoveTag () {
           console.log('remove tag');
         }
       }
@@ -705,7 +705,7 @@ describe('Select', () => {
           </dy-select>
         </div>
       `,
-      data() {
+      data () {
         return {
           value: ''
         };
@@ -780,7 +780,7 @@ describe('Select', () => {
           </dy-select>
         </div>
       `,
-      data() {
+      data () {
         return {
           value: 1,
           change: () => ++callCount
@@ -810,7 +810,7 @@ describe('Select', () => {
           </dy-select>
         </div>
       `,
-      data() {
+      data () {
         return {
           value: 1
         };
@@ -821,7 +821,7 @@ describe('Select', () => {
     done();
   });
 
-  it('should set placeholder to label of selected option when filterable is true and multiple is false', async() => {
+  it('should set placeholder to label of selected option when filterable is true and multiple is false', async () => {
     vm = createVue({
       template: `
         <div>
@@ -830,7 +830,7 @@ describe('Select', () => {
           </dy-select>
         </div>
       `,
-      data() {
+      data () {
         return {
           value: 'test'
         };
@@ -843,7 +843,7 @@ describe('Select', () => {
     expect(vm.value).to.be.equal('test');
   });
 
-  it('default value is null or undefined', async() => {
+  it('default value is null or undefined', async () => {
     vm = createVue({
       template: `
         <div>
@@ -858,7 +858,7 @@ describe('Select', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           options: [{
             value: '选项1',

@@ -81,35 +81,35 @@ describe('Upload', () => {
     const props = {
       props: {
         action: '/upload',
-        onSuccess(res, file, fileList) {
+        onSuccess (res, file, fileList) {
           if (handlers.onSuccess) {
             handlers.onSuccess(res, file, fileList);
           }
         },
-        onError(err, file, fileList) {
+        onError (err, file, fileList) {
           if (handlers.onError) {
             handlers.onError(err, file, fileList);
           }
         },
-        onPreview(file) {
+        onPreview (file) {
           if (handlers.onPreview) {
             handlers.onPreview(file);
           }
         },
         limit: 2,
-        onExceed(files, fileList) {
+        onExceed (files, fileList) {
           if (handlers.onExceed) {
             handlers.onExceed(files, fileList);
           }
         },
-        beforeUpload(file) {
+        beforeUpload (file) {
           if (handlers.beforeUpload) {
             return handlers.beforeUpload(file);
           } else {
             return true;
           }
         },
-        beforeRemove(file, fileList) {
+        beforeRemove (file, fileList) {
           if (handlers.beforeRemove) {
             return handlers.beforeRemove(file);
           } else {
@@ -121,7 +121,7 @@ describe('Upload', () => {
 
     beforeEach(() => {
       uploader = createVue({
-        render(h) {
+        render (h) {
           return (
             <dy-upload {...props} ref="upload">
               <dy-button size="small" type="primary">点击上传</dy-button>

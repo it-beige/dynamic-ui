@@ -2,18 +2,18 @@ import VuePopper from 'element-ui/src/utils/vue-popper';
 import { createTest } from '../util';
 
 const Popper = Object.assign({}, VuePopper, {
-  render(h) {
+  render (h) {
     return h('div');
   },
 
-  created() {
+  created () {
     this.popperElm = document.createElement('div');
     this.referenceElm = document.createElement('div');
   }
 });
 
 const CleanPopper = Object.assign({}, VuePopper, {
-  render(h) {
+  render (h) {
     return h('div');
   }
 });

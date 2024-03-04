@@ -74,7 +74,7 @@ describe('TimePicker', () => {
   it('select time', done => {
     vm = createVue({
       template: '<dy-time-picker ref="compo" v-model="value"></dy-time-picker>',
-      data() {
+      data () {
         return {
           value: ''
         };
@@ -120,7 +120,7 @@ describe('TimePicker', () => {
   it('click cancel button', done => {
     vm = createVue({
       template: '<dy-time-picker ref="compo" v-model="value"></dy-time-picker>',
-      data() {
+      data () {
         return {
           value: ''
         };
@@ -145,7 +145,7 @@ describe('TimePicker', () => {
   it('click confirm button', done => {
     vm = createVue({
       template: '<dy-time-picker ref="compo" v-model="value"></dy-time-picker>',
-      data() {
+      data () {
         return {
           value: ''
         };
@@ -310,7 +310,7 @@ describe('TimePicker(range)', () => {
     const defaultValue = [new Date(2000, 9, 1, 10, 0, 0), new Date(2000, 9, 1, 11, 0, 0)];
     vm = createVue({
       template: '<dy-time-picker ref="compo" is-range v-model="value" :default-value="defaultValue"></dy-time-picker>',
-      data() {
+      data () {
         return {
           value: '',
           defaultValue
@@ -331,7 +331,7 @@ describe('TimePicker(range)', () => {
   it('cancel button', done => {
     vm = createVue({
       template: '<dy-time-picker ref="compo" is-range v-model="value"></dy-time-picker>',
-      data() {
+      data () {
         return {
           value: ''
         };

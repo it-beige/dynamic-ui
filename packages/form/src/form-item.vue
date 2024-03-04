@@ -1,11 +1,11 @@
 <template>
   <div class="dy-form-item" :class="[{
-      'dy-form-item--feedback': elForm && elForm.statusIcon,
+      'dy-form-item--feedback': dyForm && dyForm.statusIcon,
       'is-error': validateState === 'error',
       'is-validating': validateState === 'validating',
       'is-success': validateState === 'success',
       'is-required': isRequired || required,
-      'is-no-asterisk': elForm && elForm.hideRequiredAsterisk
+      'is-no-asterisk': dyForm && dyForm.hideRequiredAsterisk
     },
     sizeClass ? 'dy-form-item--' + sizeClass : ''
   ]">
@@ -28,7 +28,7 @@
             :class="{
               'dy-form-item__error--inline': typeof inlineMessage === 'boolean'
                 ? inlineMessage
-                : (elForm && elForm.inlineMessage || false)
+                : (dyForm && dyForm.inlineMessage || false)
             }"
           >
             {{validateMessage}}
@@ -53,11 +53,11 @@
 
     provide() {
       return {
-        elFormItem: this
+        dyFormItem: this
       };
     },
 
-    inject: ['elForm'],
+    inject: ['dyForm'],
 
     props: {
       label: String,
@@ -125,7 +125,7 @@
           if (this.labelWidth === 'auto') {
             ret.marginLeft = this.computedLabelWidth;
           } else if (this.form.labelWidth === 'auto') {
-            ret.marginLeft = this.elForm.autoLabelWidth;
+            ret.marginLeft = this.dyForm.autoLabelWidth;
           }
         } else {
           ret.marginLeft = labelWidth;
@@ -171,13 +171,13 @@
         return isRequired;
       },
       _formSize() {
-        return this.elForm.size;
+        return this.dyForm.size;
       },
-      elFormItemSize() {
+      dyFormItemSize() {
         return this.size || this._formSize;
       },
       sizeClass() {
-        return this.elFormItemSize || (this.$ELEMENT || {}).size;
+        return this.dyFormItemSize || (this.$DYNAMIC || {}).size;
       }
     },
     data() {
@@ -219,7 +219,7 @@
           this.validateMessage = errors ? errors[0].message : '';
 
           callback(this.validateMessage, invalidFields);
-          this.elForm && this.elForm.$emit('validate', this.prop, !errors, this.validateMessage || null);
+          this.dyForm && this.dyForm.$emit('validate', this.prop, !errors, this.validateMessage || null);
         });
       },
       clearValidate() {

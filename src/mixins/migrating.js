@@ -21,7 +21,7 @@ import { kebabCase } from 'dynamic-ui/src/utils/util';
  *  },
  */
 export default {
-  mounted() {
+  mounted () {
     if (process.env.NODE_ENV === 'production') return;
     if (!this.$vnode) return;
     const { props = {}, events = {} } = this.getMigratingConfig();
@@ -44,7 +44,7 @@ export default {
     }
   },
   methods: {
-    getMigratingConfig() {
+    getMigratingConfig () {
       return {
         props: {},
         events: {}

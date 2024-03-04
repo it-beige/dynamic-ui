@@ -29,18 +29,18 @@ Dialog 弹出一个对话框，适合需要定制性更大的场景。
     data() {
       return {
         dialogVisible: false,
-      };
+      }
     },
     methods: {
       handleClose(done) {
         this.$confirm('确认关闭？')
           .then(_ => {
-            done();
+            done()
           })
-          .catch(_ => {});
+          .catch(_ => {})
       },
     },
-  };
+  }
 </script>
 ```
 
@@ -134,9 +134,9 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
           desc: '',
         },
         formLabelWidth: '120px',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -175,9 +175,9 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
       return {
         outerVisible: false,
         innerVisible: false,
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -209,9 +209,9 @@ Dialog 组件的内容可以是任意的，甚至可以是表格或表单，下�
     data() {
       return {
         centerDialogVisible: false,
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -248,11 +248,13 @@ Dialog 的内容是懒渲染的，即在第一次被打开之前，传入的默�
 
 ### Slot
 
-| name   | 说明                    |
-| ------ | ----------------------- |
-| —      | Dialog 的内容           |
-| title  | Dialog 标题区的内容     |
-| footer | Dialog 按钮操作区的内容 |
+| name   | 说明                      |
+| ------ | ------------------------- |
+| —      | Dialog 的内容             |
+| header | Dialog 头部区的内容       |
+| button | Dialog 右上角按钮区的内容 |
+| title  | Dialog 标题区的内容       |
+| footer | Dialog 按钮操作区的内容   |
 
 ### Events
 

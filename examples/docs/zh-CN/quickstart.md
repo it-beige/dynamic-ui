@@ -21,17 +21,17 @@
 在 main.js 中写入以下内容：
 
 ```javascript
-import Vue from 'vue';
-import DynamicUI from 'dynamic-ui';
-import 'dynamic-ui/lib/theme-chalk/index.css';
-import App from './App.vue';
+import Vue from 'vue'
+import DynamicUI from 'dynamic-ui'
+import 'dynamic-ui/lib/theme-chalk/index.css'
+import App from './App.vue'
 
-Vue.use(DynamicUI);
+Vue.use(DynamicUI)
 
 new Vue({
   el: '#app',
   render: h => h(App),
-});
+})
 ```
 
 以上代码便完成了 Dynamic 的引入。需要注意的是，样式文件需要单独引入。
@@ -66,12 +66,12 @@ npm install babel-plugin-component -D
 接下来，如果你只希望引入部分组件，比如 Button 和 Select，那么需要在 main.js 中写入以下内容：
 
 ```javascript
-import Vue from 'vue';
-import { Button, Select } from 'dynamic-ui';
-import App from './App.vue';
+import Vue from 'vue'
+import { Button, Select } from 'dynamic-ui'
+import App from './App.vue'
 
-Vue.component(Button.name, Button);
-Vue.component(Select.name, Select);
+Vue.component(Button.name, Button)
+Vue.component(Select.name, Select)
 /* 或写为
  * Vue.use(Button)
  * Vue.use(Select)
@@ -80,13 +80,13 @@ Vue.component(Select.name, Select);
 new Vue({
   el: '#app',
   render: h => h(App),
-});
+})
 ```
 
 完整组件列表和引入方式（完整组件列表以 [components.json](https://github.com/ElemeFE/dynamic/blob/master/components.json) 为准）, 提供的所有内置组件是放便你在不引入 Dynamic 的情况进行使用该组件库, 下面会演示使用其他组件库做为内置组件的情况
 
 ```javascript
-import Vue from 'vue';
+import Vue from 'vue'
 import {
   Pagination,
   Dialog,
@@ -165,130 +165,92 @@ import {
   MessageBox,
   Message,
   Notification,
-} from 'dynamic-ui';
+} from 'dynamic-ui'
 
-Vue.use(Pagination);
-Vue.use(Dialog);
-Vue.use(Autocomplete);
-Vue.use(Dropdown);
-Vue.use(DropdownMenu);
-Vue.use(DropdownItem);
-Vue.use(Menu);
-Vue.use(Submenu);
-Vue.use(MenuItem);
-Vue.use(MenuItemGroup);
-Vue.use(Input);
-Vue.use(InputNumber);
-Vue.use(Radio);
-Vue.use(RadioGroup);
-Vue.use(RadioButton);
-Vue.use(Checkbox);
-Vue.use(CheckboxButton);
-Vue.use(CheckboxGroup);
-Vue.use(Switch);
-Vue.use(Select);
-Vue.use(Option);
-Vue.use(OptionGroup);
-Vue.use(Button);
-Vue.use(ButtonGroup);
-Vue.use(Table);
-Vue.use(TableColumn);
-Vue.use(DatePicker);
-Vue.use(TimeSelect);
-Vue.use(TimePicker);
-Vue.use(Popover);
-Vue.use(Tooltip);
-Vue.use(Breadcrumb);
-Vue.use(BreadcrumbItem);
-Vue.use(Form);
-Vue.use(FormItem);
-Vue.use(Tabs);
-Vue.use(TabPane);
-Vue.use(Tag);
-Vue.use(Tree);
-Vue.use(Alert);
-Vue.use(Slider);
-Vue.use(Icon);
-Vue.use(Row);
-Vue.use(Col);
-Vue.use(Upload);
-Vue.use(Progress);
-Vue.use(Spinner);
-Vue.use(Badge);
-Vue.use(Card);
-Vue.use(Rate);
-Vue.use(Steps);
-Vue.use(Step);
-Vue.use(Carousel);
-Vue.use(CarouselItem);
-Vue.use(Collapse);
-Vue.use(CollapseItem);
-Vue.use(Cascader);
-Vue.use(ColorPicker);
-Vue.use(Transfer);
-Vue.use(Container);
-Vue.use(Header);
-Vue.use(Aside);
-Vue.use(Main);
-Vue.use(Footer);
-Vue.use(Timeline);
-Vue.use(TimelineItem);
-Vue.use(Link);
-Vue.use(Divider);
-Vue.use(Image);
-Vue.use(Calendar);
-Vue.use(Backtop);
-Vue.use(PageHeader);
-Vue.use(CascaderPanel);
+Vue.use(Pagination)
+Vue.use(Dialog)
+Vue.use(Autocomplete)
+Vue.use(Dropdown)
+Vue.use(DropdownMenu)
+Vue.use(DropdownItem)
+Vue.use(Menu)
+Vue.use(Submenu)
+Vue.use(MenuItem)
+Vue.use(MenuItemGroup)
+Vue.use(Input)
+Vue.use(InputNumber)
+Vue.use(Radio)
+Vue.use(RadioGroup)
+Vue.use(RadioButton)
+Vue.use(Checkbox)
+Vue.use(CheckboxButton)
+Vue.use(CheckboxGroup)
+Vue.use(Switch)
+Vue.use(Select)
+Vue.use(Option)
+Vue.use(OptionGroup)
+Vue.use(Button)
+Vue.use(ButtonGroup)
+Vue.use(Table)
+Vue.use(TableColumn)
+Vue.use(DatePicker)
+Vue.use(TimeSelect)
+Vue.use(TimePicker)
+Vue.use(Popover)
+Vue.use(Tooltip)
+Vue.use(Breadcrumb)
+Vue.use(BreadcrumbItem)
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Tabs)
+Vue.use(TabPane)
+Vue.use(Tag)
+Vue.use(Tree)
+Vue.use(Alert)
+Vue.use(Slider)
+Vue.use(Icon)
+Vue.use(Row)
+Vue.use(Col)
+Vue.use(Upload)
+Vue.use(Progress)
+Vue.use(Spinner)
+Vue.use(Badge)
+Vue.use(Card)
+Vue.use(Rate)
+Vue.use(Steps)
+Vue.use(Step)
+Vue.use(Carousel)
+Vue.use(CarouselItem)
+Vue.use(Collapse)
+Vue.use(CollapseItem)
+Vue.use(Cascader)
+Vue.use(ColorPicker)
+Vue.use(Transfer)
+Vue.use(Container)
+Vue.use(Header)
+Vue.use(Aside)
+Vue.use(Main)
+Vue.use(Footer)
+Vue.use(Timeline)
+Vue.use(TimelineItem)
+Vue.use(Link)
+Vue.use(Divider)
+Vue.use(Image)
+Vue.use(Calendar)
+Vue.use(Backtop)
+Vue.use(PageHeader)
+Vue.use(CascaderPanel)
 
-Vue.use(Loading.directive);
+Vue.use(Loading.directive)
 
-Vue.prototype.$loading = Loading.service;
-Vue.prototype.$msgbox = MessageBox;
-Vue.prototype.$alert = MessageBox.alert;
-Vue.prototype.$confirm = MessageBox.confirm;
-Vue.prototype.$prompt = MessageBox.prompt;
-Vue.prototype.$notify = Notification;
-Vue.prototype.$message = Message;
+Vue.prototype.$loading = Loading.service
+Vue.prototype.$msgbox = MessageBox
+Vue.prototype.$alert = MessageBox.alert
+Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$prompt = MessageBox.prompt
+Vue.prototype.$notify = Notification
+Vue.prototype.$message = Message
 ```
-
-### 全局配置
-
-在引入 Dynamic 时，可以传入一个全局配置对象。
-
-```js
-import Vue from 'vue';
-import Dynamic from 'dynamic-ui';
-import request from '@/utils/request';
-import storage from '@/utils/storage';
-
-Vue.use(Dynamic, {
-  // 数据请求的baseURI
-  baseURI: process.env.VUE_APP_BASE_API,
-  // 上传接口请求的baseURI 使用第三方服务可能会用到, 比如使用oss上传
-  baseUploadURI: process.env.VUE_APP_BASE_UPLOAD_API,
-  // 分页参数字段名 page size
-  pageParamsKey: { page: 'page', size: 'size' },
-  // 分页默认的参数值
-  pageParamsValue: { page: 1, size: 20 },
-  //  自定义组件内部请求接口所使用方法
-  useRequest: () => request,
-  // 请求接口默认携带的请求头参数, 项目中一般需要携带的鉴权token
-  useRequestHeaders: () => ({ 'Dynamic-Auth': storage.get('access_token') }),
-  // 自定义解析数据接口返回的data, 后续FormGenerate组件会介绍
-  useParseData: res => res.data
-  // 自定义解析数据接口返回的total, 后续TableGenerate组件会介绍
-  useParseTotal: res => res.data.total,
-  // 国际化相关配置
-  locale: Vue.locale
-  locale: Vue.i18n,
-  // 组件的全局配置
-  size: 'small',
-  zIndex: 3000
-});
-```
-
-按照以上设置，项目中使用`FormGenerate`、`TableGenerate`组件根据定义的 JSON 去生成`Form`、`Table`时所使用的数据请求方法及解析数据的方法都可进行自定义。
 
 ### 开始使用
 

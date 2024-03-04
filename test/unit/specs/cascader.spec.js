@@ -63,7 +63,7 @@ describe('Cascader', () => {
     expect(vm.$el).to.exist;
   });
 
-  it('toggle dropdown visible', async() => {
+  it('toggle dropdown visible', async () => {
     vm = createTest(Cascader, true);
     expect(vm.$refs.popper.style.display).to.equal('none');
     vm.$el.click();
@@ -74,7 +74,7 @@ describe('Cascader', () => {
     expect(vm.$refs.popper.style.display).to.includes('none');
   });
 
-  it('expand and check', async() => {
+  it('expand and check', async () => {
     vm = createTest({
       template: `
         <dy-cascader
@@ -82,7 +82,7 @@ describe('Cascader', () => {
           v-model="value"
           :options="options"></dy-cascader>
       `,
-      data() {
+      data () {
         return {
           value: [],
           options
@@ -111,7 +111,7 @@ describe('Cascader', () => {
     expect(vm.$el.querySelector('input').value).to.equal('Zhejiang / Hangzhou / West Lake');
   });
 
-  it('disabled', async() => {
+  it('disabled', async () => {
     vm = createTest(Cascader, {
       disabled: true
     }, true);
@@ -121,14 +121,14 @@ describe('Cascader', () => {
     expect(vm.$refs.popper.style.display).to.includes('none');
   });
 
-  it('with default value', async() => {
+  it('with default value', async () => {
     vm = createVue({
       template: `
         <dy-cascader
           v-model="value"
           :options="options"></dy-cascader>
       `,
-      data() {
+      data () {
         return {
           value: selectedValue,
           options
@@ -143,14 +143,14 @@ describe('Cascader', () => {
     expect(vm.$el.querySelector('input').value).to.equal('Zhejiang / Hangzhou / West Lake');
   });
 
-  it('async set selected value', async() => {
+  it('async set selected value', async () => {
     vm = createVue({
       template: `
         <dy-cascader
           v-model="value"
           :options="options"></dy-cascader>
       `,
-      data() {
+      data () {
         return {
           value: [],
           options
@@ -166,14 +166,14 @@ describe('Cascader', () => {
     expect(vm.$el.querySelector('input').value).to.equal('Zhejiang / Hangzhou / West Lake');
   });
 
-  it('default value with async options', async() => {
+  it('default value with async options', async () => {
     vm = createVue({
       template: `
         <dy-cascader
           v-model="value"
           :options="options"></dy-cascader>
       `,
-      data() {
+      data () {
         return {
           value: selectedValue,
           options: []
@@ -189,7 +189,7 @@ describe('Cascader', () => {
     expect(vm.$el.querySelector('input').value).to.equal('Zhejiang / Hangzhou / West Lake');
   });
 
-  it('clearable', async() => {
+  it('clearable', async () => {
     vm = createVue({
       template: `
         <dy-cascader
@@ -197,7 +197,7 @@ describe('Cascader', () => {
           :options="options"
           clearable></dy-cascader>
       `,
-      data() {
+      data () {
         return {
           value: selectedValue,
           options
@@ -214,7 +214,7 @@ describe('Cascader', () => {
     expect(vm.value).to.deep.equal([]);
   });
 
-  it('show last level label', async() => {
+  it('show last level label', async () => {
     vm = createVue({
       template: `
         <dy-cascader
@@ -222,7 +222,7 @@ describe('Cascader', () => {
           :options="options"
           :show-all-levels="false"></dy-cascader>
       `,
-      data() {
+      data () {
         return {
           value: selectedValue,
           options
@@ -237,7 +237,7 @@ describe('Cascader', () => {
     expect(vm.$el.querySelector('input').value).to.equal('West Lake');
   });
 
-  it('multiple mode', async() => {
+  it('multiple mode', async () => {
     vm = createVue({
       template: `
         <dy-cascader
@@ -246,7 +246,7 @@ describe('Cascader', () => {
           :disabled="disabled"
           :props="props"></dy-cascader>
       `,
-      data() {
+      data () {
         return {
           value: [],
           options,
@@ -277,7 +277,7 @@ describe('Cascader', () => {
     expect(getCloseButton(vm.$el).length).to.equal(0);
   });
 
-  it('clearable in multiple mode', async() => {
+  it('clearable in multiple mode', async () => {
     vm = createVue({
       template: `
         <dy-cascader
@@ -286,7 +286,7 @@ describe('Cascader', () => {
           :props="props"
           clearable></dy-cascader>
       `,
-      data() {
+      data () {
         return {
           value: [],
           options,
@@ -309,7 +309,7 @@ describe('Cascader', () => {
     expect(vm.value.length).to.equal(1);
   });
 
-  it('collapse tags', async() => {
+  it('collapse tags', async () => {
     vm = createVue({
       template: `
         <dy-cascader
@@ -318,7 +318,7 @@ describe('Cascader', () => {
           :props="props"
           collapse-tags></dy-cascader>
       `,
-      data() {
+      data () {
         return {
           value: ['xihu', 'binjiang', 'jiangbei', 'jiangdong'],
           options,
@@ -347,7 +347,7 @@ describe('Cascader', () => {
     expect(vm.$el.querySelector('.dy-tag .dy-tag__close')).to.be.null;
   });
 
-  it('filterable', async() => {
+  it('filterable', async () => {
     vm = createVue({
       template: `
         <dy-cascader
@@ -355,7 +355,7 @@ describe('Cascader', () => {
           :options="options"
           filterable></dy-cascader>
       `,
-      data() {
+      data () {
         return {
           value: [],
           options
@@ -377,7 +377,7 @@ describe('Cascader', () => {
     expect(vm.value).to.deep.equal(selectedValue);
   });
 
-  it('filter method', async() => {
+  it('filter method', async () => {
     vm = createVue({
       template: `
         <dy-cascader
@@ -386,14 +386,14 @@ describe('Cascader', () => {
           :filter-method="filterMethod"
           filterable></dy-cascader>
       `,
-      data() {
+      data () {
         return {
           value: [],
           options
         };
       },
       methods: {
-        filterMethod(node, keyword) {
+        filterMethod (node, keyword) {
           const { text, path } = node;
           return text.includes(keyword) || path.includes(keyword);
         }

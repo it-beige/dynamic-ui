@@ -1,14 +1,14 @@
 import Vue from 'vue';
 
-export function isString(obj) {
+export function isString (obj) {
   return Object.prototype.toString.call(obj) === '[object String]';
 }
 
-export function isObject(obj) {
+export function isObject (obj) {
   return Object.prototype.toString.call(obj) === '[object Object]';
 }
 
-export function isHtmlElement(node) {
+export function isHtmlElement (node) {
   return node && node.nodeType === Node.ELEMENT_NODE;
 }
 
@@ -22,7 +22,7 @@ let isFunction = (functionToCheck) => {
 };
 
 if (typeof /./ !== 'function' && typeof Int8Array !== 'object' && (Vue.prototype.$isServer || typeof document.childNodes !== 'function')) {
-  isFunction = function(obj) {
+  isFunction = function (obj) {
     return typeof obj === 'function' || false;
   };
 }

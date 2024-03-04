@@ -1,7 +1,7 @@
 import { walkTreeNode, getRowIdentity } from '../util';
 
 export default {
-  data() {
+  data () {
     return {
       states: {
         // defaultExpandAll 存在于 expand.js 中，这里不重复添加
@@ -22,14 +22,14 @@ export default {
     // 嵌入型的数据，watch 无法是检测到变化 https://github.com/ElemeFE/element/issues/14998
     // TODO: 使用 computed 解决该问题，是否会造成性能问题？
     // @return { id: { level, children } }
-    normalizedData() {
+    normalizedData () {
       if (!this.states.rowKey) return {};
       const data = this.states.data || [];
       return this.normalize(data);
     },
     // @return { id: { children } }
     // 针对懒加载的情形，不处理嵌套数据
-    normalizedLazyNode() {
+    normalizedLazyNode () {
       const { rowKey, lazyTreeNodeMap, lazyColumnIdentifier } = this.states;
       const keys = Object.keys(lazyTreeNodeMap);
       const res = {};
@@ -57,7 +57,7 @@ export default {
   },
 
   methods: {
-    normalize(data) {
+    normalize (data) {
       const {
         childrenColumnName,
         lazyColumnIdentifier,
@@ -89,7 +89,7 @@ export default {
       return res;
     },
 
-    updateTreeData() {
+    updateTreeData () {
       const nested = this.normalizedData;
       const normalizedLazyNode = this.normalizedLazyNode;
       const keys = Object.keys(nested);
@@ -151,12 +151,12 @@ export default {
       this.updateTableScrollY();
     },
 
-    updateTreeExpandKeys(value) {
+    updateTreeExpandKeys (value) {
       this.states.expandRowKeys = value;
       this.updateTreeData();
     },
 
-    toggleTreeExpansion(row, expanded) {
+    toggleTreeExpansion (row, expanded) {
       this.assertRowKey();
 
       const { rowKey, treeData } = this.states;
@@ -173,7 +173,7 @@ export default {
       }
     },
 
-    loadOrToggle(row) {
+    loadOrToggle (row) {
       this.assertRowKey();
       const { lazy, treeData, rowKey } = this.states;
       const id = getRowIdentity(row, rowKey);
@@ -185,7 +185,7 @@ export default {
       }
     },
 
-    loadData(row, key, treeNode) {
+    loadData (row, key, treeNode) {
       const { load } = this.table;
       const { treeData: rawTreeData } = this.states;
       if (load && !rawTreeData[key].loaded) {

@@ -8,20 +8,20 @@ var mixinsList = fs.readdirSync(path.resolve(__dirname, '../src/mixins'));
 var transitionList = fs.readdirSync(path.resolve(__dirname, '../src/transitions'));
 var externals = {};
 
-Object.keys(Components).forEach(function(key) {
+Object.keys(Components).forEach(function (key) {
   externals[`dynamic-ui/packages/${key}`] = `dynamic-ui/lib/${key}`;
 });
 
 externals['dynamic-ui/src/locale'] = 'dynamic-ui/lib/locale';
-utilsList.forEach(function(file) {
+utilsList.forEach(function (file) {
   file = path.basename(file, '.js');
   externals[`dynamic-ui/src/utils/${file}`] = `dynamic-ui/lib/utils/${file}`;
 });
-mixinsList.forEach(function(file) {
+mixinsList.forEach(function (file) {
   file = path.basename(file, '.js');
   externals[`dynamic-ui/src/mixins/${file}`] = `dynamic-ui/lib/mixins/${file}`;
 });
-transitionList.forEach(function(file) {
+transitionList.forEach(function (file) {
   file = path.basename(file, '.js');
   externals[`dynamic-ui/src/transitions/${file}`] = `dynamic-ui/lib/transitions/${file}`;
 });

@@ -52,10 +52,10 @@
     },
 
     inject: {
-      elForm: {
+      dyForm: {
         default: ''
       },
-      elFormItem: {
+      dyFormItem: {
         default: ''
       }
     },
@@ -72,15 +72,15 @@
       },
 
       _elFormItemSize() {
-        return (this.elFormItem || {}).elFormItemSize;
+        return (this.dyFormItem || {}).elFormItemSize;
       },
 
       colorSize() {
-        return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
+        return this.size || this._elFormItemSize || (this.$DYNAMIC || {}).size;
       },
 
       colorDisabled() {
-        return this.disabled || (this.elForm || {}).disabled;
+        return this.disabled || (this.dyForm || {}).disabled;
       }
     },
 

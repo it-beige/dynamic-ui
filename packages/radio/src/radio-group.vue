@@ -23,7 +23,7 @@
     componentName: 'DyRadioGroup',
 
     inject: {
-      elFormItem: {
+      dyFormItem: {
         default: ''
       }
     },
@@ -40,7 +40,7 @@
 
     computed: {
       _elFormItemSize() {
-        return (this.elFormItem || {}).elFormItemSize;
+        return (this.dyFormItem || {}).elFormItemSize;
       },
       _elTag() {
         let tag = (this.$vnode.data || {}).tag;
@@ -48,7 +48,7 @@
         return tag;
       },
       radioGroupSize() {
-        return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
+        return this.size || this._elFormItemSize || (this.$DYNAMIC || {}).size;
       }
     },
 

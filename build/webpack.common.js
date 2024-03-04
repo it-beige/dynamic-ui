@@ -15,7 +15,7 @@ module.exports = {
     filename: 'dynamic-ui.common.js',
     chunkFilename: '[id].js',
     libraryExport: 'default',
-    library: 'ELEMENT',
+    library: 'DYNAMIC',
     libraryTarget: 'commonjs2'
   },
   resolve: {
@@ -27,9 +27,7 @@ module.exports = {
   performance: {
     hints: false
   },
-  stats: {
-    children: false
-  },
+  stats: 'normal', // 或者 'errors-only'
   optimization: {
     minimize: false
   },

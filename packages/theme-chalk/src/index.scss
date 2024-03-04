@@ -1,6 +1,7 @@
 @import "./base.scss";
 @import "./pagination.scss";
 @import "./dialog.scss";
+@import "./dialog-generate.scss";
 @import "./autocomplete.scss";
 @import "./dropdown.scss";
 @import "./dropdown-menu.scss";
@@ -78,6 +79,7 @@
 @import "./avatar.scss";
 @import "./drawer.scss";
 @import "./statistic.scss";
+@import "./svg-icon.scss";
 @import "./popconfirm.scss";
 @import "./skeleton.scss";
 @import "./skeleton-item.scss";
@@ -85,3 +87,6 @@
 @import "./descriptions.scss";
 @import "./descriptions-item.scss";
 @import "./result.scss";
+@import "./form-generate.scss";
+@import "./select-generate.scss";
+@import "./upload-generate.scss";

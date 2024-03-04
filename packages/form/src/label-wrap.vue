@@ -6,13 +6,13 @@ export default {
     updateAll: Boolean
   },
 
-  inject: ['elForm', 'elFormItem'],
+  inject: ['dyForm', 'dyFormItem'],
 
   render() {
     const slots = this.$slots.default;
     if (!slots) return null;
     if (this.isAutoWidth) {
-      const autoLabelWidth = this.elForm.autoLabelWidth;
+      const autoLabelWidth = this.dyForm.autoLabelWidth;
       const style = {};
       if (autoLabelWidth && autoLabelWidth !== 'auto') {
         const marginLeft = parseInt(autoLabelWidth, 10) - this.computedWidth;
@@ -42,7 +42,7 @@ export default {
         if (action === 'update') {
           this.computedWidth = this.getLabelWidth();
         } else if (action === 'remove') {
-          this.elForm.deregisterLabelWidth(this.computedWidth);
+          this.dyForm.deregisterLabelWidth(this.computedWidth);
         }
       }
     }
@@ -51,8 +51,8 @@ export default {
   watch: {
     computedWidth(val, oldVal) {
       if (this.updateAll) {
-        this.elForm.registerLabelWidth(val, oldVal);
-        this.elFormItem.updateComputedLabelWidth(val);
+        this.dyForm.registerLabelWidth(val, oldVal);
+        this.dyFormItem.updateComputedLabelWidth(val);
       }
     }
   },

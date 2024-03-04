@@ -18,7 +18,7 @@ describe('Steps', () => {
     expect(vm.$el.querySelectorAll('.dy-step')).to.length(3);
   });
 
-  it('space', async() => {
+  it('space', async () => {
     vm = createVue(`
       <dy-steps>
         <dy-step title="step1"></dy-step>
@@ -66,7 +66,7 @@ describe('Steps', () => {
           <dy-step title="abc2"></dy-step>
         </dy-steps>
       `,
-      data() {
+      data () {
         return { processStatus: 'error' };
       }
     });
@@ -104,7 +104,7 @@ describe('Steps', () => {
         </dy-steps>
       `,
 
-      data() {
+      data () {
         return { active: 0 };
       }
     });
@@ -130,7 +130,7 @@ describe('Steps', () => {
     expect(vm.$el.querySelector('.is-vertical')).to.exist;
   });
 
-  it('vertical:height', async() => {
+  it('vertical:height', async () => {
     vm = createVue(`
       <dy-steps direction="vertical" :space="200">
         <dy-step title="aaa"></dy-step>

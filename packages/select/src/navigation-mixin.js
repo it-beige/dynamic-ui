@@ -1,18 +1,18 @@
 export default {
-  data() {
+  data () {
     return {
       hoverOption: -1
     };
   },
 
   computed: {
-    optionsAllDisabled() {
+    optionsAllDisabled () {
       return this.options.filter(option => option.visible).every(option => option.disabled);
     }
   },
 
   watch: {
-    hoverIndex(val) {
+    hoverIndex (val) {
       if (typeof val === 'number' && val > -1) {
         this.hoverOption = this.options[val] || {};
       }
@@ -23,7 +23,7 @@ export default {
   },
 
   methods: {
-    navigateOptions(direction) {
+    navigateOptions (direction) {
       if (!this.visible) {
         this.visible = true;
         return;

@@ -5,7 +5,7 @@ const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const cssmin = require('gulp-cssmin');
 
-function compile() {
+function compile () {
   return src('./src/*.scss')
     .pipe(sass.sync())
     .pipe(autoprefixer({
@@ -16,7 +16,7 @@ function compile() {
     .pipe(dest('./lib'));
 }
 
-function copyfont() {
+function copyfont () {
   return src('./src/fonts/**')
     .pipe(cssmin())
     .pipe(dest('./lib/fonts'));

@@ -1,14 +1,14 @@
 export default {
-  created() {
+  created () {
     this.tableLayout.addObserver(this);
   },
 
-  destroyed() {
+  destroyed () {
     this.tableLayout.removeObserver(this);
   },
 
   computed: {
-    tableLayout() {
+    tableLayout () {
       let layout = this.layout;
       if (!layout && this.table) {
         layout = this.table.layout;
@@ -20,12 +20,12 @@ export default {
     }
   },
 
-  mounted() {
+  mounted () {
     this.onColumnsChange(this.tableLayout);
     this.onScrollableChange(this.tableLayout);
   },
 
-  updated() {
+  updated () {
     if (this.__updated__) return;
     this.onColumnsChange(this.tableLayout);
     this.onScrollableChange(this.tableLayout);
@@ -33,7 +33,7 @@ export default {
   },
 
   methods: {
-    onColumnsChange(layout) {
+    onColumnsChange (layout) {
       const cols = this.$el.querySelectorAll('colgroup > col');
       if (!cols.length) return;
       const flattenColumns = layout.getFlattenColumns();
@@ -51,7 +51,7 @@ export default {
       }
     },
 
-    onScrollableChange(layout) {
+    onScrollableChange (layout) {
       const cols = this.$el.querySelectorAll('colgroup > col[name=gutter]');
       for (let i = 0, j = cols.length; i < j; i++) {
         const col = cols[i];

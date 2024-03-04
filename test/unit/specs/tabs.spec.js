@@ -61,13 +61,13 @@ describe('Tabs', () => {
           <dy-tab-pane name="tab-D" label="定时任务补偿">D</dy-tab-pane>
         </dy-tabs>
       `,
-      data() {
+      data () {
         return {
           activeName: 'tab-B'
         };
       },
       methods: {
-        handleClick(tab) {
+        handleClick (tab) {
           this.activeName = tab.name;
         }
       }
@@ -123,7 +123,7 @@ describe('Tabs', () => {
           <dy-tab-pane :label="tab.label" :name="tab.name" v-for="tab in tabs" :key="tab.name">Test Content</dy-tab-pane>
         </dy-tabs>
       `,
-      data() {
+      data () {
         return {
           tabs: [{
             label: 'tab1',
@@ -168,7 +168,7 @@ describe('Tabs', () => {
           </dy-tab-pane>
         </dy-tabs>
       `,
-      data() {
+      data () {
         return {
           editableTabsValue: '2',
           editableTabs: [{
@@ -188,7 +188,7 @@ describe('Tabs', () => {
         };
       },
       methods: {
-        handleTabsEdit(targetName, action) {
+        handleTabsEdit (targetName, action) {
           if (action === 'add') {
             let newTabName = ++this.tabIndex + '';
             this.editableTabs.push({
@@ -260,7 +260,7 @@ describe('Tabs', () => {
           </dy-tab-pane>
         </dy-tabs>
       `,
-      data() {
+      data () {
         return {
           editableTabsValue: '2',
           editableTabs: [{
@@ -276,7 +276,7 @@ describe('Tabs', () => {
         };
       },
       methods: {
-        addTab(targetName) {
+        addTab (targetName) {
           let newTabName = ++this.tabIndex + '';
           this.editableTabs.push({
             title: 'New Tab',
@@ -285,7 +285,7 @@ describe('Tabs', () => {
           });
           this.editableTabsValue = newTabName;
         },
-        removeTab(targetName) {
+        removeTab (targetName) {
           let tabs = this.editableTabs;
           let activeName = this.editableTabsValue;
           if (activeName === targetName) {
@@ -405,7 +405,7 @@ describe('Tabs', () => {
           <dy-tab-pane label="定时任务补偿">D</dy-tab-pane>
         </dy-tabs>
       `,
-      data() {
+      data () {
         return {
           tabPosition: 'bottom'
         };
@@ -539,13 +539,13 @@ describe('Tabs', () => {
           <dy-tab-pane name="tab-D" label="定时任务补偿">D</dy-tab-pane>
         </dy-tabs>
       `,
-      data() {
+      data () {
         return {
           activeName: 'tab-B'
         };
       },
       methods: {
-        beforeLeave() {
+        beforeLeave () {
           return new window.Promise((resolve, reject) => {
             reject();
           });
@@ -580,7 +580,7 @@ describe('Tabs', () => {
           <dy-tab-pane label="定时任务补偿" name="fourth">D</dy-tab-pane>
         </dy-tabs>
       `,
-      data() {
+      data () {
         return {
           activeName: 'second'
         };

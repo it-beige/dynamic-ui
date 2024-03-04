@@ -1,6 +1,6 @@
 import { getValueByPath } from 'dynamic-ui/src/utils/util';
 
-export const getCell = function(event) {
+export const getCell = function (event) {
   let cell = event.target;
 
   while (cell && cell.tagName.toUpperCase() !== 'HTML') {
@@ -13,11 +13,11 @@ export const getCell = function(event) {
   return null;
 };
 
-const isObject = function(obj) {
+const isObject = function (obj) {
   return obj !== null && typeof obj === 'object';
 };
 
-export const orderBy = function(array, sortKey, reverse, sortMethod, sortBy) {
+export const orderBy = function (array, sortKey, reverse, sortMethod, sortBy) {
   if (!sortKey && !sortMethod && (!sortBy || Array.isArray(sortBy) && !sortBy.length)) {
     return array;
   }
@@ -26,12 +26,12 @@ export const orderBy = function(array, sortKey, reverse, sortMethod, sortBy) {
   } else {
     reverse = (reverse && reverse < 0) ? -1 : 1;
   }
-  const getKey = sortMethod ? null : function(value, index) {
+  const getKey = sortMethod ? null : function (value, index) {
     if (sortBy) {
       if (!Array.isArray(sortBy)) {
         sortBy = [sortBy];
       }
-      return sortBy.map(function(by) {
+      return sortBy.map(function (by) {
         if (typeof by === 'string') {
           return getValueByPath(value, by);
         } else {
@@ -44,7 +44,7 @@ export const orderBy = function(array, sortKey, reverse, sortMethod, sortBy) {
     }
     return [isObject(value) ? getValueByPath(value, sortKey) : value];
   };
-  const compare = function(a, b) {
+  const compare = function (a, b) {
     if (sortMethod) {
       return sortMethod(a.value, b.value);
     }
@@ -58,13 +58,13 @@ export const orderBy = function(array, sortKey, reverse, sortMethod, sortBy) {
     }
     return 0;
   };
-  return array.map(function(value, index) {
+  return array.map(function (value, index) {
     return {
       value: value,
       index: index,
       key: getKey ? getKey(value, index) : null
     };
-  }).sort(function(a, b) {
+  }).sort(function (a, b) {
     let order = compare(a, b);
     if (!order) {
       // make stable https://en.wikipedia.org/wiki/Sorting_algorithm#Stability
@@ -74,9 +74,9 @@ export const orderBy = function(array, sortKey, reverse, sortMethod, sortBy) {
   }).map(item => item.value);
 };
 
-export const getColumnById = function(table, columnId) {
+export const getColumnById = function (table, columnId) {
   let column = null;
-  table.columns.forEach(function(item) {
+  table.columns.forEach(function (item) {
     if (item.id === columnId) {
       column = item;
     }
@@ -84,7 +84,7 @@ export const getColumnById = function(table, columnId) {
   return column;
 };
 
-export const getColumnByKey = function(table, columnKey) {
+export const getColumnByKey = function (table, columnKey) {
   let column = null;
   for (let i = 0; i < table.columns.length; i++) {
     const item = table.columns[i];
@@ -96,7 +96,7 @@ export const getColumnByKey = function(table, columnKey) {
   return column;
 };
 
-export const getColumnByCell = function(table, cell) {
+export const getColumnByCell = function (table, cell) {
   const matches = (cell.className || '').match(/dy-table_[^\s]+/gm);
   if (matches) {
     return getColumnById(table, matches[0]);
@@ -121,7 +121,7 @@ export const getRowIdentity = (row, rowKey) => {
   }
 };
 
-export const getKeysMap = function(array, rowKey) {
+export const getKeysMap = function (array, rowKey) {
   const arrayMap = {};
   (array || []).forEach((row, index) => {
     arrayMap[getRowIdentity(row, rowKey)] = { row, index };
@@ -129,11 +129,11 @@ export const getKeysMap = function(array, rowKey) {
   return arrayMap;
 };
 
-function hasOwn(obj, key) {
+function hasOwn (obj, key) {
   return Object.prototype.hasOwnProperty.call(obj, key);
 }
 
-export function mergeOptions(defaults, config) {
+export function mergeOptions (defaults, config) {
   const options = {};
   let key;
   for (key in defaults) {
@@ -150,7 +150,7 @@ export function mergeOptions(defaults, config) {
   return options;
 }
 
-export function parseWidth(width) {
+export function parseWidth (width) {
   if (width !== undefined) {
     width = parseInt(width, 10);
     if (isNaN(width)) {
@@ -160,7 +160,7 @@ export function parseWidth(width) {
   return width;
 }
 
-export function parseMinWidth(minWidth) {
+export function parseMinWidth (minWidth) {
   if (typeof minWidth !== 'undefined') {
     minWidth = parseWidth(minWidth);
     if (isNaN(minWidth)) {
@@ -170,7 +170,7 @@ export function parseMinWidth(minWidth) {
   return minWidth;
 };
 
-export function parseHeight(height) {
+export function parseHeight (height) {
   if (typeof height === 'number') {
     return height;
   }
@@ -185,7 +185,7 @@ export function parseHeight(height) {
 }
 
 // https://github.com/reduxjs/redux/blob/master/src/compose.js
-export function compose(...funcs) {
+export function compose (...funcs) {
   if (funcs.length === 0) {
     return arg => arg;
   }
@@ -195,7 +195,7 @@ export function compose(...funcs) {
   return funcs.reduce((a, b) => (...args) => a(b(...args)));
 }
 
-export function toggleRowStatus(statusArr, row, newVal) {
+export function toggleRowStatus (statusArr, row, newVal) {
   let changed = false;
   const index = statusArr.indexOf(row);
   const included = index !== -1;
@@ -225,10 +225,10 @@ export function toggleRowStatus(statusArr, row, newVal) {
   return changed;
 }
 
-export function walkTreeNode(root, cb, childrenKey = 'children', lazyKey = 'hasChildren') {
+export function walkTreeNode (root, cb, childrenKey = 'children', lazyKey = 'hasChildren') {
   const isNil = (array) => !(Array.isArray(array) && array.length);
 
-  function _walker(parent, children, level) {
+  function _walker (parent, children, level) {
     cb(parent, children, level);
     children.forEach(item => {
       if (item[lazyKey]) {

@@ -26,7 +26,7 @@ const doFlattenColumns = (columns) => {
 };
 
 export default Vue.extend({
-  data() {
+  data () {
     return {
       states: {
         // 3.0 版本后要求必须设置该属性
@@ -76,13 +76,13 @@ export default Vue.extend({
 
   methods: {
     // 检查 rowKey 是否存在
-    assertRowKey() {
+    assertRowKey () {
       const rowKey = this.states.rowKey;
       if (!rowKey) throw new Error('[ElTable] prop row-key is required');
     },
 
     // 更新列
-    updateColumns() {
+    updateColumns () {
       const states = this.states;
       const _columns = states._columns || [];
       states.fixedColumns = _columns.filter((column) => column.fixed === true || column.fixed === 'left');
@@ -109,7 +109,7 @@ export default Vue.extend({
     },
 
     // 更新 DOM
-    scheduleLayout(needUpdateColumns) {
+    scheduleLayout (needUpdateColumns) {
       if (needUpdateColumns) {
         this.updateColumns();
       }
@@ -117,12 +117,12 @@ export default Vue.extend({
     },
 
     // 选择
-    isSelected(row) {
+    isSelected (row) {
       const { selection = [] } = this.states;
       return selection.indexOf(row) > -1;
     },
 
-    clearSelection() {
+    clearSelection () {
       const states = this.states;
       states.isAllSelected = false;
       const oldSelection = states.selection;
@@ -132,7 +132,7 @@ export default Vue.extend({
       }
     },
 
-    cleanSelection() {
+    cleanSelection () {
       const states = this.states;
       const { data, rowKey, selection } = states;
       let deleted;
@@ -155,7 +155,7 @@ export default Vue.extend({
       }
     },
 
-    toggleRowSelection(row, selected, emitChange = true) {
+    toggleRowSelection (row, selected, emitChange = true) {
       const changed = toggleRowStatus(this.states.selection, row, selected);
       if (changed) {
         const newSelection = (this.states.selection || []).slice();
@@ -167,7 +167,7 @@ export default Vue.extend({
       }
     },
 
-    _toggleAllSelection() {
+    _toggleAllSelection () {
       const states = this.states;
       const { data = [], selection } = states;
       // when only some rows are selected (but not all), select or deselect all of them
@@ -196,7 +196,7 @@ export default Vue.extend({
       this.table.$emit('select-all', selection);
     },
 
-    updateSelectionByRowKey() {
+    updateSelectionByRowKey () {
       const states = this.states;
       const { selection, rowKey, data } = states;
       const selectedMap = getKeysMap(selection, rowKey);
@@ -209,7 +209,7 @@ export default Vue.extend({
       });
     },
 
-    updateAllSelected() {
+    updateAllSelected () {
       const states = this.states;
       const { selection, rowKey, selectable } = states;
       // data 为 null 时，解构时的默认值会被忽略
@@ -223,7 +223,7 @@ export default Vue.extend({
       if (rowKey) {
         selectedMap = getKeysMap(selection, rowKey);
       }
-      const isSelected = function(row) {
+      const isSelected = function (row) {
         if (selectedMap) {
           return !!selectedMap[getRowIdentity(row, rowKey)];
         } else {
@@ -250,7 +250,7 @@ export default Vue.extend({
     },
 
     // 过滤与排序
-    updateFilters(columns, values) {
+    updateFilters (columns, values) {
       if (!Array.isArray(columns)) {
         columns = [columns];
       }
@@ -264,7 +264,7 @@ export default Vue.extend({
       return filters;
     },
 
-    updateSort(column, prop, order) {
+    updateSort (column, prop, order) {
       if (this.states.sortingColumn && this.states.sortingColumn !== column) {
         this.states.sortingColumn.order = null;
       }
@@ -273,7 +273,7 @@ export default Vue.extend({
       this.states.sortOrder = order;
     },
 
-    execFilter() {
+    execFilter () {
       const states = this.states;
       const { _data, filters } = states;
       let data = _data;
@@ -292,20 +292,20 @@ export default Vue.extend({
       states.filteredData = data;
     },
 
-    execSort() {
+    execSort () {
       const states = this.states;
       states.data = sortData(states.filteredData, states);
     },
 
     // 根据 filters 与 sort 去过滤 data
-    execQuery(ignore) {
+    execQuery (ignore) {
       if (!(ignore && ignore.filter)) {
         this.execFilter();
       }
       this.execSort();
     },
 
-    clearFilter(columnKeys) {
+    clearFilter (columnKeys) {
       const states = this.states;
       const { tableHeader, fixedTableHeader, rightFixedTableHeader } = this.table.$refs;
 
@@ -351,7 +351,7 @@ export default Vue.extend({
       }
     },
 
-    clearSort() {
+    clearSort () {
       const states = this.states;
       if (!states.sortingColumn) return;
 
@@ -362,14 +362,14 @@ export default Vue.extend({
     },
 
     // 适配层，expand-row-keys 在 Expand 与 TreeTable 中都有使用
-    setExpandRowKeysAdapter(val) {
+    setExpandRowKeysAdapter (val) {
       // 这里会触发额外的计算，但为了兼容性，暂时这么做
       this.setExpandRowKeys(val);
       this.updateTreeExpandKeys(val);
     },
 
     // 展开行与 TreeTable 都要使用
-    toggleRowExpansionAdapter(row, expanded) {
+    toggleRowExpansionAdapter (row, expanded) {
       const hasExpandColumn = this.states.columns.some(({ type }) => type === 'expand');
       if (hasExpandColumn) {
         this.toggleRowExpansion(row, expanded);

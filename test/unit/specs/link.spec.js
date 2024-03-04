@@ -45,14 +45,14 @@ describe('Link', () => {
     expect(linkElm.classList.contains('is-disabled')).to.be.true;
   });
 
-  it('click', async() => {
+  it('click', async () => {
     let result;
     vm = createVue({
       template: `
         <dy-link @click="handleClick"></dy-link>
       `,
       methods: {
-        handleClick(evt) {
+        handleClick (evt) {
           result = evt;
         }
       }

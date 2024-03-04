@@ -9,14 +9,14 @@ let instance;
 let instances = [];
 let seed = 1;
 
-const Notification = function(options) {
+const Notification = function (options) {
   if (Vue.prototype.$isServer) return;
   options = merge({}, options);
   const userOnClose = options.onClose;
   const id = 'notification_' + seed++;
   const position = options.position || 'top-right';
 
-  options.onClose = function() {
+  options.onClose = function () {
     Notification.close(id, userOnClose);
   };
 
@@ -57,7 +57,7 @@ const Notification = function(options) {
   };
 });
 
-Notification.close = function(id, userOnClose) {
+Notification.close = function (id, userOnClose) {
   let index = -1;
   const len = instances.length;
   const instance = instances.filter((instance, i) => {
@@ -85,7 +85,7 @@ Notification.close = function(id, userOnClose) {
   }
 };
 
-Notification.closeAll = function() {
+Notification.closeAll = function () {
   for (let i = instances.length - 1; i >= 0; i--) {
     instances[i].close();
   }

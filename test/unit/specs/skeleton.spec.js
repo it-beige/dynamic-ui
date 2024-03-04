@@ -28,13 +28,13 @@ describe('Skeleton.vue', () => {
     expect(Array.from(el.children[0].classList)).to.contain('is-animated');
   });
 
-  it('should render x times', async() => {
+  it('should render x times', async () => {
     vm = createVue(
       {
         template: `
         <dy-skeleton :count="count"></dy-skeleton>
       `,
-        data() {
+        data () {
           return {
             count: 1
           };
@@ -66,7 +66,7 @@ describe('Skeleton.vue', () => {
         template: `
         <dy-skeleton :loading="loading">{{content}}</dy-skeleton>
       `,
-        data() {
+        data () {
           return {
             loading: false,
             content
@@ -82,7 +82,7 @@ describe('Skeleton.vue', () => {
         template: `
         <dy-skeleton :loading="loading"><template slot="template">{{content}}</template></dy-skeleton>
       `,
-        data() {
+        data () {
           return {
             loading: true,
             content
@@ -92,7 +92,7 @@ describe('Skeleton.vue', () => {
     expect(vm.$el.querySelector('.dy-skeleton').textContent).to.be.equal(content);
   });
 
-  it('should throttle rendering', async() => {
+  it('should throttle rendering', async () => {
     vm = createTest(Skeleton, {
       throttle: 500
     }, true);

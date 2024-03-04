@@ -1,7 +1,7 @@
 import Header from './src/main';
 
 /* istanbul ignore next */
-Header.install = function(Vue) {
+Header.install = function (Vue) {
   Vue.component(Header.name, Header);
 };
 

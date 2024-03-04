@@ -25,7 +25,7 @@ describe('Rate', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: 4
         };
@@ -43,7 +43,7 @@ describe('Rate', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: 0
         };
@@ -66,7 +66,7 @@ describe('Rate', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: 0
         };
@@ -85,7 +85,7 @@ describe('Rate', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: 4
         };
@@ -104,7 +104,7 @@ describe('Rate', () => {
       `,
 
       computed: {
-        colors() {
+        colors () {
           if (this.muted) {
             return ['#999', '#999', '#999'];
           } else {
@@ -112,7 +112,7 @@ describe('Rate', () => {
           }
         }
       },
-      data() {
+      data () {
         return {
           value: 4,
           muted: false
@@ -137,7 +137,7 @@ describe('Rate', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: 3
         };
@@ -155,7 +155,7 @@ describe('Rate', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: 3.7
         };
@@ -168,7 +168,7 @@ describe('Rate', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: 3.4
         };
@@ -192,7 +192,7 @@ describe('Rate', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: 0
         };
@@ -216,7 +216,7 @@ describe('Rate', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: 4
         };

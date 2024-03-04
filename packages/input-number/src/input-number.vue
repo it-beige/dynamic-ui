@@ -54,10 +54,10 @@
     name: 'DyInputNumber',
     mixins: [Focus('input')],
     inject: {
-      elForm: {
+      dyForm: {
         default: ''
       },
-      elFormItem: {
+      dyFormItem: {
         default: ''
       }
     },
@@ -162,13 +162,13 @@
         return this.controls && this.controlsPosition === 'right';
       },
       _elFormItemSize() {
-        return (this.elFormItem || {}).elFormItemSize;
+        return (this.dyFormItem || {}).elFormItemSize;
       },
       inputNumberSize() {
-        return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
+        return this.size || this._elFormItemSize || (this.$DYNAMIC || {}).size;
       },
       inputNumberDisabled() {
-        return this.disabled || !!(this.elForm || {}).disabled;
+        return this.disabled || !!(this.dyForm || {}).disabled;
       },
       displayValue() {
         if (this.userInput !== null) {

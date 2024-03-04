@@ -1,4 +1,4 @@
-const ELEMENT_THEME_USER_CONFIG = 'ELEMENT_THEME_USER_CONFIG';
+const DYNAMIC_THEME_USER_CONFIG = 'DYNAMIC_THEME_USER_CONFIG';
 export const loadFromLocal = (key) => {
   return new window.Promise((resolve) => {
     chrome.storage.local.get([key], (result) => {
@@ -11,8 +11,8 @@ export const saveToLocal = (key, value) => {
 };
 
 export const loadUserThemeFromLocal = () => {
-  return loadFromLocal(ELEMENT_THEME_USER_CONFIG);
+  return loadFromLocal(DYNAMIC_THEME_USER_CONFIG);
 };
 export const saveUserThemeToLocal = (value) => {
-  saveToLocal(ELEMENT_THEME_USER_CONFIG, value);
+  saveToLocal(DYNAMIC_THEME_USER_CONFIG, value);
 };

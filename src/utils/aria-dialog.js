@@ -20,7 +20,7 @@ import Utils from './aria-utils';
 var aria = aria || {};
 var tabEvent;
 
-aria.Dialog = function(dialog, focusAfterClosed, focusFirst) {
+aria.Dialog = function (dialog, focusAfterClosed, focusFirst) {
   this.dialogNode = dialog;
   if (this.dialogNode === null || this.dialogNode.getAttribute('role') !== 'dialog') {
     throw new Error('Dialog() requires a DOM element with ARIA role of dialog.');
@@ -55,15 +55,15 @@ aria.Dialog = function(dialog, focusAfterClosed, focusFirst) {
   this.addListeners();
 };
 
-aria.Dialog.prototype.addListeners = function() {
+aria.Dialog.prototype.addListeners = function () {
   document.addEventListener('focus', tabEvent, true);
 };
 
-aria.Dialog.prototype.removeListeners = function() {
+aria.Dialog.prototype.removeListeners = function () {
   document.removeEventListener('focus', tabEvent, true);
 };
 
-aria.Dialog.prototype.closeDialog = function() {
+aria.Dialog.prototype.closeDialog = function () {
   this.removeListeners();
   if (this.focusAfterClosed) {
     setTimeout(() => {
@@ -72,7 +72,7 @@ aria.Dialog.prototype.closeDialog = function() {
   }
 };
 
-aria.Dialog.prototype.trapFocus = function(event) {
+aria.Dialog.prototype.trapFocus = function (event) {
   if (Utils.IgnoreUtilFocusChanges) {
     return;
   }

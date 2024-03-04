@@ -5,11 +5,11 @@
       "path": "/changelog"
     },
     {
-      "name": "Element React",
+      "name": "Dynamic React",
       "href": "https://elemefe.github.io/element-react/"
     },
     {
-      "name": "Element Angular",
+      "name": "Dynamic Angular",
       "href": "https://element-angular.faas.ele.me/"
     },
     {
@@ -28,10 +28,14 @@
           "name": "注入其他组件库"
         },
         {
+          "path": "/gobal-config",
+          "name": "全局配置"
+        },
+        {
           "path": "/i18n",
           "name": "国际化"
         },
-        
+
         {
           "path": "/custom-theme",
           "name": "自定义主题"
@@ -39,6 +43,40 @@
         {
           "path": "/transition",
           "name": "内置过渡动画"
+        }
+      ]
+    },
+    {
+      "name": "高阶组件",
+      "groups": [
+        {
+          "groupName": "HigherOrder Components",
+          "list": [
+            {
+              "path": "/select-generate",
+              "title": "Select JSON生成"
+            },
+            {
+              "path": "/radio-generate",
+              "title": "Radio JSON生成"
+            },
+            {
+              "path": "/checkbox-generate",
+              "title": "Checkbox JSON生成"
+            },
+            {
+              "path": "/upload-generate",
+              "title": "Upload JSON生成"
+            },
+            {
+              "path": "/form-generate",
+              "title": "Form JSON生成"
+            },
+            {
+              "path": "/dialog-generate",
+              "title": "Dialog JSON生成"
+            }
+          ]
         }
       ]
     },
@@ -328,11 +366,11 @@
       "path": "/changelog"
     },
     {
-      "name": "Element React",
+      "name": "Dynamic React",
       "href": "https://elemefe.github.io/element-react/"
     },
     {
-      "name": "Element Angular",
+      "name": "Dynamic Angular",
       "href": "https://element-angular.faas.ele.me/"
     },
     {
@@ -349,6 +387,10 @@
         {
           "path": "/custom-component",
           "name": "Inject other component libraries"
+        },
+        {
+          "path": "/gobal-config",
+          "name": "Global Configuration"
         },
         {
           "path": "/i18n",

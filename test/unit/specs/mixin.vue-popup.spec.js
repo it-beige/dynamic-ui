@@ -2,10 +2,10 @@ import VuePopup from 'element-ui/src/utils/popup';
 import { createTest, destroyVM } from '../util';
 
 const Popup = Object.assign({}, VuePopup, {
-  render(h) {
+  render (h) {
     return h('div');
   },
-  created() {
+  created () {
     this.rendered = true;
   }
 });

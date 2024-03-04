@@ -6,7 +6,7 @@ export default {
 
   mixins: [LayoutObserver],
 
-  render(h) {
+  render (h) {
     let sums = [];
     if (this.summaryMethod) {
       sums = this.summaryMethod({ columns: this.columns, data: this.store.states.data });
@@ -90,7 +90,7 @@ export default {
     border: Boolean,
     defaultSort: {
       type: Object,
-      default() {
+      default () {
         return {
           prop: '',
           order: ''
@@ -100,11 +100,11 @@ export default {
   },
 
   computed: {
-    table() {
+    table () {
       return this.$parent;
     },
 
-    hasGutter() {
+    hasGutter () {
       return !this.fixed && this.tableLayout.gutterWidth;
     },
 
@@ -120,7 +120,7 @@ export default {
   },
 
   methods: {
-    isCellHidden(index, columns, column) {
+    isCellHidden (index, columns, column) {
       if (this.fixed === true || this.fixed === 'left') {
         return index >= this.leftFixedLeafCount;
       } else if (this.fixed === 'right') {
@@ -136,7 +136,7 @@ export default {
       }
     },
 
-    getRowClasses(column, cellIndex) {
+    getRowClasses (column, cellIndex) {
       const classes = [column.id, column.align, column.labelClassName];
       if (column.className) {
         classes.push(column.className);

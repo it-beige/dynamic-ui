@@ -1,15 +1,24 @@
 {
   "globals": {
     "ga": true,
-    "chrome": true
+    "chrome": true,
+    "Promise": true,
+    "Reflect": true,
+    "Map": true,
+    "Set": true
   },
+  "parser": "@babel/eslint-parser",
   "plugins": ["html", "json"],
   "extends": "elemefe",
   "rules": {
-    "no-restricted-globals": ["error", "event", "fdescribe"]
+    "no-restricted-globals": ["error", "event", "fdescribe"],
+    // 函数定义时括号前面要不要有空格
+    "space-before-function-paren": [0, "always"],
+    "no-unused-vars": 0
   },
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 2020,
+    "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
     }

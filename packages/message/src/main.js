@@ -9,7 +9,7 @@ let instance;
 let instances = [];
 let seed = 1;
 
-const Message = function(options) {
+const Message = function (options) {
   if (Vue.prototype.$isServer) return;
   options = options || {};
   if (typeof options === 'string') {
@@ -20,7 +20,7 @@ const Message = function(options) {
   let userOnClose = options.onClose;
   let id = 'message_' + seed++;
 
-  options.onClose = function() {
+  options.onClose = function () {
     Message.close(id, userOnClose);
   };
   instance = new MessageConstructor({
@@ -59,7 +59,7 @@ const Message = function(options) {
   };
 });
 
-Message.close = function(id, userOnClose) {
+Message.close = function (id, userOnClose) {
   let len = instances.length;
   let index = -1;
   let removedHeight;
@@ -82,7 +82,7 @@ Message.close = function(id, userOnClose) {
   }
 };
 
-Message.closeAll = function() {
+Message.closeAll = function () {
   for (let i = instances.length - 1; i >= 0; i--) {
     instances[i].close();
   }

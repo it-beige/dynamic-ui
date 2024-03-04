@@ -3,6 +3,7 @@ import UploadList from './upload-list';
 import Upload from './upload';
 import DyProgress from 'dynamic-ui/packages/progress';
 import Migrating from 'dynamic-ui/src/mixins/migrating';
+import { saveAs} from 'file-saver';
 
 function noop() {}
 
@@ -24,7 +25,7 @@ export default {
   },
 
   inject: {
-    elForm: {
+    dyForm: {
       default: ''
     }
   },
@@ -103,6 +104,10 @@ export default {
     onExceed: {
       type: Function,
       default: noop
+    },
+    svgIcon: {
+      type: Boolean,
+      default: true
     }
   },
 
@@ -117,7 +122,7 @@ export default {
 
   computed: {
     uploadDisabled() {
-      return this.disabled || (this.elForm || {}).disabled;
+      return this.disabled || (this.dyForm || {}).disabled;
     }
   },
 
@@ -224,6 +229,16 @@ export default {
         }
       }
     },
+    handleDownload(file) {
+      let url;
+      if (typeof this.onPreview === 'function') {
+        url = this.onPreview(file);
+      }
+      if (!url) {
+        url = file.url;
+      }
+      saveAs(url, file.name);
+    },
     getFile(rawFile) {
       let fileList = this.uploadFiles;
       let target;
@@ -275,7 +290,10 @@ export default {
           listType={this.listType}
           files={this.uploadFiles}
           on-remove={this.handleRemove}
-          handlePreview={this.onPreview}>
+          handlePreview={this.onPreview}
+          svgIcon={this.svgIcon}
+          onDownload={this.handleDownload}
+        >
           {
             (props) => {
               if (this.$scopedSlots.file) {

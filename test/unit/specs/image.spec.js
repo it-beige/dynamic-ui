@@ -11,7 +11,7 @@ describe('Image', () => {
     destroyVM(vm);
   });
 
-  it('create', async() => {
+  it('create', async () => {
     vm = createTest(Image, {
       src,
       fit: 'fill'
@@ -28,7 +28,7 @@ describe('Image', () => {
     expect(img.style.objectFit).to.equal('fill');
   });
 
-  it('load failed', async() => {
+  it('load failed', async () => {
     vm = createTest(Image, {
       src: IMAGE_FAIL
     }, true);
@@ -37,7 +37,7 @@ describe('Image', () => {
     expect(error).to.be.exist;
   });
 
-  it('lazy load', async() => {
+  it('lazy load', async () => {
     vm = createVue({
       template: `
         <div ref="wrapper" style="height: 200px; overflow: auto;">
@@ -50,7 +50,7 @@ describe('Image', () => {
             lazy></dy-image>
         </div>
       `,
-      data() {
+      data () {
         return {
           src
         };
@@ -68,7 +68,7 @@ describe('Image', () => {
     expect(image2.loading).to.be.false;
   });
 
-  it('$attrs', async() => {
+  it('$attrs', async () => {
     vm = createVue({
       template: `
         <dy-image
@@ -76,7 +76,7 @@ describe('Image', () => {
           referrerpolicy="origin"
           :src="src"></dy-image>
       `,
-      data() {
+      data () {
         return {
           src
         };
@@ -89,19 +89,19 @@ describe('Image', () => {
     expect($img.getAttribute('referrerpolicy')).to.be.equal('origin');
   });
 
-  it('pass event listeners', async() => {
+  it('pass event listeners', async () => {
     let result;
     vm = createVue({
       template: `
         <dy-image @click="handleClick" :src="src"></dy-image>
       `,
-      data() {
+      data () {
         return {
           src
         };
       },
       methods: {
-        handleClick(e) {
+        handleClick (e) {
           result = e;
         }
       }
@@ -112,12 +112,12 @@ describe('Image', () => {
     expect(result).to.exist;
   });
 
-  it('big image preview', async() => {
+  it('big image preview', async () => {
     vm = createVue({
       template: `
         <dy-image :src="src" :preview-src-list="srcList"></dy-image>
       `,
-      data() {
+      data () {
         return {
           src: src,
           srcList: [src]

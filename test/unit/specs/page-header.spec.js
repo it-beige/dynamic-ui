@@ -7,7 +7,7 @@ describe('PageHeader', () => {
     destroyVM(vm);
   });
 
-  it('render well and trigger back event', async() => {
+  it('render well and trigger back event', async () => {
     vm = createVue(PageHeader, {
       content: 'content'
     });

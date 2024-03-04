@@ -181,10 +181,10 @@ export default {
   mixins: [PopperMixin, Emitter, Locale, Migrating],
 
   inject: {
-    elForm: {
+    dyForm: {
       default: ''
     },
-    elFormItem: {
+    dyFormItem: {
       default: ''
     }
   },
@@ -256,8 +256,8 @@ export default {
       }
     },
     realSize() {
-      const _elFormItemSize = (this.elFormItem || {}).elFormItemSize;
-      return this.size || _elFormItemSize || (this.$ELEMENT || {}).size;
+      const _elFormItemSize = (this.dyFormItem || {}).elFormItemSize;
+      return this.size || _elFormItemSize || (this.$DYNAMIC || {}).size;
     },
     tagSize() {
       return ['small', 'mini'].indexOf(this.realSize) > -1
@@ -265,7 +265,7 @@ export default {
         : 'small';
     },
     isDisabled() {
-      return this.disabled || (this.elForm || {}).disabled;
+      return this.disabled || (this.dyForm || {}).disabled;
     },
     config() {
       const config = this.props || {};

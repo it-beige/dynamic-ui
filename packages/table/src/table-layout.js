@@ -3,7 +3,7 @@ import scrollbarWidth from 'dynamic-ui/src/utils/scrollbar-width';
 import { parseHeight } from './util';
 
 class TableLayout {
-  constructor(options) {
+  constructor (options) {
     this.observers = [];
     this.table = null;
     this.store = null;
@@ -40,7 +40,7 @@ class TableLayout {
     }
   }
 
-  updateScrollY() {
+  updateScrollY () {
     const height = this.height;
     if (height === null) return false;
     const bodyWrapper = this.table.bodyWrapper;
@@ -54,7 +54,7 @@ class TableLayout {
     return false;
   }
 
-  setHeight(value, prop = 'height') {
+  setHeight (value, prop = 'height') {
     if (Vue.prototype.$isServer) return;
     const el = this.table.$el;
     value = parseHeight(value);
@@ -71,11 +71,11 @@ class TableLayout {
     }
   }
 
-  setMaxHeight(value) {
+  setMaxHeight (value) {
     this.setHeight(value, 'max-height');
   }
 
-  getFlattenColumns() {
+  getFlattenColumns () {
     const flattenColumns = [];
     const columns = this.table.columns;
     columns.forEach((column) => {
@@ -89,7 +89,7 @@ class TableLayout {
     return flattenColumns;
   }
 
-  updateElsHeight() {
+  updateElsHeight () {
     if (!this.table.$ready) return Vue.nextTick(() => this.updateElsHeight());
     const { headerWrapper, appendWrapper, footerWrapper } = this.table.$refs;
     this.appendHeight = appendWrapper ? appendWrapper.offsetHeight : 0;
@@ -117,7 +117,7 @@ class TableLayout {
     this.notifyObservers('scrollable');
   }
 
-  headerDisplayNone(elm) {
+  headerDisplayNone (elm) {
     if (!elm) return true;
     let headerChild = elm;
     while (headerChild.tagName !== 'DIV') {
@@ -129,7 +129,7 @@ class TableLayout {
     return false;
   }
 
-  updateColumnsWidth() {
+  updateColumnsWidth () {
     if (Vue.prototype.$isServer) return;
     const fit = this.fit;
     const bodyWidth = this.table.$el.clientWidth;
@@ -172,7 +172,7 @@ class TableLayout {
         }
       } else { // HAVE HORIZONTAL SCROLL BAR
         this.scrollX = true;
-        flexColumns.forEach(function(column) {
+        flexColumns.forEach(function (column) {
           column.realWidth = column.minWidth;
         });
       }
@@ -198,7 +198,7 @@ class TableLayout {
 
     if (fixedColumns.length > 0) {
       let fixedWidth = 0;
-      fixedColumns.forEach(function(column) {
+      fixedColumns.forEach(function (column) {
         fixedWidth += column.realWidth || column.width;
       });
 
@@ -208,7 +208,7 @@ class TableLayout {
     const rightFixedColumns = this.store.states.rightFixedColumns;
     if (rightFixedColumns.length > 0) {
       let rightFixedWidth = 0;
-      rightFixedColumns.forEach(function(column) {
+      rightFixedColumns.forEach(function (column) {
         rightFixedWidth += column.realWidth || column.width;
       });
 
@@ -218,18 +218,18 @@ class TableLayout {
     this.notifyObservers('columns');
   }
 
-  addObserver(observer) {
+  addObserver (observer) {
     this.observers.push(observer);
   }
 
-  removeObserver(observer) {
+  removeObserver (observer) {
     const index = this.observers.indexOf(observer);
     if (index !== -1) {
       this.observers.splice(index, 1);
     }
   }
 
-  notifyObservers(event) {
+  notifyObservers (event) {
     const observers = this.observers;
     observers.forEach((observer) => {
       switch (event) {

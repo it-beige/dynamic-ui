@@ -1,0 +1,15 @@
+@import 'mixins/mixins';
+
+@include b(upload-generate) {
+  @include b(upload-list__item-actions) {
+    z-index: 1;
+  }
+
+  &.is-disabled {
+    .dy-upload {
+      display: none;
+      visibility: hidden;
+      opacity: 0;
+    }
+  }
+}

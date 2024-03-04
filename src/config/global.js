@@ -1,4 +1,6 @@
 const globalConfig = {
+  // 缓存数据
+  cache: false,
   // 数据请求的baseURI
   baseURI: '',
   // 上传接口请求的baseURI, 使用第三方服务可能会用到, 比如使用oss上传
@@ -14,8 +16,22 @@ const globalConfig = {
   // 解析接口返回数据函数
   useParseData: (res) => res,
   // 解析分页接口返回数据函数total
-  useParseTotal: (res) => res
-
+  useParseTotal: (res) => res,
+  // 配置需要data数据项的展示项和绑定值
+  useOptionProps: () => ({label: 'label', value: 'value', children: 'children', disabled: 'disabled'}),
+  // 懒加载方法(接口要具备limit能力)
+  loadMoreMethod: ([page, size], resolve) => {
+    // 支持异步
+    resolve([++page, size]);
+  },
+  // 分页的总条目数
+  usePaginationLayout: () => {
+    return 'total, sizes, prev, pager, next, jumper';
+  },
+  // 分页的每页显示个数选择器的选项设置
+  usePaginationPageSizes: () => {
+    return [10, 20, 30, 40, 50, 100];
+  }
 };
 
 export default globalConfig;

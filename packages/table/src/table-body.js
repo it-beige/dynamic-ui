@@ -31,7 +31,7 @@ export default {
     highlight: Boolean
   },
 
-  render(h) {
+  render (h) {
     const data = this.data || [];
     return (
       <table
@@ -57,7 +57,7 @@ export default {
   },
 
   computed: {
-    table() {
+    table () {
       return this.$parent;
     },
 
@@ -73,11 +73,11 @@ export default {
       hasExpandColumn: states => states.columns.some(({ type }) => type === 'expand')
     }),
 
-    columnsHidden() {
+    columnsHidden () {
       return this.columns.map((column, index) => this.isColumnHidden(index));
     },
 
-    firstDefaultColumnIndex() {
+    firstDefaultColumnIndex () {
       return arrayFindIndex(this.columns, ({ type }) => type === 'default');
     }
   },
@@ -85,7 +85,7 @@ export default {
   watch: {
     // don't trigger getter of currentRow in getCellClass. see https://jsfiddle.net/oe2b4hqt/
     // update DOM manually. see https://github.com/ElemeFE/element/pull/13954/files#diff-9b450c00d0a9dec0ffad5a3176972e40
-    'store.states.hoverRow'(newVal, oldVal) {
+    'store.states.hoverRow' (newVal, oldVal) {
       if (!this.store.states.isComplex || this.$isServer) return;
       let raf = window.requestAnimationFrame;
       if (!raf) {
@@ -105,18 +105,18 @@ export default {
     }
   },
 
-  data() {
+  data () {
     return {
       tooltipContent: ''
     };
   },
 
-  created() {
+  created () {
     this.activateTooltip = debounce(50, tooltip => tooltip.handleShowPopper());
   },
 
   methods: {
-    getKeyOfRow(row, index) {
+    getKeyOfRow (row, index) {
       const rowKey = this.table.rowKey;
       if (rowKey) {
         return getRowIdentity(row, rowKey);
@@ -124,7 +124,7 @@ export default {
       return index;
     },
 
-    isColumnHidden(index) {
+    isColumnHidden (index) {
       if (this.fixed === true || this.fixed === 'left') {
         return index >= this.leftFixedLeafCount;
       } else if (this.fixed === 'right') {
@@ -134,7 +134,7 @@ export default {
       }
     },
 
-    getSpan(row, column, rowIndex, columnIndex) {
+    getSpan (row, column, rowIndex, columnIndex) {
       let rowspan = 1;
       let colspan = 1;
       const fn = this.table.spanMethod;
@@ -156,7 +156,7 @@ export default {
       return { rowspan, colspan };
     },
 
-    getRowStyle(row, rowIndex) {
+    getRowStyle (row, rowIndex) {
       const rowStyle = this.table.rowStyle;
       if (typeof rowStyle === 'function') {
         return rowStyle.call(null, {
@@ -167,7 +167,7 @@ export default {
       return rowStyle || null;
     },
 
-    getRowClass(row, rowIndex) {
+    getRowClass (row, rowIndex) {
       const classes = ['dy-table__row'];
       if (this.table.highlightCurrentRow && row === this.store.states.currentRow) {
         classes.push('current-row');
@@ -193,7 +193,7 @@ export default {
       return classes;
     },
 
-    getCellStyle(rowIndex, columnIndex, row, column) {
+    getCellStyle (rowIndex, columnIndex, row, column) {
       const cellStyle = this.table.cellStyle;
       if (typeof cellStyle === 'function') {
         return cellStyle.call(null, {
@@ -206,7 +206,7 @@ export default {
       return cellStyle;
     },
 
-    getCellClass(rowIndex, columnIndex, row, column) {
+    getCellClass (rowIndex, columnIndex, row, column) {
       const classes = [column.id, column.align, column.className];
 
       if (this.isColumnHidden(columnIndex)) {
@@ -230,7 +230,7 @@ export default {
       return classes.join(' ');
     },
 
-    getColspanRealWidth(columns, colspan, index) {
+    getColspanRealWidth (columns, colspan, index) {
       if (colspan < 1) {
         return columns[index].realWidth;
       }
@@ -238,7 +238,7 @@ export default {
       return widthArr.reduce((acc, width) => acc + width, -1);
     },
 
-    handleCellMouseEnter(event, row) {
+    handleCellMouseEnter (event, row) {
       const table = this.table;
       const cell = getCell(event);
 
@@ -273,7 +273,7 @@ export default {
       }
     },
 
-    handleCellMouseLeave(event) {
+    handleCellMouseLeave (event) {
       const tooltip = this.$refs.tooltip;
       if (tooltip) {
         tooltip.setExpectedState(false);
@@ -286,28 +286,28 @@ export default {
       this.table.$emit('cell-mouse-leave', oldHoverState.row, oldHoverState.column, oldHoverState.cell, event);
     },
 
-    handleMouseEnter: debounce(30, function(index) {
+    handleMouseEnter: debounce(30, function (index) {
       this.store.commit('setHoverRow', index);
     }),
 
-    handleMouseLeave: debounce(30, function() {
+    handleMouseLeave: debounce(30, function () {
       this.store.commit('setHoverRow', null);
     }),
 
-    handleContextMenu(event, row) {
+    handleContextMenu (event, row) {
       this.handleEvent(event, row, 'contextmenu');
     },
 
-    handleDoubleClick(event, row) {
+    handleDoubleClick (event, row) {
       this.handleEvent(event, row, 'dblclick');
     },
 
-    handleClick(event, row) {
+    handleClick (event, row) {
       this.store.commit('setCurrentRow', row);
       this.handleEvent(event, row, 'click');
     },
 
-    handleEvent(event, row, name) {
+    handleEvent (event, row, name) {
       const table = this.table;
       const cell = getCell(event);
       let column;
@@ -320,7 +320,7 @@ export default {
       table.$emit(`row-${name}`, row, column, event);
     },
 
-    rowRender(row, $index, treeRowData) {
+    rowRender (row, $index, treeRowData) {
       const { treeIndent, columns, firstDefaultColumnIndex } = this;
       const rowClasses = this.getRowClass(row, $index);
       let display = true;
@@ -366,7 +366,7 @@ export default {
       );
     },
 
-    wrappedRowRender(row, $index) {
+    wrappedRowRender (row, $index) {
       const store = this.store;
       const { isRowExpanded, assertRowKey } = store;
       const { treeData, lazyTreeNodeMap, childrenColumnName, rowKey } = store.states;

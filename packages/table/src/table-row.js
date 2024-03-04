@@ -24,7 +24,7 @@ export default {
   components: {
     DyCheckbox
   },
-  render() {
+  render () {
     const {
       columns,
       row,

@@ -75,7 +75,7 @@ import { ElIcon } from './icon'
 import { ElCalendar } from './calendar'
 import { ElImage } from './image'
 import { ElBacktop } from './backtop'
-import { ElInfiniteScroll } from './infinite-scroll'
+import { DyInfiniteScroll } from './infinite-scroll'
 import { ElPageHeader } from './page-header'
 import { ElAvatar } from './avatar'
 import { ElDrawer } from './drawer'
@@ -340,7 +340,7 @@ export class Calendar extends ElCalendar {}
 export class Backtop extends ElBacktop {}
 
 /** InfiniteScroll Directive */
-export const InfiniteScroll: PluginObject<ElInfiniteScroll>;
+export const InfiniteScroll: PluginObject<DyInfiniteScroll>;
 
 /** PageHeader Component */
 export class PageHeader extends ElPageHeader {}

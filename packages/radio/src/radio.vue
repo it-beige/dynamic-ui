@@ -28,6 +28,7 @@
         type="radio"
         aria-hidden="true"
         v-model="model"
+        @click="handleClick"
         @focus="focus = true"
         @blur="focus = false"
         @change="handleChange"
@@ -52,11 +53,11 @@
     mixins: [Emitter],
 
     inject: {
-      elForm: {
+      dyForm: {
         default: ''
       },
 
-      elFormItem: {
+      dyFormItem: {
         default: ''
       }
     },
@@ -104,18 +105,18 @@
         }
       },
       _elFormItemSize() {
-        return (this.elFormItem || {}).elFormItemSize;
+        return (this.dyFormItem || {}).elFormItemSize;
       },
       radioSize() {
-        const temRadioSize = this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
+        const temRadioSize = this.size || this._elFormItemSize || (this.$DYNAMIC || {}).size;
         return this.isGroup
           ? this._radioGroup.radioGroupSize || temRadioSize
           : temRadioSize;
       },
       isDisabled() {
         return this.isGroup
-          ? this._radioGroup.disabled || this.disabled || (this.elForm || {}).disabled
-          : this.disabled || (this.elForm || {}).disabled;
+          ? this._radioGroup.disabled || this.disabled || (this.dyForm || {}).disabled
+          : this.disabled || (this.dyForm || {}).disabled;
       },
       tabIndex() {
         return (this.isDisabled || (this.isGroup && this.model !== this.label)) ? -1 : 0;
@@ -128,7 +129,11 @@
           this.$emit('change', this.model);
           this.isGroup && this.dispatch('DyRadioGroup', 'handleChange', this.model);
         });
+      },
+      handleClick() {
+        this.$emit('click');
       }
+  
     }
   };
 </script>

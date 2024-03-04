@@ -51,17 +51,17 @@ export default {
     }
   },
   computed: {
-    descriptionsSize() {
-      return this.size || (this.$ELEMENT || {}).size;
+    descriptionsSize () {
+      return this.size || (this.$DYNAMIC || {}).size;
     }
   },
-  provide() {
+  provide () {
     return {
       dyDescriptions: this
     };
   },
   methods: {
-    getOptionProps(vnode) {
+    getOptionProps (vnode) {
       if (vnode.componentOptions) {
         const componentOptions = vnode.componentOptions;
         const { propsData = {}, Ctor = {} } = componentOptions;
@@ -78,7 +78,7 @@ export default {
       }
       return {};
     },
-    getSlots(vnode) {
+    getSlots (vnode) {
       let componentOptions = vnode.componentOptions || {};
       const children = vnode.children || componentOptions.children || [];
       const slots = {};
@@ -95,10 +95,10 @@ export default {
       });
       return { ...slots };
     },
-    isEmptyElement(c) {
+    isEmptyElement (c) {
       return !(c.tag || (c.text && c.text.trim() !== ''));
     },
-    filledNode(node, span, count, isLast = false) {
+    filledNode (node, span, count, isLast = false) {
       if (!node.props) {
         node.props = {};
       }
@@ -111,7 +111,7 @@ export default {
       }
       return node;
     },
-    getRows() {
+    getRows () {
       const children = ((this.$slots.default || []).filter(vnode => vnode.tag &&
             vnode.componentOptions && vnode.componentOptions.Ctor.options.name === 'DyDescriptionsItem'));
       const nodes = children.map(vnode => {
@@ -148,7 +148,7 @@ export default {
       return rows;
     }
   },
-  render() {
+  render () {
     const { title, extra, border, descriptionsSize, $slots } = this;
     const rows = this.getRows();
 

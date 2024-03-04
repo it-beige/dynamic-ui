@@ -38,6 +38,7 @@ const install = function(Vue, opts = {}) {
     useRequestHeaders,
     useParseData,
     useParseTotal,
+    useOptionProps,
     size,
     zIndex
   } = opts;
@@ -50,7 +51,8 @@ const install = function(Vue, opts = {}) {
     useRequestHeaders,
     useRequest,
     useParseData,
-    useParseTotal
+    useParseTotal,
+    useOptionProps
   };
   const installPagination = {
     pageParamsKey,
@@ -80,7 +82,7 @@ const install = function(Vue, opts = {}) {
   Vue.use(InfiniteScroll);
   Vue.use(Loading.directive);
 
-  Vue.prototype.$ELEMENT = {
+  Vue.prototype.$DYNAMIC = {
     size: size || '',
     zIndex: zIndex || 2000
   };

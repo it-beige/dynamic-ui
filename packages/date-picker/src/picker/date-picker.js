@@ -3,7 +3,7 @@ import DatePanel from '../panel/date';
 import DateRangePanel from '../panel/date-range';
 import MonthRangePanel from '../panel/month-range';
 
-const getPanel = function(type) {
+const getPanel = function (type) {
   if (type === 'daterange' || type === 'datetimerange') {
     return DateRangePanel;
   } else if (type === 'monthrange') {
@@ -26,7 +26,7 @@ export default {
   },
 
   watch: {
-    type(type) {
+    type (type) {
       if (this.picker) {
         this.unmountPicker();
         this.panel = getPanel(type);
@@ -37,7 +37,7 @@ export default {
     }
   },
 
-  created() {
+  created () {
     this.panel = getPanel(this.type);
   }
 };

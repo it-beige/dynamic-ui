@@ -40,7 +40,7 @@ describe('TimeSelect', () => {
         </div>
       `,
 
-      data() {
+      data () {
         return {
           value: ''
         };
@@ -116,7 +116,7 @@ describe('TimeSelect', () => {
           }">
         </dy-time-select>
       `,
-      data() {
+      data () {
         return { value: '09:30' };
       }
     }, true);
@@ -171,7 +171,7 @@ describe('TimeSelect', () => {
           }">
         </dy-time-select>
       `,
-      data() {
+      data () {
         return { value: '09:30' };
       }
     }, true);

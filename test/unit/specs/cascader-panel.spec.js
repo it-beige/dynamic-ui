@@ -121,7 +121,7 @@ describe('CascaderPanel', () => {
     expect(vm.$el).to.exist;
   });
 
-  it('expand and check', async() => {
+  it('expand and check', async () => {
     vm = createVue({
       template: `
         <dy-cascader-panel
@@ -129,7 +129,7 @@ describe('CascaderPanel', () => {
           v-model="value"
           :options="options"></dy-cascader-panel>
       `,
-      data() {
+      data () {
         return {
           value: [],
           options
@@ -163,7 +163,7 @@ describe('CascaderPanel', () => {
     expect(vm.value).to.deep.equal(selectedValue);
   });
 
-  it('with default value', async() => {
+  it('with default value', async () => {
     vm = createVue({
       template: `
         <dy-cascader-panel
@@ -171,7 +171,7 @@ describe('CascaderPanel', () => {
           v-model="value"
           :options="options"></dy-cascader-panel>
       `,
-      data() {
+      data () {
         return {
           value: selectedValue,
           options
@@ -188,7 +188,7 @@ describe('CascaderPanel', () => {
     expect(getOptions(el, 2)[0].querySelector('.dy-icon-check')).to.exist;
   });
 
-  it('disabled options', async() => {
+  it('disabled options', async () => {
     vm = createVue({
       template: `
         <dy-cascader-panel
@@ -196,7 +196,7 @@ describe('CascaderPanel', () => {
           :value="value"
           :options="options"></dy-cascader-panel>
       `,
-      data() {
+      data () {
         return {
           value: [],
           options
@@ -220,14 +220,14 @@ describe('CascaderPanel', () => {
     expect(getMenus(el).length).to.equal(1);
   });
 
-  it('expand by hover', async() => {
+  it('expand by hover', async () => {
     vm = createVue({
       template: `
         <dy-cascader-panel
           :options="options"
           :props="props"></dy-cascader-panel>
       `,
-      data() {
+      data () {
         return {
           options,
           props: {
@@ -249,7 +249,7 @@ describe('CascaderPanel', () => {
     expect(getMenus(el).length).to.equal(3);
   });
 
-  it('emit value only', async() => {
+  it('emit value only', async () => {
     vm = createVue({
       template: `
         <dy-cascader-panel
@@ -258,7 +258,7 @@ describe('CascaderPanel', () => {
           :options="options"
           :props="props"></dy-cascader-panel>
       `,
-      data() {
+      data () {
         return {
           value: 'xihu',
           options,
@@ -282,7 +282,7 @@ describe('CascaderPanel', () => {
     expect(vm.value).to.equal('jiangbei');
   });
 
-  it('multiple mode', async() => {
+  it('multiple mode', async () => {
     vm = createVue({
       template: `
         <dy-cascader-panel
@@ -290,7 +290,7 @@ describe('CascaderPanel', () => {
           :options="options"
           :props="props"></dy-cascader-panel>
       `,
-      data() {
+      data () {
         return {
           value: [],
           options: options,
@@ -312,7 +312,7 @@ describe('CascaderPanel', () => {
     expect(vm.value.length).to.equal(3);
   });
 
-  it('multiple mode with disabled default value', async() => {
+  it('multiple mode with disabled default value', async () => {
     vm = createVue({
       template: `
         <dy-cascader-panel
@@ -320,7 +320,7 @@ describe('CascaderPanel', () => {
           :options="options"
           :props="props"></dy-cascader-panel>
       `,
-      data() {
+      data () {
         return {
           value: [['zhejiang', 'ningbo', 'jiangdong']],
           options: options,
@@ -350,7 +350,7 @@ describe('CascaderPanel', () => {
     expect(vm.value.length).to.equal(4);
   });
 
-  it('check strictly in single mode', async() => {
+  it('check strictly in single mode', async () => {
     vm = createVue({
       template: `
         <dy-cascader-panel
@@ -358,7 +358,7 @@ describe('CascaderPanel', () => {
           :options="options"
           :props="props"></dy-cascader-panel>
       `,
-      data() {
+      data () {
         return {
           value: ['zhejiang'],
           options: options,
@@ -384,7 +384,7 @@ describe('CascaderPanel', () => {
     expect(getOptions(el, 0)[1].querySelector('.dy-radio').className).to.includes('is-disabled');
   });
 
-  it('check strictly in multiple mode', async() => {
+  it('check strictly in multiple mode', async () => {
     vm = createVue({
       template: `
         <dy-cascader-panel
@@ -392,7 +392,7 @@ describe('CascaderPanel', () => {
           :options="options"
           :props="props"></dy-cascader-panel>
       `,
-      data() {
+      data () {
         return {
           value: [['zhejiang']],
           options: options,
@@ -421,7 +421,7 @@ describe('CascaderPanel', () => {
     expect(getOptions(el, 0)[1].querySelector('.dy-checkbox').className).to.includes('is-disabled');
   });
 
-  it('custom props', async() => {
+  it('custom props', async () => {
     vm = createVue({
       template: `
         <dy-cascader-panel
@@ -429,7 +429,7 @@ describe('CascaderPanel', () => {
           :options="options"
           :props="props"></dy-cascader-panel>
       `,
-      data() {
+      data () {
         return {
           value: [],
           options: options2,
@@ -464,7 +464,7 @@ describe('CascaderPanel', () => {
     expect(vm.value).to.deep.equal(selectedValue);
   });
 
-  it('value key is same as label key', async() => {
+  it('value key is same as label key', async () => {
     vm = createVue({
       template: `
         <dy-cascader-panel
@@ -472,7 +472,7 @@ describe('CascaderPanel', () => {
           :options="options"
           :props="props"></dy-cascader-panel>
       `,
-      data() {
+      data () {
         return {
           value: [],
           options,
@@ -504,20 +504,20 @@ describe('CascaderPanel', () => {
     expect(vm.value).to.deep.equal(selectedValue);
   });
 
-  it('dynamic loading', async() => {
+  it('dynamic loading', async () => {
     vm = createVue({
       template: `
         <dy-cascader-panel
           v-model="value"
           :props="props"></dy-cascader-panel>
       `,
-      data() {
+      data () {
         let id = 0;
         return {
           value: [],
           props: {
             lazy: true,
-            lazyLoad(node, resolve) {
+            lazyLoad (node, resolve) {
               const { level } = node;
               setTimeout(() => {
                 const nodes = Array.from({ length: level + 1 })
@@ -550,7 +550,7 @@ describe('CascaderPanel', () => {
     expect(vm.value.length).to.equal(3);
   });
 
-  it('click leaf hidden children', async() => {
+  it('click leaf hidden children', async () => {
     vm = createVue({
       template: `
         <dy-cascader-panel
@@ -558,7 +558,7 @@ describe('CascaderPanel', () => {
           v-model="value"
           :options="options"></dy-cascader-panel>
       `,
-      data() {
+      data () {
         return {
           value: [],
           options: options3

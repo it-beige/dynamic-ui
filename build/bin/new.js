@@ -38,7 +38,7 @@ export default ${ComponentName};`
 
 <script>
 export default {
-  name: 'El${ComponentName}'
+  name: 'Dy${ComponentName}'
 };
 </script>`
   },
@@ -48,14 +48,6 @@ export default {
   },
   {
     filename: path.join('../../examples/docs/en-US', `${componentname}.md`),
-    content: `## ${ComponentName}`
-  },
-  {
-    filename: path.join('../../examples/docs/es', `${componentname}.md`),
-    content: `## ${ComponentName}`
-  },
-  {
-    filename: path.join('../../examples/docs/fr-FR', `${componentname}.md`),
     content: `## ${ComponentName}`
   },
   {
@@ -86,10 +78,10 @@ describe('${ComponentName}', () => {
   },
   {
     filename: path.join('../../types', `${componentname}.d.ts`),
-    content: `import { ElementUIComponent } from './component'
+    content: `import { DyementUIComponent } from './component'
 
 /** ${ComponentName} Component */
-export declare class El${ComponentName} extends ElementUIComponent {
+export declare class Dy${ComponentName} extends DyementUIComponent {
 }`
   }
 ];
@@ -117,10 +109,10 @@ const dynamicTsPath = path.join(__dirname, '../../types/dynamic-ui.d.ts');
 
 let dynamicTsText = `${fs.readFileSync(dynamicTsPath)}
 /** ${ComponentName} Component */
-export class ${ComponentName} extends El${ComponentName} {}`;
+export class ${ComponentName} extends Dy${ComponentName} {}`;
 
 const index = dynamicTsText.indexOf('export') - 1;
-const importString = `import { El${ComponentName} } from './${componentname}'`;
+const importString = `import { Dy${ComponentName} } from './${componentname}'`;
 
 dynamicTsText = dynamicTsText.slice(0, index) + importString + '\n' + dynamicTsText.slice(index);
 

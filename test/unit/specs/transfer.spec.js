@@ -21,7 +21,7 @@ describe('Transfer', () => {
         </dy-transfer>
       `,
 
-      created() {
+      created () {
         this.testData = getTestData();
       }
     }, opts));
@@ -38,7 +38,7 @@ describe('Transfer', () => {
 
   it('default target list', () => {
     vm = createTransfer('v-model="value"', {
-      data() {
+      data () {
         return {
           value: [1, 4]
         };
@@ -49,10 +49,10 @@ describe('Transfer', () => {
 
   it('filterable', done => {
     vm = createTransfer('v-model="value" filterable :filter-method="method"', {
-      data() {
+      data () {
         return {
           value: [],
-          method(query, option) {
+          method (query, option) {
             return option.key === Number(query);
           }
         };
@@ -69,7 +69,7 @@ describe('Transfer', () => {
 
   it('transfer', done => {
     vm = createTransfer('v-model="value" :left-default-checked="[2, 3]" :right-default-checked="[1]"', {
-      data() {
+      data () {
         return {
           value: [1, 4]
         };
@@ -92,12 +92,12 @@ describe('Transfer', () => {
 
   it('customize', () => {
     vm = createTransfer('v-model="value" :titles="titles" :render-content="renderFunc" :format="format"', {
-      data() {
+      data () {
         return {
           value: [2],
           titles: ['表1', '表2'],
           format: { noChecked: 'no', hasChecked: 'has' },
-          renderFunc(h, option) {
+          renderFunc (h, option) {
             return <span>{ option.key } - { option.label }</span>;
           }
         };
@@ -112,7 +112,7 @@ describe('Transfer', () => {
 
   it('check', () => {
     vm = createTransfer('v-model="value"', {
-      data() {
+      data () {
         return {
           value: []
         };
@@ -126,7 +126,7 @@ describe('Transfer', () => {
   describe('target order', () => {
     it('original(default)', done => {
       vm = createTransfer('v-model="value" :left-default-checked="[2, 3]"', {
-        data() {
+        data () {
           return {
             value: [1, 4]
           };
@@ -145,7 +145,7 @@ describe('Transfer', () => {
 
     it('push', done => {
       vm = createTransfer('v-model="value" :left-default-checked="[2, 3]" target-order="push"', {
-        data() {
+        data () {
           return {
             value: [1, 4]
           };
@@ -164,7 +164,7 @@ describe('Transfer', () => {
 
     it('unshift', done => {
       vm = createTransfer('v-model="value" :left-default-checked="[2, 3]" target-order="unshift"', {
-        data() {
+        data () {
           return {
             value: [1, 4]
           };

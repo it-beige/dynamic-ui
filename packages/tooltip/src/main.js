@@ -34,7 +34,7 @@ export default {
       default: 'dy-fade-in-linear'
     },
     popperOptions: {
-      default() {
+      default () {
         return {
           boundariesPadding: 10,
           gpuAcceleration: false
@@ -55,19 +55,19 @@ export default {
     }
   },
 
-  data() {
+  data () {
     return {
       tooltipId: `dy-tooltip-${generateId()}`,
       timeoutPending: null,
       focusing: false
     };
   },
-  beforeCreate() {
+  beforeCreate () {
     if (this.$isServer) return;
 
     this.popperVM = new Vue({
       data: { node: '' },
-      render(h) {
+      render (h) {
         return this.node;
       }
     }).$mount();
@@ -75,7 +75,7 @@ export default {
     this.debounceClose = debounce(200, () => this.handleClosePopper());
   },
 
-  render(h) {
+  render (h) {
     if (this.popperVM) {
       this.popperVM.node = (
         <transition
@@ -106,7 +106,7 @@ export default {
     return firstElement;
   },
 
-  mounted() {
+  mounted () {
     this.referenceElm = this.$el;
     if (this.$el.nodeType === 1) {
       this.$el.setAttribute('aria-describedby', this.tooltipId);
@@ -138,7 +138,7 @@ export default {
     }
   },
   watch: {
-    focusing(val) {
+    focusing (val) {
       if (val) {
         addClass(this.referenceElm, 'focusing');
       } else {
@@ -147,28 +147,28 @@ export default {
     }
   },
   methods: {
-    show() {
+    show () {
       this.setExpectedState(true);
       this.handleShowPopper();
     },
 
-    hide() {
+    hide () {
       this.setExpectedState(false);
       this.debounceClose();
     },
-    handleFocus() {
+    handleFocus () {
       this.focusing = true;
       this.show();
     },
-    handleBlur() {
+    handleBlur () {
       this.focusing = false;
       this.hide();
     },
-    removeFocusing() {
+    removeFocusing () {
       this.focusing = false;
     },
 
-    addTooltipClass(prev) {
+    addTooltipClass (prev) {
       if (!prev) {
         return 'dy-tooltip';
       } else {
@@ -176,7 +176,7 @@ export default {
       }
     },
 
-    handleShowPopper() {
+    handleShowPopper () {
       if (!this.expectedState || this.manual) return;
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
@@ -190,7 +190,7 @@ export default {
       }
     },
 
-    handleClosePopper() {
+    handleClosePopper () {
       if (this.enterable && this.expectedState || this.manual) return;
       clearTimeout(this.timeout);
 
@@ -204,14 +204,14 @@ export default {
       }
     },
 
-    setExpectedState(expectedState) {
+    setExpectedState (expectedState) {
       if (expectedState === false) {
         clearTimeout(this.timeoutPending);
       }
       this.expectedState = expectedState;
     },
 
-    getFirstElement() {
+    getFirstElement () {
       const slots = this.$slots.default;
       if (!Array.isArray(slots)) return null;
       let element = null;
@@ -225,11 +225,11 @@ export default {
     }
   },
 
-  beforeDestroy() {
+  beforeDestroy () {
     this.popperVM && this.popperVM.$destroy();
   },
 
-  destroyed() {
+  destroyed () {
     const reference = this.referenceElm;
     if (reference.nodeType === 1) {
       off(reference, 'mouseenter', this.show);

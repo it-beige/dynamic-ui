@@ -1,7 +1,7 @@
 import Step from '../steps/src/step';
 
 /* istanbul ignore next */
-Step.install = function(Vue) {
+Step.install = function (Vue) {
   Vue.component(Step.name, Step);
 };
 

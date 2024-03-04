@@ -28,14 +28,14 @@ export const cellStarts = {
 // 这些选项不应该被覆盖
 export const cellForced = {
   selection: {
-    renderHeader: function(h, { store }) {
+    renderHeader: function (h, { store }) {
       return <dy-checkbox
         disabled={ store.states.data && store.states.data.length === 0 }
         indeterminate={ store.states.selection.length > 0 && !this.isAllSelected }
         on-input={ this.toggleAllSelection }
         value={ this.isAllSelected } />;
     },
-    renderCell: function(h, { row, column, isSelected, store, $index }) {
+    renderCell: function (h, { row, column, isSelected, store, $index }) {
       return <dy-checkbox
         nativeOn-click={ (event) => event.stopPropagation() }
         value={ isSelected }
@@ -47,10 +47,10 @@ export const cellForced = {
     resizable: false
   },
   index: {
-    renderHeader: function(h, { column }) {
+    renderHeader: function (h, { column }) {
       return column.label || '#';
     },
-    renderCell: function(h, { $index, column }) {
+    renderCell: function (h, { $index, column }) {
       let i = $index + 1;
       const index = column.index;
 
@@ -65,15 +65,15 @@ export const cellForced = {
     sortable: false
   },
   expand: {
-    renderHeader: function(h, { column }) {
+    renderHeader: function (h, { column }) {
       return column.label || '';
     },
-    renderCell: function(h, { row, store, isExpanded }) {
+    renderCell: function (h, { row, store, isExpanded }) {
       const classes = ['dy-table__expand-icon'];
       if (isExpanded) {
         classes.push('dy-table__expand-icon--expanded');
       }
-      const callback = function(e) {
+      const callback = function (e) {
         e.stopPropagation();
         store.toggleRowExpansion(row);
       };
@@ -88,7 +88,7 @@ export const cellForced = {
   }
 };
 
-export function defaultRenderCell(h, { row, column, $index }) {
+export function defaultRenderCell (h, { row, column, $index }) {
   const property = column.property;
   const value = property && getPropByPath(row, property).v;
   if (column && column.formatter) {
@@ -97,10 +97,10 @@ export function defaultRenderCell(h, { row, column, $index }) {
   return value;
 }
 
-export function treeCellPrefix(h, { row, treeNode, store }) {
+export function treeCellPrefix (h, { row, treeNode, store }) {
   if (!treeNode) return null;
   const ele = [];
-  const callback = function(e) {
+  const callback = function (e) {
     e.stopPropagation();
     store.loadOrToggle(row);
   };

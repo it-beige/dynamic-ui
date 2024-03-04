@@ -51,13 +51,13 @@ describe('Tag', () => {
       template: `
       <dy-tag closable @close="handleClose">关闭标签</dy-tag>
       `,
-      data() {
+      data () {
         return {
           isClose: false
         };
       },
       methods: {
-        handleClose() {
+        handleClose () {
           this.isClose = true;
         }
       }
@@ -94,13 +94,13 @@ describe('Tag', () => {
       template: `
       <dy-tag ref="tag" @click="handleClick">点击标签</dy-tag>
       `,
-      data() {
+      data () {
         return {
           clicksCount: 0
         };
       },
       methods: {
-        handleClick() {
+        handleClick () {
           this.clicksCount = this.clicksCount + 1;
         }
       }

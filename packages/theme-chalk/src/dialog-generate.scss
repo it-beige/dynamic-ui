@@ -1,0 +1,78 @@
+@import "mixins/mixins";
+@import "common/var";
+
+@include b(dialog-generate) {
+  @include b(dialog) {
+    @include when(fullscreen) {
+      @include e(draggable) {
+        cursor: default;
+      }
+    }
+
+    @include e(header) {
+      position: relative;
+      .dy-button__wrap {
+        position: relative;
+        z-index: 9;
+        
+        button {
+          padding: 0;
+          margin-right: 6px;
+
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+
+        .dy-icon {
+          font-size: 24px;
+          width: 24px;
+          height: 24px;
+        }
+
+        .fullscreen-btn {
+          background: transparent;
+          border: none;
+          outline: none;
+          cursor: pointer;
+
+          .cancel-fullscreen {
+            width: 26px;
+            height: 26px;
+          }
+        }
+        .dy-svg-icon {
+          width: 24px;
+          height: 24px;
+          color: $--color-info;
+
+          &:focus,
+          &:hover {
+            color: $--color-primary;
+          }
+        }
+      }
+    }
+
+    @include e(draggable) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      cursor: move;
+    }
+  }
+
+  @include b(title) {
+    @include e(wrap) {
+      color: $--color-primary;
+
+      .dy-icon-view {
+        font-size: 18px;
+      }
+      .dy-title__text {
+        padding-left: 6px;
+        font-size: 16px;
+      }
+    }
+  }
+}

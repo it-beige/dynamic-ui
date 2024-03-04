@@ -82,6 +82,7 @@ import CascaderPanel from '../packages/cascader-panel/index.js';
 import Avatar from '../packages/avatar/index.js';
 import Drawer from '../packages/drawer/index.js';
 import Statistic from '../packages/statistic/index.js';
+import SvgIcon from '../packages/svg-icon/index.js';
 import Popconfirm from '../packages/popconfirm/index.js';
 import Skeleton from '../packages/skeleton/index.js';
 import SkeletonItem from '../packages/skeleton-item/index.js';
@@ -89,7 +90,13 @@ import Empty from '../packages/empty/index.js';
 import Descriptions from '../packages/descriptions/index.js';
 import DescriptionsItem from '../packages/descriptions-item/index.js';
 import Result from '../packages/result/index.js';
+import DraggableResizable from '../packages/draggable-resizable/index.js';
+import SelectGenerate from '../packages/select-generate/index.js';
+import RadioGenerate from '../packages/radio-generate/index.js';
+import CheckboxGenerate from '../packages/checkbox-generate/index.js';
+import UploadGenerate from '../packages/upload-generate/index.js';
 import FormGenerate from '../packages/form-generate/index.js';
+import DialogGenerate from '../packages/dialog-generate/index.js';
 import locale from 'dynamic-ui/src/locale';
 import CollapseTransition from 'dynamic-ui/src/transitions/collapse-transition';
 import {
@@ -180,6 +187,7 @@ const components = [
   Avatar,
   Drawer,
   Statistic,
+  SvgIcon,
   Popconfirm,
   Skeleton,
   SkeletonItem,
@@ -187,7 +195,13 @@ const components = [
   Descriptions,
   DescriptionsItem,
   Result,
+  DraggableResizable,
+  SelectGenerate,
+  RadioGenerate,
+  CheckboxGenerate,
+  UploadGenerate,
   FormGenerate,
+  DialogGenerate,
   CollapseTransition
 ];
 
@@ -201,6 +215,7 @@ const install = function(Vue, opts = {}) {
     useRequestHeaders,
     useParseData,
     useParseTotal,
+    useOptionProps,
     size,
     zIndex
   } = opts;
@@ -213,7 +228,8 @@ const install = function(Vue, opts = {}) {
     useRequestHeaders,
     useRequest,
     useParseData,
-    useParseTotal
+    useParseTotal,
+    useOptionProps
   };
   const installPagination = {
     pageParamsKey,
@@ -243,7 +259,7 @@ const install = function(Vue, opts = {}) {
   Vue.use(InfiniteScroll);
   Vue.use(Loading.directive);
 
-  Vue.prototype.$ELEMENT = {
+  Vue.prototype.$DYNAMIC = {
     size: size || '',
     zIndex: zIndex || 2000
   };
@@ -351,6 +367,7 @@ export default {
   Avatar,
   Drawer,
   Statistic,
+  SvgIcon,
   Popconfirm,
   Skeleton,
   SkeletonItem,
@@ -358,5 +375,11 @@ export default {
   Descriptions,
   DescriptionsItem,
   Result,
-  FormGenerate
+  DraggableResizable,
+  SelectGenerate,
+  RadioGenerate,
+  CheckboxGenerate,
+  UploadGenerate,
+  FormGenerate,
+  DialogGenerate
 };

@@ -35,18 +35,21 @@
       </div>
       <!-- CANVAS -->
       <div class="dy-image-viewer__canvas">
-        <img
-          v-for="(url, i) in urlList"
-          v-if="i === index"
-          ref="img"
-          class="dy-image-viewer__img"
-          :key="url"
-          :src="currentImg"
-          :style="imgStyle"
-          referrerpolicy='no-referrer'
-          @load="handleImgLoad"
-          @error="handleImgError"
-          @mousedown="handleMouseDown">
+        <template v-for="(url, i) in urlList">
+          <img
+            v-if="i === index"
+            ref="img"
+            class="dy-image-viewer__img"
+            :key="url"
+            :src="currentImg"
+            :style="imgStyle"
+            referrerpolicy='no-referrer'
+            @load="handleImgLoad"
+            @error="handleImgError"
+            @mousedown="handleMouseDown"
+          >
+        </template>
+      
       </div>
     </div>
   </transition>

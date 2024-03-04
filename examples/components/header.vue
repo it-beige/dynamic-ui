@@ -226,6 +226,7 @@
       }
       .nav-logo-small {
         display: inline-block;
+        width: 40px;
       }
       .nav-item {
         margin-left: 6px;
@@ -473,7 +474,7 @@
 
       switchLang(targetLang) {
         if (this.lang === targetLang) return;
-        localStorage.setItem('ELEMENT_LANGUAGE', targetLang);
+        localStorage.setItem('DYNAMIC_LANGUAGE', targetLang);
         this.$router.push(this.$route.path.replace(this.lang, targetLang));
       },
 

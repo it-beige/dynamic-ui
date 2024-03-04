@@ -498,7 +498,7 @@
 
     computed: {
       tableSize() {
-        return this.size || (this.$ELEMENT || {}).size;
+        return this.size || (this.$DYNAMIC || {}).size;
       },
 
       bodyWrapper() {

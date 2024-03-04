@@ -14,7 +14,7 @@ const LOAD_MAP = {
   }
 };
 
-const load = function(lang, path) {
+const load = function (lang, path) {
   return LOAD_MAP[lang](path);
 };
 
@@ -31,7 +31,7 @@ const LOAD_DOCS_MAP = {
   }
 };
 
-const loadDocs = function(lang, path) {
+const loadDocs = function (lang, path) {
   return LOAD_DOCS_MAP[lang](path);
 };
 
@@ -62,7 +62,7 @@ const registerRoute = (navConfig) => {
       }
     });
   });
-  function addRoute(page, lang, index) {
+  function addRoute (page, lang, index) {
     const component = page.path === '/changelog'
       ? load(lang, 'changelog')
       : loadDocs(lang, page.path);
@@ -85,7 +85,7 @@ const registerRoute = (navConfig) => {
 
 let route = registerRoute(navConfig);
 
-const generateMiscRoutes = function(lang) {
+const generateMiscRoutes = function (lang) {
   let guideRoute = {
     path: `/${ lang }/guide`, // 指南
     redirect: `/${ lang }/guide/design`,
@@ -148,7 +148,7 @@ route.push({
   component: require('./play/index.vue')
 });
 
-let userLanguage = localStorage.getItem('ELEMENT_LANGUAGE') || window.navigator.language || 'en-US';
+let userLanguage = localStorage.getItem('DYNAMIC_LANGUAGE') || window.navigator.language || 'en-US';
 let defaultPath = '/en-US';
 if (userLanguage.indexOf('zh-') !== -1) {
   defaultPath = '/zh-CN';
