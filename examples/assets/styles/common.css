@@ -136,6 +136,10 @@ textarea {
     border-left: #50bfff 5px solid;
     margin: 20px 0;
 
+    p {
+      color: #50bfff;
+    }
+
     code {
       background-color: rgba(255, 255, 255, 0.7);
       color: #445368;
@@ -148,6 +152,27 @@ textarea {
     border-radius: 4px;
     border-left: #fe6c6f 5px solid;
     margin: 20px 0;
+
+    p {
+      color: #fe6c6f;
+    }
+
+    code {
+      background-color: rgba(255, 255, 255, 0.7);
+      color: #445368;
+    }
+  }
+
+  .primary {
+    padding: 8px 16px;
+    background-color: #ecf9ff;
+    border-radius: 4px;
+    border-left: #2f85da 5px solid;
+    margin: 20px 0;
+
+    p {
+      color: #2f85da;
+    }
 
     code {
       background-color: rgba(255, 255, 255, 0.7);

@@ -390,8 +390,8 @@ export default {
       dialogElm.style.marginLeft = 0;
       dialogElm.style.marginRight = 0;
       dialogElm.style.marginBottom = 0;
-      this.w = dialogWidth;
-      this.h = dialogHeight;
+      this.w = headerWidth;
+      this.h = headerHeight;
       this.x = x;
       this.y = y;
       this.dialogHeight = dialogHeight;

@@ -4,8 +4,9 @@
 
 - 对 footer slot 进行了封装, 默认 slot 会根据 buttons 配置渲染按钮区域
 - 对 title slot 进行了封装, 默认 slot 会根据 operateType 和 iconMap 配置渲染按钮区域
-- 对`Dialog`和`DialogButton`行为进行统一,都支持不使用`DialogGroup`的情况进行多选
-- 可配置二次点击取消选项中状态
+- 添加全屏弹框功能
+- 添加拖拽弹框功能
+- 添加缩放弹框功能
 
 ### 基础用法
 
@@ -217,6 +218,54 @@
 </script>
 ```
 
+:::
+
+:::tip
+全屏状态下会禁用拖拽
+:::
+
+### 缩放弹框
+
+:::demo
+
+```html
+<dy-button type="text" @click="dialogVisible = true">拖拽弹框控制</dy-button>
+
+<dy-dialog-generate
+  :visible.sync="dialogVisible"
+  title="缩放"
+  width="60%"
+  fullscreen
+  draggable
+  resizeable
+  ref="dialogGenerateRef"
+>
+  只有头部区可以缩放
+</dy-dialog-generate>
+
+<script>
+  export default {
+    data() {
+      return {
+        dialogVisible: false,
+      }
+    },
+    mounted() {
+      this.getDialogRef()
+    },
+    methods: {
+      getDialogRef() {
+        console.log(this.$refs.dialogGenerateRef.useRef())
+      },
+    },
+  }
+</script>
+```
+
+:::
+
+:::tip
+全屏状态下会禁用缩放
 :::
 
 ### 扩展 Dialog Attributes
