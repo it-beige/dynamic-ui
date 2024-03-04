@@ -1,9 +1,17 @@
-@import "mixins/mixins";
-@import "common/var";
+@import 'mixins/mixins';
+@import 'common/var';
+
+@mixin fix-drag {
+  position: relative;
+  z-index: 9;
+}
 
 @include b(dialog-generate) {
   @include b(dialog) {
+    min-width: 50%;
     @include when(fullscreen) {
+      width: 100% !important;
+      height: 100% !important;
       @include e(draggable) {
         cursor: default;
       }
@@ -11,9 +19,9 @@
 
     @include e(header) {
       position: relative;
+
       .dy-button__wrap {
-        position: relative;
-        z-index: 9;
+        @include fix-drag();
 
         button {
           padding: 0;
@@ -54,7 +62,12 @@
       }
     }
 
+    @include e(body) {
+      @include fix-drag();
+    }
+
     @include e(draggable) {
+      min-width: 50%;
       position: absolute;
       top: 0;
       left: 0;
@@ -65,8 +78,7 @@
   @include b(title) {
     @include e(wrap) {
       color: $--color-primary;
-      position: relative;
-      z-index: 9;
+      @include fix-drag();
 
       .dy-icon-view {
         font-size: 18px;
@@ -78,12 +90,17 @@
     }
   }
 
-
   .vdr {
     touch-action: none;
     position: absolute;
     box-sizing: border-box;
-    border: 1px dashed black;
+
+    &.hide-handle {
+      .handle {
+        background: transparent;
+        border-color: transparent;
+      }
+    }
 
     &:hover {
       .handle {
@@ -91,8 +108,8 @@
       }
     }
   }
+
   .handle {
-    display: none;
     box-sizing: border-box;
     position: absolute;
     width: 10px;

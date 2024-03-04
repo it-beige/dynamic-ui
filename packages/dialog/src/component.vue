@@ -160,12 +160,16 @@ export default {
   computed: {
     style() {
       let style = {};
-      if (!this.fullscreen) {
-        style.marginTop = this.top;
-        if (this.width) {
-          style.width = this.width;
+
+      if (!this.$slots.draggable) {
+        if (!this.fullscreen) {
+          style.marginTop = this.top;
+          if (this.width) {
+            style.width = this.width;
+          }
         }
       }
+
       return style;
     }
   },

@@ -112,6 +112,11 @@ export default {
     resizable: {
       type: Boolean,
       default: false
+    },
+    // 是否显示缩放的手柄
+    showHandle: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -131,15 +136,18 @@ export default {
       y: 0,
       w: 1,
       h: 1,
-      dialogHeight: 0
+      minWidth: 1,
+      minHeight: 1,
+      maxWidth: 2,
+      maxHeight: 2
     };
   },
   computed: {
-    enableDraggable({isFullscreen, draggable}) {
-      return isFullscreen ? false : draggable;
+    enableDraggable({isFullscreen, draggable, visible}) {
+      return isFullscreen ? false : visible && draggable;
     },
-    enableResizable({isFullscreen, resizeable}) {
-      return isFullscreen ? false : resizeable;
+    enableResizable({isFullscreen, resizable}) {
+      return isFullscreen ? false : resizable;
     }
   },
   watch: {
@@ -197,7 +205,9 @@ export default {
     visible: {
       immediate: true,
       handler(v) {
-        if (!v) return;
+        if (!v) {
+          return;
+        }
         this.enableDraggable && this.$nextTick(() => {
           this.resetDialogOffset();
         });
@@ -208,10 +218,12 @@ export default {
     return this.renderDialog();
   },
   mounted () {
-    (this.enableDraggable || this.enableResizable) && on(window, 'resize', this.handleResize);
+    this.windowLastWidth = window.innerWidth;
+    this.windowLastHeight = window.innerHeight;
+    on(window, 'resize', this.handleResize);
   },
   beforeDestroy () {
-    (this.enableDraggable || this.enableResizable) && off(window, 'resize', this.handleResize);
+    off(window, 'resize', this.handleResize);
   },
   methods: {
     getProps() {
@@ -284,11 +296,24 @@ export default {
       const [name] = createNamespace('fullscreen');
       const onClick = () => {
         this.isFullscreen = !this.isFullscreen;
+        const elm = this.getDialogElm();
+
         if (this.isFullscreen) {
-          const elm = this.getDialogElm();
+          this.dialogLastLeft = elm.style.left;
+          this.dialogLastTop = elm.style.top;
+          this.dialogLastWidth = elm.style.width;
+          this.dialogLastHeight = elm.style.height;
           elm.style.left = 0;
           elm.style.top = 0;
+        } else {
+          let x = parseInt(this.dialogLastLeft, 10);
+          let y = parseInt(this.dialogLastTop, 10);
+          let width = parseInt(this.dialogLastWidth, 10);
+          let height = parseInt(this.dialogLastHeight, 10);
+          this.setDialogOffset(x, y);
+          this.resetDialogWH(width, height);
         }
+
       };
       return (
         <button onClick={onClick} class="fullscreen-btn" slot="button" type="button" aria-label="Fullscreen">
@@ -301,6 +326,20 @@ export default {
       const [draggableCls] = createNamespace('draggable');
       const [resizableCls] = createNamespace('resizable');
 
+      const getParentElm = () => {
+        const ref = this.useRef();
+        const parentElm = ref.$el;
+        return parentElm;
+      };
+      const setParentOverflow = (value) => {
+        getParentElm().style.overflow = value;
+      };
+      const onDragStart = () => {
+        const parentElm = getParentElm();
+        const style = window.getComputedStyle(parentElm);
+        this.originalOverflow = style.getPropertyValue('overflow');
+        setParentOverflow('hidden');
+      };
       const onDragging = (left, top) => {
         const dialogElm = this.getDialogElm();
         if (dialogElm.style.position !== 'relative') {
@@ -311,9 +350,19 @@ export default {
       };
       const onDragStop = (left, top) => {
         onDragging(left, top);
+        setParentOverflow(this.originalOverflow);
       };
+      const onResize = (handle, x, y, width, height) => {
+        const dialogElm = this.getDialogElm();
+        dialogElm.style.left = `${x}px`;
+        dialogElm.style.top = `${y}px`;
+        dialogElm.style.width = width + 'px';
+        dialogElm.style.height = height + 'px';
+      };
+
       return (
         <DraggableResizable
+          className={`vdr ${!this.showHandle ? 'hide-handle' : ''}`}
           slot="draggable"
           ref="draggableRef"
           classNameDraggable={draggableCls}
@@ -324,11 +373,15 @@ export default {
           y={this.y}
           w={this.w}
           h={this.h}
-          realH={this.dialogHeight}
           z={1}
-          getTranslate={() => 'none'}
+          minWidth={this.minWidth}
+          minHeight={this.minHeight}
+          maxWidth={this.maxWidth}
+          maxHeight={this.maxHeight}
+          propsOnDragStart={onDragStart}
           onDragging={onDragging}
           onDragstop={onDragStop}
+          propsOnResize={onResize}
           parent={this.getDragParentElm}
           handles={['tl', 'tr', 'bl', 'br']}
           class={`${bem('draggable')}`}
@@ -355,6 +408,10 @@ export default {
       const [, bem] = createNamespace('dialog');
       return this.getDialogElm().querySelector(`.${bem('header')}`);
     },
+    getBodyElm() {
+      const [, bem] = createNamespace('dialog');
+      return this.getDialogElm().querySelector(`.${bem('body')}`);
+    },
     getHeaderClientRect() {
       const headerElm = this.getHeaderElm();
       return headerElm.getBoundingClientRect();
@@ -377,12 +434,7 @@ export default {
     getDragParentElm() {
       return document.body;
     },
-    resetDialogOffset() {
-      const { width: headerWidth, height: headerHeight } = this.getHeaderClientRect();
-      const { width: bodyWidth, height: bodyHeight } = this.getBodyClientRect();
-      const { width: dialogWidth, height: dialogHeight } = this.getDialogClientRect();
-      const x = Math.round((bodyWidth - dialogWidth) / 2);
-      const y = Math.round((bodyHeight - dialogHeight) / 2);
+    setDialogOffset(x, y) {
       const dialogElm = this.getDialogElm();
       dialogElm.style.left = x + 'px';
       dialogElm.style.top = y + 'px';
@@ -390,14 +442,49 @@ export default {
       dialogElm.style.marginLeft = 0;
       dialogElm.style.marginRight = 0;
       dialogElm.style.marginBottom = 0;
-      this.w = dialogWidth;
-      this.h = dialogHeight;
       this.x = x;
       this.y = y;
-      this.dialogHeight = dialogHeight;
     },
-    handleResize() {
-      this.resetDialogOffset();
+    resetDialogWH(w, h) {
+      const dialogElm = this.getDialogElm();
+      this.w = w;
+      this.h = h;
+      const headerElm = this.getHeaderElm();
+      const bodyElm = this.getBodyElm();
+      this.minHeight = parseInt(headerElm.offsetHeight + bodyElm.offsetHeight, 10);
+      dialogElm.style.width = w + 'px';
+      dialogElm.style.height = h + 'px';
+    },
+    resetDialogOffset() {
+      const { width: bodyWidth, height: bodyHeight } = this.getBodyClientRect();
+      const { width: dialogWidth, height: dialogHeight } = this.getDialogClientRect();
+      const x = Math.round((bodyWidth - dialogWidth) / 2);
+      const y = Math.round((bodyHeight - dialogHeight) / 2);
+      this.setDialogOffset(x, y);
+      this.resetDialogWH(dialogWidth, dialogHeight);
+      this.maxWidth = bodyWidth;
+      this.maxHeight = bodyHeight;
+    },
+    handleResize(e) {
+      if (!(this.enableDraggable || this.enableResizable)) {
+        return;
+      }
+      const shrinkWidth = this.windowLastWidth - e.currentTarget.innerWidth;
+      const shrinkHeight = this.windowLastHeight - e.currentTarget.innerHeight;
+      const dialogElm = this.getDialogElm();
+      const dialogWidth = parseInt(dialogElm.style.width, 10);
+      const dialogHeight = parseInt(dialogElm.style.height, 10);
+      let width = dialogWidth;
+      let height = dialogHeight;
+      if (shrinkWidth > 0) {
+        width -= shrinkWidth;
+      }
+      if (shrinkHeight > 0) {
+        height -= shrinkHeight;
+      }
+      this.resetDialogWH(width, height);
+      this.windowLastWidth = e.currentTarget.innerWidth;
+      this.windowLastHeight = e.currentTarget.innerHeight;
     }
   }
 };

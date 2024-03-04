@@ -220,27 +220,32 @@
 
 :::
 
-:::tip
-全屏状态下会禁用拖拽
-:::
-
-### 缩放弹框
+### 拖拽缩放弹框
 
 :::demo
 
 ```html
-<dy-button type="text" @click="dialogVisible = true">拖拽弹框控制</dy-button>
+<dy-button type="text" @click="dialogVisible = true">
+  拖拽缩放弹框控制
+</dy-button>
 
 <dy-dialog-generate
   :visible.sync="dialogVisible"
-  title="缩放"
+  title="拖拽缩放"
   width="60%"
   fullscreen
   draggable
-  resizeable
+  resizable
+  :showHandle="showHandle"
   ref="dialogGenerateRef"
 >
-  只有头部区可以缩放
+  <div>
+    左上、左下、右上、右下角分别可以缩放
+
+    <dy-button style="display: block" @click="showHandle = !showHandle">
+      是否显示拖拽手柄
+    </dy-button>
+  </div>
 </dy-dialog-generate>
 
 <script>
@@ -248,6 +253,7 @@
     data() {
       return {
         dialogVisible: false,
+        showHandle: true,
       }
     },
     mounted() {
@@ -265,7 +271,7 @@
 :::
 
 :::tip
-全屏状态下会禁用缩放
+全屏状态下会禁用缩放和拖拽
 :::
 
 ### 扩展 Dialog Attributes
@@ -276,7 +282,9 @@
 | buttonMap   | 渲染的按钮的 props, 配置选项，具体看下表 | object  | -                                    | -      |
 | operateType | 操作类型                                 | string  | `view`、`edit`                       | -      |
 | label       | 标题文本                                 | string  | -                                    | -      |
-| toggle      | 是否可取消选中                           | boolean | -                                    | false  |
+| draggable   | 可拖拽                                   | boolean | -                                    | false  |
+| resizable   | 可缩放                                   | boolean | -                                    | false  |
+| showHandle  | 显示缩放的手柄                           | boolean | -                                    | true   |
 
 ### buttonMap
 
@@ -347,12 +355,13 @@
 
 ### Slot
 
-| name   | 说明                    |
-| ------ | ----------------------- |
-| —      | Dialog 的内容           |
-| header | Dialog 头部区的内容     |
-| title  | Dialog 标题区的内容     |
-| footer | Dialog 按钮操作区的内容 |
+| name   | 说明                      |
+| ------ | ------------------------- |
+| —      | Dialog 的内容             |
+| header | Dialog 头部区的内容       |
+| button | Dialog 右上角按钮区的内容 |
+| title  | Dialog 标题区的内容       |
+| footer | Dialog 按钮操作区的内容   |
 
 ### Events
 
