@@ -9,8 +9,6 @@ const Dialog = getComponentByName('Dialog');
 const Button = getComponentByName('Button');
 const DraggableResizable = getComponentByName('DraggableResizable');
 
-console.log(DraggableResizable);
-
 export const VIEW = 'view';
 export const EDIT = 'edit';
 export const ADD = 'add';
@@ -132,12 +130,8 @@ export default {
       y: 0,
       w: 1,
       h: 1,
-      maxLeft: 0,
-      maxRight: 0
+      dialogHeight: 0
     };
-  },
-  computed: {
-
   },
   watch: {
     buttonMap: {
@@ -196,9 +190,6 @@ export default {
       handler(v) {
         if (!v) return;
         this.draggable && this.$nextTick(() => {
-          const { width, height } = this.getHeaderClientRect();
-          this.w = width;
-          this.h = height;
           this.resetDialogOffset();
         });
       }
@@ -206,6 +197,8 @@ export default {
   },
   render() {
     return this.renderDialog();
+  },
+  beforeDestroy () {
   },
   methods: {
     getProps() {
@@ -278,6 +271,11 @@ export default {
       const [name] = createNamespace('fullscreen');
       const onClick = () => {
         this.isFullscreen = !this.isFullscreen;
+        if (this.isFullscreen) {
+          const elm = this.getDialogElm();
+          elm.style.left = 0;
+          elm.style.top = 0;
+        }
       };
       return (
         <button onClick={onClick} class="fullscreen-btn" slot="button" type="button" aria-label="Fullscreen">
@@ -286,41 +284,20 @@ export default {
       );
     },
     renderDraggableSlot() {
-      const [name, bem] = createNamespace('dialog');
+      const [, bem] = createNamespace('dialog');
       const [draggableCls] = createNamespace('draggable');
       const [resizableCls] = createNamespace('resizable');
-      const ref = this.useRef();
 
       const onDragging = (left, top) => {
-        const dialogElm = ref.$el.querySelector(`.${name}`);
+        const dialogElm = this.getDialogElm();
         if (dialogElm.style.position !== 'relative') {
           dialogElm.style.position = 'relative';
         }
         dialogElm.style.left = `${left}px`;
         dialogElm.style.top = `${top}px`;
-        // const { x, y, width: dialogWidth, height: dialogHeight } = dialogElm.getBoundingClientRect();
-        // const { width: bodyWidth, height: bodyHeight } = this.getBodyClientRect();
-        // const maxLeft = bodyWidth - dialogWidth;
-        // const maxTop = bodyHeight - dialogHeight;
-        // const lastLeft = parseInt(dialogElm.style.left, 10) || 0;
-        // const lastTop = parseInt(dialogElm.style.top, 10) || 0;
-
-        // if (x > maxLeft) {
-        //   dialogElm.style.left = `${maxLeft}px`;
-        // } else {
-        //   dialogElm.style.left = `${left}px`;
-        // }
-
-        // if (y > maxTop) {
-        //   dialogElm.style.top = `${maxTop}px`;
-        // } else {
-        //   dialogElm.style.top = `${top}px`;
-        // }
-
       };
       const onDragStop = (left, top) => {
         onDragging(left, top);
-        this.$refs.draggableRef.style.transform = 'none';
       };
       return (
         <DraggableResizable
@@ -328,20 +305,18 @@ export default {
           ref="draggableRef"
           classNameDraggable={draggableCls}
           classNameResizable={resizableCls}
-          draggable={this.draggable}
-          resizable={this.resizable}
+          draggable={this.isFullscreen ? false : this.draggable}
+          resizable={this.isFullscreen ? false : this.resizable}
           x={this.x}
           y={this.y}
           w={this.w}
           h={this.h}
-          minLeft={0}
-          minTop={0}
-          maxLeft={this.maxLeft}
-          maxTop={this.maxTop}
+          realH={this.dialogHeight}
           z={1}
           getTranslate={() => 'none'}
           onDragging={onDragging}
           onDragstop={onDragStop}
+          parent={this.getDragParentElm}
           handles={['tl', 'tr']}
           class={`${bem('draggable')}`}
         >
@@ -357,34 +332,59 @@ export default {
       };
       this.$emit(key, [showLoading, hideLoading]);
     },
-    getHeaderClientRect() {
+    getDialogElm() {
       const ref = this.useRef();
+      const [name] = createNamespace('dialog');
+      const dialogElm = ref.$el.querySelector(`.${name}`);
+      return dialogElm;
+    },
+    getHeaderElm() {
       const [, bem] = createNamespace('dialog');
-      const headerElm = ref.$el.querySelector(`.${bem('header')}`);
+      return this.getDialogElm().querySelector(`.${bem('header')}`);
+    },
+    getHeaderClientRect() {
+      const headerElm = this.getHeaderElm();
       return headerElm.getBoundingClientRect();
+    },
+    getButtonRealWith() {
+      const [, bem] = createNamespace('button');
+      const headerElm = this.getHeaderElm();
+      const styleSheet = window.getComputedStyle(headerElm);
+      const paddingRight = parseInt(styleSheet.paddingRight, 10);
+      const buttonElm = headerElm.querySelector(`.${bem('wrap')}`);
+      const width = parseInt(window.getComputedStyle(buttonElm).width, 10) || 0;
+      return paddingRight + width;
     },
     getBodyClientRect() {
       return document.body.getBoundingClientRect();
     },
+    getDialogClientRect() {
+      return this.getDialogElm().getBoundingClientRect();
+    },
+    getDragParentElm() {
+      return document.body;
+    },
     resetDialogOffset() {
-      const ref = this.useRef();
-      const [name, bem] = createNamespace('dialog');
-      const dialogElm = ref.$el.querySelector(`.${name}`);
+      const { width: headerWidth, height: headerHeight } = this.getHeaderClientRect();
       const { width: bodyWidth, height: bodyHeight } = this.getBodyClientRect();
-      const { width: dialogWidth, height: dialogHeight } = dialogElm.getBoundingClientRect();
+      const { width: dialogWidth, height: dialogHeight } = this.getDialogClientRect();
       const x = Math.round((bodyWidth - dialogWidth) / 2);
       const y = Math.round((bodyHeight - dialogHeight) / 2);
+      const dialogElm = this.getDialogElm();
       dialogElm.style.left = x + 'px';
       dialogElm.style.top = y + 'px';
       dialogElm.style.marginTop = 0;
       dialogElm.style.marginLeft = 0;
       dialogElm.style.marginRight = 0;
       dialogElm.style.marginBottom = 0;
+      this.w = headerWidth;
+      this.h = headerHeight;
       this.x = x;
       this.y = y;
-      this.maxLeft = Math.round(bodyWidth - dialogWidth);
-      this.maxTop = Math.round(bodyHeight - dialogHeight);
-      this.$refs.draggableRef.style.transform = 'none';
+      this.dialogHeight = dialogHeight;
+    },
+    handleResize() {
+      this.resetDialogOffset();
     }
   }
 };

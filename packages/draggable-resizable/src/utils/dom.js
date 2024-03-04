@@ -56,3 +56,14 @@ export function removeEvent (el, event, handler) {
     el['on' + event] = null;
   }
 }
+
+export function findParentElement (el, className) {
+  let elm = el.parentElement;
+  while (elm) {
+    if (elm.classList.contains(className)) {
+      return elm;
+    }
+    elm = elm.parentElement;
+  }
+};
+

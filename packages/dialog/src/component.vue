@@ -31,7 +31,7 @@
             <slot name="title">
               <span class="dy-dialog__title">{{ title }}</span>
             </slot>
-            <div class="button__wrap dy-flex__align-center">
+            <div class="dy-button__wrap dy-flex__align-center">
               <slot name="button" />
               <button
                 type="button"

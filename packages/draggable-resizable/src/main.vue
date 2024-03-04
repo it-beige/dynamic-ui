@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { matchesSelectorToParentElements, getComputedSize, addEvent, removeEvent } from './utils/dom';
+import { matchesSelectorToParentElements, getComputedSize, addEvent, removeEvent, findParentElement } from './utils/dom';
 import { computeWidth, computeHeight, restrictToBounds, snapToGrid, isUndefined, isFunction} from './utils/fns';
 
 const events = {
@@ -140,16 +140,7 @@ export default {
         return val === 'auto';
       }
     },
-    minLeft: {
-      type: Number
-    },
-    maxLeft: {
-      type: Number
-    },
-    minTop: {
-      type: Number
-    },
-    maxTop: {
+    realH: {
       type: Number
     },
     minWidth: {
@@ -212,7 +203,7 @@ export default {
       default: () => [1, 1]
     },
     parent: {
-      type: Boolean,
+      type: [Boolean, Function],
       default: false
     },
     scale: {
@@ -328,12 +319,12 @@ export default {
       this.mouseClickPosition = { mouseX: 0, mouseY: 0, x: 0, y: 0, w: 0, h: 0 };
 
       this.bounds = {
-        minLeft: this.minLeft,
-        maxLeft: this.maxLeft,
+        minLeft: null,
+        maxLeft: null,
         minRight: null,
         maxRight: null,
-        minTop: this.minTop,
-        maxTop: this.maxTop,
+        minTop: null,
+        maxTop: null,
         minBottom: null,
         maxBottom: null
       };
@@ -350,7 +341,11 @@ export default {
     },
     getParentSize () {
       if (this.parent) {
-        const style = window.getComputedStyle(this.$el.parentNode, null);
+        let parentNode = this.$el.parentNode;
+        if (isFunction(this.parent)) {
+          parentNode = this.parent();
+        }
+        const style = window.getComputedStyle(parentNode, null);
 
         return [
           parseInt(style.getPropertyValue('width'), 10),
@@ -420,12 +415,12 @@ export default {
     },
     calcDragLimits () {
       return {
-        minLeft: isUndefined(this.minLeft) ? this.minLeft : this.left % this.grid[0],
-        maxLeft: isUndefined(this.maxLeft) ? this.maxLeft : Math.floor((this.parentWidth - this.width - this.left) / this.grid[0]) * this.grid[0] + this.left,
+        minLeft: this.left % this.grid[0],
+        maxLeft: Math.floor((this.parentWidth - this.width - this.left) / this.grid[0]) * this.grid[0] + this.left,
         minRight: this.right % this.grid[0],
         maxRight: Math.floor((this.parentWidth - this.width - this.right) / this.grid[0]) * this.grid[0] + this.right,
-        minTop: isUndefined(this.minTop) ? this.minTop : this.top % this.grid[1],
-        maxTop: isUndefined(this.maxTop) ? this.maxTop : Math.floor((this.parentHeight - this.height - this.top) / this.grid[1]) * this.grid[1] + this.top,
+        minTop: this.top % this.grid[1],
+        maxTop: Math.floor((this.parentHeight - (this.realH || this.height) - this.top) / this.grid[1]) * this.grid[1] + this.top,
         minBottom: this.bottom % this.grid[1],
         maxBottom: Math.floor((this.parentHeight - this.height - this.bottom) / this.grid[1]) * this.grid[1] + this.bottom
       };
