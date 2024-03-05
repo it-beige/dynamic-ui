@@ -4,8 +4,9 @@
 
 - 对 footer slot 进行了封装, 默认 slot 会根据 buttons 配置渲染按钮区域
 - 对 title slot 进行了封装, 默认 slot 会根据 operateType 和 iconMap 配置渲染按钮区域
-- 对`Dialog`和`DialogButton`行为进行统一,都支持不使用`DialogGroup`的情况进行多选
-- 可配置二次点击取消选项中状态
+- 添加全屏弹框功能
+- 添加拖拽弹框功能
+- 添加缩放弹框功能
 
 ### 基础用法
 
@@ -219,6 +220,60 @@
 
 :::
 
+### 拖拽缩放弹框
+
+:::demo
+
+```html
+<dy-button type="text" @click="dialogVisible = true">
+  拖拽缩放弹框控制
+</dy-button>
+
+<dy-dialog-generate
+  :visible.sync="dialogVisible"
+  title="拖拽缩放"
+  width="60%"
+  fullscreen
+  draggable
+  resizable
+  :showHandle="showHandle"
+  ref="dialogGenerateRef"
+>
+  <div>
+    左上、左下、右上、右下角分别可以缩放
+
+    <dy-button style="display: block" @click="showHandle = !showHandle">
+      是否显示拖拽手柄
+    </dy-button>
+  </div>
+</dy-dialog-generate>
+
+<script>
+  export default {
+    data() {
+      return {
+        dialogVisible: false,
+        showHandle: true,
+      }
+    },
+    mounted() {
+      this.getDialogRef()
+    },
+    methods: {
+      getDialogRef() {
+        console.log(this.$refs.dialogGenerateRef.useRef())
+      },
+    },
+  }
+</script>
+```
+
+:::
+
+:::tip
+全屏状态下会禁用缩放和拖拽
+:::
+
 ### 扩展 Dialog Attributes
 
 | 参数        | 说明                                     | 类型    | 可选值                               | 默认值 |
@@ -227,7 +282,9 @@
 | buttonMap   | 渲染的按钮的 props, 配置选项，具体看下表 | object  | -                                    | -      |
 | operateType | 操作类型                                 | string  | `view`、`edit`                       | -      |
 | label       | 标题文本                                 | string  | -                                    | -      |
-| toggle      | 是否可取消选中                           | boolean | -                                    | false  |
+| draggable   | 可拖拽                                   | boolean | -                                    | false  |
+| resizable   | 可缩放                                   | boolean | -                                    | false  |
+| showHandle  | 显示缩放的手柄                           | boolean | -                                    | true   |
 
 ### buttonMap
 
@@ -298,12 +355,13 @@
 
 ### Slot
 
-| name   | 说明                    |
-| ------ | ----------------------- |
-| —      | Dialog 的内容           |
-| header | Dialog 头部区的内容     |
-| title  | Dialog 标题区的内容     |
-| footer | Dialog 按钮操作区的内容 |
+| name   | 说明                      |
+| ------ | ------------------------- |
+| —      | Dialog 的内容             |
+| header | Dialog 头部区的内容       |
+| button | Dialog 右上角按钮区的内容 |
+| title  | Dialog 标题区的内容       |
+| footer | Dialog 按钮操作区的内容   |
 
 ### Events
 

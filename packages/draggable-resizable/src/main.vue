@@ -884,7 +884,6 @@ export default {
       if (this.resizing || this.dragging) {
         return;
       }
-
       if (this.parent) {
         this.bounds = this.calcDragLimits();
       }

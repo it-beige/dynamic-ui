@@ -9,6 +9,7 @@
       class="dy-dialog__wrapper"
       @click.self="handleWrapperClick"
     >
+      <slot name="draggable"></slot>
       <div
         role="dialog"
         :key="key"
@@ -23,8 +24,6 @@
         :style="style"
       >
         <slot name="header">
-          <slot name="draggable">
-          </slot>
           <div
             class="dy-dialog__header dy-flex__justify-between dy-flex__align-center"
           >
@@ -161,12 +160,16 @@ export default {
   computed: {
     style() {
       let style = {};
-      if (!this.fullscreen) {
-        style.marginTop = this.top;
-        if (this.width) {
-          style.width = this.width;
+
+      if (!this.$slots.draggable) {
+        if (!this.fullscreen) {
+          style.marginTop = this.top;
+          if (this.width) {
+            style.width = this.width;
+          }
         }
       }
+
       return style;
     }
   },

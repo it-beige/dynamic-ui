@@ -1,9 +1,7 @@
 <script>
 import genAttrsMixin, { getExtra as getAttrMixExtra } from 'main/mixins/attrs';
 import { getComponentByName } from 'main/config/component';
-import {
-  getFormItemComponentAttribute
-} from 'main/config/form';
+import { getFormItemComponentAttribute } from 'main/config/form';
 import { genFormItemValue } from 'main/utils/component';
 
 import _, { isFunction } from 'lodash';
@@ -17,30 +15,31 @@ export default {
   name: 'DyFormGenerate',
   mixins: [genAttrsMixin(Form)],
   props: {
+    // 表单数据对象
     value: {
       type: Object,
       required: true
     },
+    // 表单配置对象
     config: {
       type: Array,
       required: true
-    },
-    space: {
-      type: Number,
-      default: 36
     },
     labelSuffix: {
       type: String,
       default: '：'
     },
+    // 表单项渲染组件class配置
     classSheets: {
       type: Object,
       default: () => ({})
     },
+    // 表单项class配置
     itemClassSheets: {
       type: Object,
       default: () => ({})
     },
+    // 包裹表单项的col组件的class配置
     colClassSheets: {
       type: Object,
       default: () => ({})
@@ -96,12 +95,7 @@ export default {
     renderForm() {
       const self = this;
       let createElement = self.$createElement;
-      const {
-        getFormProps,
-        getFormOn,
-        getFormSlots,
-        getFormScopedSlots
-      } = self;
+      const { getFormProps, getFormOn, getFormSlots, getFormScopedSlots } = self;
       const props = getFormProps();
       const on = getFormOn();
       const slots = getFormSlots();
