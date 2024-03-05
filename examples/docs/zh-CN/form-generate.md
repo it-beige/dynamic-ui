@@ -192,3 +192,60 @@
 ```
 
 :::
+
+### 扩展 Form Attributes
+
+| 参数            | 说明                               | 类型   | 可选值 | 默认值 |
+| --------------- | ---------------------------------- | ------ | ------ | ------ |
+| value/v-model   | 表单数据对象                       | object | —      | —      |
+| config          | 表单配置对象                       | array  | —      | —      |
+| classSheets     | 表单项渲染组件 class 配置          | object | —      | —      |
+| itemClassSheets | 表单项 class 配置                  | object | —      | —      |
+| colClassSheets  | 包裹表单项的 col 组件的 class 配置 | object | —      | —      |
+
+### Form Methods
+
+| 方法名        | 说明                                                                                                                                                                 | 参数                                                                       |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| validate      | 对整个表单进行校验的方法，参数为一个回调函数。该回调函数会在校验结束后被调用，并传入两个参数：是否校验成功和未通过校验的字段。若不传入回调函数，则会返回一个 promise | Function(callback: Function(boolean, object))                              |
+| validateField | 对部分表单字段进行校验的方法                                                                                                                                         | Function(props: array \| string, callback: Function(errorMessage: string)) |
+| resetFields   | 对整个表单进行重置，将所有字段值重置为初始值并移除校验结果                                                                                                           | —                                                                          |
+| clearValidate | 移除表单项的校验结果。传入待移除的表单项的 prop 属性或者 prop 组成的数组，如不传则移除整个表单的校验结果                                                             | Function(props: array \| string)                                           |
+
+### Form Events
+
+| 事件名称 | 说明                   | 回调参数                                                   |
+| -------- | ---------------------- | ---------------------------------------------------------- |
+| validate | 任一表单项被校验后触发 | 被校验的表单项 prop 值，校验是否通过，错误消息（如果存在） |
+
+### 扩展 Form-Item Attributes
+
+| 参数      | 说明                      | 类型   | 可选值 | 默认值 |
+| --------- | ------------------------- | ------ | ------ | ------ |
+| props     | 渲染组件的 props          | object | —      | —      |
+| slots     | 渲染组件的 slots          | array  | —      | —      |
+| itemProps | 表单项 form-item 的 props | object | —      | —      |
+| colProps  | 表单项 col 的 props       | object | —      | —      |
+| component | 要渲染的表单组件          | string | —      | -      |
+| label     | form-item 的 label        | string | —      | -      |
+| prop      | form-item 的 prop         | string | —      | -      |
+
+### Form-Item Slot
+
+| name  | 说明             |
+| ----- | ---------------- |
+| —     | Form Item 的内容 |
+| label | 标签文本的内容   |
+
+### Form-Item Scoped Slot
+
+| name  | 说明                                           |
+| ----- | ---------------------------------------------- |
+| error | 自定义表单校验信息的显示方式，参数为 { error } |
+
+### Form-Item Methods
+
+| 方法名        | 说明                                                 | 参数 |
+| ------------- | ---------------------------------------------------- | ---- |
+| resetField    | 对该表单项进行重置，将其值重置为初始值并移除校验结果 | -    |
+| clearValidate | 移除该表单项的校验结果                               | -    |
