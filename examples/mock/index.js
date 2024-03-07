@@ -29,12 +29,20 @@ const common = {
   message: 'success'
 };
 
+Mock.Random.incrementId = (() => {
+  let id = 0;
+  return function() {
+    id++;
+    return id.toString();
+  };
+})();
+
 const listData = Mock.mock({
   ...common,
   data: {
     'list|25': [
       {
-        'id|+1': 1,
+        'id|+1': '@incrementId',
         label: function () {
           const labels = ['黄金糕', '双皮奶', '蚵仔煎', '龙须面', '北京烤鸭'];
           const idx = this.id - 1;

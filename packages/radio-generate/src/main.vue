@@ -1,13 +1,11 @@
 <script>
-import {
-  getCompPropsBySourceOpt
-} from 'main/utils/component.js';
-import {
-  camelToKebab
-} from 'main/utils/util.js';
+import { getCompPropsBySourceOpt } from 'main/utils/component.js';
+import { camelToKebab } from 'main/utils/util.js';
 import globalConfig from 'main/config/global';
 
-import genRequestMixin, {getExtra as getRequestMixExtra} from 'main/mixins/request';
+import genRequestMixin, {
+  getExtra as getRequestMixExtra
+} from 'main/mixins/request';
 import { getComponentByName } from 'main/config/component';
 import { isFunction } from 'main/utils/lodash';
 
@@ -19,9 +17,7 @@ const optionProps = globalConfig.useOptionProps();
 export default {
   name: 'DyRadioGenerate',
   mixins: [genRequestMixin()],
-  components: {
-
-  },
+  components: {},
   props: {
     props: {
       type: Object,
@@ -35,7 +31,7 @@ export default {
     type: {
       type: String,
       default: 'circle',
-      validator: (value) => {
+      validator: value => {
         return ['circle', 'button'].includes(value);
       }
     },
@@ -51,42 +47,43 @@ export default {
       default: false
     }
   },
-  data () {
+  data() {
     return {
       extraProps: [...getRequestMixExtra('prop')],
       extraData: [...getRequestMixExtra('data')],
       bindProps: {
         ...globalConfig.useOptionProps(),
         ...this.props
-      }
-    };
-  },
-  computed: {
-    bindValue: {
-      get({value}) {
-        return Array.from(new Set(value));
       },
-      set(value) {
-        this.$emit('input', value);
-      }
-    }
+      groupValue: []
+    };
   },
   watch: {
     props: {
-      handler () {
-        this.bindProps = {...this.bindProps, ...this.props};
+      handler() {
+        this.bindProps = { ...this.bindProps, ...this.props };
       },
       deep: true
+    },
+    value: {
+      handler() {
+        if (this.group) {
+          this.groupValue = Array.from(new Set(this.value));
+        }
+      },
+      immediate: true
     }
   },
-  render () {
+  render() {
     const RadioVnode = this.renderRadio();
-    return this.group ? this.renderRadioGroup(RadioVnode) : <div class="dy-radio__container">
-      { RadioVnode }
-    </div>;
+    return this.group ? (
+      this.renderRadioGroup(RadioVnode)
+    ) : (
+      <div class="dy-radio__container">{RadioVnode}</div>
+    );
   },
   methods: {
-    getProps (component, target) {
+    getProps(component, target) {
       const componentProps = getCompPropsBySourceOpt(component);
       return Object.keys(componentProps).reduce((_, k) => {
         _[k] = target[camelToKebab(k)];
@@ -102,26 +99,22 @@ export default {
         on: this.$listeners,
         ref: RadioGroup.name
       };
-      return (
-        <RadioGroup.name {...data}>
-          {children}
-        </RadioGroup.name>
-      );
+      return <RadioGroup.name {...data}>{children}</RadioGroup.name>;
     },
-    renderRadio () {
+    renderRadio() {
       const { getOptionsVnode, getPropsWithFormatter } = this;
       const radioTemplateRender = this.$scopedSlots.radio;
       return this.bindOptions.reduce((optionsVnode, i, idx) => {
         const props = getPropsWithFormatter(i);
         if (isFunction(radioTemplateRender)) {
-          optionsVnode.push(radioTemplateRender({props, i}));
+          optionsVnode.push(radioTemplateRender({ props, i }));
         } else {
           optionsVnode.push(getOptionsVnode(i, idx));
         }
         return optionsVnode;
       }, []);
     },
-    getPropsWithFormatter (i) {
+    getPropsWithFormatter(i) {
       const { getComponentByType, bindProps, formatter } = this;
       const { label, value, disabled, updateValue } = bindProps;
       let bindLabel = i[label];
@@ -155,29 +148,28 @@ export default {
       return props;
     },
     updateValue(props, value) {
-      const { updateValue, ...rest} = props;
+      const { updateValue, ...rest } = props;
       if (isFunction(updateValue)) {
         updateValue(rest);
       }
       if (!this.group) {
-        const set = new Set(this.bindValue);
+        const set = new Set(this.groupValue);
         set.add(value);
-        this.bindValue = Array.from(set);
+        this.groupValue = Array.from(set);
       }
-
     },
     toggleValue(props) {
       if (this.toggle) {
-        this.bindValue = this.bindValue.filter(i => i !== props.value);
+        this.groupValue = this.groupValue.filter(i => i !== props.value);
       }
     },
-    getOptionsVnode (i, idx) {
+    getOptionsVnode(i, idx) {
       const { bindProps, getPropsWithFormatter, getComponentByType } = this;
       const { labelRender } = bindProps;
       const props = getPropsWithFormatter(i);
-      const {value, label} = props;
+      const { value, label } = props;
       props.label = value;
-      if (!this.bindValue.includes(value)) {
+      if (!this.groupValue.includes(value)) {
         props.value = undefined;
       }
       const component = getComponentByType();
@@ -185,19 +177,17 @@ export default {
         staticClass: 'dy-radio-generate',
         props,
         on: {
-          input: (v) => this.updateValue(i, v),
+          input: v => this.updateValue(i, v),
           click: () => this.toggleValue(props)
         },
         ref: component.name
       };
 
-      return <component.name
-        {...data}
-        key={`${value}-${idx}`}
-        ref={`${value}Radio`}
-      >
-        {isFunction(labelRender) ? labelRender(label, i) : label}
-      </component.name>;
+      return (
+        <component.name {...data} key={`${value}-${idx}`} ref={`${value}Radio`}>
+          {isFunction(labelRender) ? labelRender(label, i) : label}
+        </component.name>
+      );
     },
     getComponentByType() {
       const { type } = this;
@@ -216,5 +206,3 @@ export default {
   }
 };
 </script>
-
-

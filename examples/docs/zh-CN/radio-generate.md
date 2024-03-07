@@ -179,7 +179,7 @@
 `type`支持的类型有两种, `circle`对应的渲染组件`radio`、`button`对应的渲染组件`radio-button`, `group`是否为单选框组;`
 :::
 
-### 扩展 Select Attributes
+### 扩展 Radio Attributes
 
 | 参数      | 说明                 | 类型     | 可选值             | 默认值                  |
 | --------- | -------------------- | -------- | ------------------ | ----------------------- |
@@ -191,32 +191,13 @@
 
 ### props
 
-| 参数     | 说明                     | 类型   | 可选值 | 默认值   |
-| -------- | ------------------------ | ------ | ------ | -------- |
-| label    | option 组件的 label 属性 | string | —      | label    |
-| value    | option 组件的 value 属性 | string | —      | value    |
-| disabled | 子节点否禁用的属性值     | string | —      | children |
-
-### Radio Attributes
-
-| 参数      | 说明               | 类型     | 可选值 | 默认值 |
-| --------- | ------------------ | -------- | ------ | ------ |
-| formatter | 格式化 option 数据 | function | —      | -      |
-
-### props
-
-| 参数     | 说明                           | 类型   | 可选值 | 默认值   |
-| -------- | ------------------------------ | ------ | ------ | -------- |
-| label    | option 组件的 label 属性       | string | —      | label    |
-| value    | option 组件的 value 属性       | string | —      | value    |
-| children | 指定子树为节点对象的某个属性值 | string | —      |          |
-| disabled | 子节点否禁用的属性值           | string | —      | children |
-
-### Radio Events
-
-| 事件名称 | 说明                   | 回调参数              |
-| -------- | ---------------------- | --------------------- |
-| input    | 绑定值变化时触发的事件 | 选中的 Radio label 值 |
+| 参数        | 说明                           | 类型            | 可选值 | 默认值   |
+| ----------- | ------------------------------ | --------------- | ------ | -------- |
+| label       | option 组件的 label 属性       | string          | —      | label    |
+| value       | option 组件的 value 属性       | string          | —      | value    |
+| children    | 指定子树为节点对象的某个属性值 | string          | —      |          |
+| disabled    | 子节点否禁用的属性值           | string          | —      | children |
+| updateValue | 等同于 radio 组件的 input      | function(value) | —      | -        |
 
 ### Radio-group Attributes
 

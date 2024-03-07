@@ -53,18 +53,9 @@ export default {
       bindProps: {
         ...globalConfig.useOptionProps(),
         ...this.props
-      }
-    };
-  },
-  computed: {
-    bindValue: {
-      get({value}) {
-        return Array.from(new Set(value));
       },
-      set(value) {
-        this.$emit('input', value);
-      }
-    }
+      groupValue: []
+    };
   },
   watch: {
     props: {
@@ -72,6 +63,14 @@ export default {
         this.bindProps = {...this.bindProps, ...this.props};
       },
       deep: true
+    },
+    value: {
+      handler() {
+        if (this.group) {
+          this.groupValue = Array.from(new Set(this.value));
+        }
+      },
+      immediate: true
     }
   },
   render () {
@@ -155,11 +154,10 @@ export default {
         updateValue(rest);
       }
       if (!this.group) {
-        const set = new Set(this.bindValue);
+        const set = new Set(this.groupValue);
         set.add(value);
-        this.bindValue = Array.from(set);
+        this.groupValue = Array.from(set);
       }
-
     },
     getOptionsVnode (i, idx) {
       const { bindProps, getPropsWithFormatter, getComponentByType } = this;
@@ -167,7 +165,7 @@ export default {
       const props = getPropsWithFormatter(i);
       const {value, label} = props;
       props.label = value;
-      if (!this.bindValue.includes(value)) {
+      if (!this.groupValue.includes(value)) {
         props.value = undefined;
       }
       const component = getComponentByType();

@@ -1,7 +1,29 @@
+@import "mixins/mixins";
+@import "common/var";
+
 .dy-form-generate {
-  .dy-form-item {
-    .dy-select {
-      width: 100%;
+  &.dy-form {
+    &--label-top {
+      .dy-form-item {
+        flex-direction: column;
+
+        &__label {
+          padding: 0;
+        }
+      }
+    }
+
+    .dy-form-item {
+      display: flex;
+
+      &__content {
+        flex: 1;
+
+        .dy-select,
+        .dy-date-editor {
+          width: 100%;
+        }
+      }
     }
   }
 }
