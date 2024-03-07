@@ -4,13 +4,15 @@ import SelectGenerate from 'packages/select-generate';
 import RadioGenerate from 'packages/radio-generate';
 import CheckboxGenerate from 'packages/checkbox-generate';
 import UploadGenerate from 'packages/upload-generate';
+import DatePicker from 'packages/date-picker';
 
 const FORM_COMPONENTS = {
   input: Input,
   select: SelectGenerate,
   radio: RadioGenerate,
   checkbox: CheckboxGenerate,
-  upload: UploadGenerate
+  upload: UploadGenerate,
+  date: DatePicker
 };
 
 const commonAttreibutes = [

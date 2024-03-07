@@ -16,6 +16,7 @@
   ref="formGenerateRef"
   :config="config"
   v-model="modelValue"
+  label-position="top"
   :classSheets="classSheets"
   :itemClassSheets="itemClassSheets"
   :colClassSheets="colClassSheets"
@@ -36,6 +37,10 @@
             props: {
               maxlength: '20',
               showWordLimit: true,
+            },
+            formatter: value => {
+              let v = Number(value)
+              return isNaN(v) ? value : v
             },
           },
           {
@@ -127,6 +132,37 @@
               params: { page: 1, size: 4 },
             },
           },
+          {
+            label: '时间选择框',
+            prop: 'date-field',
+            component: 'date',
+            props: {},
+          },
+          {
+            label: '年份选择框',
+            prop: 'year-field',
+            component: 'date',
+            props: {
+              type: 'year',
+            },
+          },
+          {
+            label: '月份选择框',
+            prop: 'month-field',
+            component: 'date',
+            props: {
+              type: 'month',
+            },
+          },
+          {
+            label: '日期时间选择框',
+            prop: 'datetime-field',
+            component: 'date',
+            props: {
+              type: 'datetime',
+            },
+          },
+
           {
             label: '上传',
             prop: 'update-field',
@@ -163,158 +199,7 @@
 :::
 
 :::tip
-props 传入的配置对象根据你需要渲染 component 决定
-:::
-
-### 数据格式化处理
-
-:::demo
-
-```html
-<dy-form-generate
-  ref="formGenerateRef"
-  :config="config"
-  v-model="modelValue"
-></dy-form-generate>
-<script>
-  export default {
-    data() {
-      return {
-        modelValue: {
-          'input-field': '123',
-          'textarea-field': '123',
-        },
-        config: [
-          {
-            label: '输入框',
-            prop: 'input-field',
-            component: 'input',
-            formatter: value => {
-              if (~value.indexOf('-formatter')) {
-                return value
-              }
-              return `${value}-formatter`
-            },
-            props: {
-              maxlength: '20',
-              showWordLimit: true,
-            },
-          },
-          {
-            label: '大文本输入框',
-            prop: 'textarea-field',
-            component: 'input',
-            props: {
-              type: 'textarea',
-              maxlength: '30',
-              showWordLimit: true,
-            },
-          },
-          {
-            label: '下拉选择框',
-            prop: 'select-field',
-            component: 'select',
-            props: {
-              clearable: true,
-              props: {
-                label: 'name',
-                value: 'code',
-                children: 'options',
-                disabled: 'isDisabled',
-                labelRender: (label, i) => {
-                  if (i.code === 'Shanghai') {
-                    return this.$createElement(
-                      'span',
-                      { style: 'color: red' },
-                      label,
-                    )
-                  }
-                },
-              },
-              options: [
-                {
-                  name: '热门城市',
-                  options: [
-                    {
-                      code: 'Shanghai',
-                      name: '上海',
-                    },
-                    {
-                      code: 'Beijing',
-                      name: '北京',
-                      isDisabled: true,
-                    },
-                  ],
-                },
-                {
-                  name: '城市名',
-                  options: [
-                    {
-                      code: 'Chengdu',
-                      name: '成都',
-                    },
-                    {
-                      code: 'Shenzhen',
-                      name: '深圳',
-                    },
-                    {
-                      code: 'Guangzhou',
-                      name: '广州',
-                    },
-                    {
-                      code: 'Dalian',
-                      name: '大连',
-                    },
-                  ],
-                },
-              ],
-            },
-            on: {
-              'visible-change': visible => {
-                console.log(visible)
-              },
-            },
-          },
-          {
-            label: '单选框',
-            prop: 'radio-field',
-            component: 'radio',
-            props: {
-              url: '/api/list',
-              params: { page: 1, size: 4 },
-              toggle: true,
-            },
-          },
-          {
-            label: '多选框',
-            prop: 'checkbox-field',
-            component: 'checkbox',
-            props: {
-              url: '/api/list',
-              params: { page: 1, size: 4 },
-              toggle: true,
-              updateValue: ({ value }) => {
-                this.$message.success(`点击了${value}`)
-              },
-            },
-          },
-        ],
-      }
-    },
-    mounted() {
-      this.getFormRef()
-    },
-    methods: {
-      getFormRef() {
-        console.log(this.$refs.formGenerateRef.$refs.DyForm)
-        // or
-        console.log(this.$refs.formGenerateRef.useRef())
-      },
-    },
-  }
-</script>
-```
-
+props 传入的配置对象根据你需要渲染 component 决定, 所有组件都提供 formatter 用于格式化数据
 :::
 
 ### 表单项的事件
@@ -326,58 +211,22 @@ props 传入的配置对象根据你需要渲染 component 决定
   ref="formGenerateRef"
   :config="config"
   v-model="modelValue"
-  :classSheets="classSheets"
-  :itemClassSheets="itemClassSheets"
-  :colClassSheets="colClassSheets"
 ></dy-form-generate>
 <script>
   export default {
     data() {
       return {
-        modelValue: {
-          'input-field': '123',
-          'textarea-field': '123',
-        },
+        modelValue: {},
         config: [
           {
             label: '输入框',
             prop: 'input-field',
             component: 'input',
-            formatter: value => {
-              if (~value.indexOf('-formatter')) {
-                return value
-              }
-              return `${value}-formatter`
-            },
             on: {
               input: value => {
-                if (~value.indexOf('-onInput')) {
-                  return value
-                }
-                return `${value}-onInput`
+                let v = Number(value)
+                return isNaN(v) ? value : v
               },
-            },
-            slots: {
-              prefix: () => {
-                return <i class="dy-input__icon dy-icon-search"></i>
-              },
-              append: () => {
-                return <dy-button icon="dy-icon-search"></dy-button>
-              },
-            },
-            props: {
-              maxlength: '20',
-              showWordLimit: true,
-            },
-          },
-          {
-            label: '大文本输入框',
-            prop: 'textarea-field',
-            component: 'input',
-            props: {
-              type: 'textarea',
-              maxlength: '30',
-              showWordLimit: true,
             },
           },
           {
@@ -391,15 +240,6 @@ props 传入的配置对象根据你需要渲染 component 决定
                 value: 'code',
                 children: 'options',
                 disabled: 'isDisabled',
-                labelRender: (label, i) => {
-                  if (i.code === 'Shanghai') {
-                    return this.$createElement(
-                      'span',
-                      { style: 'color: red' },
-                      label,
-                    )
-                  }
-                },
               },
               options: [
                 {
@@ -443,6 +283,9 @@ props 传入的配置对象根据你需要渲染 component 决定
               'visible-change': visible => {
                 console.log(visible)
               },
+              input: value => {
+                return value
+              },
             },
           },
           {
@@ -454,6 +297,12 @@ props 传入的配置对象根据你需要渲染 component 决定
               params: { page: 1, size: 4 },
               toggle: true,
             },
+            on: {
+              input: value => {
+                console.log('radio 双向绑定自定义')
+                return value
+              },
+            },
           },
           {
             label: '多选框',
@@ -463,8 +312,95 @@ props 传入的配置对象根据你需要渲染 component 决定
               url: '/api/list',
               params: { page: 1, size: 4 },
               toggle: true,
-              updateValue: ({ value }) => {
-                this.$message.success(`点击了${value}`)
+            },
+            on: {
+              input: value => {
+                console.log('checkbox 双向绑定自定义')
+                return value
+              },
+            },
+          },
+        ],
+      }
+    },
+  }
+</script>
+```
+
+:::
+
+:::tip
+on 传入的事件监听根据你需要渲染 component 决定, 所有组件都提供 input 用于自定义双向绑定
+:::
+
+### 表单项的插槽
+
+:::demo
+
+```html
+<dy-form-generate
+  ref="formGenerateRef"
+  :config="config"
+  v-model="modelValue"
+></dy-form-generate>
+<script>
+  export default {
+    data() {
+      return {
+        modelValue: {
+          'input-field': '123',
+          'textarea-field': '123',
+        },
+        config: [
+          {
+            label: '输入框',
+            prop: 'input-field',
+            component: 'input',
+            on: {
+              input: value => {},
+            },
+            slots: {
+              prefix: () => {
+                return <i class="dy-input__icon dy-icon-search"></i>
+              },
+              suffix: () => {
+                return <i class="dy-input__icon dy-icon1-youjian"></i>
+              },
+              prepend: () => {
+                return 'https://'
+              },
+              append: () => {
+                return <dy-button icon="dy-icon-search"></dy-button>
+              },
+            },
+          },
+          {
+            label: '下拉选择框',
+            prop: 'select-field',
+            component: 'select',
+            props: {
+              clearable: true,
+              props: {
+                label: 'name',
+                value: 'code',
+                children: 'options',
+                disabled: 'isDisabled',
+              },
+              options: [
+                {
+                  code: 'Shanghai',
+                  name: '上海',
+                },
+                {
+                  code: 'Beijing',
+                  name: '北京',
+                  isDisabled: true,
+                },
+              ],
+            },
+            slots: {
+              prefix: () => {
+                return <i class="dy-input__icon dy-icon-search"></i>
               },
             },
           },
@@ -478,24 +414,22 @@ props 传入的配置对象根据你需要渲染 component 决定
               action: '/upload',
               listType: 'picture-card',
             },
+            slots: {
+              tip: () => {
+                return (
+                  <dy-alert
+                    style="line-height: normal; margin-top: 20px;"
+                    title="tip slot"
+                    type="info"
+                    center
+                    show-icon
+                  ></dy-alert>
+                )
+              },
+            },
           },
         ],
-        classSheets: { 'input-field': 'component-class' },
-        itemClassSheets: { 'input-field': { 'item-class': true } },
-        colClassSheets: {
-          'input-field': ['col-class', { 'col-class-var': true }],
-        },
       }
-    },
-    mounted() {
-      this.getFormRef()
-    },
-    methods: {
-      getFormRef() {
-        console.log(this.$refs.formGenerateRef.$refs.DyForm)
-        // or
-        console.log(this.$refs.formGenerateRef.useRef())
-      },
     },
   }
 </script>
