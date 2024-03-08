@@ -54,6 +54,11 @@ export default {
       extraData: [...getAttrMixExtra('data')]
     };
   },
+  computed: {
+    validteProps() {
+      return this.config.map(i => i.prop);
+    }
+  },
   watch: {
     config: {
       immediate: true,
@@ -206,6 +211,33 @@ export default {
       }
       _.set(model, prop, value);
       return this.getModelValue(model, i);
+    },
+
+    validate(callback) {
+      const ref = this.useRef();
+      if (_.isFunction(callback)) {
+        return ref.validate(callback);
+      }
+
+      return new Promise((resolve, reject) => {
+        const rulesHash = [];
+        ref.validateField(
+          this.validteProps,
+          (message, rules) => {
+            if (message && rules) {
+              const rulesArr = [];
+              rulesArr.push(message, rules);
+              rulesHash.push(rulesArr);
+            }
+          },
+        );
+
+        if (rulesHash.length) {
+          reject(rulesHash);
+        } else {
+          resolve();
+        }
+      });
     }
   }
 };

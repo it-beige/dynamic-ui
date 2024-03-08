@@ -18,7 +18,7 @@
   ref="formGenerateRef"
   :config="config"
   v-model="modelValue"
-  label-position="top"
+  labdy-position="top"
   :classSheets="classSheets"
   :itemClassSheets="itemClassSheets"
   :colClassSheets="colClassSheets"
@@ -477,9 +477,141 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
 
 :::
 
-:::tip
-slot 传入的 slot 根据你需要渲染 component 决定
-itemSlots 渲染的是`form-item`的 slot、scopedSlot
+### 表单操作
+
+:::demo
+
+```html
+<dy-descriptions
+  title="详情数据"
+  direction="vertical"
+  :column="config.length"
+  border
+>
+  <template #extra>
+    <dy-row type="flex" justify="end">
+      <dy-col>
+        <dy-button type="text" @click="editHandle">编辑</dy-button>
+      </dy-col>
+    </dy-row>
+  </template>
+  <dy-descriptions-item :label="i.label" v-for="i of config" :key="i.prop">
+    {{detailModel[i.prop] || '-'}}
+  </dy-descriptions-item>
+</dy-descriptions>
+
+<dy-dialog-generate
+  :visible.sync="dialogVisible"
+  :operateType="operateType"
+  :buttons="buttons"
+  @cancel="cancelHandle"
+  @save="saveHandle"
+  width="50%"
+>
+  <dy-form-generate
+    ref="formRef"
+    :rules="rules"
+    label-position="top"
+    :config="config"
+    v-model="modelValue"
+  ></dy-form-generate>
+</dy-dialog-generate>
+
+<script>
+  export default {
+    data() {
+      return {
+        dialogVisible: false,
+        operateType: 'edit',
+        buttons: ['cancel', 'save'],
+        detailModel: {},
+        modelValue: {},
+        config: [
+          {
+            label: '输入框',
+            prop: 'input-field',
+            component: 'input',
+          },
+          {
+            label: '下拉选择框',
+            prop: 'select-field',
+            component: 'select',
+            props: {
+              clearable: true,
+              props: {
+                label: 'name',
+                value: 'code',
+                children: 'options',
+                disabled: 'isDisabled',
+              },
+              options: [
+                {
+                  code: 'Shanghai',
+                  name: '上海',
+                },
+                {
+                  code: 'Beijing',
+                  name: '北京',
+                  isDisabled: true,
+                },
+              ],
+            },
+          },
+          {
+            label: '单选框',
+            prop: 'radio-field',
+            component: 'radio',
+            props: {
+              url: '/api/list',
+              params: { page: 1, size: 4 },
+              toggle: true,
+            },
+          },
+          {
+            label: '多选框',
+            prop: 'checkbox-field',
+            component: 'checkbox',
+            props: {
+              url: '/api/list',
+              params: { page: 1, size: 4 },
+              toggle: true,
+            },
+          },
+        ],
+      }
+    },
+    computed: {
+      rules({ config }) {
+        return config.reduce((o, i) => {
+          o[i.prop] = [{ required: true, message: '不能为空' }]
+          return o
+        }, {})
+      },
+    },
+    methods: {
+      editHandle() {
+        this.dialogVisible = true
+        this.modelValue = { ...this.detailModel }
+      },
+      cancelHandle([showloading, hideLoading]) {
+        this.dialogVisible = false
+      },
+      saveHandle([showloading, hideLoading]) {
+        this.$refs.formRef
+          .validate()
+          .then(() => {
+            this.detailModel = { ...this.modelValue }
+            this.dialogVisible = false
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      },
+    },
+  }
+</script>
+```
+
 :::
 
 ### 扩展 Form Attributes
