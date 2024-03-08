@@ -5,7 +5,8 @@
 - 通过`JSON`方式的配置可以生成表单项, 灵活可应用于多数下的表单场景
 - 可将组件库封装扩展的`Generate`组件注入进去也作为可配置的表单项
 - 所有表单项都可选择使用默认的`Dynamic`提供的组件还是自行注入组件
-- 表单项的配置项支持: Slot、On、所有在 `template` 支持的功能, 配置项都提供
+- 表单项的配置项支持: slot、on、所有在 `template` 支持的功能, 配置项都提供
+- 将支持的 slot 和 scopedSlot 进行合并, 都通过 slots 进行配置
 
 ### 基础用法
 
@@ -338,11 +339,9 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
 :::demo
 
 ```html
-<dy-form-generate
-  ref="formGenerateRef"
-  :config="config"
-  v-model="modelValue"
-></dy-form-generate>
+<dy-form-generate ref="formGenerateRef" :config="config" v-model="modelValue">
+  <template #slot-field>插槽名称由prop决定</template>
+</dy-form-generate>
 <script>
   export default {
     data() {
@@ -357,7 +356,10 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
             prop: 'input-field',
             component: 'input',
             on: {
-              input: value => {},
+              input: value => {
+                console.log('input 事件可自定义双向绑定')
+                return value
+              },
             },
             slots: {
               prefix: () => {
@@ -372,6 +374,18 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
               append: () => {
                 return <dy-button icon="dy-icon-search"></dy-button>
               },
+            },
+            itemSlots: {
+              label: () => {
+                return 'dy-输入框'
+              },
+              error: ({ error }) => {
+                return <div style="color: green; font-size: 12px">{error}</div>
+              },
+            },
+            itemProps: {
+              required: true,
+              rules: [{ required: true, message: '必填' }],
             },
           },
           {
@@ -421,11 +435,36 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
                     style="line-height: normal; margin-top: 20px;"
                     title="tip slot"
                     type="info"
-                    center
                     show-icon
                   ></dy-alert>
                 )
               },
+            },
+          },
+          // 通过form-item default slot添加自定义内容
+          {
+            label: '自定义内容-1',
+            prop: 'default-slot-field',
+            component: 'input',
+            itemSlots: {
+              default: () => {
+                return <div>通过form-item default slot添加自定义内容</div>
+              },
+            },
+          },
+          // 通过component: template 自定义slot
+          {
+            label: '自定义内容-2',
+            prop: 'slot-field',
+            component: 'slot',
+          },
+          // 通过component: defalut function 自定义slot
+          {
+            label: '自定义内容-3',
+            prop: 'slot-function-field',
+            component: 'slot',
+            default: () => {
+              return <div>render函数渲染插槽内容</div>
             },
           },
         ],
@@ -435,6 +474,11 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
 </script>
 ```
 
+:::
+
+:::tip
+slot 传入的 slot 根据你需要渲染 component 决定
+itemSlots 渲染的是`form-item`的 slot、scopedSlot
 :::
 
 ### 扩展 Form Attributes
@@ -456,7 +500,8 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
 | prop      | form-item 的 prop                        | string          | —      | -      |
 | formatter | 表单项数据格式化函数                     | function(value) | —      | -      |
 | props     | 渲染组件的 props                         | object          | —      | —      |
-| slots     | 渲染组件的 slots                         | array           | —      | —      |
+| slots     | 渲染组件的 slots                         | object          | —      | —      |
+| itemSlots | 渲染组件的 itemSlots                     | object          | —      | —      |
 | itemProps | 表单项 form-item 的 props                | object          | —      | —      |
 | colProps  | 表单项 col 的 props                      | object          | —      | —      |
 
@@ -469,29 +514,3 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
 | radio    | dy-radio-generate    |
 | checkbox | dy-checkbox-generate |
 | upload   | dy-upload-generate   |
-
-### Form Events
-
-| 事件名称 | 说明                   | 回调参数                                                   |
-| -------- | ---------------------- | ---------------------------------------------------------- |
-| validate | 任一表单项被校验后触发 | 被校验的表单项 prop 值，校验是否通过，错误消息（如果存在） |
-
-### Form-Item Slot
-
-| name  | 说明             |
-| ----- | ---------------- |
-| —     | Form Item 的内容 |
-| label | 标签文本的内容   |
-
-### Form-Item Scoped Slot
-
-| name  | 说明                                           |
-| ----- | ---------------------------------------------- |
-| error | 自定义表单校验信息的显示方式，参数为 { error } |
-
-### Form-Item Methods
-
-| 方法名        | 说明                                                 | 参数 |
-| ------------- | ---------------------------------------------------- | ---- |
-| resetField    | 对该表单项进行重置，将其值重置为初始值并移除校验结果 | -    |
-| clearValidate | 移除该表单项的校验结果                               | -    |

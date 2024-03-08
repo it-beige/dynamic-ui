@@ -2,10 +2,6 @@
 <script>
 import { getComponentByName } from 'main/config/component';
 import { getComponentByName as getFormComponentByName} from 'main/config/form';
-import {
-  getCompPropsBySourceOpt,
-  getProvidesOptionBySourceOpt
-} from 'main/utils/component.js';
 import _, { isFunction } from 'lodash';
 
 const FormItem = getComponentByName('FormItem');
@@ -19,6 +15,10 @@ export default {
       default: () => ({})
     },
     slots: {
+      type: Object,
+      default: () => ({})
+    },
+    itemSlots: {
       type: Object,
       default: () => ({})
     },
@@ -49,7 +49,8 @@ export default {
     },
     itemClassSheet: {
       type: [String, Object, Array]
-    }
+    },
+    defaultRender: Function
   },
   components: {
 
@@ -68,10 +69,9 @@ export default {
     );
   },
   methods: {
-    getSlots() {
-      const slots = this.slots;
+    getSlots(slots) {
       return Object.keys(slots).map(k => {
-        const vnode = isFunction(this.slots[k]) ? this.slots[k]() : null;
+        const vnode = isFunction(slots[k]) ? slots[k]({}) : null;
         return <template slot={k}>{vnode}</template>;
       });
     },
@@ -83,18 +83,26 @@ export default {
         itemClassSheet
       } = this;
 
-      const component = getFormComponentByName(this.component);
-      const slots = this.getSlots();
+      const component = this.component === 'slot' ? this.component : getFormComponentByName(this.component);
+      const slots = this.getSlots(this.slots);
       const data = {
         props,
         attrs: this.$attrs,
         on: this.$listeners
       };
+      const itemData = {props: itemProps, scopedSlots: {
+        error: this.itemSlots.error ? this.itemSlots.error : null
+      }};
       return (
-        <FormItem.name class={itemClassSheet} label={this.label} prop={this.prop} {...{props: itemProps}}>
-          <component.name class={classSheet} value={this.value} {...data}>
-            { slots }
-          </component.name>
+        <FormItem.name class={itemClassSheet} label={this.label} prop={this.prop} {...itemData}>
+          {
+            component === 'slot' ? this.defaultRender() : [
+              this.getSlots(this.itemSlots),
+              <component.name class={classSheet} value={this.value} {...data}>
+                { slots }
+              </component.name>
+            ]
+          }
         </FormItem.name>
       );
 

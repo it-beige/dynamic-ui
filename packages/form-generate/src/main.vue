@@ -145,6 +145,7 @@ export default {
               on = {},
               nativeOn,
               slots,
+              itemSlots,
               itemProps,
               colProps,
               component,
@@ -152,11 +153,12 @@ export default {
               label,
               prop
             } = i;
-            const attrs = this.genFormItemAttrs(props, component);
+            const attrs = component === 'slot' ? {} : this.genFormItemAttrs(props, component);
             const data = {
               props: {
                 props,
                 slots,
+                itemSlots,
                 colProps,
                 itemProps,
                 classSheet: this.classSheets[prop],
@@ -167,9 +169,11 @@ export default {
               on: {
                 ...on,
                 input: updateValue(on, i)
-              },
-              slots
+              }
             };
+            if (component === 'slot') {
+              data.props.defaultRender = this.$scopedSlots[prop] || i.default;
+            }
             return (
               <GenerateFormItem.name
                 class={this.colClassSheets[prop]}
@@ -180,7 +184,8 @@ export default {
                 component={component}
                 key={i.prop}
                 {...data}
-              />
+              >
+              </GenerateFormItem.name>
             );
           })}
         </Row.name>
