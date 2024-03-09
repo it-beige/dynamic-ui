@@ -44,7 +44,9 @@ export default {
       type: Boolean,
       default: true
     },
-    value: {}
+    value: {
+      type: Array
+    }
   },
   data () {
     return {

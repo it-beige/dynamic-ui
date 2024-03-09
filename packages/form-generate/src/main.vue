@@ -8,6 +8,7 @@ import _, { isFunction } from 'lodash';
 
 const Form = getComponentByName('Form');
 const Row = getComponentByName('Row');
+const Col = getComponentByName('Col');
 
 import GenerateFormItem from './form-item.vue';
 
@@ -72,6 +73,7 @@ export default {
     validteProps() {
       return this.config.map(i => i.prop);
     }
+
   },
   watch: {
     config: {
@@ -133,7 +135,7 @@ export default {
       const scopedSlots = getFormScopedSlots();
       const attrs = this.$attrs;
       const children = [slots];
-      const rowVnode = this.renderFormLayout();
+      const rowVnode = this.renderFormLayout(this.getRenderConfig(this.config));
       children.push(rowVnode);
 
       return createElement(
@@ -159,16 +161,7 @@ export default {
         return attrs;
       }, {});
     },
-    renderFormLayout() {
-      const updateValue = (on, i) => {
-        return value => {
-          this.updateModelValue(this.value, i, value);
-          if (isFunction(on.input)) {
-            this.updateModelValue(this.value, i, on.input(this.value[i.prop]));
-          }
-        };
-      };
-
+    renderFormLayout(config, isCascader) {
       const props = this.getComponentProps(Row, this.$attrs, {
         type: 'flex',
         gutter: 20,
@@ -178,8 +171,8 @@ export default {
         props
       };
       return (
-        <Row.name {...data}>
-          {this.config.map((i, idx) => {
+        <Row.name {...data} class={`${isCascader ? 'cascader-row' : ''}`}>
+          {config.map((i, idx) => {
             const {
               props = {},
               on = {},
@@ -194,7 +187,7 @@ export default {
               prop,
               isDisabled,
               isReadonly,
-              isRender
+              cascaderConfig
             } = i;
             const attrs = component === 'slot' ? {} : this.genFormItemAttrs(props, component);
             const data = {
@@ -208,35 +201,53 @@ export default {
                 classSheet: this.classSheets[prop],
                 itemClassSheet: this.itemClassSheets[prop],
                 isDisabled: this.isDisableds[prop] || isDisabled,
-                isReadonly: this.isReadonlys[prop] || isReadonly,
-                isRender: this.isRenders[prop] || isRender
+                isReadonly: this.isReadonlys[prop] || isReadonly
               },
               attrs,
               nativeOn,
               on: {
                 ...on,
-                input: updateValue(on, i)
+                input: this.updateValue(on, i)
               }
             };
             if (component === 'slot') {
               data.props.defaultRender = this.$scopedSlots[prop] || i.default;
             }
+
+            const renderCascaderConfig = this.getRenderConfig(cascaderConfig || []);
             return (
-              <GenerateFormItem.name
-                class={this.colClassSheets[prop]}
-                value={this.getModelValue(this.value, i)}
-                span={span}
-                label={label}
-                prop={prop}
-                component={component}
-                key={i.prop}
-                {...data}
-              >
-              </GenerateFormItem.name>
+              <Col.name key={i.prop} span={span} {...{props: colProps}}>
+                <GenerateFormItem.name
+                  class={this.colClassSheets[prop]}
+                  value={this.getModelValue(this.value, i)}
+                  label={label}
+                  prop={prop}
+                  component={component}
+                  key={i.prop}
+                  {...data}
+                >
+                </GenerateFormItem.name>
+                {renderCascaderConfig.length ? this.renderFormLayout(renderCascaderConfig, true) : null}
+              </Col.name>
             );
           })}
         </Row.name>
       );
+    },
+    getRenderConfig(config) {
+      return config.filter(i => {
+        const { prop, isRender} = i;
+        const isRenderInvoke = this.isRenders[prop] || isRender;
+        return isFunction(isRenderInvoke) ? isRenderInvoke(this.value) : true;
+      });
+    },
+    updateValue(on, i) {
+      return value => {
+        this.updateModelValue(this.value, i, value);
+        if (isFunction(on.input)) {
+          this.updateModelValue(this.value, i, on.input(this.value[i.prop]));
+        }
+      };
     },
     getModelValue(model, i) {
       const { prop, formatter } = i;

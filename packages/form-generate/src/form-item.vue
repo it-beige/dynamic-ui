@@ -5,7 +5,6 @@ import { getComponentByName as getFormComponentByName} from 'main/config/form';
 import _, { isFunction } from 'lodash';
 
 const FormItem = getComponentByName('FormItem');
-const Col = getComponentByName('Col');
 
 export default {
   name: 'DyGenerateFormItem',
@@ -23,10 +22,6 @@ export default {
       default: () => ({})
     },
     itemProps: {
-      type: Object,
-      default: () => ({})
-    },
-    colProps: {
       type: Object,
       default: () => ({})
     },
@@ -57,9 +52,6 @@ export default {
     isReadonly: {
       type: Function
     },
-    isRender: {
-      type: Function
-    },
     model: {}
   },
   components: {
@@ -71,12 +63,7 @@ export default {
     };
   },
   render() {
-    const FormItemVnode = this.renderFormItem();
-    return (
-      <Col.name span={this.span} {...{props: this.colProps}}>
-        {FormItemVnode}
-      </Col.name>
-    );
+    return this.renderFormItem();
   },
   methods: {
     getSlots(slots) {
@@ -110,8 +97,7 @@ export default {
           error: this.itemSlots.error ? this.itemSlots.error : null
         }
       };
-      const isRenderComp = isFunction(this.isRender) ? this.isRender(this.model) : true;
-      return isRenderComp && (
+      return (
         <FormItem.name class={itemClassSheet} label={this.label} prop={this.prop} {...itemData}>
           {
             component === 'slot' ? this.defaultRender() : [

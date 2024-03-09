@@ -103,7 +103,7 @@ export const genFormItemValue = (model, config) => {
     }
 
     if (isArray(cascaderConfig)) {
-      genFormItemValue(cascaderConfig);
+      return genFormItemValue(model, cascaderConfig);
     }
   }
   return model;

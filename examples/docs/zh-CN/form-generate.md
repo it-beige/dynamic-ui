@@ -803,6 +803,211 @@ isDisabled、isReadonly、isRender 分别控制表单项的禁用、只读、渲
 **props.disabled 的优先级大于前者**
 :::
 
+### 问卷表单
+
+:::demo
+
+```html
+<dy-form-generate
+  ref="formGenerateRef"
+  label-position="top"
+  :config="config"
+  v-model="modelValue"
+></dy-form-generate>
+
+<script>
+  export default {
+    data() {
+      return {
+        modelValue: {},
+        config: [],
+      }
+    },
+    created() {
+      this.config = [
+        {
+          label: '改造方式',
+          prop: 'renMethod',
+          component: 'radio',
+          props: {
+            url: '/api/ren-method',
+            props: this.useOptionProps(),
+          },
+          cascaderConfig: [
+            {
+              prop: 'renMethodRemark',
+              component: 'input',
+              isRender: model => {
+                return model.renMethod === 0
+              },
+              props: {
+                placeholder: '请输入其他改造方式',
+                maxlength: 200,
+                showWordLimit: true,
+              },
+            },
+          ],
+        },
+        {
+          label: '现企业的主要融资渠道',
+          prop: 'finChannel',
+          component: 'checkbox',
+          props: {
+            url: '/api/fin-channel',
+            props: this.useOptionProps(),
+          },
+          cascaderConfig: [
+            {
+              prop: 'finChannelRemark',
+              component: 'input',
+              isRender: model => {
+                return model.finChannel?.includes(0)
+              },
+              props: {
+                maxlength: 200,
+                showWordLimit: true,
+                placeholder: '请输入其他融资渠道',
+              },
+            },
+          ],
+        },
+        {
+          label: '现企业是否存在改造范围内的不动产权证抵押情况',
+          prop: 'mortgage',
+          component: 'radio',
+          props: {
+            options: [
+              {
+                label: '存在',
+                value: 1,
+              },
+              {
+                label: '不存在',
+                value: 2,
+              },
+            ],
+          },
+          cascaderConfig: [
+            {
+              label: '贷款银行',
+              labelWidth: '80px',
+              prop: 'mortgageBank',
+              component: 'input',
+              span: 6,
+              isRender: model => {
+                return model.mortgage === 1
+              },
+              props: {
+                maxlength: 100,
+                showWordLimit: true,
+              },
+            },
+            {
+              label: '贷款金额',
+              prop: 'mortgageNum',
+              component: 'input',
+              span: 6,
+              isRender: model => {
+                return model.mortgage === 1
+              },
+              slots: {
+                append: () => '元',
+              },
+            },
+            {
+              label: '贷款利率',
+              prop: 'mortgageRate',
+              component: 'input',
+              span: 6,
+              isRender: model => {
+                return model.mortgage === 1
+              },
+            },
+            {
+              label: '贷款年限',
+              prop: 'mortgagePeriod',
+              component: 'input',
+              span: 6,
+              isRender: model => {
+                return model.mortgage === 1
+              },
+              slots: {
+                append: () => '年',
+              },
+            },
+          ],
+        },
+        {
+          label: '现企业在融资方面是否存在困难',
+          prop: 'finThereCulty',
+          component: 'radio',
+          props: {
+            options: [
+              {
+                label: '是，困难大',
+                value: 1,
+              },
+              {
+                label: '是，困难不大',
+                value: 2,
+              },
+              {
+                label: '没有困难',
+                value: 3,
+              },
+            ],
+          },
+          cascaderConfig: [
+            {
+              label: '现企业的主要融资渠道（限选5项）',
+              prop: 'finThereCultyDec',
+              component: 'checkbox',
+              isRender: model => {
+                const ind = [1, 2]
+                return ind.includes(model.finThereCulty)
+              },
+              props: {
+                url: '/api/fin-there-culty',
+                props: this.useOptionProps(),
+                max: 5,
+              },
+              cascaderConfig: [
+                {
+                  prop: 'finThereCultyRemark',
+                  component: 'input',
+                  isRender: model => {
+                    return model.finThereCultyDec.includes(0)
+                  },
+                  props: {
+                    maxlength: 200,
+                    showWordLimit: true,
+                    placeholder: '请输入其他原因',
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ]
+    },
+    methods: {
+      useOptionProps() {
+        return {
+          label: 'name',
+          value: 'code',
+        }
+      },
+    },
+  }
+</script>
+```
+
+:::
+
+:::tip
+cascaderConfig 渲染的结构是当前表单项的子节点
+:::
+
 ### 扩展 Form Attributes
 
 | 参数            | 说明                               | 类型   | 可选值 | 默认值 |
@@ -818,20 +1023,21 @@ isDisabled、isReadonly、isRender 分别控制表单项的禁用、只读、渲
 
 ### config
 
-| 参数       | 说明                                     | 类型            | 可选值 | 默认值 |
-| ---------- | ---------------------------------------- | --------------- | ------ | ------ |
-| component  | 要渲染的表单组件,内置的 component 看下表 | string          | —      | -      |
-| label      | form-item 的 label                       | string          | —      | -      |
-| prop       | form-item 的 prop                        | string          | —      | -      |
-| formatter  | 表单项数据格式化函数                     | function(value) | —      | -      |
-| props      | 渲染组件的 props                         | object          | —      | —      |
-| slots      | 渲染组件的 slots                         | object          | —      | —      |
-| itemSlots  | 渲染组件的 itemSlots                     | object          | —      | —      |
-| itemProps  | 表单项 form-item 的 props                | object          | —      | —      |
-| colProps   | 表单项 col 的 props                      | object          | —      | —      |
-| isDisabled | 控制表单项 disabled                      | function        | —      | —      |
-| isReadonly | 控制表单项 readonly                      | function        | —      | —      |
-| isRender   | 控制表单项 render                        | function        | —      | —      |
+| 参数           | 说明                                     | 类型            | 可选值 | 默认值 |
+| -------------- | ---------------------------------------- | --------------- | ------ | ------ |
+| component      | 要渲染的表单组件,内置的 component 看下表 | string          | —      | -      |
+| label          | form-item 的 label                       | string          | —      | -      |
+| prop           | form-item 的 prop                        | string          | —      | -      |
+| formatter      | 表单项数据格式化函数                     | function(value) | —      | -      |
+| props          | 渲染组件的 props                         | object          | —      | —      |
+| slots          | 渲染组件的 slots                         | object          | —      | —      |
+| itemSlots      | 渲染组件的 itemSlots                     | object          | —      | —      |
+| itemProps      | 表单项 form-item 的 props                | object          | —      | —      |
+| colProps       | 表单项 col 的 props                      | object          | —      | —      |
+| isDisabled     | 控制表单项 disabled                      | function        | —      | —      |
+| isReadonly     | 控制表单项 readonly                      | function        | —      | —      |
+| isRender       | 控制表单项 render                        | function        | —      | —      |
+| cascaderConfig | config(递归渲染)                         | array           |
 
 ### form-generate 内置的 component
 

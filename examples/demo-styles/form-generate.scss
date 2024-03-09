@@ -1,0 +1,17 @@
+.demo-form-generate {
+  .cascader-row {
+    align-items: center;
+    margin-bottom: 22px;
+    padding-left: 20px !important;
+    padding: 16px 36px 16px 36px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.02);
+
+    .dy-col {
+      .dy-form-item {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

@@ -82,6 +82,7 @@
   :formatter="formatter"
   :props="props"
   :group="false"
+  :max="3"
 ></dy-radio-generate>
 <script>
   export default {
@@ -90,7 +91,7 @@
         props: {
           updateValue: 'updateValue',
         },
-        value: [],
+        value: ['选项1'],
         url: '/api/list',
         params: { page: 1, size: 4 },
       }
