@@ -43,6 +43,20 @@ export default {
     colClassSheets: {
       type: Object,
       default: () => ({})
+    },
+    // 控制表单项的禁用
+    isDisableds: {
+      type: Object,
+      default: () => ({})
+    },
+    // 控制表单项的输入
+    isReadonlys: {
+      type: Object,
+      default: () => ({})
+    }, // 控制表单项的渲染
+    isRenders: {
+      type: Object,
+      default: () => ({})
     }
   },
   components: {
@@ -154,8 +168,17 @@ export default {
           }
         };
       };
+
+      const props = this.getComponentProps(Row, this.$attrs, {
+        type: 'flex',
+        gutter: 20,
+        ...props
+      });
+      const data = {
+        props
+      };
       return (
-        <Row.name>
+        <Row.name {...data}>
           {this.config.map((i, idx) => {
             const {
               props = {},
@@ -168,18 +191,25 @@ export default {
               component,
               span,
               label,
-              prop
+              prop,
+              isDisabled,
+              isReadonly,
+              isRender
             } = i;
             const attrs = component === 'slot' ? {} : this.genFormItemAttrs(props, component);
             const data = {
               props: {
+                model: this.value,
                 props,
                 slots,
                 itemSlots,
                 colProps,
                 itemProps,
                 classSheet: this.classSheets[prop],
-                itemClassSheet: this.itemClassSheets[prop]
+                itemClassSheet: this.itemClassSheets[prop],
+                isDisabled: this.isDisableds[prop] || isDisabled,
+                isReadonly: this.isReadonlys[prop] || isReadonly,
+                isRender: this.isRenders[prop] || isRender
               },
               attrs,
               nativeOn,

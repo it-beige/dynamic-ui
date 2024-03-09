@@ -3,6 +3,9 @@
 
 .dy-form-generate {
   &.dy-form {
+    .dy-row--flex {
+      flex-wrap: wrap;
+    }
     &--label-top {
       .dy-form-item {
         flex-direction: column;
@@ -18,6 +21,7 @@
 
       &__content {
         flex: 1;
+        margin-left: 0 !important;
 
         .dy-select,
         .dy-date-editor {

@@ -343,6 +343,7 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
 <dy-form-generate ref="formGenerateRef" :config="config" v-model="modelValue">
   <template #slot-field>插槽名称由prop决定</template>
 </dy-form-generate>
+
 <script>
   export default {
     data() {
@@ -492,6 +493,7 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
     <dy-row type="flex" justify="end">
       <dy-col>
         <dy-button type="text" @click="editHandle">编辑</dy-button>
+        <dy-button type="text" @click="viewHandle">详情</dy-button>
       </dy-col>
     </dy-row>
   </template>
@@ -504,6 +506,7 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
   :visible.sync="dialogVisible"
   :operateType="operateType"
   :buttons="buttons"
+  :disabled="disabled"
   @cancel="cancelHandle"
   @save="saveHandle"
   width="50%"
@@ -511,6 +514,7 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
   <dy-form-generate
     ref="formRef"
     :rules="rules"
+    :disabled="disabled"
     label-position="top"
     :config="config"
     v-model="modelValue"
@@ -526,6 +530,7 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
         buttons: ['cancel', 'save'],
         detailModel: {},
         modelValue: {},
+        disabled: false,
         config: [
           {
             label: '输入框',
@@ -591,6 +596,14 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
     methods: {
       editHandle() {
         this.dialogVisible = true
+        this.disabled = false
+        this.operateType = 'edit'
+        this.modelValue = { ...this.detailModel }
+      },
+      viewHandle() {
+        this.dialogVisible = true
+        this.disabled = true
+        this.operateType = 'view'
         this.modelValue = { ...this.detailModel }
       },
       cancelHandle([showloading, hideLoading]) {
@@ -614,6 +627,182 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
 
 :::
 
+### 表单项联动
+
+:::demo
+
+```html
+<dy-form-generate
+  ref="formGenerateRef"
+  label-width="120px"
+  :config="config"
+  :isDisableds="isDisableds"
+  v-model="modelValue"
+>
+  <template #slot-field>插槽名称由prop决定</template>
+</dy-form-generate>
+
+<script>
+  export default {
+    data() {
+      return {
+        modelValue: {},
+        options: [
+          {
+            name: '是',
+            code: '1',
+          },
+          {
+            name: '否',
+            code: '2',
+          },
+        ],
+        config: [],
+        isDisableds: {
+          'form-control-input-field': model => {
+            return model['form-control-field'] === '1'
+          },
+        },
+      }
+    },
+    created() {
+      this.config = [
+        {
+          label: 'isDisabled',
+          prop: 'disabled-field',
+          component: 'select',
+          span: 12,
+          props: {
+            options: this.options,
+            props: this.useOptionProps(),
+          },
+        },
+        {
+          label: 'disabled',
+          prop: 'disabled-input-field',
+          component: 'input',
+          span: 12,
+          isDisabled: model => {
+            return model['disabled-field'] === '1'
+          },
+          props: {
+            placeholder: '值为是禁用',
+          },
+        },
+        {
+          label: 'isReadonly',
+          prop: 'readonly-field',
+          component: 'select',
+          span: 12,
+          props: {
+            options: this.options,
+            props: this.useOptionProps(),
+          },
+        },
+        {
+          label: 'readonly',
+          prop: 'readonly-input-field',
+          component: 'input',
+          span: 12,
+          isReadonly: model => {
+            return model['readonly-field'] === '1'
+          },
+          props: {
+            placeholder: '值为是只读',
+          },
+        },
+        {
+          label: 'isRender',
+          prop: 'render-field',
+          component: 'select',
+          span: 12,
+          props: {
+            options: this.options,
+            props: this.useOptionProps(),
+          },
+        },
+        {
+          label: 'render',
+          prop: 'render-input-field',
+          component: 'input',
+          span: 12,
+          isRender: model => {
+            return model['render-field'] === '1'
+          },
+          props: {
+            placeholder: '值为是渲染',
+          },
+        },
+        {
+          label: 'props control disabled',
+          prop: 'control-field',
+          component: 'select',
+          span: 12,
+          props: {
+            options: this.options,
+            props: this.useOptionProps(),
+          },
+          on: {
+            change: v => {
+              const isControlDisabled = v === '1'
+              const n = this.config.find(i => i.prop === 'control-input-field')
+              n.props.disabled = isControlDisabled
+            },
+          },
+        },
+        {
+          label: 'props disabled',
+          prop: 'control-input-field',
+          component: 'input',
+          span: 12,
+          isDisabled: () => {
+            return true
+          },
+          props: {
+            disabled: false,
+            placeholder: '通过 props 也可以控制',
+          },
+        },
+        {
+          label: 'form control disabled',
+          prop: 'form-control-field',
+          component: 'select',
+          span: 12,
+          props: {
+            options: this.options,
+            props: this.useOptionProps(),
+          },
+        },
+        {
+          label: 'props disabled',
+          prop: 'form-control-input-field',
+          component: 'input',
+          span: 12,
+          props: {
+            placeholder: '通过全局的isDisableds也可以控制',
+          },
+        },
+      ]
+    },
+    methods: {
+      useOptionProps() {
+        return {
+          label: 'name',
+          value: 'code',
+        }
+      },
+    },
+  }
+</script>
+```
+
+:::
+
+:::tip
+isDisabled、isReadonly、isRender 分别控制表单项的禁用、只读、渲染;
+**props.disabled 的优先级大于前者**
+:::
+
 ### 扩展 Form Attributes
 
 | 参数            | 说明                               | 类型   | 可选值 | 默认值 |
@@ -623,20 +812,26 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
 | classSheets     | 表单项渲染组件 class 配置          | object | —      | —      |
 | itemClassSheets | 表单项 class 配置                  | object | —      | —      |
 | colClassSheets  | 包裹表单项的 col 组件的 class 配置 | object | —      | —      |
+| isDisableds     | 控制表单项 disabled                | object | —      | —      |
+| isReadonlys     | 控制表单项 readonly                | object | —      | —      |
+| isRenders       | 控制表单项 render                  | object | —      | —      |
 
 ### config
 
-| 参数      | 说明                                     | 类型            | 可选值 | 默认值 |
-| --------- | ---------------------------------------- | --------------- | ------ | ------ |
-| component | 要渲染的表单组件,内置的 component 看下表 | string          | —      | -      |
-| label     | form-item 的 label                       | string          | —      | -      |
-| prop      | form-item 的 prop                        | string          | —      | -      |
-| formatter | 表单项数据格式化函数                     | function(value) | —      | -      |
-| props     | 渲染组件的 props                         | object          | —      | —      |
-| slots     | 渲染组件的 slots                         | object          | —      | —      |
-| itemSlots | 渲染组件的 itemSlots                     | object          | —      | —      |
-| itemProps | 表单项 form-item 的 props                | object          | —      | —      |
-| colProps  | 表单项 col 的 props                      | object          | —      | —      |
+| 参数       | 说明                                     | 类型            | 可选值 | 默认值 |
+| ---------- | ---------------------------------------- | --------------- | ------ | ------ |
+| component  | 要渲染的表单组件,内置的 component 看下表 | string          | —      | -      |
+| label      | form-item 的 label                       | string          | —      | -      |
+| prop       | form-item 的 prop                        | string          | —      | -      |
+| formatter  | 表单项数据格式化函数                     | function(value) | —      | -      |
+| props      | 渲染组件的 props                         | object          | —      | —      |
+| slots      | 渲染组件的 slots                         | object          | —      | —      |
+| itemSlots  | 渲染组件的 itemSlots                     | object          | —      | —      |
+| itemProps  | 表单项 form-item 的 props                | object          | —      | —      |
+| colProps   | 表单项 col 的 props                      | object          | —      | —      |
+| isDisabled | 控制表单项 disabled                      | function        | —      | —      |
+| isReadonly | 控制表单项 readonly                      | function        | —      | —      |
+| isRender   | 控制表单项 render                        | function        | —      | —      |
 
 ### form-generate 内置的 component
 

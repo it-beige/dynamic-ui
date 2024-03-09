@@ -50,7 +50,17 @@ export default {
     itemClassSheet: {
       type: [String, Object, Array]
     },
-    defaultRender: Function
+    defaultRender: Function,
+    isDisabled: {
+      type: Function
+    },
+    isReadonly: {
+      type: Function
+    },
+    isRender: {
+      type: Function
+    },
+    model: {}
   },
   components: {
 
@@ -86,14 +96,22 @@ export default {
       const component = this.component === 'slot' ? this.component : getFormComponentByName(this.component);
       const slots = this.getSlots(this.slots);
       const data = {
-        props,
+        props: {
+          disabled: isFunction(this.isDisabled) ? this.isDisabled(this.model) : undefined,
+          readonly: isFunction(this.isReadonly) ? this.isReadonly(this.model) : undefined,
+          ...props
+        },
         attrs: this.$attrs,
         on: this.$listeners
       };
-      const itemData = {props: itemProps, scopedSlots: {
-        error: this.itemSlots.error ? this.itemSlots.error : null
-      }};
-      return (
+      const itemData = {
+        props: itemProps,
+        scopedSlots: {
+          error: this.itemSlots.error ? this.itemSlots.error : null
+        }
+      };
+      const isRenderComp = isFunction(this.isRender) ? this.isRender(this.model) : true;
+      return isRenderComp && (
         <FormItem.name class={itemClassSheet} label={this.label} prop={this.prop} {...itemData}>
           {
             component === 'slot' ? this.defaultRender() : [

@@ -2,6 +2,7 @@ import {
   getCompPropsBySourceOpt,
   getProvidesOptionBySourceOpt
 } from 'main/utils/component.js';
+import { camelToKebab } from 'main/utils/util.js';
 import globalConfig from 'main/config/global';
 
 const getExtraProps = () => {
@@ -60,6 +61,13 @@ export default function genAttrsMixin (component, extra = true) {
 
     },
     methods: {
+      getComponentProps(component, target, assigns) {
+        const componentProps = getCompPropsBySourceOpt(component);
+        return Object.keys(componentProps).reduce((_, k) => {
+          _[k] = target[camelToKebab(k)] || assigns[camelToKebab(k)];
+          return _;
+        }, {});
+      },
       _excludeExtraProps (props) {
         const extraProps = this.extraProps;
         return Object.keys(props).reduce((_, k) => {
