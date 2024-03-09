@@ -63,15 +63,15 @@ export default {
     config: {
       immediate: true,
       handler() {
-        const model = genFormItemValue(this.value, this.config);
-        this.$emit('input', model);
-        // 重置因初始化数据导致的change校验
-        this.$once('hook:mounted', () =>
-          this.$nextTick(() => {
-            const formRef = this.useRef();
-            formRef && formRef.clearValidate();
-          }),
-        );
+        this.init(true);
+      }
+    },
+    value: {
+      handler(v, lastV) {
+        if (_.isEqual(v, lastV)) {
+          return;
+        }
+        this.init();
       }
     }
   },
@@ -80,6 +80,18 @@ export default {
     return FormVnode;
   },
   methods: {
+    init(isMounted) {
+      const model = genFormItemValue(this.value, this.config);
+      this.$emit('input', model);
+      // 重置因初始化数据导致的change校验
+      const clear = () => this.$nextTick(() => {
+        const formRef = this.useRef();
+        formRef && formRef.clearValidate();
+      });
+      isMounted ? this.$once('hook:mounted', () =>
+        clear()
+      ) : clear();
+    },
     getFormProps() {
       const props = this._excludeExtraProps(this.$props);
       props.model = this.value;
