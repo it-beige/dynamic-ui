@@ -103,6 +103,11 @@ export default {
         return valid;
       }
     },
+    // 是否禁用操作区
+    disabled: {
+      type: Boolean,
+      default: false
+    },
     // 是否可拖拽
     draggable: {
       type: Boolean,
@@ -238,7 +243,7 @@ export default {
     getSlots() {
       const slots = [...this._getVnodesBySlots(this.$slots)];
       if (!this.$slots.footer) {
-        this.buttons.length && slots.push(this.renderFooterSlot());
+        this.buttons.length && !this.disabled && slots.push(this.renderFooterSlot());
       }
       if (!this.$slots.title) {
         slots.push(this.renderTitleSlot());
@@ -246,8 +251,8 @@ export default {
       if (!this.$slots.button) {
         this.fullscreen && slots.push(this.renderButtonSlot());
       }
-      if (!this.$slots.draggable && (this.enableDraggable || this.enableResizable)) {
-        slots.push(this.renderDraggableSlot());
+      if (!this.$slots.draggable) {
+        (this.enableDraggable || this.enableResizable) && slots.push(this.renderDraggableSlot());
       }
       return slots;
     },

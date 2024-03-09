@@ -279,6 +279,7 @@
 | 参数        | 说明                                     | 类型    | 可选值                               | 默认值 |
 | ----------- | ---------------------------------------- | ------- | ------------------------------------ | ------ |
 | buttons     | 操作区渲染的按钮                         | array   | `cancel`、`save`、`submit`、`delete` | []     |
+| disabled    | 是否禁用操作区渲染                       | boolean | -                                    | false  |
 | buttonMap   | 渲染的按钮的 props, 配置选项，具体看下表 | object  | -                                    | -      |
 | operateType | 操作类型                                 | string  | `view`、`edit`                       | -      |
 | label       | 标题文本                                 | string  | -                                    | -      |
