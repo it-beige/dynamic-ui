@@ -55,7 +55,7 @@ export default {
         ...globalConfig.useOptionProps(),
         ...this.props
       },
-      groupValue: []
+      checkValue: []
     };
   },
   watch: {
@@ -65,14 +65,20 @@ export default {
       },
       deep: true
     },
-    value: {
+    checkValue: {
       handler() {
-        if (this.group) {
-          this.groupValue = Array.from(new Set(this.value));
-        }
-      },
-      immediate: true
+        this.$emit('input', this.checkValue);
+      }
     }
+  },
+  created () {
+    this.$watch(
+      () => this.group,
+      () => {
+        this.checkValue = this.initCheckvalue();
+      },
+      {immediate: true}
+    );
   },
   render() {
     const RadioVnode = this.renderRadio();
@@ -83,6 +89,13 @@ export default {
     );
   },
   methods: {
+    initCheckvalue() {
+      let checkValue = [];
+      if (!this.group && this.value.length) {
+        checkValue.push(...this.value);
+      }
+      return checkValue;
+    },
     getProps(component, target) {
       const componentProps = getCompPropsBySourceOpt(component);
       return Object.keys(componentProps).reduce((_, k) => {
@@ -153,14 +166,19 @@ export default {
         updateValue(rest);
       }
       if (!this.group) {
-        const set = new Set(this.groupValue);
+        const set = new Set(this.checkValue);
         set.add(value);
-        this.groupValue = Array.from(set);
+        this.checkValue = Array.from(set);
       }
     },
     toggleValue(props) {
-      if (this.toggle) {
-        this.groupValue = this.groupValue.filter(i => i !== props.value);
+      if (!this.toggle) {
+        return;
+      }
+      if (!this.group) {
+        this.checkValue = this.checkValue.filter(i => i !== props.value);
+      } else {
+        this.$emit('input');
       }
     },
     getOptionsVnode(i, idx) {
@@ -169,7 +187,7 @@ export default {
       const props = getPropsWithFormatter(i);
       const { value, label } = props;
       props.label = value;
-      if (!this.groupValue.includes(value)) {
+      if (!this.checkValue.includes(value)) {
         props.value = undefined;
       }
       const component = getComponentByType();
