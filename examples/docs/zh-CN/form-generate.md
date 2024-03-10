@@ -121,7 +121,7 @@
             prop: 'radio-field',
             component: 'radio',
             props: {
-              url: '/api/list',
+              url: this.$root.URL.getList,
               params: { page: 1, size: 4 },
               toggle: true,
             },
@@ -131,7 +131,7 @@
             prop: 'checkbox-field',
             component: 'checkbox',
             props: {
-              url: '/api/list',
+              url: this.$root.URL.getList,
               params: { page: 1, size: 4 },
             },
           },
@@ -244,7 +244,7 @@ props 传入的配置对象根据你需要渲染 component 决定, 所有组件�
             component: 'select',
             props: {
               clearable: true,
-              url: '/api/list',
+              url: this.$root.URL.getList,
             },
           },
           {
@@ -252,7 +252,7 @@ props 传入的配置对象根据你需要渲染 component 决定, 所有组件�
             prop: 'obj.radio-field',
             component: 'radio',
             props: {
-              url: '/api/list',
+              url: this.$root.URL.getList,
               params: { page: 1, size: 4 },
               toggle: true,
             },
@@ -262,7 +262,7 @@ props 传入的配置对象根据你需要渲染 component 决定, 所有组件�
             prop: 'obj.checkbox-field',
             component: 'checkbox',
             props: {
-              url: '/api/list',
+              url: this.$root.URL.getList,
               params: { page: 1, size: 4 },
             },
           },
@@ -383,7 +383,7 @@ props 传入的配置对象根据你需要渲染 component 决定, 所有组件�
             prop: 'radio-field',
             component: 'radio',
             props: {
-              url: '/api/list',
+              url: this.$root.URL.getList,
               params: { page: 1, size: 4 },
               toggle: true,
             },
@@ -399,7 +399,7 @@ props 传入的配置对象根据你需要渲染 component 决定, 所有组件�
             prop: 'checkbox-field',
             component: 'checkbox',
             props: {
-              url: '/api/list',
+              url: this.$root.URL.getList,
               params: { page: 1, size: 4 },
               toggle: true,
             },
@@ -655,7 +655,7 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
             prop: 'radio-field',
             component: 'radio',
             props: {
-              url: '/api/list',
+              url: this.$root.URL.getList,
               params: { page: 1, size: 4 },
               toggle: true,
             },
@@ -665,7 +665,7 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
             prop: 'checkbox-field',
             component: 'checkbox',
             props: {
-              url: '/api/list',
+              url: this.$root.URL.getList,
               params: { page: 1, size: 4 },
               toggle: true,
             },
@@ -913,7 +913,7 @@ isDisabled、isReadonly、isRender 分别控制表单项的禁用、只读、渲
           prop: 'renMethod',
           component: 'radio',
           props: {
-            url: '/api/ren-method',
+            url: this.$root.URL.getRenMethodList,
           },
           cascaderConfig: [
             {
@@ -935,7 +935,7 @@ isDisabled、isReadonly、isRender 分别控制表单项的禁用、只读、渲
           prop: 'finChannel',
           component: 'checkbox',
           props: {
-            url: '/api/fin-channel',
+            url: this.$root.URL.getFinChannelList,
           },
           cascaderConfig: [
             {
@@ -1048,8 +1048,7 @@ isDisabled、isReadonly、isRender 分别控制表单项的禁用、只读、渲
                 return ind.includes(model.finThereCulty)
               },
               props: {
-                url: '/api/fin-there-culty',
-
+                url: this.$root.URL.getFinThereCultyList,
                 max: 5,
               },
               cascaderConfig: [

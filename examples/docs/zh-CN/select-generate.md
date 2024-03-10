@@ -4,6 +4,7 @@
 
 - 传入 `URL` 自动请求数据来渲染组件
 - 支持懒加载数据
+- 支持分页形式展示
 - 参数监听, 值变动后根据新值自动请求数据
 - 对`GroupOption`和`Option`组件进行了整合
 
@@ -71,7 +72,7 @@
 当组件中注入`options`对象数组后，组件内会根据数据渲染出`dy-option`组件。
 :::
 
-:::warning
+:::tip
 这里的 label 和 value 能自动映射到 option, 是在注册 Dynamic 通过全局配置了`useOptionProps`, 在使用的组件中传入的`props`会和全局的 `useOptionProps` 的返回值进行合并
 :::
 
@@ -174,7 +175,7 @@ Vue.use(Dynamic, {
 下面的示例完整的展示了`props` 提供了所有配置项功能
 :::
 
-:::warning
+:::tip
 需要注意的是 formatter 返回的属性取决于`props`中 label、value
 、children、disabled 配置的属性名称是什么
 :::
@@ -281,7 +282,7 @@ Vue.use(Dynamic, {
     data() {
       return {
         value: '',
-        url: '/api/list',
+        url: this.$root.URL.getList,
         params: {
           a: 1,
           b: 2,
@@ -371,7 +372,7 @@ Vue.use(Dynamic, {
 import Message from 'packages/message/index.js'
 
 export const API = {
-  getList: '/api/list',
+  getList: this.$root.URL.getList,
   getTreeList: '/api/tree',
 }
 
@@ -485,7 +486,7 @@ export default function axios({ url, params }) {
 }
 ```
 
-:::warning
+:::tip
 下面的用法才是在项目中会常用的方式
 :::
 
@@ -557,7 +558,7 @@ Vue.use(Dynamic, {
     data() {
       return {
         value: '',
-        url: '/api/list',
+        url: this.$root.URL.getList,
         params: {
           a: 1,
           b: 2,
@@ -596,7 +597,7 @@ Vue.use(Dynamic, {
     data() {
       return {
         value: '',
-        url: '/api/list',
+        url: this.$root.URL.getList,
         params: {
           a: 1,
           b: 2,
@@ -635,7 +636,7 @@ Vue.use(Dynamic, {
     data() {
       return {
         value: '',
-        url: '/api/list',
+        url: this.$root.URL.getList,
         params: {
           a: 1,
           b: 2,
@@ -686,7 +687,7 @@ Vue.use(Dynamic, {
         [
           'list',
           {
-            url: '/api/list',
+            url: this.$root.URL.getList,
             params: {
               type: 'list',
             },
@@ -704,8 +705,8 @@ Vue.use(Dynamic, {
               type: 'tree',
             },
             props: {
-              label: 'name',
-              value: 'code',
+              label: 'label',
+              value: 'value',
               children: 'options',
             },
           },
@@ -752,7 +753,7 @@ Vue.use(Dynamic, {
 
 - 组件内对 pageParamsValue 也进行了`watch`, 如果修改`pageParamsValue`也会触发重新请求, 用此方式也可以进行实现懒加载相关逻辑
 
-:::warning
+:::tip
 `url`、`pageParamsValue` 的变动势必会重新变动接口请求的数据, 所以涉及这两个的变动 **会重置`value`的值**。
 :::
 

@@ -1,18 +1,21 @@
 import _, { cloneDeep, isString, isPlainObject, isArray, isFunction, isUndefined, isNull } from './lodash';
 import {
-  kebabToCamel
+  kebabToCamel,
+  replaceKebabReg
 } from './util';
 
-/**
- * @description: 解决$attrs并不会自动将kebab-case转换为camelCase的问题
- * @param {Object} $attrs
- * @param {String} name
- * @return {*} camelCase风格的name
- */
-export function getAttrsName($attrs, name) {
-  if ($attrs[name]) return $attrs[name];
-  let camelCaseName = kebabToCamel(name);
-  return $attrs[camelCaseName];
+export function attrsKebabToCamel(attrs) {
+  return Object.keys(attrs).reduce((o, i) => {
+    let prop = i;
+    const value = attrs[i];
+    const isKebabAttr = replaceKebabReg.test(i);
+    if (isKebabAttr) {
+      prop = kebabToCamel(i);
+    }
+    o[prop] = value;
+    return o;
+  }, {});
+
 }
 
 export const getCompPropsBySourceOpt = (component, skipProps = []) => {

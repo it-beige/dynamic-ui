@@ -7,7 +7,7 @@ import _, { isFunction } from 'lodash';
 const FormItem = getComponentByName('FormItem');
 
 export default {
-  name: 'DyGenerateFormItem',
+  name: 'DyFormItemGenerate',
   props: {
     props: {
       type: Object,

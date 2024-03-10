@@ -95,5 +95,6 @@
   "checkbox-generate": "./packages/checkbox-generate/index.js",
   "upload-generate": "./packages/upload-generate/index.js",
   "form-generate": "./packages/form-generate/index.js",
-  "dialog-generate": "./packages/dialog-generate/index.js"
+  "dialog-generate": "./packages/dialog-generate/index.js",
+  "table-generate": "./packages/table-generate/index.js"
 }

@@ -87,7 +87,7 @@
           updateValue: 'updateValue',
         },
         value: [],
-        url: '/api/list',
+        url: this.$root.URL.getList,
         params: { page: 1, size: 4 },
       }
     },

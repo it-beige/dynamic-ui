@@ -54,7 +54,8 @@ export default {
     isReadonlys: {
       type: Object,
       default: () => ({})
-    }, // 控制表单项的渲染
+    },
+    // 控制表单项的渲染
     isRenders: {
       type: Object,
       default: () => ({})
@@ -110,7 +111,7 @@ export default {
     },
     getFormProps() {
       const props = this._excludeExtraProps(this.$props);
-      props.model = this.value;
+      props.model = genFormItemValue(this.value, this.config);
       return props;
     },
     getFormOn() {
@@ -122,7 +123,7 @@ export default {
       return this._getVnodesBySlots(slots);
     },
     getFormScopedSlots() {
-      let scopedSlots = {};
+      let scopedSlots = this.$scopedSlots;
       return scopedSlots;
     },
     renderForm() {
@@ -172,7 +173,7 @@ export default {
       };
       return (
         <Row.name {...data} class={`${isCascader ? 'cascader-row' : ''}`}>
-          {config.map((i, idx) => {
+          {config.map((i) => {
             const {
               props = {},
               on = {},

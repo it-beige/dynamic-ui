@@ -92,7 +92,7 @@
           updateValue: 'updateValue',
         },
         value: ['选项1'],
-        url: '/api/list',
+        url: this.$root.URL.getList,
         params: { page: 1, size: 4 },
       }
     },
@@ -144,7 +144,7 @@
         value: '',
         value2: [],
         value: [],
-        url: '/api/list',
+        url: this.$root.URL.getList,
         params: { page: 1, size: 4 },
         options: [
           {

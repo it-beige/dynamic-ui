@@ -75,6 +75,10 @@
             {
               "path": "/dialog-generate",
               "title": "Dialog JSON生成"
+            },
+            {
+              "path": "/table-generate",
+              "title": "Table JSON生成"
             }
           ]
         }

@@ -1,15 +1,15 @@
-@import '../mixins/mixins.scss';
+@import "../mixins/mixins.scss";
 
 $classes: (
-  '#{$namespace}-flex__center',
-  '#{$namespace}-flex__justify-center',
-  '#{$namespace}-flex__justify-between',
-  '#{$namespace}-flex__justify-start',
-  '#{$namespace}-flex__justify-end',
-  '#{$namespace}-flex__align-center',
-  '#{$namespace}-flex__align-between',
-  '#{$namespace}-flex__align-start',
-  '#{$namespace}-flex__align-end'
+  "#{$namespace}-flex__center",
+  "#{$namespace}-flex__justify-center",
+  "#{$namespace}-flex__justify-between",
+  "#{$namespace}-flex__justify-start",
+  "#{$namespace}-flex__justify-end",
+  "#{$namespace}-flex__align-center",
+  "#{$namespace}-flex__align-between",
+  "#{$namespace}-flex__align-start",
+  "#{$namespace}-flex__align-end"
 );
 @mixin flex {
   display: flex;
@@ -30,6 +30,7 @@ $classes: (
 
 @include b(flex) {
   &-column {
+    display: flex;
     flex-direction: column;
   }
   @include e(center) {

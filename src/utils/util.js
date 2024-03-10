@@ -1,8 +1,7 @@
 import Vue from 'vue';
 import { isString, isObject } from 'dynamic-ui/src/utils/types';
-
+export const replaceKebabReg = /-+([A-z])/g;
 export function kebabToCamel(kebabString) {
-  const replaceKebabReg = /-+([A-z])/g;
   return kebabString.replace(replaceKebabReg, (execStr, $1) => {
     return $1.toUpperCase();
   });

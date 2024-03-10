@@ -48,6 +48,7 @@
           .catch(_ => {})
       },
       getDialogRef() {
+        console.log(this.$refs.dialogGenerateRef.$refs.DyDialog)
         console.log(this.$refs.dialogGenerateRef.useRef())
       },
       cancelHandle([showloading, hideLoading]) {
@@ -89,7 +90,6 @@
   :visible.sync="dialogVisible"
   :operateType="operateType"
   width="30%"
-  ref="dialogGenerateRef"
 ></dy-dialog-generate>
 
 <script>
@@ -112,13 +112,7 @@
         return props
       },
     },
-    mounted() {
-      this.getDialogRef()
-    },
     methods: {
-      getDialogRef() {
-        console.log(this.$refs.dialogGenerateRef.useRef())
-      },
       viewHandle() {
         this.title = ''
         this.dialogVisible = true
@@ -157,7 +151,6 @@
   title="全屏"
   width="30%"
   fullscreen
-  ref="dialogGenerateRef"
 ></dy-dialog-generate>
 
 <script>
@@ -166,14 +159,6 @@
       return {
         dialogVisible: false,
       }
-    },
-    mounted() {
-      this.getDialogRef()
-    },
-    methods: {
-      getDialogRef() {
-        console.log(this.$refs.dialogGenerateRef.useRef())
-      },
     },
   }
 </script>
@@ -194,7 +179,6 @@
   width="60%"
   fullscreen
   draggable
-  ref="dialogGenerateRef"
 >
   只有头部区可以拖拽
 </dy-dialog-generate>
@@ -205,14 +189,6 @@
       return {
         dialogVisible: false,
       }
-    },
-    mounted() {
-      this.getDialogRef()
-    },
-    methods: {
-      getDialogRef() {
-        console.log(this.$refs.dialogGenerateRef.useRef())
-      },
     },
   }
 </script>
@@ -237,7 +213,6 @@
   draggable
   resizable
   :showHandle="showHandle"
-  ref="dialogGenerateRef"
 >
   <div>
     左上、左下、右上、右下角分别可以缩放
@@ -255,14 +230,6 @@
         dialogVisible: false,
         showHandle: true,
       }
-    },
-    mounted() {
-      this.getDialogRef()
-    },
-    methods: {
-      getDialogRef() {
-        console.log(this.$refs.dialogGenerateRef.useRef())
-      },
     },
   }
 </script>

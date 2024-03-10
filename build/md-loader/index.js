@@ -5,6 +5,18 @@ const {
 } = require('./util');
 const md = require('./config');
 
+function getImportStatement(str) {
+  // eslint-disable-next-line
+  let reg = new RegExp('import (.+) from \'dynamic-ui/src/(.+)', 'g');
+  const imports = [];
+  str = str.replace(reg, (...arg) => {
+    const [, name, path] = arg;
+    imports.push(`import ${name} from 'main/${path}`);
+    return '';
+  });
+  return [str, imports];
+}
+
 module.exports = function (source) {
   const content = md.render(source);
 
@@ -42,14 +54,21 @@ module.exports = function (source) {
   // todo: 优化这段逻辑
   let pageScript = '';
   if (componenetsString) {
+    let [str, imports] = getImportStatement(componenetsString);
+    componenetsString = str;
     pageScript = `<script>
+      ${imports.join(';\n')}
       export default {
         name: 'component-doc',
         components: {
           ${componenetsString}
-        }
+        },
       }
     </script>`;
+
+    /* import
+    import request form 'dynamic-ui/src/mixins/request.js';
+  */
   } else if (content.indexOf('<script>') === 0) { // 硬编码，有待改善
     start = content.indexOf('</script>') + '</script>'.length;
     pageScript = content.slice(0, start);

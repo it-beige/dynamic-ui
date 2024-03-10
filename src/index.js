@@ -97,6 +97,7 @@ import CheckboxGenerate from '../packages/checkbox-generate/index.js';
 import UploadGenerate from '../packages/upload-generate/index.js';
 import FormGenerate from '../packages/form-generate/index.js';
 import DialogGenerate from '../packages/dialog-generate/index.js';
+import TableGenerate from '../packages/table-generate/index.js';
 import locale from 'dynamic-ui/src/locale';
 import CollapseTransition from 'dynamic-ui/src/transitions/collapse-transition';
 import {
@@ -202,6 +203,7 @@ const components = [
   UploadGenerate,
   FormGenerate,
   DialogGenerate,
+  TableGenerate,
   CollapseTransition
 ];
 
@@ -381,5 +383,6 @@ export default {
   CheckboxGenerate,
   UploadGenerate,
   FormGenerate,
-  DialogGenerate
+  DialogGenerate,
+  TableGenerate
 };

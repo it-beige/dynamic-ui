@@ -1,7 +1,8 @@
 const Mock = require('mockjs');
 const URL = require('../api/url');
 const _ = require('lodash');
-
+const genRandomLocationArr = require('./area');
+const Random = Mock.Random;
 const getParams = (url) => {
   const [baseUrl, queryString] = _.split(url, '?');
   const queryParams = _.split(queryString, '&');
@@ -25,17 +26,18 @@ function offsetData (res, params) {
 }
 
 const common = {
-  code: '200',
+  value: '200',
   message: 'success'
 };
 
-Mock.Random.incrementId = (() => {
+Random.incrementId = (() => {
   let id = 0;
   return function() {
     id++;
     return id.toString();
   };
 })();
+Random.genRandomLocationArr = genRandomLocationArr;
 
 const listData = Mock.mock({
   ...common,
@@ -43,16 +45,16 @@ const listData = Mock.mock({
     'list|25': [
       {
         'id|+1': '@incrementId',
-        name: function () {
-          const names = ['黄金糕', '双皮奶', '蚵仔煎', '龙须面', '北京烤鸭'];
+        label: function () {
+          const labels = ['黄金糕', '双皮奶', '蚵仔煎', '龙须面', '北京烤鸭'];
           const idx = this.id - 1;
-          let name = names[idx % names.length];
-          const coefficient = parseInt(idx / names.length, 10);
-          return `${name}${Array(coefficient)
-            .fill(this.id % names.length)
+          let label = labels[idx % labels.length];
+          const coefficient = parseInt(idx / labels.length, 10);
+          return `${label}${Array(coefficient)
+            .fill(this.id % labels.length)
             .join('')}`;
         },
-        'code|+10': function () {
+        'value|+10': function () {
           return '选项' + this.id;
         }
       }
@@ -66,141 +68,141 @@ const treeData = {
   data: {
     list: [
       {
-        name: '热门城市',
+        label: '热门城市',
         options: [
           {
-            code: 'Shanghai',
-            name: '上海'
+            value: 'Shanghai',
+            label: '上海'
           },
           {
-            code: 'Beijing',
-            name: '北京'
+            value: 'Beijing',
+            label: '北京'
           }
         ]
       },
       {
-        name: '城市名',
+        label: '城市名',
         options: [
           {
-            code: 'Chengdu',
-            name: '成都'
+            value: 'Chengdu',
+            label: '成都'
           },
           {
-            code: 'Shenzhen',
-            name: '深圳'
+            value: 'Shenzhen',
+            label: '深圳'
           },
           {
-            code: 'Guangzhou',
-            name: '广州'
+            value: 'Guangzhou',
+            label: '广州'
           },
           {
-            code: 'Dalian',
-            name: '大连'
+            value: 'Dalian',
+            label: '大连'
           }
         ]
       },
       {
-        name: '一组城市',
+        label: '一组城市',
         options: [
           {
-            code: 'Chengdu',
-            name: '成都'
+            value: 'Chengdu',
+            label: '成都'
           },
           {
-            code: 'Shenzhen',
-            name: '深圳'
+            value: 'Shenzhen',
+            label: '深圳'
           },
           {
-            code: 'Guangzhou',
-            name: '广州'
+            value: 'Guangzhou',
+            label: '广州'
           },
           {
-            code: 'Dalian',
-            name: '大连'
+            value: 'Dalian',
+            label: '大连'
           }
         ]
       },
       {
-        name: '二组城市',
+        label: '二组城市',
         options: [
           {
-            code: 'Qingdao',
-            name: '青岛'
+            value: 'Qingdao',
+            label: '青岛'
           },
           {
-            code: 'Ningbo',
-            name: '宁波'
+            value: 'Ningbo',
+            label: '宁波'
           },
           {
-            code: 'Xiamen',
-            name: '厦门'
+            value: 'Xiamen',
+            label: '厦门'
           },
           {
-            code: 'Changchun',
-            name: '长春'
+            value: 'Changchun',
+            label: '长春'
           }
         ]
       },
       {
-        name: '三组城市',
+        label: '三组城市',
         options: [
           {
-            code: 'Wuhan',
-            name: '武汉'
+            value: 'Wuhan',
+            label: '武汉'
           },
           {
-            code: 'Tianjin',
-            name: '天津'
+            value: 'Tianjin',
+            label: '天津'
           },
           {
-            code: "Xi'an",
-            name: '西安'
+            value: "Xi'an",
+            label: '西安'
           },
           {
-            code: 'Qingdao',
-            name: '青岛'
+            value: 'Qingdao',
+            label: '青岛'
           }
         ]
       },
       {
-        name: '四组城市',
+        label: '四组城市',
         options: [
           {
-            code: 'Dalian',
-            name: '大连'
+            value: 'Dalian',
+            label: '大连'
           },
           {
-            code: 'Shijiazhuang',
-            name: '石家庄'
+            value: 'Shijiazhuang',
+            label: '石家庄'
           },
           {
-            code: 'Jinan',
-            name: '济南'
+            value: 'Jinan',
+            label: '济南'
           },
           {
-            code: 'Ningbo',
-            name: '宁波'
+            value: 'Ningbo',
+            label: '宁波'
           }
         ]
       },
       {
-        name: '五组城市',
+        label: '五组城市',
         options: [
           {
-            code: 'Harbin',
-            name: '哈尔滨'
+            value: 'Harbin',
+            label: '哈尔滨'
           },
           {
-            code: 'Changsha',
-            name: '长沙'
+            value: 'Changsha',
+            label: '长沙'
           },
           {
-            code: 'Fuzhou',
-            name: '福州'
+            value: 'Fuzhou',
+            label: '福州'
           },
           {
-            code: 'Hefei',
-            name: '合肥'
+            value: 'Hefei',
+            label: '合肥'
           }
         ]
       }
@@ -213,16 +215,16 @@ const treeData = {
 const renMethodData = {
   data: [
     {
-      name: '规划区块内等价置换',
-      code: 1
+      label: '规划区块内等价置换',
+      value: 1
     },
     {
-      name: '协议收回',
-      code: 2
+      label: '协议收回',
+      value: 2
     },
     {
-      name: '其他',
-      code: 0
+      label: '其他',
+      value: 0
     }
   ]
 };
@@ -230,40 +232,40 @@ const renMethodData = {
 const finChannelList = {
   data: [
     {
-      name: '自有资金',
-      code: 1
+      label: '自有资金',
+      value: 1
     },
     {
-      name: '银行贷款',
-      code: 2
+      label: '银行贷款',
+      value: 2
     },
     {
-      name: '向亲朋借款',
-      code: 3
+      label: '向亲朋借款',
+      value: 3
     },
     {
-      name: '民间借贷',
-      code: 4
+      label: '民间借贷',
+      value: 4
     },
     {
-      name: '股权融资',
-      code: 5
+      label: '股权融资',
+      value: 5
     },
     {
-      name: '债券融资',
-      code: 6
+      label: '债券融资',
+      value: 6
     },
     {
-      name: '凤险投资',
-      code: 7
+      label: '凤险投资',
+      value: 7
     },
     {
-      name: '外资',
-      code: 8
+      label: '外资',
+      value: 8
     },
     {
-      name: '其他',
-      code: 0
+      label: '其他',
+      value: 0
     }
   ]
 };
@@ -271,43 +273,64 @@ const finChannelList = {
 const finThereCultyList = {
   data: [
     {
-      name: '利率太高',
-      code: 1
+      label: '利率太高',
+      value: 1
     },
     {
-      name: '缺乏融资渠道',
-      code: 2
+      label: '缺乏融资渠道',
+      value: 2
     },
     {
-      name: '政府扶持政策缺失',
-      code: 3
+      label: '政府扶持政策缺失',
+      value: 3
     },
     {
-      name: '中小银行数量太少',
-      code: 4
+      label: '中小银行数量太少',
+      value: 4
     },
     {
-      name: '缺乏与银行良好的私人关系',
-      code: 5
+      label: '缺乏与银行良好的私人关系',
+      value: 5
     },
     {
-      name: '缺乏担保',
-      code: 6
+      label: '缺乏担保',
+      value: 6
     },
     {
-      name: '企业规模太小',
-      code: 7
+      label: '企业规模太小',
+      value: 7
     },
     {
-      name: '信用受限',
-      code: 8
+      label: '信用受限',
+      value: 8
     },
     {
-      name: '其他',
-      code: 0
+      label: '其他',
+      value: 0
     }
   ]
 };
+
+console.log(Mock);
+
+const tableList = Mock.mock({
+  ...common,
+  data: {
+    'list|25': [
+      {
+        'id|+1': '@uuid()',
+        'name': '@cname()',
+        'date': '@date("yyyy-MM-dd HH:mm:ss")',
+        'email': '@email(163.com)',
+        'status|1': () => {
+          return Random.integer(0, 1).toString();
+        },
+        'area': '@genRandomLocationArr'
+      }
+    ],
+    total: 25
+  }
+});
 
 module.exports = function beforeMock(middlewares, devServer) {
   devServer.app.get(URL.getList, (req, res) => {
@@ -328,6 +351,11 @@ module.exports = function beforeMock(middlewares, devServer) {
 
   devServer.app.get(URL.getFinThereCultyList, (req, res) => {
     res.json(finThereCultyList);
+  });
+
+  devServer.app.get(URL.getTableList, (req, res) => {
+    const params = getParams(req.url);
+    res.json(offsetData(tableList, params));
   });
   return middlewares;
 };

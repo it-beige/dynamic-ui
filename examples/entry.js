@@ -22,6 +22,8 @@ import icon2 from './icons/icon2.json';
 import request from './api/request';
 import { isPlainObject, isArray } from 'main/utils/lodash';
 
+import URL from './api/url.js';
+
 Vue.use(Dynamic, {
   // 数据请求的baseURI
   baseURI: process.env.VUE_APP_BASE_API || 'dev',
@@ -75,6 +77,11 @@ const globalEle = new Vue({
 });
 
 Vue.mixin({
+  data() {
+    return {
+      URL: URL
+    };
+  },
   computed: {
     $isEle: {
       get: () => (globalEle.$data.$isEle),
