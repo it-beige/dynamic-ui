@@ -8,6 +8,7 @@
 - 表单项的配置项支持: slot、on、所有在 `template` 支持的功能, 配置项都提供
 - 将支持的 slot 和 scopedSlot 进行合并, 都通过 slots 进行配置
 - 可以配置 component 的方式来完全自定义表单项
+- 支持深度属性来绑定值
 
 ### 基础用法
 
@@ -192,6 +193,93 @@
         console.log(this.$refs.formGenerateRef.$refs.DyForm)
         // or
         console.log(this.$refs.formGenerateRef.useRef())
+      },
+    },
+  }
+</script>
+```
+
+:::
+
+:::tip
+props 传入的配置对象根据你需要渲染 component 决定, 所有组件都提供 formatter 用于格式化数据
+:::
+
+### 深度属性
+
+:::demo
+
+```html
+<dy-form-generate
+  :config="config"
+  :rules="rules"
+  v-model="modelValue"
+  labdy-position="top"
+></dy-form-generate>
+<script>
+  export default {
+    data() {
+      const requiredRule = {
+        required: true,
+        message: '不能为空',
+      }
+      return {
+        modelValue: {},
+        rules: {
+          'obj.input-field': requiredRule,
+          'obj.select-field': requiredRule,
+          'obj.radio-field': requiredRule,
+          'obj.checkbox-field': requiredRule,
+          'obj.date-field': requiredRule,
+        },
+        config: [
+          {
+            label: '输入框',
+            prop: 'obj.input-field',
+            component: 'input',
+          },
+          {
+            label: '下拉选择框',
+            prop: 'obj.select-field',
+            component: 'select',
+            props: {
+              clearable: true,
+              url: '/api/list',
+            },
+          },
+          {
+            label: '单选框',
+            prop: 'obj.radio-field',
+            component: 'radio',
+            props: {
+              url: '/api/list',
+              params: { page: 1, size: 4 },
+              toggle: true,
+            },
+          },
+          {
+            label: '多选框',
+            prop: 'obj.checkbox-field',
+            component: 'checkbox',
+            props: {
+              url: '/api/list',
+              params: { page: 1, size: 4 },
+            },
+          },
+          {
+            label: '时间选择框',
+            prop: 'obj.date-field',
+            component: 'date',
+          },
+        ],
+      }
+    },
+    watch: {
+      modelValue: {
+        handler(v) {
+          console.log(v)
+        },
+        deep: true,
       },
     },
   }
@@ -674,7 +762,6 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
           span: 12,
           props: {
             options: this.options,
-            props: this.useOptionProps(),
           },
         },
         {
@@ -696,7 +783,6 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
           span: 12,
           props: {
             options: this.options,
-            props: this.useOptionProps(),
           },
         },
         {
@@ -718,7 +804,6 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
           span: 12,
           props: {
             options: this.options,
-            props: this.useOptionProps(),
           },
         },
         {
@@ -740,7 +825,6 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
           span: 12,
           props: {
             options: this.options,
-            props: this.useOptionProps(),
           },
           on: {
             change: v => {
@@ -770,7 +854,6 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
           span: 12,
           props: {
             options: this.options,
-            props: this.useOptionProps(),
           },
         },
         {
@@ -831,7 +914,6 @@ isDisabled、isReadonly、isRender 分别控制表单项的禁用、只读、渲
           component: 'radio',
           props: {
             url: '/api/ren-method',
-            props: this.useOptionProps(),
           },
           cascaderConfig: [
             {
@@ -854,7 +936,6 @@ isDisabled、isReadonly、isRender 分别控制表单项的禁用、只读、渲
           component: 'checkbox',
           props: {
             url: '/api/fin-channel',
-            props: this.useOptionProps(),
           },
           cascaderConfig: [
             {
@@ -968,7 +1049,7 @@ isDisabled、isReadonly、isRender 分别控制表单项的禁用、只读、渲
               },
               props: {
                 url: '/api/fin-there-culty',
-                props: this.useOptionProps(),
+
                 max: 5,
               },
               cascaderConfig: [
