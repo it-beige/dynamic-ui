@@ -3,7 +3,8 @@ import genAttrsMixin, { getExtra as getAttrMixExtra } from 'main/mixins/attrs';
 import { getComponentByName } from 'main/config/component';
 import {
   getCompPropsBySourceOpt,
-  attrsKebabToCamel
+  attrsKebabToCamel,
+  componentNameToTag
 } from 'main/utils/component';
 import Column from './column.vue';
 import _ from 'lodash';
@@ -14,7 +15,8 @@ const columnProps = getCompPropsBySourceOpt(TableColumn);
 
 const tableColumnProps = {
   align: columnProps.align,
-  headerAlign: columnProps.headerAlign
+  headerAlign: columnProps.headerAlign,
+  showOverflowTooltip: columnProps.showOverflowTooltip
 };
 
 export default {
@@ -73,6 +75,23 @@ export default {
       let scopedSlots = {};
       return scopedSlots;
     },
+    normalizeSlots(slots) {
+      const defaultSlot = slots.find(i => i.data?.slot === 'default');
+      const children = defaultSlot.children || [];
+      const columns = children.filter(i => i.componentOptions?.tag === componentNameToTag(Column.name));
+      columns.forEach(i => {
+        const attrs = i.data?.attrs || {};
+        const propsData = i.componentOptions?.propsData || {};
+        const scopedSlots = i.data?.scopedSlots || {};
+        const props = {
+          ...propsData,
+          ...attrs
+        };
+        i.componentOptions.propsData = this.setColumnProps(props);
+        i.data.scopedSlots = this.setColumnScopedSlots(props, scopedSlots);
+      });
+      return slots;
+    },
     renderTable() {
       let createElement = this.$createElement;
       const { getTableProps, getTableOn, getTableSlots, getTableScopedSlots } =
@@ -84,7 +103,7 @@ export default {
       const attrs = this.$attrs;
       const children = [
         this.renderColumns(this.getRenderConfig(this.config)),
-        slots
+        this.normalizeSlots(slots)
       ];
 
       return createElement(
@@ -113,13 +132,11 @@ export default {
         const {
           label,
           prop,
-          render,
-          formatter,
-          align,
-          headerAlign,
-          children = []
+          children = [],
+          ...rest
         } = attrsKebabToCamel(i);
         const props = {
+          ...rest,
           label,
           prop
         };
@@ -129,17 +146,38 @@ export default {
           scopedSlots
         };
         // column props
-        this.setFormatter(props, formatter);
-        this.setALign(props, align);
-        this.setHeaderAlign(props, headerAlign);
+        this.setColumnProps(props);
 
         // column scopedSlots
-        this.setColumnDefaultSlot(scopedSlots, render, prop);
+        this.setColumnScopedSlots(props, scopedSlots);
 
         return <Column.name {...data}>{
           this.renderColumns(this.getRenderConfig(children))
         }</Column.name>;
       });
+    },
+    setColumnProps(props) {
+      const {
+        formatter,
+        align,
+        headerAlign,
+        showOverflowTooltip
+      } = props;
+
+      this.setFormatter(props, formatter);
+
+      this.setALign(props, align);
+      this.setHeaderAlign(props, headerAlign);
+      this.setShowOverflowTooltip(props, showOverflowTooltip);
+      return props;
+    },
+    setColumnScopedSlots(props, scopedSlots) {
+      const {
+        prop,
+        render
+      } = props;
+      this.setColumnDefaultSlot(scopedSlots, render, prop);
+      return scopedSlots;
     },
     setFormatter(props, formatter) {
       if (_.isFunction(formatter)) {
@@ -163,6 +201,9 @@ export default {
     },
     setHeaderAlign(props, headerAlign) {
       props.headerAlign = headerAlign || this.headerAlign;
+    },
+    setShowOverflowTooltip(props, showOverflowTooltip) {
+      props.showOverflowTooltip = showOverflowTooltip || this.showOverflowTooltip;
     },
     getCellValue(data, prop) {
       return _.get(data, prop);

@@ -76,7 +76,8 @@ var excludeComponents = [
   'TreeSelectGenerate',
   'TreeTableGenerate',
   'FormGenerate',
-  'TableGenerate'
+  'TableGenerate',
+  'TableColumnGenerate'
 ];
 
 ComponentNames.forEach(name => {

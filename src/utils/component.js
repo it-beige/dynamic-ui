@@ -4,6 +4,10 @@ import {
   replaceKebabReg
 } from './util';
 
+export function componentNameToTag(name) {
+  return _.toLower(name.replace(/([a-z0-9])([A-Z])/g, '$1-$2'));
+}
+
 export function attrsKebabToCamel(attrs) {
   return Object.keys(attrs).reduce((o, i) => {
     let prop = i;

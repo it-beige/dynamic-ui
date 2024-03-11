@@ -20,6 +20,7 @@
   max-height="500"
   :cell-class-name="setCellClassName"
   :header-cell-class-name="setHeaderCellClassName"
+  show-overflow-tooltip
   v-model="list"
 >
   <template #status="{cellValue}">
@@ -28,7 +29,12 @@
     </dy-tag>
   </template>
 
-  <dy-table-column label="邮箱" prop="email"></dy-table-column>
+  <dy-table-column-generate
+    label="描述"
+    prop="desc"
+    width="120"
+    :render="renderDesc"
+  ></dy-table-column-generate>
 
   <dy-table-column fixed="right" label="操作" width="120">
     <template #default="scoped">
@@ -72,6 +78,7 @@
             label: '日期',
             prop: 'date',
             align: 'left',
+            width: 120,
             'header-align': 'left',
             fixed: true,
             formatter: ({ cellValue }) => {
@@ -83,16 +90,16 @@
             prop: 'status',
           },
           {
-            label: '地区',
-            prop: 'area',
+            label: '邮箱',
+            prop: 'email',
             render({ cellValue }) {
-              return self.$createElement(
-                'div',
-                { staticClass: 'dy-flex-column' },
-                cellValue.map(i => {
-                  return self.$createElement('dy-tag', [i])
-                }),
-              )
+              return self.$createElement('div', [
+                self.$createElement(
+                  'dy-tag',
+                  { props: { type: 'info' } },
+                  cellValue,
+                ),
+              ])
             },
           },
           {
@@ -158,6 +165,9 @@
         console.log(scoped)
         const { index } = scoped
         this.list.splice(index, 1)
+      },
+      renderDesc({ cellValue }) {
+        return cellValue
       },
     },
   }

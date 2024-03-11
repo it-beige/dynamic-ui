@@ -325,7 +325,8 @@ const tableList = Mock.mock({
         'status|1': () => {
           return Random.integer(0, 1).toString();
         },
-        'area': '@genRandomLocationArr'
+        'area': '@genRandomLocationArr',
+        'desc': '@cword(5, 11)'
       }
     ],
     total: 25
