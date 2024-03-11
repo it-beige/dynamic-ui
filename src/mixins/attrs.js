@@ -87,7 +87,7 @@ export default function genAttrsMixin (component, extra = true) {
       },
       _getVnodesBySlots (slots) {
         return Object.keys(slots).map(k => {
-          const vnode = Array.isArray(slots[k]) ? slots[k].at(0) : slots[k];
+          const vnode = slots[k];
           return <template slot={k}>{vnode}</template>;
         });
       },

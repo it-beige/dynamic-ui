@@ -83,8 +83,8 @@ export default {
       const scopedSlots = getTableScopedSlots();
       const attrs = this.$attrs;
       const children = [
-        slots,
-        this.renderColumns(this.getRenderConfig(this.config))
+        this.renderColumns(this.getRenderConfig(this.config)),
+        slots
       ];
 
       return createElement(

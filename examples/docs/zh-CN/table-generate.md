@@ -17,6 +17,9 @@
   border
   header-align="center"
   align="center"
+  max-height="500"
+  :cell-class-name="setCellClassName"
+  :header-cell-class-name="setHeaderCellClassName"
   v-model="list"
 >
   <template #status="{cellValue}">
@@ -24,7 +27,31 @@
       {{cellValue === '1' ? '开启' : '关闭'}}
     </dy-tag>
   </template>
+
+  <dy-table-column label="邮箱" prop="email"></dy-table-column>
+
+  <dy-table-column fixed="right" label="操作" width="120">
+    <template #default="scoped">
+      <dy-button
+        @click="delRow(scoped)"
+        type="text"
+        size="small"
+        style="color: #f56c6c"
+      >
+        删除
+      </dy-button>
+    </template>
+  </dy-table-column>
 </dy-table-generate>
+
+<style>
+  .dy-table .main-cell {
+    color: #409eff;
+  }
+  .dy-table .main-header-cell {
+    color: #409eff;
+  }
+</style>
 
 <script>
   import genTableMixin from 'dynamic-ui/src/mixins/table.js'
@@ -46,6 +73,7 @@
             prop: 'name',
             align: 'left',
             'header-align': 'left',
+            fixed: true,
           },
           {
             label: '日期',
@@ -94,6 +122,17 @@
         console.log(this.$refs.tableGenerateRef.$refs.DyTable)
         // or
         console.log(this.$refs.tableGenerateRef.useRef())
+      },
+      setCellClassName({ column }) {
+        return column.property === 'name' ? 'main-cell' : ''
+      },
+      setHeaderCellClassName({ column }) {
+        return column.property === 'name' ? 'main-header-cell' : ''
+      },
+      delRow(scoped) {
+        console.log(scoped)
+        const { index } = scoped
+        this.list.splice(index, 1)
       },
     },
   }
