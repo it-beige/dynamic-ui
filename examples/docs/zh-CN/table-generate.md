@@ -69,15 +69,11 @@
         total: 0,
         config: [
           {
-            label: '名称',
-            prop: 'name',
+            label: '日期',
+            prop: 'date',
             align: 'left',
             'header-align': 'left',
             fixed: true,
-          },
-          {
-            label: '日期',
-            prop: 'date',
             formatter: ({ cellValue }) => {
               return cellValue && formatDate(cellValue, 'yyyy-MM-dd')
             },
@@ -98,6 +94,35 @@
                 }),
               )
             },
+          },
+          {
+            label: '配送信息',
+            children: [
+              { label: '姓名', prop: 'name' },
+              {
+                label: '地址',
+                children: [
+                  {
+                    label: '省',
+                    formatter: ({ row }) => {
+                      return row.area.at(0)
+                    },
+                  },
+                  {
+                    label: '市',
+                    formatter: ({ row }) => {
+                      return row.area.at(1)
+                    },
+                  },
+                  {
+                    label: '区',
+                    formatter: ({ row }) => {
+                      return row.area.at(2) || '-'
+                    },
+                  },
+                ],
+              },
+            ],
           },
         ],
       }

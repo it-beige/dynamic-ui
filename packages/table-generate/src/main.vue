@@ -116,7 +116,8 @@ export default {
           render,
           formatter,
           align,
-          headerAlign
+          headerAlign,
+          children = []
         } = attrsKebabToCamel(i);
         const props = {
           label,
@@ -134,7 +135,10 @@ export default {
 
         // column scopedSlots
         this.setColumnDefaultSlot(scopedSlots, render, prop);
-        return <Column.name {...data} />;
+
+        return <Column.name {...data}>{
+          this.renderColumns(this.getRenderConfig(children))
+        }</Column.name>;
       });
     },
     setFormatter(props, formatter) {
@@ -149,7 +153,7 @@ export default {
       if (_.isFunction(render)) {
         scopedSlots.default = scoped => {
           const { $index } = scoped;
-          const cellValue = this.getCellValue(this.data, `[${$index}].${prop}`);
+          const cellValue = prop ? this.getCellValue(this.data, `[${$index}].${prop}`) : undefined;
           return render({ ...scoped, cellValue }, this.$createElement);
         };
       }
