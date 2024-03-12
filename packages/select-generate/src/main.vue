@@ -9,22 +9,23 @@ const Select = getComponentByName('Select');
 const OptionGroup = getComponentByName('OptionGroup');
 const Option = getComponentByName('Option');
 
+const props = {
+  // 格式化option数据
+  formatter: {
+    type: Function
+  },
+  activePopper: {
+    type: Boolean,
+    default: true
+  }
+};
 export default {
   name: 'DySelectGenerate',
   mixins: [genAttrsMixin(Select), genRequestMixin(), genPaginationMixin()],
-  props: {
-    // 格式化option数据
-    formatter: {
-      type: Function
-    },
-    activePopper: {
-      type: Boolean,
-      default: true
-    }
-  },
+  props,
   data() {
     return {
-      extraProps: [...getAttrMixExtra('prop'), ...getRequestMixExtra('prop'), ...getPaginationMixExtra('prop')],
+      extraProps: [...getAttrMixExtra('prop'), ...getRequestMixExtra('prop'), ...getPaginationMixExtra('prop'), ...Object.keys(props)],
       extraData: [...getAttrMixExtra('data'), ...getRequestMixExtra('data'), ...getPaginationMixExtra('data')]
     };
   },

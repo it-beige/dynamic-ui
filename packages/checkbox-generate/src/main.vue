@@ -16,41 +16,42 @@ const CheckboxGroup = getComponentByName('CheckboxGroup');
 const CheckboxButton = getComponentByName('CheckboxButton');
 const optionProps = globalConfig.useOptionProps();
 
+const props = {
+  props: {
+    type: Object,
+    default: () => optionProps
+  },
+  // 格式化option数据
+  formatter: {
+    type: Function
+  },
+  // 支持的类型
+  type: {
+    type: String,
+    default: 'square',
+    validator: (value) => {
+      return ['square', 'button'].includes(value);
+    }
+  },
+  // 是否分组
+  group: {
+    type: Boolean,
+    default: true
+  },
+  value: {
+    type: Array
+  }
+};
 export default {
   name: 'DyCheckboxGenerate',
   mixins: [genRequestMixin()],
   components: {
 
   },
-  props: {
-    props: {
-      type: Object,
-      default: () => optionProps
-    },
-    // 格式化option数据
-    formatter: {
-      type: Function
-    },
-    // 支持的类型
-    type: {
-      type: String,
-      default: 'square',
-      validator: (value) => {
-        return ['square', 'button'].includes(value);
-      }
-    },
-    // 是否分组
-    group: {
-      type: Boolean,
-      default: true
-    },
-    value: {
-      type: Array
-    }
-  },
+  props,
   data () {
     return {
-      extraProps: [...getRequestMixExtra('prop')],
+      extraProps: [...getRequestMixExtra('prop'), ...Object.keys(props)],
       extraData: [...getRequestMixExtra('data')],
       bindProps: {
         ...globalConfig.useOptionProps(),

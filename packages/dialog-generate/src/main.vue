@@ -39,94 +39,95 @@ const iconMap = {
 const createButtonMap = createOptionMap('text');
 const createIconMap = createOptionMap('icon');
 
+const props = {
+  // 操作区渲染的按钮
+  buttons: {
+    type: Array,
+    default: () => [],
+    validator: (value) => {
+      const valid = value.every(i => buttons.includes(i));
+      if (!valid) {
+        console.error(`[Dynamic Error] buttons只能是${buttons.join('、')}`);
+      }
+
+      return valid;
+    }
+  },
+  // 渲染的按钮的props
+  buttonMap: {
+    type: Object,
+    default: () => ({}),
+    validator: (value) => {
+      const kyes = Object.keys(value);
+      const valid = kyes.every(i => buttons.includes(i));
+      if (!valid) {
+        console.error(`[Dynamic Error] buttonMap key只能是${buttons.join('、')}`);
+      }
+
+      return valid;
+    }
+  },
+  // 操作类型
+  operateType: {
+    type: String,
+    validator: (value) => {
+      const types = [VIEW,
+        EDIT, ADD];
+      const valid = value ? types.includes(value) : true;
+      if (!valid) {
+        console.error(`[Dynamic Error] operateType只能是${types.join('、')}`);
+      }
+      return valid;
+    }
+  },
+  // 标题文本
+  label: {
+    type: String
+  },
+  // 标题icon的配置
+  iconMap: {
+    type: Object,
+    default: () => ({}),
+    validator: (value) => {
+      const kyes = Object.keys(value);
+      const iconKyes = Object.keys(iconMap);
+      const valid = kyes.every(i => iconKyes.includes(i));
+      if (!valid) {
+        console.error(`[Dynamic Error] iconMap key只能是${iconKyes.join('、')}`);
+      }
+
+      return valid;
+    }
+  },
+  // 是否禁用操作区
+  disabled: {
+    type: Boolean,
+    default: false
+  },
+  // 是否可拖拽
+  draggable: {
+    type: Boolean,
+    default: false
+  },
+  // 是否可缩放
+  resizable: {
+    type: Boolean,
+    default: false
+  },
+  // 是否显示缩放的手柄
+  showHandle: {
+    type: Boolean,
+    default: true
+  }
+};
 export default {
   name: 'DyDialogGenerate',
   mixins: [genAttrsMixin(Dialog, false)],
   components: {},
-  props: {
-    // 操作区渲染的按钮
-    buttons: {
-      type: Array,
-      default: () => [],
-      validator: (value) => {
-        const valid = value.every(i => buttons.includes(i));
-        if (!valid) {
-          console.error(`[Dynamic Error] buttons只能是${buttons.join('、')}`);
-        }
-
-        return valid;
-      }
-    },
-    // 渲染的按钮的props
-    buttonMap: {
-      type: Object,
-      default: () => ({}),
-      validator: (value) => {
-        const kyes = Object.keys(value);
-        const valid = kyes.every(i => buttons.includes(i));
-        if (!valid) {
-          console.error(`[Dynamic Error] buttonMap key只能是${buttons.join('、')}`);
-        }
-
-        return valid;
-      }
-    },
-    // 操作类型
-    operateType: {
-      type: String,
-      validator: (value) => {
-        const types = [VIEW,
-          EDIT, ADD];
-        const valid = value ? types.includes(value) : true;
-        if (!valid) {
-          console.error(`[Dynamic Error] operateType只能是${types.join('、')}`);
-        }
-        return valid;
-      }
-    },
-    // 标题文本
-    label: {
-      type: String
-    },
-    // 标题icon的配置
-    iconMap: {
-      type: Object,
-      default: () => ({}),
-      validator: (value) => {
-        const kyes = Object.keys(value);
-        const iconKyes = Object.keys(iconMap);
-        const valid = kyes.every(i => iconKyes.includes(i));
-        if (!valid) {
-          console.error(`[Dynamic Error] iconMap key只能是${iconKyes.join('、')}`);
-        }
-
-        return valid;
-      }
-    },
-    // 是否禁用操作区
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    // 是否可拖拽
-    draggable: {
-      type: Boolean,
-      default: false
-    },
-    // 是否可缩放
-    resizable: {
-      type: Boolean,
-      default: false
-    },
-    // 是否显示缩放的手柄
-    showHandle: {
-      type: Boolean,
-      default: true
-    }
-  },
+  props,
   data() {
     return {
-      extraProps: [...getAttrMixExtra('prop') ],
+      extraProps: [...getAttrMixExtra('prop'), ...Object.keys(props) ],
       extraData: [...getAttrMixExtra('data') ],
       bindButtonMap: {},
       bindIconMap: {},

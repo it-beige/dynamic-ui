@@ -8,13 +8,17 @@ import { saveAs} from 'file-saver';
 import ImageViewer from 'packages/image/src/image-viewer';
 
 const Upload = getComponentByName('Upload');
-// eslint-disable-next-line
 const Button = getComponentByName('Button');
-// eslint-disable-next-line
 const Progress = getComponentByName('Progress');
-// eslint-disable-next-line
 const Image = getComponentByName('Image');
 
+const props = {
+  // 是否显示上传进度条
+  showProgress: {
+    type: Boolean,
+    default: true
+  }
+};
 export default {
   name: 'DyUploadGenerate',
   mixins: [Locale, genAttrsMixin(Upload), genUploadMixin()],
@@ -23,16 +27,10 @@ export default {
     event: 'input'
   },
   components: { ImageViewer },
-  props: {
-    // 是否显示上传进度条
-    showProgress: {
-      type: Boolean,
-      default: true
-    }
-  },
+  props,
   data () {
     return {
-      extraProps: [...getAttrMixExtra('prop'), ...getUploadMixExtra('prop')],
+      extraProps: [...getAttrMixExtra('prop'), ...getUploadMixExtra('prop'), ...Object.keys(props)],
       extraData: [...getAttrMixExtra('data'), ...getUploadMixExtra('data')],
       bindFileList: isPlainObject(this.fileList) ? [this.fileList] : this.fileList,
       previewUrl: null

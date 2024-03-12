@@ -19,6 +19,19 @@ const tableColumnProps = {
   showOverflowTooltip: columnProps.showOverflowTooltip
 };
 
+const props = {
+  ...tableColumnProps,
+  // 表格配置对象
+  config: {
+    type: Array,
+    required: true
+  },
+  // 控制列的渲染
+  isRenders: {
+    type: Object,
+    default: () => ({})
+  }
+};
 export default {
   name: 'DyTableGenerate',
   mixins: [genAttrsMixin(Table)],
@@ -27,20 +40,10 @@ export default {
     event: 'input'
   },
   props: {
-    ...tableColumnProps,
+    ...props,
     rowKey: {
       type: [String, Function],
       default: 'id'
-    },
-    // 表格配置对象
-    config: {
-      type: Array,
-      required: true
-    },
-    // 控制列的渲染
-    isRenders: {
-      type: Object,
-      default: () => ({})
     }
   },
   components: {
@@ -48,7 +51,7 @@ export default {
   },
   data() {
     return {
-      extraProps: [...getAttrMixExtra('prop')],
+      extraProps: [...getAttrMixExtra('prop'), ...Object.keys(props)],
       extraData: [...getAttrMixExtra('data')]
     };
   },

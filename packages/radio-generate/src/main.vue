@@ -14,42 +14,43 @@ const RadioGroup = getComponentByName('RadioGroup');
 const RadioButton = getComponentByName('RadioButton');
 const optionProps = globalConfig.useOptionProps();
 
+const props = {
+  props: {
+    type: Object,
+    default: () => optionProps
+  },
+  // 格式化option数据
+  formatter: {
+    type: Function
+  },
+  // 支持的类型
+  type: {
+    type: String,
+    default: 'circle',
+    validator: value => {
+      return ['circle', 'button'].includes(value);
+    }
+  },
+  // 是否分组
+  group: {
+    type: Boolean,
+    default: true
+  },
+  value: {},
+  // 是否可取消选中
+  toggle: {
+    type: Boolean,
+    default: false
+  }
+};
 export default {
   name: 'DyRadioGenerate',
   mixins: [genRequestMixin()],
   components: {},
-  props: {
-    props: {
-      type: Object,
-      default: () => optionProps
-    },
-    // 格式化option数据
-    formatter: {
-      type: Function
-    },
-    // 支持的类型
-    type: {
-      type: String,
-      default: 'circle',
-      validator: value => {
-        return ['circle', 'button'].includes(value);
-      }
-    },
-    // 是否分组
-    group: {
-      type: Boolean,
-      default: true
-    },
-    value: {},
-    // 是否可取消选中
-    toggle: {
-      type: Boolean,
-      default: false
-    }
-  },
+  props,
   data() {
     return {
-      extraProps: [...getRequestMixExtra('prop')],
+      extraProps: [...getRequestMixExtra('prop'), ...Object.keys(props)],
       extraData: [...getRequestMixExtra('data')],
       bindProps: {
         ...globalConfig.useOptionProps(),
