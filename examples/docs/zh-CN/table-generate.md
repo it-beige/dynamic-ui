@@ -29,12 +29,22 @@
     </dy-tag>
   </template>
 
+  <template #statusHeader="{column}">dy-{{column.label}}</template>
+
   <dy-table-column-generate
     label="描述"
     prop="desc"
     width="120"
     :render="renderDesc"
-  ></dy-table-column-generate>
+  >
+    <template #header="{column}">dy-{{column.label}}</template>
+  </dy-table-column-generate>
+
+  <dy-table-column-generate label="头像" width="80">
+    <dy-avatar
+      src="https://cdn.jsdelivr.net/gh/it-beige/dynamic-assets/images/beige.jpg"
+    ></dy-avatar>
+  </dy-table-column-generate>
 
   <dy-table-column fixed="right" label="操作" width="120">
     <template #default="scoped">
@@ -92,6 +102,9 @@
           {
             label: '邮箱',
             prop: 'email',
+            headerRender({ column }) {
+              return self.$createElement('div', ['dy-' + column.label])
+            },
             render({ cellValue }) {
               return self.$createElement('div', [
                 self.$createElement(
@@ -180,6 +193,8 @@
 - template 的插槽写法高于 column 的 render
 - 配置项的 underscore、camelCase 写法都支持, 如` header-align`、`headerAlign `这两种都行
 
+### 筛选列
+
 ### 扩展 Table Attributes
 
 | 参数         | 说明                                                 | 类型   | 可选值            | 默认值 |
@@ -192,10 +207,11 @@
 
 ### config
 
-| 参数      | 说明                        | 类型                                       | 可选值 | 默认值 |
-| --------- | --------------------------- | ------------------------------------------ | ------ | ------ |
-| formatter | 格式化内容                  | Function({row, column, cellValue, $index}) | —      | —      |
-| render    | defalut slot 的 render 写法 | Function({row, column, cellValue, $index}) | —      | —      |
+| 参数         | 说明                        | 类型                                       | 可选值 | 默认值 |
+| ------------ | --------------------------- | ------------------------------------------ | ------ | ------ |
+| formatter    | 格式化内容                  | Function({row, column, cellValue, $index}) | —      | —      |
+| render       | defalut slot 的 render 写法 | Function({row, column, cellValue, $index}) | —      | —      |
+| headerRender | header slot 的 render 写法  | Function({column, $index})                 | —      | —      |
 
 ### form-generate 内置的 component
 

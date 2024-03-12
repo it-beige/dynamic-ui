@@ -78,7 +78,9 @@ export default {
     normalizeSlots(slots) {
       const defaultSlot = slots.find(i => i.data?.slot === 'default');
       const children = defaultSlot.children || [];
-      const columns = children.filter(i => i.componentOptions?.tag === componentNameToTag(Column.name));
+      const columns = children.filter(
+        i => i.componentOptions?.tag === componentNameToTag(Column.name),
+      );
       columns.forEach(i => {
         const attrs = i.data?.attrs || {};
         const propsData = i.componentOptions?.propsData || {};
@@ -129,12 +131,7 @@ export default {
     },
     renderColumns(config) {
       return config.map(i => {
-        const {
-          label,
-          prop,
-          children = [],
-          ...rest
-        } = attrsKebabToCamel(i);
+        const { label, prop, children = [], ...rest } = attrsKebabToCamel(i);
         const props = {
           ...rest,
           label,
@@ -151,18 +148,15 @@ export default {
         // column scopedSlots
         this.setColumnScopedSlots(props, scopedSlots);
 
-        return <Column.name {...data}>{
-          this.renderColumns(this.getRenderConfig(children))
-        }</Column.name>;
+        return (
+          <Column.name {...data}>
+            {this.renderColumns(this.getRenderConfig(children))}
+          </Column.name>
+        );
       });
     },
     setColumnProps(props) {
-      const {
-        formatter,
-        align,
-        headerAlign,
-        showOverflowTooltip
-      } = props;
+      const { formatter, align, headerAlign, showOverflowTooltip } = props;
 
       this.setFormatter(props, formatter);
 
@@ -172,11 +166,9 @@ export default {
       return props;
     },
     setColumnScopedSlots(props, scopedSlots) {
-      const {
-        prop,
-        render
-      } = props;
+      const { prop, render, headerRender } = props;
       this.setColumnDefaultSlot(scopedSlots, render, prop);
+      this.setColumnHeaderSlot(scopedSlots, headerRender, prop);
       return scopedSlots;
     },
     setFormatter(props, formatter) {
@@ -191,8 +183,18 @@ export default {
       if (_.isFunction(render)) {
         scopedSlots.default = scoped => {
           const { $index } = scoped;
-          const cellValue = prop ? this.getCellValue(this.data, `[${$index}].${prop}`) : undefined;
+          const cellValue = prop
+            ? this.getCellValue(this.data, `[${$index}].${prop}`)
+            : undefined;
           return render({ ...scoped, cellValue }, this.$createElement);
+        };
+      }
+    },
+    setColumnHeaderSlot(scopedSlots, configRender, prop) {
+      const render = this.$scopedSlots[`${prop}Header`] || configRender;
+      if (_.isFunction(render)) {
+        scopedSlots.header = scoped => {
+          return render(scoped, this.$createElement);
         };
       }
     },
@@ -203,7 +205,8 @@ export default {
       props.headerAlign = headerAlign || this.headerAlign;
     },
     setShowOverflowTooltip(props, showOverflowTooltip) {
-      props.showOverflowTooltip = showOverflowTooltip || this.showOverflowTooltip;
+      props.showOverflowTooltip =
+        showOverflowTooltip || this.showOverflowTooltip;
     },
     getCellValue(data, prop) {
       return _.get(data, prop);
