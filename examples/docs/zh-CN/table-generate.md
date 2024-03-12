@@ -203,12 +203,14 @@
   stripe
   border
   max-height="500"
+  :default-sort="{prop: 'date', order: 'descending'}"
+  :columns="inlayColumns"
   v-model="list"
 ></dy-table-generate>
 
 <script>
   import genTableMixin from 'dynamic-ui/src/mixins/table.js'
-  import { formatDate } from 'dynamic-ui/src/utils/date-util'
+  import { formatDate, parseDate } from 'dynamic-ui/src/utils/date-util'
 
   export default {
     mixins: [
@@ -227,6 +229,34 @@
             formatter: ({ cellValue }) => {
               return cellValue && formatDate(cellValue, 'yyyy-MM-dd')
             },
+            filters: [],
+            'filter-method': (value, row, column) => {
+              console.log(value, row, column)
+              const month = formatDate(row.date, 'MM')
+              return value === month
+            },
+          },
+          {
+            label: '文本',
+            prop: 'text',
+          },
+          {
+            label: '年龄',
+            prop: 'age',
+            sortable: true,
+          },
+          {
+            label: '小数',
+            prop: 'num1',
+          },
+        ],
+        inlayColumns: [
+          {
+            column: 'index',
+            props: {
+              width: 60,
+              align: 'center',
+            },
           },
         ],
       }
@@ -234,13 +264,25 @@
     created() {
       this.getTableList({
         url: this.$root.URL.getTableList,
-      }).then(([data, total]) => {
-        this.list = data
-        this.total = total
       })
+        .then(([data, total]) => {
+          this.list = data
+          this.total = total
+        })
+        .then(this.setColumnFilters)
     },
-
-    methods: {},
+    methods: {
+      setColumnFilters() {
+        const dateColumn = this.config.find(i => i.prop === 'date')
+        const set = this.list.reduce((set, i) => {
+          const month = formatDate(i.date, 'MM')
+          return set.add(month)
+        }, new Set())
+        dateColumn.filters = Array.from(set)
+          .toSorted((a, b) => a - b)
+          .map(i => ({ text: `${i}月份`, value: i }))
+      },
+    },
   }
 </script>
 ```

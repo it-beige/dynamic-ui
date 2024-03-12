@@ -4,13 +4,41 @@ const md = require('./config');
 function getImportStatement(str) {
   // eslint-disable-next-line
   let reg = new RegExp("import (.+) from 'dynamic-ui/src/(.+)", 'g')
-  const imports = new Set();
+  const importMap = new Map();
+  const exportsPackageSet = new Set();
   str = str.replace(reg, (...arg) => {
-    const [, name, path] = arg;
-    imports.add(`import ${name} from 'main/${path}`);
+    let [, name, path] = arg;
+
+    const reg = /[{}]/g;
+    if (reg.test(name)) {
+      name = name.replace(reg, '').trim();
+      exportsPackageSet.add(path);
+    }
+
+    if (!importMap.has(path)) {
+      importMap.set(path, new Set());
+    }
+
+    const set = importMap.get(path);
+    const packages = name.split(',');
+    packages.forEach(i => {
+      if (!set.has(i)) {
+        set.add(i);
+      }
+    });
+
     return '';
   });
-  return [str, Array.from(imports)];
+  let imports = Array.from(importMap.keys()).map(path => {
+    const set = importMap.get(path);
+    let packageStr = Array.from(set).join(',');
+    if (exportsPackageSet.has(path)) {
+      packageStr = `{ ${packageStr} }`;
+    }
+    return `import ${packageStr} from 'main/${path}`;
+  });
+
+  return [str, imports];
 }
 
 module.exports = function (source) {

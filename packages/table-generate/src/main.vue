@@ -19,6 +19,21 @@ const tableColumnProps = {
   showOverflowTooltip: columnProps.showOverflowTooltip
 };
 
+export const INDEX = 'index';
+export const SELECTION = 'selection';
+export const EXPAND = 'expand';
+const INLAY_COLUMNS = [
+  INDEX,
+  SELECTION,
+  EXPAND
+];
+const INLAY_COLUMNS_MAP = {
+  [INDEX]: {
+    type: INDEX,
+    label: '序号'
+  }
+};
+
 const props = {
   ...tableColumnProps,
   // 表格配置对象
@@ -30,6 +45,20 @@ const props = {
   isRenders: {
     type: Object,
     default: () => ({})
+  },
+  // 内置支持的列
+  columns: {
+    type: Array,
+    default: () => [],
+    validator: (value) => {
+      const valid = value.every(i => {
+        return i.column && INLAY_COLUMNS.includes(i.column);
+      });
+      if (!valid) {
+        console.error(`[Dynamic Error] columns项中的column只能是${INLAY_COLUMNS.join('、')}`);
+      }
+      return valid;
+    }
   }
 };
 export default {
@@ -100,6 +129,18 @@ export default {
         i.data.scopedSlots = this.setColumnScopedSlots(props, scopedSlots);
       });
     },
+    renderInlayColumns(inlayColumns) {
+      return inlayColumns.map(i => {
+        const { column, props = {} } = i;
+        const defaultProps = INLAY_COLUMNS_MAP[column];
+        return this.renderColumn({...defaultProps, ...props});
+      });
+    },
+    renderIndexColumn() {
+      return this.renderColumn({
+        // type:
+      });
+    },
     renderTable() {
       let createElement = this.$createElement;
       const { getTableProps, getTableOn, getTableSlots, getTableScopedSlots } =
@@ -110,6 +151,7 @@ export default {
       const scopedSlots = getTableScopedSlots();
       const attrs = this.$attrs;
       const children = [
+        this.renderInlayColumns(this.columns),
         this.renderColumns(this.getRenderConfig(this.config)),
         this.normalizeSlots(slots)
       ];
@@ -136,30 +178,31 @@ export default {
       });
     },
     renderColumns(config) {
-      return config.map(i => {
-        const { label, prop, children = [], ...rest } = attrsKebabToCamel(i);
-        const props = {
-          ...rest,
-          label,
-          prop
-        };
-        const scopedSlots = {};
-        const data = {
-          props,
-          scopedSlots
-        };
+      return config.map(this.renderColumn);
+    },
+    renderColumn(i) {
+      const { label, prop, children = [], ...rest } = attrsKebabToCamel(i);
+      const props = {
+        ...rest,
+        label,
+        prop
+      };
+      const scopedSlots = {};
+      const data = {
+        props,
+        scopedSlots
+      };
         // column props
-        this.setColumnProps(props);
+      this.setColumnProps(props);
 
-        // column scopedSlots
-        this.setColumnScopedSlots(props, scopedSlots);
+      // column scopedSlots
+      this.setColumnScopedSlots(props, scopedSlots);
 
-        return (
-          <Column.name {...data}>
-            {this.renderColumns(this.getRenderConfig(children))}
-          </Column.name>
-        );
-      });
+      return (
+        <Column.name {...data}>
+          {this.renderColumns(this.getRenderConfig(children))}
+        </Column.name>
+      );
     },
     setColumnProps(props) {
       const { formatter, align, headerAlign, showOverflowTooltip } = props;
