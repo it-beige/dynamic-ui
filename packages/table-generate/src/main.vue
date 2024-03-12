@@ -77,7 +77,11 @@ export default {
     },
     normalizeSlots(slots) {
       const defaultSlot = slots.find(i => i.data?.slot === 'default');
-      const children = defaultSlot.children || [];
+      _.isArray(defaultSlot?.children) && this.normalizeDefaultSlot(defaultSlot.children);
+
+      return slots;
+    },
+    normalizeDefaultSlot(children) {
       const columns = children.filter(
         i => i.componentOptions?.tag === componentNameToTag(Column.name),
       );
@@ -92,7 +96,6 @@ export default {
         i.componentOptions.propsData = this.setColumnProps(props);
         i.data.scopedSlots = this.setColumnScopedSlots(props, scopedSlots);
       });
-      return slots;
     },
     renderTable() {
       let createElement = this.$createElement;

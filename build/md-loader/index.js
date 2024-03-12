@@ -1,20 +1,16 @@
-const {
-  stripScript,
-  stripTemplate,
-  genInlineComponentText
-} = require('./util');
+const { stripScript, stripTemplate, genInlineComponentText } = require('./util');
 const md = require('./config');
 
 function getImportStatement(str) {
   // eslint-disable-next-line
-  let reg = new RegExp('import (.+) from \'dynamic-ui/src/(.+)', 'g');
-  const imports = [];
+  let reg = new RegExp("import (.+) from 'dynamic-ui/src/(.+)", 'g')
+  const imports = new Set();
   str = str.replace(reg, (...arg) => {
     const [, name, path] = arg;
-    imports.push(`import ${name} from 'main/${path}`);
+    imports.add(`import ${name} from 'main/${path}`);
     return '';
   });
-  return [str, imports];
+  return [str, Array.from(imports)];
 }
 
 module.exports = function (source) {
@@ -41,7 +37,9 @@ module.exports = function (source) {
     let demoComponentContent = genInlineComponentText(html, script);
     const demoComponentName = `dynamic-demo${id}`;
     output.push(`<template slot="source"><${demoComponentName} /></template>`);
-    componenetsString += `${JSON.stringify(demoComponentName)}: ${demoComponentContent},`;
+    componenetsString += `${JSON.stringify(
+      demoComponentName,
+    )}: ${demoComponentContent},`;
 
     // 重新计算下一次的位置
     id++;
@@ -69,7 +67,8 @@ module.exports = function (source) {
     /* import
     import request form 'dynamic-ui/src/mixins/request.js';
   */
-  } else if (content.indexOf('<script>') === 0) { // 硬编码，有待改善
+  } else if (content.indexOf('<script>') === 0) {
+    // 硬编码，有待改善
     start = content.indexOf('</script>') + '</script>'.length;
     pageScript = content.slice(0, start);
   }

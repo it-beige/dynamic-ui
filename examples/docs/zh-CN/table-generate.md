@@ -193,6 +193,60 @@
 - template 的插槽写法高于 column 的 render
 - 配置项的 underscore、camelCase 写法都支持, 如` header-align`、`headerAlign `这两种都行
 
+### 筛选 + 排序
+
+:::demo
+
+```html
+<dy-table-generate
+  :config="config"
+  stripe
+  border
+  max-height="500"
+  v-model="list"
+></dy-table-generate>
+
+<script>
+  import genTableMixin from 'dynamic-ui/src/mixins/table.js'
+  import { formatDate } from 'dynamic-ui/src/utils/date-util'
+
+  export default {
+    mixins: [
+      genTableMixin({
+        useTableList: 'getTableList',
+      }),
+    ],
+    data(self) {
+      return {
+        list: [],
+        total: 0,
+        config: [
+          {
+            label: '日期',
+            prop: 'date',
+            formatter: ({ cellValue }) => {
+              return cellValue && formatDate(cellValue, 'yyyy-MM-dd')
+            },
+          },
+        ],
+      }
+    },
+    created() {
+      this.getTableList({
+        url: this.$root.URL.getTableList,
+      }).then(([data, total]) => {
+        this.list = data
+        this.total = total
+      })
+    },
+
+    methods: {},
+  }
+</script>
+```
+
+:::
+
 ### 筛选列
 
 ### 扩展 Table Attributes
