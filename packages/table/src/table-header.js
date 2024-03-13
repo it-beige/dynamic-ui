@@ -129,7 +129,7 @@ export default {
                         column.filterable ? (<span
                           class="dy-table__column-filter-trigger"
                           on-click={ ($event) => this.handleFilterClick($event, column) }>
-                          <i class={ ['dy-icon-arrow-down', column.filterOpened ? 'dy-icon-arrow-up' : ''] }></i>
+                          {column.renderFilter ? column.renderFilter.call(this._renderProxy, h, { column, $index: cellIndex, store: this.store, _self: this.$parent.$vnode.context }) : <i class={ ['dy-icon-arrow-down', column.filterOpened ? 'dy-icon-arrow-up' : ''] }></i>}
                         </span>) : ''
                       }
                     </div>

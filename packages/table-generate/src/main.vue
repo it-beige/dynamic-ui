@@ -30,7 +30,16 @@ const INLAY_COLUMNS = [
 const INLAY_COLUMNS_MAP = {
   [INDEX]: {
     type: INDEX,
-    label: '序号'
+    label: '#',
+    width: 60
+  },
+  [SELECTION]: {
+    type: SELECTION,
+    width: 60
+  },
+  [EXPAND]: {
+    type: EXPAND,
+    width: 60
   }
 };
 
@@ -134,11 +143,6 @@ export default {
         const { column, props = {} } = i;
         const defaultProps = INLAY_COLUMNS_MAP[column];
         return this.renderColumn({...defaultProps, ...props});
-      });
-    },
-    renderIndexColumn() {
-      return this.renderColumn({
-        // type:
       });
     },
     renderTable() {

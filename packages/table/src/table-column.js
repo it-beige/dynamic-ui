@@ -20,6 +20,7 @@ export default {
     width: {},
     minWidth: {},
     renderHeader: Function,
+    renderFilter: Function,
     sortable: {
       type: [Boolean, String],
       default: false
@@ -144,6 +145,9 @@ export default {
     },
 
     setColumnRenders (column) {
+      if (this.renderFilter) {
+        column.renderFilter = this.renderFilter;
+      }
       // renderHeader 属性不推荐使用。
       if (this.renderHeader) {
         console.warn('[Dynamic Warn][TableColumn]Comparing to render-header, scoped-slot header is easier to use. We recommend users to use scoped-slot header.');

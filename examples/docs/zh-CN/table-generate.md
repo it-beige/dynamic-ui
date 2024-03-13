@@ -193,12 +193,114 @@
 - template 的插槽写法高于 column 的 render
 - 配置项的 underscore、camelCase 写法都支持, 如` header-align`、`headerAlign `这两种都行
 
-### 筛选 + 排序
+### 内置列
 
 :::demo
 
 ```html
 <dy-table-generate
+  ref="tableGenerateRef"
+  :config="config"
+  max-height="500"
+  :columns="inlayColumns"
+  v-model="list"
+>
+  <template #expand-prop="{row}">
+    <dy-descriptions :column="config.length" border>
+      <dy-descriptions-item v-for="i of config" :key="i.prop">
+        <div slot="label">{{i.label}}</div>
+        <div>{{row[i.prop]}}</div>
+      </dy-descriptions-item>
+    </dy-descriptions>
+  </template>
+</dy-table-generate>
+
+<script>
+  import genTableMixin from 'dynamic-ui/src/mixins/table.js'
+
+  export default {
+    mixins: [
+      genTableMixin({
+        useTableList: 'getTableList',
+      }),
+    ],
+    data(self) {
+      return {
+        list: [],
+        total: 0,
+        config: [
+          {
+            label: '文本',
+            prop: 'text',
+          },
+          {
+            label: '年龄',
+            prop: 'age',
+            sortable: true,
+          },
+          {
+            label: '小数',
+            prop: 'num1',
+          },
+        ],
+        inlayColumns: [
+          {
+            column: 'selection',
+            props: {
+              align: 'center',
+            },
+          },
+          {
+            column: 'index',
+            props: {
+              label: '序号',
+              align: 'center',
+            },
+          },
+          {
+            column: 'expand',
+            props: {
+              prop: 'expand-prop',
+              label: '展开',
+              align: 'center',
+            },
+          },
+        ],
+      }
+    },
+    created() {
+      this.getTableList({
+        url: this.$root.URL.getTableList,
+      }).then(([data, total]) => {
+        this.list = data
+        this.total = total
+      })
+    },
+    methods: {
+      loga(scoped) {
+        console.log(scoped)
+      },
+    },
+  }
+</script>
+```
+
+:::
+
+### 筛选 + 排序
+
+:::demo
+
+```html
+<dy-row type="flex" justify="end">
+  <dy-col class="dy-flex__justify-end">
+    <dy-button @click="clearFilter('date')" type="text" size="small">
+      清除日期筛选
+    </dy-button>
+  </dy-col>
+</dy-row>
+<dy-table-generate
+  ref="tableGenerateRef"
   :config="config"
   stripe
   border
@@ -226,6 +328,7 @@
           {
             label: '日期',
             prop: 'date',
+            columnKey: 'date',
             formatter: ({ cellValue }) => {
               return cellValue && formatDate(cellValue, 'yyyy-MM-dd')
             },
@@ -234,6 +337,9 @@
               console.log(value, row, column)
               const month = formatDate(row.date, 'MM')
               return value === month
+            },
+            renderFilter: () => {
+              return <i class="dyanamicDoc doc-dy-filter" />
             },
           },
           {
@@ -253,10 +359,6 @@
         inlayColumns: [
           {
             column: 'index',
-            props: {
-              width: 60,
-              align: 'center',
-            },
           },
         ],
       }
@@ -281,6 +383,9 @@
         dateColumn.filters = Array.from(set)
           .toSorted((a, b) => a - b)
           .map(i => ({ text: `${i}月份`, value: i }))
+      },
+      clearFilter(prop) {
+        this.$refs.tableGenerateRef.useRef().clearFilter(prop)
       },
     },
   }
