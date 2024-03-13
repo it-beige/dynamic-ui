@@ -27,7 +27,9 @@ export default {
     event: 'input'
   },
   components: { ImageViewer },
-  props,
+  props: {
+    ...props
+  },
   data () {
     return {
       extraProps: [...getAttrMixExtra('prop'), ...getUploadMixExtra('prop'), ...Object.keys(props)],
