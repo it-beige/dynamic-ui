@@ -124,7 +124,9 @@ export default {
   name: 'DyDialogGenerate',
   mixins: [genAttrsMixin(Dialog, false)],
   components: {},
-  props,
+  props: {
+    ...props
+  },
   data() {
     return {
       extraProps: [...getAttrMixExtra('prop'), ...Object.keys(props) ],

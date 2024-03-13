@@ -36,7 +36,6 @@ const props = {
     type: Boolean,
     default: true
   },
-  value: {},
   // 是否可取消选中
   toggle: {
     type: Boolean,
@@ -47,7 +46,7 @@ export default {
   name: 'DyRadioGenerate',
   mixins: [genRequestMixin()],
   components: {},
-  props,
+  props: {...props, value: {}},
   data() {
     return {
       extraProps: [...getRequestMixExtra('prop'), ...Object.keys(props)],

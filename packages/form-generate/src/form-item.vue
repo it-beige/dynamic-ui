@@ -38,7 +38,7 @@ export default {
     component: {
       type: String
     },
-    value: {},
+    // value: {},
     classSheet: {
       type: [String, Object, Array]
     },
@@ -102,7 +102,7 @@ export default {
           {
             component === 'slot' ? this.defaultRender() : [
               this.getSlots(this.itemSlots),
-              <component.name class={classSheet} value={this.value} {...data}>
+              <component.name class={classSheet} value={this.$attrs.value} {...data}>
                 { slots }
               </component.name>
             ]

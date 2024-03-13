@@ -12,62 +12,61 @@ const Col = getComponentByName('Col');
 
 import GenerateFormItem from './form-item.vue';
 
-const props = {
-  // 表单数据对象
-  value: {
-    type: Object,
-    required: true
-  },
-  // 表单配置对象
-  config: {
-    type: Array,
-    required: true
-  },
-  labelSuffix: {
-    type: String,
-    default: '：'
-  },
-  // 表单项渲染组件class配置
-  classSheets: {
-    type: Object,
-    default: () => ({})
-  },
-  // 表单项class配置
-  itemClassSheets: {
-    type: Object,
-    default: () => ({})
-  },
-  // 包裹表单项的col组件的class配置
-  colClassSheets: {
-    type: Object,
-    default: () => ({})
-  },
-  // 控制表单项的禁用
-  isDisableds: {
-    type: Object,
-    default: () => ({})
-  },
-  // 控制表单项的输入
-  isReadonlys: {
-    type: Object,
-    default: () => ({})
-  },
-  // 控制表单项的渲染
-  isRenders: {
-    type: Object,
-    default: () => ({})
-  }
-};
 export default {
   name: 'DyFormGenerate',
   mixins: [genAttrsMixin(Form)],
-  props,
+  props: {
+    // 表单数据对象
+    value: {
+      type: Object,
+      required: true
+    },
+    // 表单配置对象
+    config: {
+      type: Array,
+      required: true
+    },
+    labelSuffix: {
+      type: String,
+      default: '：'
+    },
+    // 表单项渲染组件class配置
+    classSheets: {
+      type: Object,
+      default: () => ({})
+    },
+    // 表单项class配置
+    itemClassSheets: {
+      type: Object,
+      default: () => ({})
+    },
+    // 包裹表单项的col组件的class配置
+    colClassSheets: {
+      type: Object,
+      default: () => ({})
+    },
+    // 控制表单项的禁用
+    isDisableds: {
+      type: Object,
+      default: () => ({})
+    },
+    // 控制表单项的输入
+    isReadonlys: {
+      type: Object,
+      default: () => ({})
+    },
+    // 控制表单项的渲染
+    isRenders: {
+      type: Object,
+      default: () => ({})
+    }
+  },
   components: {
     [GenerateFormItem.name]: GenerateFormItem
   },
   data() {
     return {
-      extraProps: [...getAttrMixExtra('prop'), ...Object.keys(props)],
+      extraProps: [...getAttrMixExtra('prop')],
       extraData: [...getAttrMixExtra('data')]
     };
   },
@@ -124,7 +123,7 @@ export default {
       return this._getVnodesBySlots(slots);
     },
     getFormScopedSlots() {
-      let scopedSlots = this.$scopedSlots;
+      let scopedSlots = {};
       return scopedSlots;
     },
     renderForm() {
@@ -174,7 +173,7 @@ export default {
       };
       return (
         <Row.name {...data} class={`${isCascader ? 'cascader-row' : ''}`}>
-          {config.map((i) => {
+          {config.map((i, idx) => {
             const {
               props = {},
               on = {},

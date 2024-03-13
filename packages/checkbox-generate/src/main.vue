@@ -37,10 +37,8 @@ const props = {
   group: {
     type: Boolean,
     default: true
-  },
-  value: {
-    type: Array
   }
+
 };
 export default {
   name: 'DyCheckboxGenerate',
@@ -48,7 +46,13 @@ export default {
   components: {
 
   },
-  props,
+  props: {
+    ...props,
+    value: {
+      type: Array,
+      default: () => ([])
+    }
+  },
   data () {
     return {
       extraProps: [...getRequestMixExtra('prop'), ...Object.keys(props)],

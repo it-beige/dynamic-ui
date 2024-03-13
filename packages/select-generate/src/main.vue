@@ -22,7 +22,10 @@ const props = {
 export default {
   name: 'DySelectGenerate',
   mixins: [genAttrsMixin(Select), genRequestMixin(), genPaginationMixin()],
-  props,
+  props: {
+    ...props
+
+  },
   data() {
     return {
       extraProps: [...getAttrMixExtra('prop'), ...getRequestMixExtra('prop'), ...getPaginationMixExtra('prop'), ...Object.keys(props)],

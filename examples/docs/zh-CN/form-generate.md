@@ -761,6 +761,7 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
           component: 'select',
           span: 12,
           props: {
+            props: this.useOptionProps(),
             options: this.options,
           },
         },
@@ -782,6 +783,7 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
           component: 'select',
           span: 12,
           props: {
+            props: this.useOptionProps(),
             options: this.options,
           },
         },
@@ -803,6 +805,7 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
           component: 'select',
           span: 12,
           props: {
+            props: this.useOptionProps(),
             options: this.options,
           },
         },
@@ -824,6 +827,7 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
           component: 'select',
           span: 12,
           props: {
+            props: this.useOptionProps(),
             options: this.options,
           },
           on: {
@@ -853,6 +857,7 @@ on 传入的事件监听根据你需要渲染 component 决定, 所有组件都�
           component: 'select',
           span: 12,
           props: {
+            props: this.useOptionProps(),
             options: this.options,
           },
         },
