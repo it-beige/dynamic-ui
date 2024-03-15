@@ -302,10 +302,8 @@ export default {
     },
     renderButtonSlot() {
       const [name] = createNamespace('fullscreen');
-      const onClick = () => {
-        this.isFullscreen = !this.isFullscreen;
+      const fullscreenOffset = () => {
         const elm = this.getDialogElm();
-
         if (this.isFullscreen) {
           this.dialogLastLeft = elm.style.left;
           this.dialogLastTop = elm.style.top;
@@ -321,7 +319,12 @@ export default {
           this.setDialogOffset(x, y);
           this.resetDialogWH(width, height);
         }
-
+      };
+      const onClick = () => {
+        this.isFullscreen = !this.isFullscreen;
+        if (this.draggable) {
+          fullscreenOffset();
+        }
       };
       return (
         <button onClick={onClick} class="fullscreen-btn" slot="button" type="button" aria-label="Fullscreen">
