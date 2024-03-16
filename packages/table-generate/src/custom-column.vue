@@ -7,15 +7,20 @@ import { getCompPropsBySourceOpt, genComponentPorps } from 'main/utils/component
 import _ from 'lodash';
 import { createNamespace } from 'main/utils/create';
 
+import Locale from 'dynamic-ui/src/mixins/locale';
+
 const Button = getComponentByName('Button');
 const Popover = getComponentByName('Popover');
 const CheckboxGroup = getComponentByName('Checkbox');
+const Tooltip = getComponentByName('Tooltip');
 const Checkbox = getFormComponentByName('checkbox');
 export const [ButtonCtor, ButtonPick] = genComponentPorps(getCompPropsBySourceOpt(Button));
 export const [PopoverCtor, PopoverPick] = genComponentPorps(getCompPropsBySourceOpt(Popover));
+export const [TooltipCtor, TooltipPick] = genComponentPorps(getCompPropsBySourceOpt(Tooltip));
 
 export default {
   name: 'DyTableCustomColumnGenerate',
+  mixins: [Locale],
   props: {
     buttonProps: {
       type: ButtonCtor,
@@ -28,6 +33,12 @@ export default {
       type: PopoverCtor,
       default: () => new PopoverCtor({
         trigger: 'manual'
+      })
+    },
+    tooltipProps: {
+      type: TooltipCtor,
+      default: () => new TooltipCtor({
+        effect: 'dark'
       })
     },
     // 列配置对象
@@ -54,6 +65,7 @@ export default {
       chekcedColumns: [],
       initCheckedColumns: false,
       visible: false
+
     };
   },
   computed: {
@@ -161,12 +173,27 @@ export default {
         </Checkbox.name>
       );
     },
-    renderColumn(label, {}) {
+    renderColumn(label, { value }) {
+      const column = this.config.find(i => i.prop === value);
+      const getCompOption = (direction) => {
+        let content = this.t(`dy.table.column.custom.${ direction === 'left' ? 'leftText' : 'rightText'}`);
+        return ({
+          props: {
+            ...TooltipPick(this.tooltipProps),
+            content,
+            placement: direction
+          }
+        });
+      };
       return <div class="dy-flex__justify-between">
         <div>{label}</div>
         <div class="fixed">
-          <dy-svg-icon class="fixed-left" icon-class="fixed"></dy-svg-icon>
-          <dy-svg-icon class="fixed-right" icon-class="fixed"></dy-svg-icon>
+          <Tooltip.name {...getCompOption('left')}>
+            <dy-svg-icon class={`${column.fixed === 'left' ? 'active' : ''} fixed-left`} icon-class="fixed" nativeOnClick={this.genColumnFixed(column, 'left')}></dy-svg-icon>
+          </Tooltip.name>
+          <Tooltip.name {...getCompOption('right')}>
+            <dy-svg-icon class={`${column.fixed === 'right' ? 'active' : ''} fixed-right`} icon-class="fixed" nativeOnClick={this.genColumnFixed(column, 'right')}></dy-svg-icon>
+          </Tooltip.name>
         </div>
       </div>;
     },
@@ -203,6 +230,11 @@ export default {
       this.$set(i, 'isRender', () => {
         return this.chekcedColumns.includes(i.prop);
       });
+    },
+    genColumnFixed(column, direction) {
+      return () => {
+        this.$set(column, 'fixed', column.fixed === direction ? false : direction);
+      };
     }
   }
 };

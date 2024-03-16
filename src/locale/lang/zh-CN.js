@@ -94,7 +94,14 @@ export default {
       confirmFilter: '筛选',
       resetFilter: '重置',
       clearFilter: '全部',
-      sumText: '合计'
+      sumText: '合计',
+      column: {
+        custom: {
+          leftText: '左固定',
+          rightText: '右固定'
+
+        }
+      }
     },
     tree: {
       emptyText: '暂无数据'

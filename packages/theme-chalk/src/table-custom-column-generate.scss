@@ -24,9 +24,19 @@
     border-bottom: 1px solid #dadce0;
 
     .fixed {
+      color: $--checkbox-font-color;
+
       &-left,
       &-right {
         padding: 0 4px;
+
+        &:hover {
+          color: $--color-primary;
+        }
+
+        &.active {
+          color: $--color-primary;
+        }
       }
 
       &-right {
