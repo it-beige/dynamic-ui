@@ -1,0 +1,70 @@
+@import "mixins/mixins";
+@import "common/var";
+
+@include b(table-custom-column) {
+  margin-bottom: 12px;
+  @include b(button) {
+    &.is-circle {
+      padding: 8px;
+    }
+  }
+
+  &__wrapper {
+  }
+
+  &__header {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 4px 14px;
+    border-bottom: 1px solid #dadce0;
+  }
+
+  &__body {
+    padding: 4px 14px;
+    border-bottom: 1px solid #dadce0;
+
+    .fixed {
+      &-left,
+      &-right {
+        padding: 0 4px;
+      }
+
+      &-right {
+        transform: rotate(-90deg);
+      }
+    }
+
+    .dy-checkbox {
+      display: flex;
+      align-items: center;
+      margin-right: 0;
+      margin-top: 5px;
+
+      &:first-child {
+        margin-top: 0;
+      }
+      &__input {
+        margin-top: 2px;
+      }
+      &__label {
+        flex: 1;
+      }
+    }
+  }
+
+  &__footer {
+    height: 32px;
+    button {
+      background-color: transparent;
+      width: 50%;
+      border: 0;
+      color: #606266;
+      text-align: center;
+      cursor: pointer;
+    }
+  }
+}
+
+.dy-popover.custom-column-popover {
+  padding: 0;
+}

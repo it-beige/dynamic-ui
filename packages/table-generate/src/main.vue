@@ -93,8 +93,6 @@ export default {
       extraData: [...getAttrMixExtra('data')]
     };
   },
-  computed: {},
-  watch: {},
   render() {
     const TableVnode = this.renderTable();
     return TableVnode;

@@ -9,7 +9,7 @@ import globalConfig from 'main/config/global';
 
 import genRequestMixin, {getExtra as getRequestMixExtra} from 'main/mixins/request';
 import { getComponentByName } from 'main/config/component';
-import { isFunction, isString } from 'main/utils/lodash';
+import { isFunction } from 'main/utils/lodash';
 
 const Checkbox = getComponentByName('Checkbox');
 const CheckboxGroup = getComponentByName('CheckboxGroup');

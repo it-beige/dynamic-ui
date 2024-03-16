@@ -99,6 +99,7 @@ import FormGenerate from '../packages/form-generate/index.js';
 import DialogGenerate from '../packages/dialog-generate/index.js';
 import TableGenerate from '../packages/table-generate/index.js';
 import TableColumnGenerate from '../packages/table-column-generate/index.js';
+import TableCustomColumnGenerate from '../packages/table-custom-column-generate/index.js';
 import locale from 'dynamic-ui/src/locale';
 import CollapseTransition from 'dynamic-ui/src/transitions/collapse-transition';
 import {
@@ -206,6 +207,7 @@ const components = [
   DialogGenerate,
   TableGenerate,
   TableColumnGenerate,
+  TableCustomColumnGenerate,
   CollapseTransition
 ];
 
@@ -387,5 +389,6 @@ export default {
   FormGenerate,
   DialogGenerate,
   TableGenerate,
-  TableColumnGenerate
+  TableColumnGenerate,
+  TableCustomColumnGenerate
 };

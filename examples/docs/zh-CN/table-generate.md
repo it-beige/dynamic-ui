@@ -396,6 +396,79 @@
 
 ### 自定列
 
+:::demo
+
+```html
+<dy-table-custom-column-generate
+  class="dy-flex__justify-end"
+  :config="config"
+  :fixedColumns="fixedColumns"
+></dy-table-custom-column-generate>
+<dy-table-generate
+  :config="config"
+  stripe
+  border
+  max-height="500"
+  v-model="list"
+></dy-table-generate>
+
+<script>
+  import genTableMixin from 'dynamic-ui/src/mixins/table.js'
+  import { formatDate, parseDate } from 'dynamic-ui/src/utils/date-util'
+
+  export default {
+    mixins: [
+      genTableMixin({
+        useTableList: 'getTableList',
+      }),
+    ],
+    data(self) {
+      return {
+        list: [],
+        fixedColumns: ['date'],
+        total: 0,
+        config: [
+          {
+            label: '日期',
+            prop: 'date',
+            columnKey: 'date',
+          },
+          {
+            label: '文本',
+            prop: 'text',
+          },
+          {
+            label: '年龄',
+            prop: 'age',
+          },
+          {
+            label: '小数',
+            prop: 'num1',
+          },
+        ],
+      }
+    },
+    created() {
+      this.getTableList({
+        url: this.$root.URL.getTableList,
+      })
+        .then(([data, total]) => {
+          this.list = data
+          this.total = total
+        })
+        .then(this.setColumnFilters)
+    },
+    methods: {},
+  }
+</script>
+```
+
+:::
+
+:::tip
+使用 custom-column-generate 传入`config`之后, isRender 的控制是否显示列的配置会被前者接管
+:::
+
 ### 扩展 Table Attributes
 
 | 参数         | 说明                                                 | 类型   | 可选值            | 默认值 |
