@@ -1,19 +1,16 @@
 
 <script>
 import { getComponentByName } from 'main/config/component';
-import { getComponentByName as getFormComponentByName} from 'main/config/form';
 import { getCompPropsBySourceOpt, genComponentPorps } from 'main/utils/component.js';
-
-import _ from 'lodash';
 import { createNamespace } from 'main/utils/create';
-
+import _ from 'lodash';
 import Locale from 'dynamic-ui/src/mixins/locale';
 
 const Button = getComponentByName('Button');
 const Popover = getComponentByName('Popover');
-const CheckboxGroup = getComponentByName('Checkbox');
+const CheckboxGroup = getComponentByName('CheckboxGroup');
+const Checkbox = getComponentByName('Checkbox');
 const Tooltip = getComponentByName('Tooltip');
-const Checkbox = getFormComponentByName('checkbox');
 export const [ButtonCtor, ButtonPick] = genComponentPorps(getCompPropsBySourceOpt(Button));
 export const [PopoverCtor, PopoverPick] = genComponentPorps(getCompPropsBySourceOpt(Popover));
 export const [TooltipCtor, TooltipPick] = genComponentPorps(getCompPropsBySourceOpt(Tooltip));
@@ -22,6 +19,7 @@ export default {
   name: 'DyTableCustomColumnGenerate',
   mixins: [Locale],
   props: {
+    // 触发按钮props
     buttonProps: {
       type: ButtonCtor,
       default: () => new ButtonCtor({
@@ -29,12 +27,14 @@ export default {
         circle: true
       })
     },
+    // 面板props
     popoverProps: {
       type: PopoverCtor,
       default: () => new PopoverCtor({
         trigger: 'manual'
       })
     },
+    // 固钉提示的props
     tooltipProps: {
       type: TooltipCtor,
       default: () => new TooltipCtor({
@@ -51,10 +51,12 @@ export default {
       type: Array,
       default: () => []
     },
+    // 重置按钮文本
     resetText: {
       type: String,
       default: '重置'
     },
+    // 确认按钮文本
     confirmText: {
       type: String,
       default: '确认'
@@ -64,8 +66,10 @@ export default {
     return {
       chekcedColumns: [],
       initCheckedColumns: false,
-      visible: false
-
+      visible: false,
+      isConfirm: false,
+      leftFixedColumns: [],
+      rightFixedColumns: []
     };
   },
   computed: {
@@ -92,15 +96,18 @@ export default {
         if (!this.initCheckedColumns) {
           this.chekcedColumns = this.getColumnNames();
           this.initCheckedColumns = true;
+          this.setColumnsFixed();
         } else {
           const newColumns = this.config.filter(i => !i.isRender);
           this.chekcedColumns.push(...newColumns.map(i => i.prop));
+          this.setColumnsFixed();
         }
       }
     },
     visible: {
       handler() {
-        if (this.visible) {
+        if (this.visible && this.isConfirm) {
+          this.isConfirm = false;
           this.$nextTick(() => {
             this.setColumnsRender(this.config, (i) => {
               const rendered = this.chekcedColumns.includes(i.prop);
@@ -120,7 +127,7 @@ export default {
       },
       on: {
         click: () => {
-          this.visible = true;
+          this.visible = !this.visible;
         }
       }
     };
@@ -135,14 +142,14 @@ export default {
       <div class={name} >
         <Popover.name {...popoverData}>
           <div class={bem('wrapper')}>
-            <CheckboxGroup.name
+            <Checkbox.name
               label="全部"
               class={bem('header')}
               size='medium'
               indeterminate={this.isIndeterminate}
               v-model={this.checkAll}
             >
-            </CheckboxGroup.name>
+            </Checkbox.name>
             {this.renderCustomColumn()}
             {this.renderFooter()}
           </div>
@@ -156,24 +163,25 @@ export default {
   methods: {
     renderCustomColumn() {
       const [, bem] = createNamespace('table-custom-column');
-      const props = {
-        label: 'label',
-        value: 'value',
-        disabled: 'disabled',
-        labelRender:
-        this.renderColumn
-      };
+      const options = this.getCustomOptions();
       return (
-        <Checkbox.name
-          v-model={this.chekcedColumns}
+        <CheckboxGroup.name
           class={`dy-flex-column ${bem('body')}`}
-          options={this.getCustomOption()}
-          propsProps={props}
+          v-model={this.chekcedColumns}
         >
-        </Checkbox.name>
+          {options.map(i => (
+            <div key={i.value} class="item dy-flex__justify-between">
+              <Checkbox.name label={i.value} disabled={this.fixedColumns.includes(i.value)}>
+                {i.label}
+              </Checkbox.name>
+              {this.renderFixed(i)}
+            </div>
+          ))}
+        </CheckboxGroup.name>
+
       );
     },
-    renderColumn(label, { value }) {
+    renderFixed({ value }) {
       const column = this.config.find(i => i.prop === value);
       const getCompOption = (direction) => {
         let content = this.t(`dy.table.column.custom.${ direction === 'left' ? 'leftText' : 'rightText'}`);
@@ -185,19 +193,18 @@ export default {
           }
         });
       };
-      return <div class="dy-flex__justify-between">
-        <div>{label}</div>
+      return (
         <div class="fixed">
           <Tooltip.name {...getCompOption('left')}>
-            <dy-svg-icon class={`${column.fixed === 'left' ? 'active' : ''} fixed-left`} icon-class="fixed" nativeOnClick={this.genColumnFixed(column, 'left')}></dy-svg-icon>
+            <dy-svg-icon class={`${this.leftFixedColumns.includes(column.prop) ? 'active' : ''} fixed-left`} icon-class="fixed" nativeOnClick={this.genColumnFixed(column, 'left')}></dy-svg-icon>
           </Tooltip.name>
           <Tooltip.name {...getCompOption('right')}>
-            <dy-svg-icon class={`${column.fixed === 'right' ? 'active' : ''} fixed-right`} icon-class="fixed" nativeOnClick={this.genColumnFixed(column, 'right')}></dy-svg-icon>
+            <dy-svg-icon class={`${this.rightFixedColumns.includes(column.prop) ? 'active' : ''} fixed-right`} icon-class="fixed" nativeOnClick={this.genColumnFixed(column, 'right')}></dy-svg-icon>
           </Tooltip.name>
         </div>
-      </div>;
+      );
     },
-    getCustomOption() {
+    getCustomOptions() {
       return this.config.map(i => ({
         label: i.label,
         value: i.prop,
@@ -218,10 +225,13 @@ export default {
     },
     resetHandle() {
       this.chekcedColumns = this.getColumnNames();
+      this.setColumnsFixed();
     },
     confirmHandle() {
       this.visible = false;
+      this.isConfirm = true;
       this.setColumnsRender(this.config, this.columnRenderOption);
+      this.setColumnsFixedOption();
     },
     setColumnsRender(columns, isRender) {
       columns.forEach(isRender);
@@ -231,10 +241,55 @@ export default {
         return this.chekcedColumns.includes(i.prop);
       });
     },
+    genFixedSet() {
+      const leftSet = new Set(this.leftFixedColumns);
+      const rightSet = new Set(this.rightFixedColumns);
+      return [leftSet, rightSet];
+    },
+    setColumnsFixed() {
+      const leftSet = new Set();
+      const rightSet = new Set();
+      this.config.forEach(i => {
+        switch (i.fixed) {
+          case 'left':
+            leftSet.add(i.prop);
+            break;
+          case 'right':
+            rightSet.add(i.prop);
+            break;
+        }
+      });
+      this.leftFixedColumns = Array.from(leftSet);
+      this.rightFixedColumns = Array.from(rightSet);
+    },
     genColumnFixed(column, direction) {
       return () => {
-        this.$set(column, 'fixed', column.fixed === direction ? false : direction);
+        const prop = column.prop;
+        const [leftSet, rightSet] = this.genFixedSet();
+        const addSet = direction === 'left' ? leftSet : rightSet;
+        const removeSet = direction === 'left' ? rightSet : leftSet;
+        if (addSet.has(prop)) {
+          addSet.delete(prop);
+        } else {
+          addSet.add(prop);
+        }
+
+        if (removeSet.has(prop)) {
+          removeSet.delete(prop);
+        }
+        this.leftFixedColumns = Array.from(leftSet);
+        this.rightFixedColumns = Array.from(rightSet);
       };
+    },
+    setColumnsFixedOption() {
+      this.config.forEach(i => {
+        const fixed = this.leftFixedColumns.includes(i.prop)
+          ? 'left'
+          : this.rightFixedColumns.includes(i.prop)
+            ? 'right'
+            : undefined;
+        this.$set(i, 'fixed', fixed);
+      });
     }
   }
 };

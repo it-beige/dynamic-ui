@@ -431,7 +431,7 @@
           {
             label: '日期',
             prop: 'date',
-            columnKey: 'date',
+            fixed: 'left',
           },
           {
             label: '文本',
