@@ -99,6 +99,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.16.7",
     "@babel/preset-env": "^7.17.2",
     "@babel/preset-typescript": "^7.22.11",
+    "@types/lodash": "^4.17.0",
     "@vue/babel-plugin-jsx": "^1.1.5",
     "@vue/babel-plugin-transform-vue-jsx": "^1.1.2",
     "@vue/component-compiler-utils": "^3.2.0",

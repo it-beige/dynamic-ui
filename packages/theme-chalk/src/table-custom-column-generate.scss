@@ -2,7 +2,6 @@
 @import "common/var";
 
 @include b(table-custom-column) {
-  margin-bottom: 12px;
   @include b(button) {
     &.is-circle {
       padding: 8px;

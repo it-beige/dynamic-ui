@@ -399,22 +399,75 @@
 :::demo
 
 ```html
-<dy-table-custom-column-generate
-  class="dy-flex__justify-end"
-  :config="config"
-  :fixedColumns="fixedColumns"
-></dy-table-custom-column-generate>
-<dy-table-generate
-  :config="config"
-  stripe
-  border
-  max-height="500"
-  v-model="list"
-></dy-table-generate>
+<dy-row type="flex" justify="end">
+  <dy-col :span="12">
+    <div
+      class="dy-flex__align-center dy-flex__justify-between"
+      style="margin-bottom: 12px"
+    >
+      <dy-link type="primary" :underline="false">自定义配置:</dy-link>
+      <dy-table-custom-column-generate
+        :config="config2"
+        :buttonProps="buttonProps"
+        :popoverProps="popoverProps"
+        :tooltipProps="tooltipProps"
+        :fixedColumns="fixedColumns"
+        resetText="重新"
+        confirmText="确定"
+      ></dy-table-custom-column-generate>
+    </div>
+
+    <dy-table-generate
+      :config="config2"
+      stripe
+      border
+      max-height="500"
+      v-model="list"
+    ></dy-table-generate>
+  </dy-col>
+
+  <dy-col style="margin-left: 10px;" :span="12">
+    <div
+      class="dy-flex__align-center dy-flex__justify-between"
+      style="margin-bottom: 12px"
+    >
+      <dy-link type="primary" :underline="false">默认配置:</dy-link>
+      <dy-table-custom-column-generate
+        :config="config"
+        :fixedColumns="fixedColumns"
+      ></dy-table-custom-column-generate>
+    </div>
+
+    <dy-table-generate
+      :config="config"
+      stripe
+      border
+      max-height="500"
+      v-model="list"
+    ></dy-table-generate>
+  </dy-col>
+</dy-row>
 
 <script>
   import genTableMixin from 'dynamic-ui/src/mixins/table.js'
   import { formatDate, parseDate } from 'dynamic-ui/src/utils/date-util'
+  import {
+    ButtonCtor,
+    PopoverCtor,
+    TooltipCtor,
+  } from 'dynamic-ui/packages/table-generate/src/custom-column.vue'
+
+  const buttonProps = new ButtonCtor({
+    type: 'success',
+    circle: true,
+  })
+  const popoverProps = new PopoverCtor({
+    trigger: 'manual',
+    placement: 'left',
+  })
+  const tooltipProps = new TooltipCtor({
+    effect: 'light',
+  })
 
   export default {
     mixins: [
@@ -424,14 +477,44 @@
     ],
     data(self) {
       return {
+        buttonProps,
+        popoverProps,
+        tooltipProps,
         list: [],
+        list2: [],
         fixedColumns: ['date'],
         total: 0,
+        total2: 0,
         config: [
           {
             label: '日期',
             prop: 'date',
             fixed: 'left',
+            formatter: ({ cellValue }) => {
+              return cellValue && formatDate(cellValue, 'yyyy-MM-dd')
+            },
+          },
+          {
+            label: '文本',
+            prop: 'text',
+          },
+          {
+            label: '年龄',
+            prop: 'age',
+          },
+          {
+            label: '小数',
+            prop: 'num1',
+          },
+        ],
+        config2: [
+          {
+            label: '日期',
+            prop: 'date',
+            fixed: 'left',
+            formatter: ({ cellValue }) => {
+              return cellValue && formatDate(cellValue, 'yyyy-MM-dd')
+            },
           },
           {
             label: '文本',
@@ -454,7 +537,9 @@
       })
         .then(([data, total]) => {
           this.list = data
+          this.list2 = data
           this.total = total
+          this.total2 = total
         })
         .then(this.setColumnFilters)
     },
@@ -466,18 +551,20 @@
 :::
 
 :::tip
-使用 custom-column-generate 传入`config`之后, isRender 的控制是否显示列的配置会被前者接管
+使用 custom-column-generate 传入`config`之后, isRender 的控制是否显示列的配置会被前者接管, 组件支持的 props 上面示例均给出
 :::
 
 ### 扩展 Table Attributes
 
-| 参数         | 说明                                                 | 类型   | 可选值            | 默认值 |
-| ------------ | ---------------------------------------------------- | ------ | ----------------- | ------ |
-| data/v-model | 表格数据                                             | array  | —                 | —      |
-| config       | 表格配置对象，具体选项看下表                         | array  | —                 | —      |
-| isRenders    | 控制表单项 render                                    | object | —                 | —      |
-| align        | 全局表格对齐方式, 优先级低于 column 的`align`        | String | left/center/right | left   |
-| header-align | 全局表头对齐方式, 优先级低于 column 的`header-align` |
+| 参数                 | 说明                                                         | 类型   | 可选值                   | 默认值 |
+| -------------------- | ------------------------------------------------------------ | ------ | ------------------------ | ------ |
+| data/v-model         | 表格数据                                                     | array  | —                        | —      |
+| config               | 表格配置对象，具体选项看下表                                 | array  | —                        | —      |
+| isRenders            | 控制表单项 render                                            | object | —                        | —      |
+| align                | 全局表格对齐方式, 优先级低于 column 的`align`                | String | left/center/right        | left   |
+| header-align         | 全局表头对齐方式, 优先级低于 column 的`header-align`         |
+| show-overflo-tooltip | 全局表头对齐方式, 优先级低于 column 的`show-overflo-tooltip` |
+| columns              | 内置支持的列                                                 | array  | index、selection、expand | —      |
 
 ### config
 
@@ -487,16 +574,17 @@
 | render       | defalut slot 的 render 写法 | Function({row, column, cellValue, $index}) | —      | —      |
 | headerRender | header slot 的 render 写法  | Function({column, $index})                 | —      | —      |
 
-### form-generate 内置的 component
+### custom-column 内置的 component
 
-| 值       | 渲染的组件           |
-| -------- | -------------------- |
-| input    | dy-input             |
-| select   | dy-select-generate   |
-| radio    | dy-radio-generate    |
-| checkbox | dy-checkbox-generate |
-| upload   | dy-upload-generate   |
+<!--
 
-```
+ -->
 
-```
+| 参数         | 说明           | 类型       | 可选值 | 默认值 |
+| ------------ | -------------- | ---------- | ------ | ------ |
+| buttonProps  | 触发按钮 props | ButtonCtor | —      | —      |
+| popoverProps | PopoverCtor    | —          | —      |
+| tooltipProps | TooltipCtor    | —          | —      |
+| fixedColumns | 固定的列       | —          | —      |
+| resetText    | 重置按钮文本   | —          | —      |
+| confirmText  | 确认按钮文本   | —          | —      |

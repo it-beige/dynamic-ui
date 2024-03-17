@@ -94,7 +94,9 @@ export default {
       immediate: true,
       handler() {
         if (!this.initCheckedColumns) {
-          this.chekcedColumns = this.getColumnNames();
+          this.chekcedColumns = this.config
+            .filter(i => _.isFunction(i.isRender) ? i.isRender() : true)
+            .map(i => i.prop);
           this.initCheckedColumns = true;
           this.setColumnsFixed();
         } else {
