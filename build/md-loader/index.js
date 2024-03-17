@@ -3,11 +3,16 @@ const md = require('./config');
 
 function getImportStatement(str) {
   // eslint-disable-next-line
-  let reg = new RegExp("import (.+) from 'dynamic-ui/src/(.+)", 'g')
+  let reg = /import ((?:\{[^{}]+\}|\w+)) from 'dynamic-ui\/(src|packages)\/(.+?)'/g;
   const importMap = new Map();
   const exportsPackageSet = new Set();
+  const aliasMap = new Map();
   str = str.replace(reg, (...arg) => {
-    let [, name, path] = arg;
+    let [, name, alias, path] = arg;
+
+    if (!aliasMap.has(path)) {
+      aliasMap.set(path, alias === 'src' ? 'main' : 'packages');
+    }
 
     const reg = /[{}]/g;
     if (reg.test(name)) {
@@ -35,7 +40,8 @@ function getImportStatement(str) {
     if (exportsPackageSet.has(path)) {
       packageStr = `{ ${packageStr} }`;
     }
-    return `import ${packageStr} from 'main/${path}`;
+    const alias = aliasMap.get(path);
+    return `import ${packageStr} from '${alias}/${path}'`;
   });
 
   return [str, imports];
