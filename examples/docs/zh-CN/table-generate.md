@@ -574,7 +574,7 @@
 | render       | defalut slot 的 render 写法 | Function({row, column, cellValue, $index}) | —      | —      |
 | headerRender | header slot 的 render 写法  | Function({column, $index})                 | —      | —      |
 
-### custom-column 内置的 component
+### custom-column Attributes
 
 <!--
 
