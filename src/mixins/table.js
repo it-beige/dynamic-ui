@@ -12,10 +12,7 @@ export const [PaginationCtor, PaginationPick] = genComponentPorps(
 
 export default function genTableMixin(option = {}) {
   const {
-    page = 'page',
-    size = 'size',
-    useTableList = 'useTableList',
-    useSizeChange = 'useSizeChange'
+    useTableList = 'useTableList'
   } = option;
 
   const request = globalConfig.useRequest();
@@ -29,21 +26,18 @@ export default function genTableMixin(option = {}) {
     watch: {},
     created() {},
     methods: {
-      [useTableList]({ url, ...option }) {
+      async [useTableList](useParams) {
+        const params = await useParams();
         return request({
-          url,
-          headers: globalConfig.useRequestHeaders(),
-          ...option
+          ...params,
+          headers: globalConfig.useRequestHeaders()
         }).then(res => {
           let data = globalConfig.useParseData(res);
           let total = globalConfig.useParseTotal(res);
           return [data, total];
         });
-      },
-      [useSizeChange](pageSize) {
-        this[size] = pageSize;
-        this[useTableList]();
       }
+
     }
   };
 }

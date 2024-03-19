@@ -148,13 +148,7 @@
       }
     },
     created() {
-      this.getTableList({
-        url: this.$root.URL.getTableList,
-        params: {
-          page: 1,
-          size: 10,
-        },
-      }).then(([data, total]) => {
+      this.getTableList(this.getParams).then(([data, total]) => {
         this.list = data
         this.total = total
       })
@@ -167,6 +161,15 @@
         console.log(this.$refs.tableGenerateRef.$refs.DyTable)
         // or
         console.log(this.$refs.tableGenerateRef.useRef())
+      },
+      async getParams() {
+        return {
+          url: this.$root.URL.getTableList,
+          params: {
+            page: 1,
+            size: 10,
+          },
+        }
       },
       setCellClassName({ column }) {
         return column.property === 'name' ? 'main-cell' : ''
@@ -269,16 +272,16 @@
       }
     },
     created() {
-      this.getTableList({
-        url: this.$root.URL.getTableList,
-      }).then(([data, total]) => {
+      this.getTableList(this.getParams).then(([data, total]) => {
         this.list = data
         this.total = total
       })
     },
     methods: {
-      loga(scoped) {
-        console.log(scoped)
+      async getParams() {
+        return {
+          url: this.$root.URL.getTableList,
+        }
       },
     },
   }
@@ -364,9 +367,7 @@
       }
     },
     created() {
-      this.getTableList({
-        url: this.$root.URL.getTableList,
-      })
+      this.getTableList(this.getParams)
         .then(([data, total]) => {
           this.list = data
           this.total = total
@@ -374,6 +375,11 @@
         .then(this.setColumnFilters)
     },
     methods: {
+      async getParams() {
+        return {
+          url: this.$root.URL.getTableList,
+        }
+      },
       setColumnFilters() {
         const dateColumn = this.config.find(i => i.prop === 'date')
         const set = this.list.reduce((set, i) => {
@@ -532,9 +538,7 @@
       }
     },
     created() {
-      this.getTableList({
-        url: this.$root.URL.getTableList,
-      })
+      this.getTableList(this.getParams)
         .then(([data, total]) => {
           this.list = data
           this.list2 = data
@@ -543,7 +547,13 @@
         })
         .then(this.setColumnFilters)
     },
-    methods: {},
+    methods: {
+      async getParams() {
+        return {
+          url: this.$root.URL.getTableList,
+        }
+      },
+    },
   }
 </script>
 ```
@@ -572,6 +582,10 @@
   :total="total"
   :current-page.sync="page"
   @size-change="onSizeChange"
+  @current-change="onCurrentChange"
+  @prev-click="onPrevClick"
+  @next-click="onNextClick"
+  layout="total, sizes, prev, pager, next, jumper"
 ></dy-pagination>
 
 <script>
@@ -581,10 +595,7 @@
   export default {
     mixins: [
       genTableMixin({
-        page: 'page',
-        size: 'size',
         useTableList: 'getTableList',
-        useSizeChange: 'onSizeChange',
       }),
     ],
     data(self) {
@@ -619,20 +630,41 @@
       }
     },
     created() {
-      this.getTableList({
-        url: this.$root.URL.getTableList,
-        params: {
-          page: this.page,
-          size: this.size,
-        },
-      })
-        .then(([data, total]) => {
+      this.query().then(this.setColumnFilters)
+    },
+    methods: {
+      async getParams() {
+        return {
+          url: this.$root.URL.getTableList,
+          params: {
+            page: this.page,
+            size: this.size,
+          },
+        }
+      },
+      query() {
+        return this.getTableList(this.getParams).then(([data, total]) => {
           this.list = data
           this.total = total
         })
-        .then(this.setColumnFilters)
+      },
+      onSizeChange(size) {
+        this.size = size
+        this.query()
+      },
+      onCurrentChange(page) {
+        this.page = page
+        this.query()
+      },
+      onPrevClick(page) {
+        this.page = page
+        this.query()
+      },
+      onNextClick(page) {
+        this.page = page
+        this.query()
+      },
     },
-    methods: {},
   }
 </script>
 ```
