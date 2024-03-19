@@ -69,6 +69,7 @@ const props = {
       return valid;
     }
   }
+
 };
 export default {
   name: 'DyTableGenerate',

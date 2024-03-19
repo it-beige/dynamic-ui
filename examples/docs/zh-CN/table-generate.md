@@ -554,6 +554,95 @@
 使用 custom-column-generate 传入`config`之后, isRender 的控制是否显示列的配置会被前者接管, 组件支持的 props 上面示例均给出
 :::
 
+### 分页表格
+
+:::demo
+
+```html
+<dy-table-generate
+  :config="config"
+  stripe
+  border
+  max-height="500"
+  v-model="list"
+></dy-table-generate>
+<dy-pagination
+  style="margin-top: 20px;"
+  background
+  :total="total"
+  :current-page.sync="page"
+  @size-change="onSizeChange"
+></dy-pagination>
+
+<script>
+  import genTableMixin from 'dynamic-ui/src/mixins/table.js'
+  import { formatDate, parseDate } from 'dynamic-ui/src/utils/date-util'
+
+  export default {
+    mixins: [
+      genTableMixin({
+        page: 'page',
+        size: 'size',
+        useTableList: 'getTableList',
+        useSizeChange: 'onSizeChange',
+      }),
+    ],
+    data(self) {
+      return {
+        list: [],
+        fixedColumns: ['date'],
+        total: 0,
+        page: 1,
+        size: 10,
+        config: [
+          {
+            label: '日期',
+            prop: 'date',
+            fixed: 'left',
+            formatter: ({ cellValue }) => {
+              return cellValue && formatDate(cellValue, 'yyyy-MM-dd')
+            },
+          },
+          {
+            label: '文本',
+            prop: 'text',
+          },
+          {
+            label: '年龄',
+            prop: 'age',
+          },
+          {
+            label: '小数',
+            prop: 'num1',
+          },
+        ],
+      }
+    },
+    created() {
+      this.getTableList({
+        url: this.$root.URL.getTableList,
+        params: {
+          page: this.page,
+          size: this.size,
+        },
+      })
+        .then(([data, total]) => {
+          this.list = data
+          this.total = total
+        })
+        .then(this.setColumnFilters)
+    },
+    methods: {},
+  }
+</script>
+```
+
+:::
+
+:::tip
+pagination
+:::
+
 ### 扩展 Table Attributes
 
 | 参数                 | 说明                                                         | 类型   | 可选值                   | 默认值 |
