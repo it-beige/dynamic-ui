@@ -79,7 +79,8 @@ var excludeComponents = [
   'FormItemGenerate',
   'TableGenerate',
   'TableColumnGenerate',
-  'TableCustomColumnGenerate'
+  'TableCustomColumnGenerate',
+  'QueryPage'
 ];
 
 ComponentNames.forEach(name => {

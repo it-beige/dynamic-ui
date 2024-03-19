@@ -98,5 +98,6 @@
   "dialog-generate": "./packages/dialog-generate/index.js",
   "table-generate": "./packages/table-generate/index.js",
   "table-column-generate": "./packages/table-column-generate/index.js",
-  "table-custom-column-generate": "./packages/table-custom-column-generate/index.js"
+  "table-custom-column-generate": "./packages/table-custom-column-generate/index.js",
+  "query-page": "./packages/query-page/index.js"
 }

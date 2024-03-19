@@ -538,14 +538,12 @@
       }
     },
     created() {
-      this.getTableList(this.getParams)
-        .then(([data, total]) => {
-          this.list = data
-          this.list2 = data
-          this.total = total
-          this.total2 = total
-        })
-        .then(this.setColumnFilters)
+      this.getTableList(this.getParams).then(([data, total]) => {
+        this.list = data
+        this.list2 = data
+        this.total = total
+        this.total2 = total
+      })
     },
     methods: {
       async getParams() {
@@ -630,7 +628,7 @@
       }
     },
     created() {
-      this.query().then(this.setColumnFilters)
+      this.query()
     },
     methods: {
       async getParams() {
@@ -663,6 +661,78 @@
       onNextClick(page) {
         this.page = page
         this.query()
+      },
+    },
+  }
+</script>
+```
+
+:::
+
+:::tip
+pagination
+:::
+
+### 完整功能
+
+:::demo
+
+```html
+<dy-query-page :useTableProps="useTableProps"></dy-query-page>
+
+<script>
+  import genTableMixin from 'dynamic-ui/src/mixins/table.js'
+  import { formatDate, parseDate } from 'dynamic-ui/src/utils/date-util'
+
+  export default {
+    mixins: [
+      genTableMixin({
+        useTableList: 'getTableList',
+      }),
+    ],
+    data(self) {
+      return {
+        list: [],
+        fixedColumns: ['date'],
+        total: 0,
+        page: 1,
+        size: 10,
+        config: [
+          {
+            label: '日期',
+            prop: 'date',
+            fixed: 'left',
+            formatter: ({ cellValue }) => {
+              return cellValue && formatDate(cellValue, 'yyyy-MM-dd')
+            },
+          },
+          {
+            label: '文本',
+            prop: 'text',
+          },
+          {
+            label: '年龄',
+            prop: 'age',
+          },
+          {
+            label: '小数',
+            prop: 'num1',
+          },
+        ],
+      }
+    },
+    created() {},
+    methods: {
+      useTableProps() {
+        const { config, list } = this
+        return {
+          config,
+          data: list,
+          stripe: true,
+          stripe: true,
+          border: true,
+          maxHeight: 500,
+        }
       },
     },
   }
