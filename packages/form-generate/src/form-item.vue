@@ -66,6 +66,9 @@ export default {
     return this.renderFormItem();
   },
   methods: {
+    useRef() {
+      return this.$refs[`${this.prop}Ref`];
+    },
     getSlots(slots) {
       return Object.keys(slots).map(k => {
         const vnode = isFunction(slots[k]) ? slots[k]({}) : null;
@@ -102,7 +105,7 @@ export default {
           {
             component === 'slot' ? this.defaultRender() : [
               this.getSlots(this.itemSlots),
-              <component.name class={classSheet} value={this.$attrs.value} {...data}>
+              <component.name ref={`${this.prop}Ref`} class={classSheet} value={this.$attrs.value} {...data}>
                 { slots }
               </component.name>
             ]

@@ -74,7 +74,6 @@ export default {
     validteProps() {
       return this.config.map(i => i.prop);
     }
-
   },
   watch: {
     config: {
@@ -101,13 +100,18 @@ export default {
       const model = genFormItemValue(this.value, this.config);
       this.$emit('input', model);
       // 重置因初始化数据导致的change校验
-      const clear = () => this.$nextTick(() => {
-        const formRef = this.useRef();
-        formRef && formRef.clearValidate();
-      });
-      isMounted ? this.$once('hook:mounted', () =>
-        clear()
-      ) : clear();
+      const clear = () =>
+        this.$nextTick(() => {
+          const formRef = this.useRef();
+          formRef && formRef.clearValidate();
+        });
+      isMounted ? this.$once('hook:mounted', () => clear()) : clear();
+    },
+    useFormItemRef(prop) {
+      return this.$refs[`${prop}ItemRef`];
+    },
+    useComponentRef(prop) {
+      return this.useFormItemRef(prop).useRef();
     },
     getFormProps() {
       const props = this._excludeExtraProps(this.$props);
@@ -190,7 +194,10 @@ export default {
               isReadonly,
               cascaderConfig
             } = i;
-            const attrs = component === 'slot' ? {} : this.genFormItemAttrs(props, component);
+            const attrs =
+              component === 'slot'
+                ? {}
+                : this.genFormItemAttrs(props, component);
             const data = {
               props: {
                 model: this.value,
@@ -215,10 +222,13 @@ export default {
               data.props.defaultRender = this.$scopedSlots[prop] || i.default;
             }
 
-            const renderCascaderConfig = this.getRenderConfig(cascaderConfig || []);
+            const renderCascaderConfig = this.getRenderConfig(
+              cascaderConfig || [],
+            );
             return (
-              <Col.name key={i.prop} span={span} {...{props: colProps}}>
+              <Col.name key={i.prop} span={span} {...{ props: colProps }}>
                 <GenerateFormItem.name
+                  ref={`${i.prop}ItemRef`}
                   class={this.colClassSheets[prop]}
                   value={this.getModelValue(this.value, i)}
                   label={label}
@@ -226,9 +236,10 @@ export default {
                   component={component}
                   key={i.prop}
                   {...data}
-                >
-                </GenerateFormItem.name>
-                {renderCascaderConfig.length ? this.renderFormLayout(renderCascaderConfig, true) : null}
+                ></GenerateFormItem.name>
+                {renderCascaderConfig.length
+                  ? this.renderFormLayout(renderCascaderConfig, true)
+                  : null}
               </Col.name>
             );
           })}
@@ -237,7 +248,7 @@ export default {
     },
     getRenderConfig(config) {
       return config.filter(i => {
-        const { prop, isRender} = i;
+        const { prop, isRender } = i;
         const isRenderInvoke = this.isRenders[prop] || isRender;
         return isFunction(isRenderInvoke) ? isRenderInvoke(this.value) : true;
       });
@@ -275,16 +286,13 @@ export default {
 
       return new Promise((resolve, reject) => {
         const rulesHash = [];
-        ref.validateField(
-          this.validteProps,
-          (message, rules) => {
-            if (message && rules) {
-              const rulesArr = [];
-              rulesArr.push(message, rules);
-              rulesHash.push(rulesArr);
-            }
-          },
-        );
+        ref.validateField(this.validteProps, (message, rules) => {
+          if (message && rules) {
+            const rulesArr = [];
+            rulesArr.push(message, rules);
+            rulesHash.push(rulesArr);
+          }
+        });
 
         if (rulesHash.length) {
           reject(rulesHash);

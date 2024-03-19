@@ -187,12 +187,26 @@
     },
     mounted() {
       this.getFormRef()
+      this.getFormItemsRef()
+      this.getComponentsRef()
     },
     methods: {
       getFormRef() {
         console.log(this.$refs.formGenerateRef.$refs.DyForm)
         // or
         console.log(this.$refs.formGenerateRef.useRef())
+      },
+      getFormItemsRef() {
+        const refs = this.config.map(i => {
+          return this.$refs.formGenerateRef.useFormItemRef(i.prop)
+        })
+        console.log(refs, 'formItemRef')
+      },
+      getComponentsRef() {
+        const refs = this.config.map(i => {
+          return this.$refs.formGenerateRef.useComponentRef(i.prop)
+        })
+        console.log(refs, 'componentRef')
       },
     },
   }
