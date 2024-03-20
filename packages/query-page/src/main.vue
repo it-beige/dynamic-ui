@@ -10,29 +10,38 @@ import { createNamespace } from 'main/utils/create';
 import _ from 'lodash';
 
 import TableGenerate from 'packages/table-generate';
+const Pagination = getComponentByName('Pagination');
 
 export default {
   name: 'DyQueryPage',
   mixins: [],
   props: {
-    useTableProps: Function
+    useTableProps: Function,
+    usePaginationProps: Function,
+    usePaginationAttrs: Function,
+    usePaginationOn: Function
   },
-  components: {
-  },
+  components: {},
   data() {
-    return {
-
-    };
+    return {};
   },
   render() {
     const [name] = createNamespace('query-page');
-    const {
-      useTableProps,
-      getTableOption
-    } = this;
+    const { useTableProps, usePaginationProps, getTableOption, getPaginationOption } = this;
     return (
       <div class={name}>
-        {_.isFunction(useTableProps) ? <TableGenerate {...getTableOption()} /> : null}
+        {_.isFunction(useTableProps)
+          ? (
+            <TableGenerate {...getTableOption()} />
+          )
+          : null
+        }
+        {_.isFunction(usePaginationProps)
+          ? (
+            <Pagination {...getPaginationOption()} />
+          )
+          : null
+        }
       </div>
     );
   },
@@ -41,8 +50,14 @@ export default {
       return {
         props: this.useTableProps()
       };
+    },
+    getPaginationOption() {
+      return {
+        attrs: this.usePaginationAttrs(),
+        props: this.usePaginationProps(),
+        on: this.usePaginationOn()
+      };
     }
   }
 };
 </script>
-

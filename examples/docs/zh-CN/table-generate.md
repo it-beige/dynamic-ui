@@ -678,7 +678,12 @@ pagination
 :::demo
 
 ```html
-<dy-query-page :useTableProps="useTableProps"></dy-query-page>
+<dy-query-page
+  :useTableProps="useTableProps"
+  :usePaginationProps="usePaginationProps"
+  :usePaginationAttrs="usePaginationAttrs"
+  :usePaginationOn="usePaginationOn"
+></dy-query-page>
 
 <script>
   import genTableMixin from 'dynamic-ui/src/mixins/table.js'
@@ -721,7 +726,9 @@ pagination
         ],
       }
     },
-    created() {},
+    created() {
+      this.query()
+    },
     methods: {
       useTableProps() {
         const { config, list } = this
@@ -733,6 +740,49 @@ pagination
           border: true,
           maxHeight: 500,
         }
+      },
+      usePaginationProps() {
+        const { total } = this
+        return {
+          total,
+          background: true,
+          layout: 'total, sizes, prev, pager, next, jumper',
+        }
+      },
+      usePaginationAttrs() {
+        return {
+          style: `margin-top: 30px`,
+        }
+      },
+      usePaginationOn() {
+        const paramsChange = params => {
+          this.page = params
+          this.query()
+        }
+        return {
+          'size-change': size => {
+            this.size = size
+            this.query()
+          },
+          'current-change': paramsChange,
+          'prev-click': paramsChange,
+          'next-click': paramsChange,
+        }
+      },
+      async getParams() {
+        return {
+          url: this.$root.URL.getTableList,
+          params: {
+            page: this.page,
+            size: this.size,
+          },
+        }
+      },
+      query() {
+        return this.getTableList(this.getParams).then(([data, total]) => {
+          this.list = data
+          this.total = total
+        })
       },
     },
   }
