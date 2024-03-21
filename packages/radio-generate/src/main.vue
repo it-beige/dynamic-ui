@@ -7,7 +7,7 @@ import genRequestMixin, {
   getExtra as getRequestMixExtra
 } from 'main/mixins/request';
 import { getComponentByName } from 'main/config/component';
-import { isFunction } from 'main/utils/lodash';
+import { isFunction } from 'lodash';
 
 const Radio = getComponentByName('Radio');
 const RadioGroup = getComponentByName('RadioGroup');

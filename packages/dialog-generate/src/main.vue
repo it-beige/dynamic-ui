@@ -3,7 +3,7 @@ import genAttrsMixin, { getExtra as getAttrMixExtra } from 'main/mixins/attrs';
 
 import { getComponentByName } from 'main/config/component';
 
-import _ from 'main/utils/lodash';
+import _ from 'lodash';
 import { createNamespace, createOptionMap } from 'main/utils/create';
 import { on, off } from 'main/utils/dom';
 const Dialog = getComponentByName('Dialog');

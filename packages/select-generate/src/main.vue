@@ -3,7 +3,7 @@ import genAttrsMixin, { getExtra as getAttrMixExtra } from 'main/mixins/attrs';
 import genRequestMixin, { getExtra as getRequestMixExtra } from 'main/mixins/request';
 import genPaginationMixin, { getExtra as getPaginationMixExtra } from 'main/mixins/pagination';
 import { getComponentByName } from 'main/config/component';
-import { isFunction, isArray } from 'main/utils/lodash';
+import { isFunction, isArray } from 'lodash';
 
 const Select = getComponentByName('Select');
 const OptionGroup = getComponentByName('OptionGroup');

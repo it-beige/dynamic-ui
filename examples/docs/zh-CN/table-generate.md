@@ -562,7 +562,7 @@
 使用 custom-column-generate 传入`config`之后, isRender 的控制是否显示列的配置会被前者接管, 组件支持的 props 上面示例均给出
 :::
 
-### 分页表格
+### 分页列表
 
 :::demo
 
@@ -661,6 +661,101 @@
       onNextClick(page) {
         this.page = page
         this.query()
+      },
+    },
+  }
+</script>
+```
+
+:::
+
+:::tip
+pagination
+:::
+
+### 查询列表
+
+:::demo
+
+```html
+<!-- <dy-form-generate
+  :config="[{
+          label: 'a',
+          prop: 'a',
+          component: 'input'
+        }]"
+  v-model="aaaa"
+></dy-form-generate> -->
+
+<dy-table-generate
+  :config="config"
+  stripe
+  border
+  max-height="500"
+  v-model="list"
+></dy-table-generate>
+
+<script>
+  import genTableMixin from 'dynamic-ui/src/mixins/table.js'
+  import { formatDate, parseDate } from 'dynamic-ui/src/utils/date-util'
+
+  export default {
+    mixins: [
+      genTableMixin({
+        useTableQueryConfig: 'genQueryConfig',
+      }),
+    ],
+    data(self) {
+      return {
+        list: [],
+        total: 0,
+        value: '',
+        page: 1,
+        size: 10,
+        params: {},
+        aaaa: {},
+        config: [
+          {
+            label: '日期',
+            prop: 'date',
+            fixed: 'left',
+            formatter: ({ cellValue }) => {
+              return cellValue && formatDate(cellValue, 'yyyy-MM-dd')
+            },
+          },
+          {
+            label: '文本',
+            prop: 'text',
+          },
+          {
+            label: '年龄',
+            prop: 'age',
+          },
+          {
+            label: '小数',
+            prop: 'num1',
+          },
+        ],
+      }
+    },
+    created() {
+      this.query()
+    },
+    methods: {
+      async getParams() {
+        return {
+          url: this.$root.URL.getTableList,
+          params: {
+            page: this.page,
+            size: this.size,
+          },
+        }
+      },
+      query() {
+        return this.useTableList(this.getParams).then(([data, total]) => {
+          this.list = data
+          this.total = total
+        })
       },
     },
   }

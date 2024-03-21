@@ -3,7 +3,7 @@ import genAttrsMixin, {getExtra as getAttrMixExtra} from 'main/mixins/attrs';
 import genUploadMixin, {getExtra as getUploadMixExtra} from 'main/mixins/upload';
 import Locale from 'main/mixins/locale';
 import { getComponentByName } from 'main/config/component';
-import { isPlainObject, isFunction } from 'main/utils/lodash';
+import { isPlainObject, isFunction } from 'lodash';
 import { saveAs} from 'file-saver';
 import ImageViewer from 'packages/image/src/image-viewer';
 
