@@ -38,23 +38,20 @@ export default function genTableMixin(option = {}) {
         });
       },
       [useTableQueryConfig](config) {
-        // config.reduce((o, i) => {
-        //   if (_.isPlainObject(i.query)) {
-        //     const { component } = i.query;
-        //     let option = {
-        //       label: i.label,
-        //       prop: i.prop,
-        //       component
-        //     };
-        //     o.push(option);
-        //   }
-        //   return o;
-        // }, []);
-        return [{
-          label: 'a',
-          prop: 'a',
-          component: 'input'
-        }];
+        return config.reduce((o, i) => {
+          if (_.isPlainObject(i.query)) {
+            const { prop = i.prop, label = i.label, component, span = 8, props = {}} = i.query;
+            let option = {
+              label,
+              prop,
+              component,
+              span,
+              props
+            };
+            o.push(option);
+          }
+          return o;
+        }, []);
       }
     }
   };

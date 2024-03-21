@@ -678,14 +678,7 @@ pagination
 :::demo
 
 ```html
-<!-- <dy-form-generate
-  :config="[{
-          label: 'a',
-          prop: 'a',
-          component: 'input'
-        }]"
-  v-model="aaaa"
-></dy-form-generate> -->
+<dy-form-generate :config="queryFornConfig" v-model="params"></dy-form-generate>
 
 <dy-table-generate
   :config="config"
@@ -709,11 +702,9 @@ pagination
       return {
         list: [],
         total: 0,
-        value: '',
         page: 1,
         size: 10,
         params: {},
-        aaaa: {},
         config: [
           {
             label: '日期',
@@ -722,10 +713,25 @@ pagination
             formatter: ({ cellValue }) => {
               return cellValue && formatDate(cellValue, 'yyyy-MM-dd')
             },
+            query: {
+              component: 'date',
+              span: 12,
+              props: {
+                type: 'daterange',
+              },
+            },
           },
           {
             label: '文本',
             prop: 'text',
+            query: {
+              component: 'input',
+              span: 12,
+              props: {
+                label: '文本字符',
+                prop: 'search',
+              },
+            },
           },
           {
             label: '年龄',
@@ -737,6 +743,11 @@ pagination
           },
         ],
       }
+    },
+    computed: {
+      queryFornConfig({ config }) {
+        return this.genQueryConfig(config)
+      },
     },
     created() {
       this.query()
