@@ -52,7 +52,8 @@ export default function genTableMixin(option = {}) {
               label = i.label,
               component,
               span = 8,
-              props = {}
+              props = {},
+              ...rest
             } = i.query;
 
             let option = {
@@ -60,6 +61,7 @@ export default function genTableMixin(option = {}) {
               prop,
               component,
               span,
+              ...rest,
               props
             };
             genPlaceholder(option);

@@ -6,6 +6,12 @@ export function kebabToCamel(kebabString) {
     return $1.toUpperCase();
   });
 }
+export function kebabToUpperCamel(kebabString) {
+  kebabString = kebabString.at(0).toUpperCase() + kebabString.slice(1);
+  return kebabString.replace(replaceKebabReg, (execStr, $1) => {
+    return $1.toUpperCase();
+  });
+}
 
 export function camelToKebab(camelString) {
   return camelString.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();

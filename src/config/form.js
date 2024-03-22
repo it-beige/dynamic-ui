@@ -5,6 +5,8 @@ import RadioGenerate from 'packages/radio-generate';
 import CheckboxGenerate from 'packages/checkbox-generate';
 import UploadGenerate from 'packages/upload-generate';
 import DatePicker from 'packages/date-picker';
+import { getComponentByName as getPackageComponentByName } from './component';
+import { kebabToUpperCamel } from 'main/utils/util';
 
 const FORM_COMPONENTS = {
   input: Input,
@@ -63,11 +65,12 @@ export function getComponentByName(name) {
     console.error('[Dynamic Error]表单项不能为空');
     return;
   }
-  if (!FORM_COMPONENTS[name]) {
+  const component = FORM_COMPONENTS[name] || getPackageComponentByName(kebabToUpperCamel(name));
+  if (!component) {
     console.error(`[Dynamic Error] 表单组件不支持的表单项：${name}`);
     return;
   }
-  return FORM_COMPONENTS[name];
+  return component;
 };
 
 export function getFormItemComponentAttribute(name) {
@@ -76,7 +79,7 @@ export function getFormItemComponentAttribute(name) {
     return;
   }
   // eslint-disable-next-line
-  if (!COMPONENT_ATTRIBUTES[name]) {
+  if (FORM_COMPONENTS[name] && !COMPONENT_ATTRIBUTES[name]) {
     console.error(
       `[FormGlobal Error] 不存在的attribute：${name}`,
     );

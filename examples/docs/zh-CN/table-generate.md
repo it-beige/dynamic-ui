@@ -679,7 +679,7 @@ pagination
 
 ```html
 <dy-form-generate :config="queryFornConfig" v-model="params"></dy-form-generate>
-
+<dy-row></dy-row>
 <dy-table-generate
   :config="config"
   stripe
@@ -724,6 +724,9 @@ pagination
               return cellValue && formatDate(cellValue, 'yyyy-MM-dd')
             },
             query: {
+              isRender: model => {
+                return !model.enableDate
+              },
               component: 'date',
               span: 12,
               props: {
@@ -736,13 +739,6 @@ pagination
             prop: 'month',
             formatter: ({ row }) => {
               return row.date && formatDate(row.date, 'MM')
-            },
-            query: {
-              component: 'date',
-              span: 12,
-              props: {
-                type: 'monthrange',
-              },
             },
           },
           {
@@ -782,7 +778,12 @@ pagination
     },
     computed: {
       queryFornConfig({ config }) {
-        return this.genQueryConfig(config)
+        return this.genQueryConfig(config).concat({
+          label: '关闭日期筛选',
+          prop: 'enableDate',
+          component: 'switch',
+          span: 12,
+        })
       },
     },
     created() {
@@ -790,13 +791,26 @@ pagination
     },
     methods: {
       async getParams() {
-        return {
+        const searchParams = {
           url: this.$root.URL.getTableList,
           params: {
             page: this.page,
             size: this.size,
           },
         }
+        searchParams.params = {
+          ...this.params,
+        }
+        if (this.params.date) {
+          searchParams.params.date = `${formatDate(
+            start,
+            'yyyy-MM-dd',
+          )}/${formatDate(end, 'yyyy-MM-dd')}`
+        }
+        if (this.params.age) {
+          searchParams.params.age = `${age.start}/${age.end}`
+        }
+        return searchParams
       },
       query() {
         return this.useTableList(this.getParams).then(([data, total]) => {
