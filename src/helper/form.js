@@ -11,7 +11,7 @@ export function genRequired(n) {
     tirgger
   };
 
-  n.rules = (_.isArray(n.rules) || []).concat(requiredRule);
+  n.itemProps.rules = (_.isArray(n.rules) || []).concat(requiredRule);
 }
 
 export function genModifiers(n, { trim, number }) {
@@ -25,7 +25,7 @@ export function genModifiers(n, { trim, number }) {
 
   if (trim.includes(n.prop)) {
     extendFormatter(val => {
-      return _.isFunction(val.trim) ? val.trim() : val;
+      return _.isFunction(val?.trim) ? val.trim() : val;
     }, n);
   }
 
@@ -41,16 +41,19 @@ export function genPlaceholder(n) {
   let placeholder = props.placeholder;
   if (!placeholder) {
     const prefix = getPlaceholderByName(component);
-    placeholder = `${prefix}${label || ''}`;
+    if (prefix) {
+      props.placeholder = `${prefix}${label || ''}`;
+    }
   }
-  return placeholder;
+
 }
 
 export function genComponentProps(config) {
-
   for (let n of config) {
     n.props ??= {};
-    if (!Reflect.has(n.props, 'clearable')) {
+    n.itemProps ??= {};
+
+    if (getClearableByName(n.component) && !Reflect.has(n.props, 'clearable')) {
       n.props.clearable = true;
     }
 

@@ -1113,15 +1113,13 @@ cascaderConfig 渲染的结构是当前表单项的子节点
 
 ```html
 <dy-form-generate
-  ref="formGenerateRef"
   :config="config"
   v-model="modelValue"
   labdy-position="top"
-  :classSheets="classSheets"
-  :itemClassSheets="itemClassSheets"
-  :colClassSheets="colClassSheets"
 ></dy-form-generate>
 <script>
+  import { genFormConfig } from 'dynamic-ui/src/helper/props.js'
+
   export default {
     data() {
       return {
@@ -1133,68 +1131,11 @@ cascaderConfig 渲染的结构是当前表单项的子节点
             component: 'input',
           },
           {
-            label: '大文本输入框',
-            prop: 'textarea-field',
-            component: 'input',
-          },
-          {
             label: '下拉选择框',
             prop: 'select-field',
             component: 'select',
             props: {
-              clearable: true,
-              props: {
-                label: 'name',
-                value: 'code',
-                children: 'options',
-                disabled: 'isDisabled',
-                labelRender: (label, i) => {
-                  if (i.code === 'Shanghai') {
-                    return this.$createElement(
-                      'span',
-                      { style: 'color: red' },
-                      label,
-                    )
-                  }
-                },
-              },
-              options: [
-                {
-                  name: '热门城市',
-                  options: [
-                    {
-                      code: 'Shanghai',
-                      name: '上海',
-                    },
-                    {
-                      code: 'Beijing',
-                      name: '北京',
-                      isDisabled: true,
-                    },
-                  ],
-                },
-                {
-                  name: '城市名',
-                  options: [
-                    {
-                      code: 'Chengdu',
-                      name: '成都',
-                    },
-                    {
-                      code: 'Shenzhen',
-                      name: '深圳',
-                    },
-                    {
-                      code: 'Guangzhou',
-                      name: '广州',
-                    },
-                    {
-                      code: 'Dalian',
-                      name: '大连',
-                    },
-                  ],
-                },
-              ],
+              url: this.$root.URL.getList,
             },
           },
           {
@@ -1220,7 +1161,6 @@ cascaderConfig 渲染的结构是当前表单项的子节点
             label: '时间选择框',
             prop: 'date-field',
             component: 'date',
-            props: {},
           },
           {
             label: '年份选择框',
@@ -1246,50 +1186,18 @@ cascaderConfig 渲染的结构是当前表单项的子节点
               type: 'datetime',
             },
           },
-
-          {
-            label: '上传',
-            prop: 'update-field',
-            component: 'upload',
-            props: {
-              baseUploadURI:
-                process.env.VUE_APP_UPLOAD_API || 'http://localhost:3333',
-              action: '/upload',
-              listType: 'picture-card',
-            },
-          },
         ],
-        classSheets: { 'input-field': 'component-class' },
-        itemClassSheets: { 'input-field': { 'item-class': true } },
-        colClassSheets: {
-          'input-field': ['col-class', { 'col-class-var': true }],
-        },
       }
     },
-    mounted() {
-      this.getFormRef()
-      this.getFormItemsRef()
-      this.getComponentsRef()
+    created() {
+      genFormConfig(this.config, {
+        placeholder: this.config.map(i => i.prop),
+        trim: ['input-field'],
+        number: ['input-field'],
+        required: this.config.map(i => i.prop),
+      })
     },
-    methods: {
-      getFormRef() {
-        console.log(this.$refs.formGenerateRef.$refs.DyForm)
-        // or
-        console.log(this.$refs.formGenerateRef.useRef())
-      },
-      getFormItemsRef() {
-        const refs = this.config.map(i => {
-          return this.$refs.formGenerateRef.useFormItemRef(i.prop)
-        })
-        console.log(refs, 'formItemRef')
-      },
-      getComponentsRef() {
-        const refs = this.config.map(i => {
-          return this.$refs.formGenerateRef.useComponentRef(i.prop)
-        })
-        console.log(refs, 'componentRef')
-      },
-    },
+    methods: {},
   }
 </script>
 ```
@@ -1297,8 +1205,26 @@ cascaderConfig 渲染的结构是当前表单项的子节点
 :::
 
 :::tip
-props 传入的配置对象根据你需要渲染 component 决定, 所有组件都提供 formatter 用于格式化数据
+genFormConfig 配置中的生成方法可以通过全局配置自定义, 配置方式如下
 :::
+
+```js
+import Dynamic from 'dynamic-ui'
+Vue.use(Dynamic, {
+  // placeholder 配置对应的生成方法
+  genPlaceholder: option => {
+    // option表单项
+  },
+  // modifiers 配置对应的生成方法
+  genModifiers: (option, { trim, number }) => {
+    // option表单项
+  },
+  // required 配置对应的生成方法
+  genRequired: option => {
+    // option表单项
+  },
+})
+```
 
 ### 扩展 Form Attributes
 

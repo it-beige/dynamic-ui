@@ -46,10 +46,19 @@ Vue.use(Dynamic, {
   }
   // 国际化相关配置
   locale: Vue.locale
-  locale: Vue.i18n,
+  i18n: Vue.i18n,
   // 组件的全局配置
   size: 'small',
-  zIndex: 3000
+  zIndex: 3000,
+
+  /* 表单相关帮助方法  */
+  // placeholder 配置对应的生成方法
+  genPlaceholder: genPlaceholder,
+  // modifiers 配置对应的生成方法
+  genModifiers: genModifiers,
+  // required 配置对应的生成方法
+  genRequired: genRequired,
+
 });
 ```
 

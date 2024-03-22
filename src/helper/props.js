@@ -26,11 +26,11 @@ const CLEARABLE = [
 export function injectPlaceholder(injectPlaceholders) {
   injectPlaceholders.forEach(([name, placeholder]) => {
     if (!name) {
-      console.error('[Dynamic Error]注册表单项名称不能为空');
+      console.error('[Dynamic Error]注入placeholder的组件名称不能为空');
       return;
     }
     if (!placeholder) {
-      console.error('[Dynamic Error]注册表单项placeholder前缀不能为空');
+      console.error('[Dynamic Error]注入placeholder组件前缀不能为空');
       return;
     }
 
@@ -40,11 +40,10 @@ export function injectPlaceholder(injectPlaceholders) {
 
 export function getPlaceholderByName(name) {
   if (!name) {
-    console.error('[Dynamic Error]表单项不能为空');
+    console.error('[Dynamic Error]获取placeholder的组件名称不能为空');
     return;
   }
   if (!PLACEHOLDER[name]) {
-    console.error(`[Dynamic Error] 表单组件不支持的表单项：${name}`);
     return;
   }
   return PLACEHOLDER[name];
@@ -53,15 +52,20 @@ export function getPlaceholderByName(name) {
 export function injectTrigger(injectTriggers) {
   injectTriggers.forEach(([name, trigger]) => {
     if (!name) {
-      console.error('[Dynamic Error]注册表单项名称不能为空');
-      return;
-    }
-    if (!trigger) {
-      console.error('[Dynamic Error]注册表单项trigger不能为空');
+      console.error('[Dynamic Error]注入trigger的组件名称不能为空');
       return;
     }
 
-    TRIGGER[name] = trigger;
+    if (!trigger) {
+      console.error('[Dynamic Error]注入的trigger不能为空');
+      return;
+    }
+    const triggers = TRIGGER[trigger];
+    if (!triggers) {
+      console.error('[Dynamic Error]注入的trigger只能为blur、change');
+      return;
+    }
+    triggers.push(name);
   });
 };
 
@@ -70,17 +74,21 @@ export function getTriggerByName(name) {
     console.error('[Dynamic Error]表单项不能为空');
     return;
   }
-  if (!TRIGGER[name]) {
-    console.error(`[Dynamic Error] 表单组件不支持的表单项：${name}`);
+  const k = Object.keys(TRIGGER).find(k => {
+    const names = TRIGGER[k];
+    return names.includes(name);
+  });
+  if (!k) {
+    console.error(`[Dynamic Error] 表单组件不支持的trigger：${name}`);
     return;
   }
-  return TRIGGER[name];
+  return k;
 };
 
 export function injectClearable(injectClearables) {
   injectClearables.forEach((name) => {
     if (!name) {
-      console.error('[Dynamic Error]注册表单项名称不能为空');
+      console.error('[Dynamic Error]注入trigger的组件名称不能为空');
       return;
     }
     CLEARABLE.push(name);
@@ -88,19 +96,12 @@ export function injectClearable(injectClearables) {
 };
 
 export function getClearableByName(name) {
-  if (!name) {
-    console.error('[Dynamic Error]表单项不能为空');
-    return;
-  }
-  if (!CLEARABLE[name]) {
-    console.error(`[Dynamic Error] 表单组件不支持的表单项：${name}`);
-    return;
-  }
-  return CLEARABLE[name];
+  return CLEARABLE.includes(name);
 };
 
 export function genFormConfig(config, fields) {
-  const { genRequired, genModifiers, genPlaceholder } = globalConfig;
+  const { genRequired, genModifiers, genPlaceholder, genComponentProps } = globalConfig;
+  genComponentProps(config);
   const { required = [], trim = [], number = [], placeholder = [] } = fields;
   for (let n of config) {
     const { prop } = n;

@@ -1,4 +1,4 @@
-import { genPlaceholder, genModifiers, genRequired } from 'main/helper/form';
+import { genPlaceholder, genModifiers, genRequired, genComponentProps } from 'main/helper/form';
 
 const globalConfig = {
   // 缓存数据
@@ -38,7 +38,8 @@ const globalConfig = {
   // 表单相关帮助方法
   genPlaceholder: genPlaceholder,
   genModifiers: genModifiers,
-  genRequired: genRequired
+  genRequired: genRequired,
+  genComponentProps: genComponentProps
 };
 
 export default globalConfig;

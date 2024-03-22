@@ -224,6 +224,12 @@ const install = function(Vue, opts = {}) {
     useParseData,
     useParseTotal,
     useOptionProps,
+    usePaginationLayout,
+    usePaginationPageSizes,
+    genPlaceholder,
+    genModifiers,
+    genRequired,
+    genComponentProps,
     size,
     zIndex
   } = opts;
@@ -241,7 +247,16 @@ const install = function(Vue, opts = {}) {
   };
   const installPagination = {
     pageParamsKey,
-    pageParamsValue
+    pageParamsValue,
+    usePaginationLayout,
+    usePaginationPageSizes
+  };
+
+  const installFormMethod = {
+    genPlaceholder,
+    genModifiers,
+    genRequired,
+    genComponentProps
   };
 
   const installConfig = (installs, isType) => {
@@ -256,6 +271,7 @@ const install = function(Vue, opts = {}) {
   installConfig(installUse, isFunction);
   installConfig(installBase, isString);
   installConfig(installPagination, isPlainObject);
+  installConfig(installFormMethod, isFunction);
 
   locale.use(opts.locale);
   locale.i18n(opts.i18n);
