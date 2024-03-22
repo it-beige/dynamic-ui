@@ -1107,6 +1107,199 @@ isDisabled、isReadonly、isRender 分别控制表单项的禁用、只读、渲
 cascaderConfig 渲染的结构是当前表单项的子节点
 :::
 
+### 使用帮助方法
+
+:::demo
+
+```html
+<dy-form-generate
+  ref="formGenerateRef"
+  :config="config"
+  v-model="modelValue"
+  labdy-position="top"
+  :classSheets="classSheets"
+  :itemClassSheets="itemClassSheets"
+  :colClassSheets="colClassSheets"
+></dy-form-generate>
+<script>
+  export default {
+    data() {
+      return {
+        modelValue: {},
+        config: [
+          {
+            label: '输入框',
+            prop: 'input-field',
+            component: 'input',
+          },
+          {
+            label: '大文本输入框',
+            prop: 'textarea-field',
+            component: 'input',
+          },
+          {
+            label: '下拉选择框',
+            prop: 'select-field',
+            component: 'select',
+            props: {
+              clearable: true,
+              props: {
+                label: 'name',
+                value: 'code',
+                children: 'options',
+                disabled: 'isDisabled',
+                labelRender: (label, i) => {
+                  if (i.code === 'Shanghai') {
+                    return this.$createElement(
+                      'span',
+                      { style: 'color: red' },
+                      label,
+                    )
+                  }
+                },
+              },
+              options: [
+                {
+                  name: '热门城市',
+                  options: [
+                    {
+                      code: 'Shanghai',
+                      name: '上海',
+                    },
+                    {
+                      code: 'Beijing',
+                      name: '北京',
+                      isDisabled: true,
+                    },
+                  ],
+                },
+                {
+                  name: '城市名',
+                  options: [
+                    {
+                      code: 'Chengdu',
+                      name: '成都',
+                    },
+                    {
+                      code: 'Shenzhen',
+                      name: '深圳',
+                    },
+                    {
+                      code: 'Guangzhou',
+                      name: '广州',
+                    },
+                    {
+                      code: 'Dalian',
+                      name: '大连',
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+          {
+            label: '单选框',
+            prop: 'radio-field',
+            component: 'radio',
+            props: {
+              url: this.$root.URL.getList,
+              params: { page: 1, size: 4 },
+              toggle: true,
+            },
+          },
+          {
+            label: '多选框',
+            prop: 'checkbox-field',
+            component: 'checkbox',
+            props: {
+              url: this.$root.URL.getList,
+              params: { page: 1, size: 4 },
+            },
+          },
+          {
+            label: '时间选择框',
+            prop: 'date-field',
+            component: 'date',
+            props: {},
+          },
+          {
+            label: '年份选择框',
+            prop: 'year-field',
+            component: 'date',
+            props: {
+              type: 'year',
+            },
+          },
+          {
+            label: '月份选择框',
+            prop: 'month-field',
+            component: 'date',
+            props: {
+              type: 'month',
+            },
+          },
+          {
+            label: '日期时间选择框',
+            prop: 'datetime-field',
+            component: 'date',
+            props: {
+              type: 'datetime',
+            },
+          },
+
+          {
+            label: '上传',
+            prop: 'update-field',
+            component: 'upload',
+            props: {
+              baseUploadURI:
+                process.env.VUE_APP_UPLOAD_API || 'http://localhost:3333',
+              action: '/upload',
+              listType: 'picture-card',
+            },
+          },
+        ],
+        classSheets: { 'input-field': 'component-class' },
+        itemClassSheets: { 'input-field': { 'item-class': true } },
+        colClassSheets: {
+          'input-field': ['col-class', { 'col-class-var': true }],
+        },
+      }
+    },
+    mounted() {
+      this.getFormRef()
+      this.getFormItemsRef()
+      this.getComponentsRef()
+    },
+    methods: {
+      getFormRef() {
+        console.log(this.$refs.formGenerateRef.$refs.DyForm)
+        // or
+        console.log(this.$refs.formGenerateRef.useRef())
+      },
+      getFormItemsRef() {
+        const refs = this.config.map(i => {
+          return this.$refs.formGenerateRef.useFormItemRef(i.prop)
+        })
+        console.log(refs, 'formItemRef')
+      },
+      getComponentsRef() {
+        const refs = this.config.map(i => {
+          return this.$refs.formGenerateRef.useComponentRef(i.prop)
+        })
+        console.log(refs, 'componentRef')
+      },
+    },
+  }
+</script>
+```
+
+:::
+
+:::tip
+props 传入的配置对象根据你需要渲染 component 决定, 所有组件都提供 formatter 用于格式化数据
+:::
+
 ### 扩展 Form Attributes
 
 | 参数            | 说明                               | 类型   | 可选值 | 默认值 |

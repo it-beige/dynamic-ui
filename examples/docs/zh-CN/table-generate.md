@@ -707,9 +707,18 @@ pagination
         params: {},
         config: [
           {
+            label: '姓名',
+            prop: 'name',
+            query: {
+              component: 'input',
+              props: {
+                placeholder: '全字匹配名称',
+              },
+            },
+          },
+          {
             label: '日期',
             prop: 'date',
-            fixed: 'left',
             formatter: ({ cellValue }) => {
               return cellValue && formatDate(cellValue, 'yyyy-MM-dd')
             },
@@ -725,17 +734,28 @@ pagination
             label: '文本',
             prop: 'text',
             query: {
+              label: '文本字符',
+              prop: 'search',
               component: 'input',
               span: 12,
-              props: {
-                label: '文本字符',
-                prop: 'search',
-              },
             },
           },
           {
             label: '年龄',
             prop: 'age',
+            query: {
+              component: 'select',
+              props: {
+                options: Array.from({ length: 10 }).map((_, idx) => {
+                  const start = idx * 10 + 1
+                  const end = start + 10 - 1
+                  return {
+                    label: `${start} ~ ${end}`,
+                    value: { start, end },
+                  }
+                }),
+              },
+            },
           },
           {
             label: '小数',

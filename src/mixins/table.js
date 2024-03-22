@@ -16,7 +16,7 @@ export default function genTableMixin(option = {}) {
   } = option;
 
   const request = globalConfig.useRequest();
-
+  const genPlaceholder = globalConfig.genPlaceholder;
   return {
     props: {},
     data() {
@@ -40,7 +40,14 @@ export default function genTableMixin(option = {}) {
       [useTableQueryConfig](config) {
         return config.reduce((o, i) => {
           if (_.isPlainObject(i.query)) {
-            const { prop = i.prop, label = i.label, component, span = 8, props = {}} = i.query;
+            const {
+              prop = i.prop,
+              label = i.label,
+              component,
+              span = 8,
+              props = {}
+            } = i.query;
+
             let option = {
               label,
               prop,
@@ -48,6 +55,7 @@ export default function genTableMixin(option = {}) {
               span,
               props
             };
+            props.placeholder = genPlaceholder(option);
             o.push(option);
           }
           return o;

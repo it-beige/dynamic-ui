@@ -1,3 +1,5 @@
+import { genPlaceholder, genModifiers, genRequired } from 'main/helper/form';
+
 const globalConfig = {
   // 缓存数据
   cache: false,
@@ -31,7 +33,12 @@ const globalConfig = {
   // 分页的每页显示个数选择器的选项设置
   usePaginationPageSizes: () => {
     return [10, 20, 30, 40, 50, 100];
-  }
+  },
+
+  // 表单相关帮助方法
+  genPlaceholder: genPlaceholder,
+  genModifiers: genModifiers,
+  genRequired: genRequired
 };
 
 export default globalConfig;

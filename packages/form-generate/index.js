@@ -1,5 +1,5 @@
 import FormGenerate from './src/main';
-import { injectComponent } from 'main/config/component';
+import { injectFormComponent } from 'main/config/form';
 
 /* istanbul ignore next */
 FormGenerate.install = function (Vue) {
@@ -7,6 +7,7 @@ FormGenerate.install = function (Vue) {
 };
 
 export {
-  injectComponent
+  injectFormComponent
 };
+export * from 'main/helper/props';
 export default FormGenerate;
