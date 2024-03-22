@@ -710,6 +710,7 @@ pagination
             label: '姓名',
             prop: 'name',
             query: {
+              sort: 1,
               component: 'input',
               props: {
                 placeholder: '全字匹配名称',
@@ -731,19 +732,34 @@ pagination
             },
           },
           {
+            label: '月份',
+            prop: 'month',
+            formatter: ({ row }) => {
+              return row.date && formatDate(row.date, 'MM')
+            },
+            query: {
+              component: 'date',
+              span: 12,
+              props: {
+                type: 'monthrange',
+              },
+            },
+          },
+          {
             label: '文本',
             prop: 'text',
             query: {
+              sort: 3,
               label: '文本字符',
               prop: 'search',
               component: 'input',
-              span: 12,
             },
           },
           {
             label: '年龄',
             prop: 'age',
             query: {
+              sort: 2,
               component: 'select',
               props: {
                 options: Array.from({ length: 10 }).map((_, idx) => {
@@ -796,7 +812,7 @@ pagination
 :::
 
 :::tip
-pagination
+sort 可以实现过滤表单项的排序, 有 sort 值和的按照大小排序, 没有按照元素原有顺序
 :::
 
 ### 完整功能
@@ -824,7 +840,6 @@ pagination
     data(self) {
       return {
         list: [],
-        fixedColumns: ['date'],
         total: 0,
         page: 1,
         size: 10,

@@ -1,13 +1,6 @@
 import globalConfig from 'main/config/global';
-import {
-  getCompPropsBySourceOpt,
-  genComponentPorps
-} from 'main/utils/component.js';
-import PaginationComponent from 'packages/pagination';
 import _ from 'main/utils/lodash';
-export const [PaginationCtor, PaginationPick] = genComponentPorps(
-  getCompPropsBySourceOpt(PaginationComponent),
-);
+import { getClearableByName } from 'main/helper/props';
 
 export default function genTableMixin(option = {}) {
   const {
@@ -17,6 +10,7 @@ export default function genTableMixin(option = {}) {
 
   const request = globalConfig.useRequest();
   const genPlaceholder = globalConfig.genPlaceholder;
+  const genComponentProps = globalConfig.genComponentProps;
   return {
     props: {},
     data() {
@@ -38,6 +32,19 @@ export default function genTableMixin(option = {}) {
         });
       },
       [useTableQueryConfig](config) {
+
+        config = config.toSorted((a, b) => {
+          const aSort = a.query?.sort;
+          const bSort = b.query?.sort;
+          if (aSort && bSort) {
+            return aSort - bSort;
+          } else if (aSort) {
+            return -1;
+          } else if (bSort) {
+            return 1;
+          }
+          return 1;
+        });
         return config.reduce((o, i) => {
           if (_.isPlainObject(i.query)) {
             const {
@@ -55,7 +62,24 @@ export default function genTableMixin(option = {}) {
               span,
               props
             };
-            props.placeholder = genPlaceholder(option);
+            genPlaceholder(option);
+            if (getClearableByName(component)) {
+              props.clearable = getClearableByName(component);
+            }
+            if (component === 'date') {
+              if (props.type === 'datetimerange') {
+                props.startPlaceholder = '开始时间';
+                props.endPlaceholder = '开始时间';
+              }
+              if (props.type === 'daterange') {
+                props.startPlaceholder = '开始日期';
+                props.endPlaceholder = '开始日期';
+              }
+              if (props.type === 'monthrange') {
+                props.startPlaceholder = '开始月份';
+                props.endPlaceholder = '开始月份';
+              }
+            }
             o.push(option);
           }
           return o;
