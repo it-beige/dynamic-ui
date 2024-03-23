@@ -1,0 +1,9 @@
+@import "mixins/mixins";
+@import "common/var";
+
+@include b(query-page) {
+  @include b(pagination) {
+    margin-top: 20px;
+    text-align: right;
+  }
+}

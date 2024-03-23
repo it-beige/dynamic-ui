@@ -350,6 +350,8 @@ function filterData(res, params) {
       isMatch = item.name.includes(name);
     }
 
+    if (!isMatch) return isMatch;
+
     if (age) {
       const [minAge, maxAge] = age.split('/').map(Number);
       if (item.age < minAge || item.age > maxAge) {
@@ -357,9 +359,13 @@ function filterData(res, params) {
       }
     }
 
+    if (!isMatch) return isMatch;
+
     if (search) {
       isMatch = item.text.includes(search);
     }
+
+    if (!isMatch) return isMatch;
 
     if (date) {
       const startDate = new Date(date.split('/')[0]);

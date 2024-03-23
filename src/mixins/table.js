@@ -10,7 +10,6 @@ export default function genTableMixin(option = {}) {
 
   const request = globalConfig.useRequest();
   const genPlaceholder = globalConfig.genPlaceholder;
-  const genComponentProps = globalConfig.genComponentProps;
   return {
     props: {},
     data() {

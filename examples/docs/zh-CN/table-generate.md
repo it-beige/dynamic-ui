@@ -730,7 +730,11 @@ pagination
             },
             query: {
               isRender: model => {
-                return !model.enableDate
+                if (model.enableDate) {
+                  model.date = undefined
+                  return false
+                }
+                return true
               },
               component: 'date',
               span: 12,
@@ -848,11 +852,23 @@ sort 可以实现过滤表单项的排序, 有 sort 值和的按照大小排序,
 
 ```html
 <dy-query-page
+  :useTableStyle="useTableStyle"
+  :useTableClass="useTableClass"
   :useTableProps="useTableProps"
+  :useTableOn="useTableOn"
+  :useTableNativeOn="useTableNativeOn"
+  :useTableDirectives="useTableDirectives"
+  :useTableAttrs="useTableAttrs"
   :usePaginationProps="usePaginationProps"
   :usePaginationAttrs="usePaginationAttrs"
   :usePaginationOn="usePaginationOn"
-></dy-query-page>
+>
+  <template #pagination.default>
+    <div>
+      <dy-link>调用接口看 Network</dy-link>
+    </div>
+  </template>
+</dy-query-page>
 
 <script>
   import genTableMixin from 'dynamic-ui/src/mixins/table.js'
@@ -866,6 +882,7 @@ sort 可以实现过滤表单项的排序, 有 sort 值和的按照大小排序,
     ],
     data(self) {
       return {
+        loading: false,
         list: [],
         total: 0,
         page: 1,
@@ -898,6 +915,14 @@ sort 可以实现过滤表单项的排序, 有 sort 值和的按照大小排序,
       this.query()
     },
     methods: {
+      useTableStyle() {
+        return {
+          color: '#606266',
+        }
+      },
+      useTableClass() {
+        return ['dy-table-cls1', { 'dy-table-cls2': false }]
+      },
       useTableProps() {
         const { config, list } = this
         return {
@@ -909,17 +934,45 @@ sort 可以实现过滤表单项的排序, 有 sort 值和的按照大小排序,
           maxHeight: 500,
         }
       },
+      useTableOn() {
+        return {
+          'row-click': row => {
+            console.log(row)
+          },
+        }
+      },
+      useTableNativeOn() {
+        return {
+          click: () => {
+            console.log('click <table></table>')
+          },
+        }
+      },
+
+      useTableAttrs() {
+        return {
+          id: 'table-idName',
+        }
+      },
       usePaginationProps() {
         const { total } = this
         return {
           total,
           background: true,
-          layout: 'total, sizes, prev, pager, next, jumper',
+          layout: 'slot, total, sizes, prev, pager, next, jumper',
         }
+      },
+      useTableDirectives() {
+        return [
+          {
+            name: 'loading',
+            value: this.loading,
+          },
+        ]
       },
       usePaginationAttrs() {
         return {
-          style: `margin-top: 30px`,
+          style: `margin-top: 20px`,
         }
       },
       usePaginationOn() {
@@ -947,10 +1000,17 @@ sort 可以实现过滤表单项的排序, 有 sort 值和的按照大小排序,
         }
       },
       query() {
-        return this.getTableList(this.getParams).then(([data, total]) => {
-          this.list = data
-          this.total = total
-        })
+        this.loading = true
+        return this.getTableList(this.getParams)
+          .then(([data, total]) => {
+            this.list = data
+            this.total = total
+          })
+          .finally(() => {
+            setTimeout(() => {
+              this.loading = false
+            }, 1000 * 3)
+          })
       },
     },
   }
