@@ -4,7 +4,7 @@ const _ = require('lodash');
 const genRandomLocationArr = require('./area');
 const Random = Mock.Random;
 const getParams = (url) => {
-  const [baseUrl, queryString] = _.split(url, '?');
+  const [baseUrl, queryString] = _.split(decodeURIComponent(url), '?');
   const queryParams = _.split(queryString, '&');
   const params = _.map(queryParams, param => _.split(param, '='));
   const queryParamsObject = _.fromPairs(params);
@@ -336,6 +336,46 @@ const tableList = Mock.mock({
   }
 });
 
+// 筛选逻辑函数
+function filterData(res, params) {
+  let data = res.data;
+  let list = data.list;
+
+  const { name, age, search, date } = params;
+
+  list = list.filter(item => {
+    let isMatch = true;
+
+    if (name) {
+      isMatch = item.name.includes(name);
+    }
+
+    if (age) {
+      const [minAge, maxAge] = age.split('/').map(Number);
+      if (item.age < minAge || item.age > maxAge) {
+        isMatch = false;
+      }
+    }
+
+    if (search) {
+      isMatch = item.text.includes(search);
+    }
+
+    if (date) {
+      const startDate = new Date(date.split('/')[0]);
+      const endDate = new Date(date.split('/')[1]);
+      const itemDate = new Date(item.date);
+      if (itemDate < startDate || itemDate > endDate) {
+        isMatch = false;
+      }
+    }
+
+    return isMatch;
+  });
+
+  return {...res, data: {...data, list, total: list.length}};
+}
+
 module.exports = function beforeMock(middlewares, devServer) {
   devServer.app.get(URL.getList, (req, res) => {
     const params = getParams(req.url);
@@ -359,7 +399,8 @@ module.exports = function beforeMock(middlewares, devServer) {
 
   devServer.app.get(URL.getTableList, (req, res) => {
     const params = getParams(req.url);
-    res.json(offsetData(tableList, params));
+    const data = filterData(tableList, params);
+    res.json(offsetData(data, params));
   });
   return middlewares;
 };

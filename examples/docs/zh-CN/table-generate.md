@@ -679,7 +679,12 @@ pagination
 
 ```html
 <dy-form-generate :config="queryFornConfig" v-model="params"></dy-form-generate>
-<dy-row></dy-row>
+<div style="margin-bottom: 30px" class="dy-flex__justify-end">
+  <dy-button type="primary" icon="dy-icon-search" @click="query">
+    查询
+  </dy-button>
+  <dy-button icon="dy-icon-refresh-left" @click="reset">重置</dy-button>
+</div>
 <dy-table-generate
   :config="config"
   stripe
@@ -758,6 +763,7 @@ pagination
               sort: 2,
               component: 'select',
               props: {
+                valueKey: 'start',
                 options: Array.from({ length: 10 }).map((_, idx) => {
                   const start = idx * 10 + 1
                   const end = start + 10 - 1
@@ -802,13 +808,15 @@ pagination
           ...this.params,
         }
         if (this.params.date) {
+          const [start, end] = this.params.date
           searchParams.params.date = `${formatDate(
             start,
             'yyyy-MM-dd',
           )}/${formatDate(end, 'yyyy-MM-dd')}`
         }
         if (this.params.age) {
-          searchParams.params.age = `${age.start}/${age.end}`
+          const { start, end } = this.params.age
+          searchParams.params.age = `${start}/${end}`
         }
         return searchParams
       },
@@ -817,6 +825,11 @@ pagination
           this.list = data
           this.total = total
         })
+      },
+      reset() {
+        this.page = 1
+        this.size = 10
+        this.params = {}
       },
     },
   }
