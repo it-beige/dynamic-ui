@@ -6,4 +6,38 @@
     margin-top: 20px;
     text-align: right;
   }
+
+  &__operate {
+    margin-bottom: 16px;
+    &-title {
+      .icon {
+        width: 20px;
+        height: 20px;
+        background: rgba($--color-primary, 0.2);
+        position: relative;
+        margin-right: -5px;
+
+        &::before {
+          content: " ";
+          display: block;
+          width: 8px;
+          height: 9px;
+          background: $--color-primary;
+          position: absolute;
+          bottom: 0;
+        }
+      }
+      .name {
+        color: #191919;
+        font-size: 16px;
+        font-weight: 600;
+        background: transparent;
+        line-height: 22px;
+      }
+    }
+
+    &-button {
+      flex: 1;
+    }
+  }
 }

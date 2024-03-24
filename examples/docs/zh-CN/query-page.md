@@ -2,8 +2,7 @@
 
 > 基于`Table`组件的封装, 扩展了其功能
 
-- 通过`JSON`方式的配置可以生成表格, 灵活可应用于多数下的表格场景
-- 可通过配置生成过滤、表格、分页完全适用于于列表页
+- 可通过配置生成过滤表单、表格、分页完全适用于查询页
 
 ### 完整功能
 
@@ -22,6 +21,9 @@
   :usePaginationProps="usePaginationProps"
   :usePaginationAttrs="usePaginationAttrs"
   :usePaginationOn="usePaginationOn"
+  :useQueryProps="useQueryProps"
+  :useQueryOn="useQueryOn"
+  :useOperateProps="useOperateProps"
   ref="queryPage"
 >
   <template #pagination.default>
@@ -35,6 +37,10 @@
       <dy-link>template slot 优先级高于 useSlot</dy-link>
     </div>
   </template>
+
+  <template #operate.button>
+    <dy-button size="small" icon="dy-icon-circle-plus-outline">新增</dy-button>
+  </template>
 </dy-query-page>
 
 <script>
@@ -42,11 +48,7 @@
   import { formatDate, parseDate } from 'dynamic-ui/src/utils/date-util'
 
   export default {
-    mixins: [
-      genTableMixin({
-        useTableList: 'getTableList',
-      }),
-    ],
+    mixins: [genTableMixin()],
     data(self) {
       return {
         loading: false,
@@ -54,22 +56,75 @@
         total: 0,
         page: 1,
         size: 10,
+        params: {},
         config: [
+          {
+            label: '姓名',
+            prop: 'name',
+            query: {
+              sort: 1,
+              component: 'input',
+              props: {
+                placeholder: '全字匹配名称',
+              },
+            },
+          },
           {
             label: '日期',
             prop: 'date',
-            fixed: 'left',
             formatter: ({ cellValue }) => {
               return cellValue && formatDate(cellValue, 'yyyy-MM-dd')
+            },
+            query: {
+              isRender: model => {
+                if (model.enableDate) {
+                  model.date = undefined
+                  return false
+                }
+                return true
+              },
+              component: 'date',
+              span: 12,
+              props: {
+                type: 'daterange',
+              },
+            },
+          },
+          {
+            label: '月份',
+            prop: 'month',
+            formatter: ({ row }) => {
+              return row.date && formatDate(row.date, 'MM')
             },
           },
           {
             label: '文本',
             prop: 'text',
+            query: {
+              sort: 3,
+              label: '文本字符',
+              prop: 'search',
+              component: 'input',
+            },
           },
           {
             label: '年龄',
             prop: 'age',
+            query: {
+              sort: 2,
+              component: 'select',
+              props: {
+                valueKey: 'start',
+                options: Array.from({ length: 10 }).map((_, idx) => {
+                  const start = idx * 10 + 1
+                  const end = start + 10 - 1
+                  return {
+                    label: `${start} ~ ${end}`,
+                    value: { start, end },
+                  }
+                }),
+              },
+            },
           },
           {
             label: '小数',
@@ -119,7 +174,6 @@
           },
         }
       },
-
       useTableAttrs() {
         return {
           id: 'table-idName',
@@ -148,7 +202,6 @@
           },
         }
       },
-
       usePaginationAttrs() {
         return {
           style: `margin-top: 20px`,
@@ -169,6 +222,25 @@
           'next-click': paramsChange,
         }
       },
+      useQueryProps() {
+        return {
+          value: this.params,
+          config: this.useTableQueryConfig(this.config),
+        }
+      },
+      useQueryOn() {
+        return {
+          input: value => {
+            this.params = { ...value }
+          },
+          // input: value => (this.params = { ...value }),
+        }
+      },
+      useOperateProps() {
+        return {
+          tableName: '列表查询',
+        }
+      },
       async getParams() {
         return {
           url: this.$root.URL.getTableList,
@@ -179,8 +251,8 @@
         }
       },
       query() {
-        // this.loading = true
-        return this.getTableList(this.getParams)
+        this.loading = true
+        return this.useTableList(this.getParams)
           .then(([data, total]) => {
             this.list = data
             this.total = total

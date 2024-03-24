@@ -78,7 +78,10 @@ export default {
   watch: {
     config: {
       immediate: true,
-      handler() {
+      handler(v, lastV) {
+        if (_.isEqual(v, lastV)) {
+          return;
+        }
         this.init(true);
       }
     },
