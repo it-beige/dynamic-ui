@@ -1,7 +1,7 @@
 {
   "name": "dynamic-ui",
   "version": "2.0.0",
-  "description": "一个基于 element 的 PC 端表单/表格 通过JSON生成配置式为零代码而设计...",
+  "description": "一个基于 element 的 PC 端表单/表格 通过JSON生成配置式为低代码而设计...",
   "main": "lib/dynamic-ui.common.js",
   "module": "es/index.esm.js",
   "files": [

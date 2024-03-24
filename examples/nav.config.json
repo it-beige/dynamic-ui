@@ -54,31 +54,35 @@
           "list": [
             {
               "path": "/select-generate",
-              "title": "Select JSON生成"
+              "title": "Select 配置生成"
             },
             {
               "path": "/radio-generate",
-              "title": "Radio JSON生成"
+              "title": "Radio 配置生成"
             },
             {
               "path": "/checkbox-generate",
-              "title": "Checkbox JSON生成"
+              "title": "Checkbox 配置生成"
             },
             {
               "path": "/upload-generate",
-              "title": "Upload JSON生成"
+              "title": "Upload 配置生成"
             },
             {
               "path": "/form-generate",
-              "title": "Form JSON生成"
+              "title": "Form 配置生成"
             },
             {
               "path": "/dialog-generate",
-              "title": "Dialog JSON生成"
+              "title": "Dialog 配置生成"
             },
             {
               "path": "/table-generate",
-              "title": "Table JSON生成"
+              "title": "Table 配置生成"
+            },
+            {
+              "path": "/query-page",
+              "title": "查询页 配置生成"
             }
           ]
         }
