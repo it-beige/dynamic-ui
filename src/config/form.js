@@ -48,11 +48,11 @@ const COMPONENT_ATTRIBUTES = Object.keys(FORM_COMPONENTS).reduce((o, name) => {
 export function injectFormComponent(injectComps) {
   injectComps.forEach(([name, component]) => {
     if (!name) {
-      console.error('[Dynamic Error]注册表单项名称不能为空');
+      console.error('[FormGenerate Error]注册表单项名称不能为空');
       return;
     }
     if (!component) {
-      console.error('[Dynamic Error]注册表单项组件名称不能为空');
+      console.error('[FormGenerate Error]注册表单项组件名称不能为空');
       return;
     }
 
@@ -62,12 +62,12 @@ export function injectFormComponent(injectComps) {
 
 export function getComponentByName(name) {
   if (!name) {
-    console.error('[Dynamic Error]表单项不能为空');
+    console.error('[FormGenerate Error]表单项不能为空');
     return;
   }
   const component = FORM_COMPONENTS[name] || getPackageComponentByName(kebabToUpperCamel(name));
   if (!component) {
-    console.error(`[Dynamic Error] 表单组件不支持的表单项：${name}`);
+    console.error(`[FormGenerate Error] 表单组件不支持的表单项：${name}`);
     return;
   }
   return component;
@@ -75,13 +75,13 @@ export function getComponentByName(name) {
 
 export function getFormItemComponentAttribute(name) {
   if (!name) {
-    console.error('[FormGlobal Error]表单项不能为空');
+    console.error('[FormGenerate Error]表单项不能为空');
     return;
   }
   // eslint-disable-next-line
   if (FORM_COMPONENTS[name] && !COMPONENT_ATTRIBUTES[name]) {
     console.error(
-      `[FormGlobal Error] 不存在的attribute：${name}`,
+      `[FormGenerate Error] 不存在的attribute：${name}`,
     );
     return;
   }

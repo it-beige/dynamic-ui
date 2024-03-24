@@ -4,6 +4,7 @@ import { getClearableByName } from 'main/helper/props';
 
 export default function genTableMixin(option = {}) {
   const {
+    useSpan = 'useSpan',
     useTableList = 'useTableList',
     useTableQueryConfig = 'useTableQueryConfig'
   } = option;
@@ -11,13 +12,6 @@ export default function genTableMixin(option = {}) {
   const request = globalConfig.useRequest();
   const genPlaceholder = globalConfig.genPlaceholder;
   return {
-    props: {},
-    data() {
-      return {};
-    },
-    computed: {},
-    watch: {},
-    created() {},
     methods: {
       async [useTableList](useParams) {
         const params = await useParams();
@@ -50,7 +44,7 @@ export default function genTableMixin(option = {}) {
               prop = i.prop,
               label = i.label,
               component,
-              span = 8,
+              span = this.useSpan(),
               props = {},
               ...rest
             } = i.query;
@@ -85,7 +79,11 @@ export default function genTableMixin(option = {}) {
           }
           return o;
         }, []);
+      },
+      [useSpan]() {
+        return 8;
       }
     }
+
   };
 }

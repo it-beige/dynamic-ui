@@ -7,6 +7,11 @@
     text-align: right;
   }
 
+  @include b(form-generate) {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 30px;
+  }
+
   &__operate {
     margin-bottom: 16px;
     &-title {
@@ -38,6 +43,20 @@
 
     &-button {
       flex: 1;
+    }
+  }
+
+  &__search {
+    .collapse-btn {
+      padding: 10px;
+
+      [class^="dy-icon-"],
+      [class*=" dy-icon-"] {
+        font-size: 12px;
+      }
+    }
+    .reset-btn,
+    .search-btn {
     }
   }
 }

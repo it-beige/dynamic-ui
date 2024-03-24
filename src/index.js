@@ -110,7 +110,8 @@ import {
 } from 'dynamic-ui/src/utils/lodash';
 import globalConfig from 'dynamic-ui/src/config/global';
 import {
-  installComponent
+  installComponent,
+  injectComponent
 } from 'dynamic-ui/src/config/component';
 
 const components = [
@@ -304,12 +305,17 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 export default {
+  author: '北歌',
+  weChart: 'itbeige9',
+  email: 'it_beige@163.com',
+  blog: 'https://juejin.cn/user/1662117313775806',
   version: '2.0.0',
   locale: locale.use,
   i18n: locale.i18n,
   install,
   CollapseTransition,
   Loading,
+  injectComponent,
   Pagination,
   Dialog,
   Autocomplete,

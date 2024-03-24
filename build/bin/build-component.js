@@ -25,11 +25,11 @@ export function getComponentPrefix() {
 export function injectComponent(injectComps) {
   injectComps.forEach(([name, component]) => {
     if (!name) {
-      console.error('[Dynamic Error]注册表单项名称不能为空');
+      console.error('[Dynamic Error]注入组件名称不能为空');
       return;
     }
     if (!component) {
-      console.error('[Dynamic Error]注册表单项组件名称不能为空');
+      console.error('[Dynamic Error]注入组件不能为空');
       return;
     }
 
@@ -39,12 +39,12 @@ export function injectComponent(injectComps) {
 
 export function getComponentByName(name) {
   if (!name) {
-    console.error('[Dynamic Error]表单项不能为空');
+    console.error('[Dynamic Error]组件名称不能为空');
     return;
   }
   // eslint-disable-next-line
   if (!CONFIG_COMPONENTS[name]) {
-    console.error(\`[Dynamic Error] 表单组件不支持的表单项：\${name}\`);
+    console.error(\`[Dynamic Error] 不支持的组件：\${name}\`);
     return;
   }
   return CONFIG_COMPONENTS[name];

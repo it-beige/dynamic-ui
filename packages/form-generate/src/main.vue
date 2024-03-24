@@ -222,7 +222,8 @@ export default {
               }
             };
             if (component === 'slot') {
-              data.props.defaultRender = this.$scopedSlots[prop] || i.default;
+              const noop = () => {};
+              data.props.defaultRender = this.$scopedSlots[prop] || i.default || noop;
             }
 
             const renderCascaderConfig = this.getRenderConfig(

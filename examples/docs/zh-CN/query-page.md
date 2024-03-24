@@ -23,7 +23,11 @@
   :usePaginationOn="usePaginationOn"
   :useQueryProps="useQueryProps"
   :useQueryOn="useQueryOn"
+  :useQueryDirectives="useQueryDirectives"
   :useOperateProps="useOperateProps"
+  :useOperateClass="useOperateClass"
+  :useSearchProps="useSearchProps"
+  :useSearchOn="useSearchOn"
   ref="queryPage"
 >
   <template #pagination.default>
@@ -39,7 +43,7 @@
   </template>
 
   <template #operate.button>
-    <dy-button size="small" icon="dy-icon-circle-plus-outline">新增</dy-button>
+    <dy-button icon="dy-icon-circle-plus-outline">新增</dy-button>
   </template>
 </dy-query-page>
 
@@ -141,6 +145,12 @@
       console.log(this.$refs.queryPage.usePaginationRef())
     },
     methods: {
+      useLoading() {
+        return {
+          name: 'loading',
+          value: this.loading,
+        }
+      },
       useTableStyle() {
         return {
           color: '#606266',
@@ -188,12 +198,7 @@
         }
       },
       useTableDirectives() {
-        return [
-          {
-            name: 'loading',
-            value: this.loading,
-          },
-        ]
+        return [this.useLoading()]
       },
       useTableSlots() {
         return {
@@ -226,6 +231,7 @@
         return {
           value: this.params,
           config: this.useTableQueryConfig(this.config),
+          labelWidth: '90px',
         }
       },
       useQueryOn() {
@@ -233,12 +239,229 @@
           input: value => {
             this.params = { ...value }
           },
-          // input: value => (this.params = { ...value }),
         }
+      },
+      useQueryDirectives() {
+        return [this.useLoading()]
       },
       useOperateProps() {
         return {
           tableName: '列表查询',
+        }
+      },
+      useOperateClass() {
+        return ['operate-cls']
+      },
+      useSearchProps() {
+        return {
+          // 开启过滤表单的折叠 true为展开, false为收缩
+          collapse: true,
+          upText: '展开',
+          downText: '收缩',
+          searchText: '查询',
+          resetText: '重置',
+        }
+      },
+      useSearchOn() {
+        return {
+          reset: this.reset,
+          search: this.search,
+        }
+      },
+      async getParams() {
+        const searchParams = {
+          url: this.$root.URL.getTableList,
+          params: {
+            page: this.page,
+            size: this.size,
+          },
+        }
+        searchParams.params = {
+          ...this.params,
+        }
+        if (this.params.date) {
+          const [start, end] = this.params.date
+          searchParams.params.date = `${formatDate(
+            start,
+            'yyyy-MM-dd',
+          )}/${formatDate(end, 'yyyy-MM-dd')}`
+        }
+        if (this.params.age) {
+          const { start, end } = this.params.age
+          searchParams.params.age = `${start}/${end}`
+        }
+        return searchParams
+      },
+      query() {
+        this.loading = true
+        return this.useTableList(this.getParams)
+          .then(([data, total]) => {
+            this.list = data
+            this.total = total
+          })
+          .finally(() => {
+            setTimeout(() => {
+              this.loading = false
+            }, 1000 * 3)
+          })
+      },
+      reset() {
+        this.params = {}
+        this.query()
+      },
+      search() {
+        this.query()
+      },
+    },
+  }
+</script>
+```
+
+:::
+
+:::tip
+template slot 优先级高于 useSlot
+:::
+
+:::warning
+`query-page `通过 use 开头传入的函数返回的配置根据需求来确定是否进行**响应式处理**, 向上面示例中直接返回的字面量对象都是没有进行响应式处理, 如果需要可以将返回的配置对象在 data 中定义, 这么做的目的是为了避免不必要的渲染
+:::
+
+### 自定义
+
+:::demo
+
+```html
+<dy-query-page
+  :useTableProps="useTableProps"
+  :usePaginationProps="usePaginationProps"
+  :usePaginationOn="usePaginationOn"
+  :useQueryProps="useQueryProps"
+  :useQueryOn="useQueryOn"
+  :useSearchProps="useSearchProps"
+  ref="queryPage"
+></dy-query-page>
+
+<script>
+  import genTableMixin from 'dynamic-ui/src/mixins/table.js'
+  import { formatDate, parseDate } from 'dynamic-ui/src/utils/date-util'
+
+  export default {
+    mixins: [genTableMixin()],
+    data(self) {
+      return {
+        loading: false,
+        list: [],
+        total: 0,
+        page: 1,
+        size: 10,
+        params: {},
+        config: [
+          {
+            label: '姓名',
+            prop: 'name',
+            query: {
+              sort: 1,
+              component: 'input',
+              props: {
+                placeholder: '全字匹配名称',
+              },
+            },
+          },
+          {
+            label: '日期',
+            prop: 'date',
+            formatter: ({ cellValue }) => {
+              return cellValue && formatDate(cellValue, 'yyyy-MM-dd')
+            },
+          },
+          {
+            label: '月份',
+            prop: 'month',
+            formatter: ({ row }) => {
+              return row.date && formatDate(row.date, 'MM')
+            },
+          },
+          {
+            label: '文本',
+            prop: 'text',
+          },
+          {
+            label: '年龄',
+            prop: 'age',
+          },
+          {
+            label: '小数',
+            prop: 'num1',
+          },
+        ],
+      }
+    },
+    created() {
+      this.query()
+    },
+    mounted() {
+      console.log(this.$refs.queryPage.useTableRef())
+      console.log(this.$refs.queryPage.usePaginationRef())
+    },
+    methods: {
+      useLoading() {
+        return {
+          name: 'loading',
+          value: this.loading,
+        }
+      },
+      useTableProps() {
+        const { config, list } = this
+        return {
+          config,
+          data: list,
+          stripe: true,
+          stripe: true,
+          border: true,
+          maxHeight: 500,
+        }
+      },
+      usePaginationProps() {
+        const { total } = this
+        return {
+          total,
+          background: true,
+          layout: 'slot, total, sizes, prev, pager, next, jumper',
+        }
+      },
+      usePaginationOn() {
+        const paramsChange = params => {
+          this.page = params
+          this.query()
+        }
+        return {
+          'size-change': size => {
+            this.size = size
+            this.query()
+          },
+          'current-change': paramsChange,
+          'prev-click': paramsChange,
+          'next-click': paramsChange,
+        }
+      },
+      useQueryProps() {
+        return {
+          value: this.params,
+          config: this.useTableQueryConfig(this.config),
+          labelWidth: '90px',
+        }
+      },
+      useQueryOn() {
+        return {
+          input: value => {
+            this.params = { ...value }
+          },
+        }
+      },
+      useSearchProps() {
+        return {
+          collapse: false,
         }
       },
       async getParams() {

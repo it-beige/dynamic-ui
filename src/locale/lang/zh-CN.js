@@ -99,9 +99,12 @@ export default {
         custom: {
           leftText: '左固定',
           rightText: '右固定'
-
         }
       }
+    },
+    queryPage: {
+      searchText: '搜索',
+      resetText: '清空'
     },
     tree: {
       emptyText: '暂无数据'

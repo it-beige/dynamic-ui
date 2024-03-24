@@ -93,7 +93,17 @@ export default {
       confirmFilter: 'Confirm',
       resetFilter: 'Reset',
       clearFilter: 'All',
-      sumText: 'Sum'
+      sumText: 'Sum',
+      column: {
+        custom: {
+          leftText: 'Left fixation',
+          rightText: 'Right fixation'
+        }
+      }
+    },
+    queryPage: {
+      searchText: 'Search',
+      resetText: 'Clear'
     },
     tree: {
       emptyText: 'No Data'
