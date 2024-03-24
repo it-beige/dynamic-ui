@@ -17,14 +17,22 @@
   :useTableOn="useTableOn"
   :useTableNativeOn="useTableNativeOn"
   :useTableDirectives="useTableDirectives"
+  :useTableSlots="useTableSlots"
   :useTableAttrs="useTableAttrs"
   :usePaginationProps="usePaginationProps"
   :usePaginationAttrs="usePaginationAttrs"
   :usePaginationOn="usePaginationOn"
+  ref="queryPage"
 >
   <template #pagination.default>
     <div>
       <dy-link>调用接口看 Network</dy-link>
+    </div>
+  </template>
+
+  <template #table.append>
+    <div>
+      <dy-link>template slot 优先级高于 useSlot</dy-link>
     </div>
   </template>
 </dy-query-page>
@@ -72,6 +80,10 @@
     },
     created() {
       this.query()
+    },
+    mounted() {
+      console.log(this.$refs.queryPage.useTableRef())
+      console.log(this.$refs.queryPage.usePaginationRef())
     },
     methods: {
       useTableStyle() {
@@ -129,6 +141,14 @@
           },
         ]
       },
+      useTableSlots() {
+        return {
+          append: () => {
+            return <dy-link style="padding: 10px 0; ">append slot</dy-link>
+          },
+        }
+      },
+
       usePaginationAttrs() {
         return {
           style: `margin-top: 20px`,
@@ -159,7 +179,7 @@
         }
       },
       query() {
-        this.loading = true
+        // this.loading = true
         return this.getTableList(this.getParams)
           .then(([data, total]) => {
             this.list = data
@@ -179,7 +199,7 @@
 :::
 
 :::tip
-pagination
+template slot 优先级高于 useSlot
 :::
 
 ### 扩展 Table Attributes
