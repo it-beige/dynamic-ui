@@ -28,6 +28,7 @@ export default {
     useTableAttrs: Function,
     useTableDirectives: Function,
     useTableSlots: Function,
+    useTableScopedSlots: Function,
 
     // pagination
     usePaginationStyle: Function,
@@ -39,6 +40,7 @@ export default {
     usePaginationAttrs: Function,
     usePaginationDirectives: Function,
     usePaginationSlots: Function,
+    usePaginationScopedSlot: Function,
 
     // form
     useQueryStyle: Function,
@@ -50,6 +52,7 @@ export default {
     useQueryAttrs: Function,
     useQueryDirectives: Function,
     useQuerySlots: Function,
+    useQueryScopedSlot: Function,
 
     // operate
     useOperateStyle: Function,
@@ -61,6 +64,7 @@ export default {
     useOperateAttrs: Function,
     useOperateDirectives: Function,
     useOperateSlots: Function,
+    useOperateScopedSlot: Function,
 
     // search
     useSearchStyle: Function,
@@ -71,7 +75,9 @@ export default {
     useSearchNativeOn: Function,
     useSearchAttrs: Function,
     useSearchDirectives: Function,
-    useSearchSlots: Function
+    useSearchSlots: Function,
+    useSearchScopedSlot: Function
+
   },
   data() {
     return {
@@ -109,6 +115,18 @@ export default {
     );
   },
   methods: {
+    useTableRef() {
+      return this.$refs[TableGenerate.name].useRef();
+    },
+    usePaginationRef() {
+      return this.$refs[Pagination.name];
+    },
+    useQueryRef() {
+      return this.$refs[FormGenerate.name].useRef();
+    },
+    useSearchRef() {
+      return this.$refs.searchRef;
+    },
     getTableOption() {
       return {
         ref: TableGenerate.name,
@@ -123,12 +141,10 @@ export default {
         scopedSlots: this.useTableScopedSlots?.()
       };
     },
-    useTableRef() {
-      return this.$refs[TableGenerate.name].useRef();
-    },
     renderTableSlots() {
-      const { append } = this.getSlot('table');
-      return append || this.normalizeSlot(this.useTableSlots?.().append?.(), 'append');
+      const { append } = this.getSlot('table', false);
+      // append slot is must normalize
+      return this.normalizeSlot(append, 'append') || this.normalizeSlot(this.useTableSlots?.().append?.(), 'append');
     },
     getPaginationOption() {
       return {
@@ -144,14 +160,13 @@ export default {
         scopedSlots: this.usePaginationScopedSlots?.()
       };
     },
-    usePaginationRef() {
-      return this.$refs[Pagination.name];
-    },
     renderPaginationSlots() {
-      const { default: defaultSlot } = this.getSlot('pagination');
+      const { default: defaultSlot } = this.getSlot('pagination', false);
       return defaultSlot || this.normalizeSlot(this.usePaginationSlots?.().default?.(), 'default');
     },
     getQueryOption() {
+      const templateRenders = this.getScopedSlot('query');
+      const methodRenders = this.useQueryScopedSlots?.() || {};
       return {
         ref: FormGenerate.name,
         style: this.useQueryStyle?.(),
@@ -162,8 +177,47 @@ export default {
         on: this.useQueryOn?.(),
         nativeOn: this.useQueryNativeOn?.(),
         directives: this.useQueryDirectives?.(),
-        scopedSlots: this.useQueryScopedSlots?.()
+        scopedSlots: Object.assign(methodRenders, templateRenders)
       };
+    },
+    renderQuery(option) {
+      const {
+        props,
+        scopedSlots
+      } = option;
+      if (!props.config?.length) return;
+
+      option.directives ??= [];
+      const renderConfig = props.config.filter(i => i.isRender ? i.isRender(props.value) : true);
+      const isConfig = renderConfig.length;
+      if (_.isFunction(this.useSearchProps) && isConfig) {
+        this.renderSearch(option);
+        if (this.isRenderCollapse()) {
+          const searchProps = this.useSearchProps();
+          const [collapse] = this.useReactive(searchProps, 'collapse', 'search.props');
+          option.directives.push({
+            name: 'collapse',
+            value: collapse
+          });
+        }
+      }
+      return (
+        <FormGenerate {...option}>
+          {this.renderQuerySlots(scopedSlots)}
+        </FormGenerate>
+      );
+    },
+    renderQuerySlots(scopedSlots) {
+      const templateRenders = this.getSlot('query', false);
+      const methodRenders = this.useQuerySlots?.() || {};
+      const slots = Object.assign(methodRenders, templateRenders);
+      const childrenVnode = Object.keys(slots).reduce((o, k) => {
+        if (!scopedSlots[k]) {
+          o.push(this.normalizeSlot(slots[k], k));
+        }
+        return o;
+      }, []);
+      return childrenVnode;
     },
     getSearchOption() {
       return {
@@ -180,11 +234,14 @@ export default {
       };
     },
     isRenderCollapse() {
-      return this.useQueryProps().config.reduce((acc, i) => acc + i.span, 0) > 24;
+      const props = this.useQueryProps();
+      return props.config
+        .filter(i => i.isRender ? i.isRender(props.value) : true)
+        .reduce((acc, i) => acc + i.span, 0) > 24;
     },
     renderInlaySearch() {
       const [, bem] = createNamespace('query-page');
-      const { button } = this.getSlot('search');
+      const { button } = this.getSlot('search', false);
       const {
         props,
         on
@@ -196,7 +253,7 @@ export default {
         setCollapse(!collapse);
       };
       return (
-        <div class={[bem('search'), 'dy-flex__justify-end']}>
+        <div class={[bem('search'), 'dy-flex__justify-end']} ref="searchRef">
           {buttonVnode || [
             <Button onClick={on.reset} class={['reset-btn']} plain={true} icon="dy-icon-refresh-right">{resetText || this.t('dy.queryPage.resetText')}</Button>,
             <Button onClick={on.search} class={['search-btn']} plain={true} icon="dy-icon-search">{searchText || this.t('dy.queryPage.searchText')}</Button>
@@ -216,50 +273,40 @@ export default {
         </div>
       );
     },
-    renderSearch(config) {
+    renderSearch(option) {
+      const { props } = option;
+      const { config } = props;
       const l = config.length;
-      const getSearchSpan = () => {
+      const getSearchSpanWithIdx = () => {
         let span = 0;
         let idx = 0;
-        while (!(span === 16 || idx === config.length)) {
-          span += config[idx].span || 0;
+        while (!(span >= 16 || idx === config.length)) {
+          const isRender = config[idx].isRender;
+          if (isRender ? isRender(props.value) : true) {
+            span += config[idx].span || 0;
+          }
           idx++;
         }
-        return 24 - span;
+        let residueSpan = 24 - span;
+        if (residueSpan < 8) {
+          residueSpan = 16;
+          idx--;
+        }
+        return [residueSpan, idx];
       };
 
+      const [span, idx] = getSearchSpanWithIdx();
       const searchProps = {
         component: 'slot',
-        span: getSearchSpan(),
+        span,
         default: this.renderInlaySearch
       };
 
       if (l < 1) {
         config.push(searchProps);
       } else {
-        config.splice(2, 0, searchProps);
+        config.splice(idx, 0, searchProps);
       }
-    },
-    renderQuery(option) {
-      const {
-        props
-      } = option;
-      option.directives ??= [];
-      if (_.isFunction(this.useSearchProps) && props.config?.length) {
-        this.renderSearch(props.config);
-        if (this.isRenderCollapse()) {
-          const searchProps = this.useSearchProps();
-          const [collapse] = this.useReactive(searchProps, 'collapse', 'search.props');
-          option.directives.push({
-            name: 'collapse',
-            value: collapse
-          });
-        }
-      }
-      return (
-        <FormGenerate {...option}>
-        </FormGenerate>
-      );
     },
     getOperateOption() {
       return {
@@ -317,6 +364,15 @@ export default {
         const [componentName, slotName] = k.split('.');
         if (componentName === name) {
           o[slotName] = isNormalize ? this.normalizeSlot(this.$slots[k], slotName) : this.$slots[k];
+        }
+        return o;
+      }, {});
+    },
+    getScopedSlot(name) {
+      return Object.keys(this.$scopedSlots).reduce((o, k) => {
+        const [componentName, slotName] = k.split('.');
+        if (componentName === name) {
+          o[slotName] = this.$scopedSlots[k];
         }
         return o;
       }, {});

@@ -77,6 +77,8 @@ export default {
     },
     renderFormItem() {
       const {
+        label,
+        prop,
         props,
         itemProps,
         classSheet,
@@ -101,9 +103,9 @@ export default {
         }
       };
       return (
-        <FormItem.name class={itemClassSheet} label={this.label} prop={this.prop} {...itemData}>
+        <FormItem.name class={itemClassSheet} label={label} prop={prop} {...itemData}>
           {
-            component === 'slot' ? this.defaultRender() : [
+            component === 'slot' ? this.defaultRender({label, prop}) : [
               this.getSlots(this.itemSlots),
               <component.name ref={`${this.prop}Ref`} class={classSheet} value={this.$attrs.value} {...data}>
                 { slots }

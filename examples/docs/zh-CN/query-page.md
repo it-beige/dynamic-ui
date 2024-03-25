@@ -1,8 +1,9 @@
-## TableGenerate Table 生成
+## QueryPage 查询页
 
-> 基于`Table`组件的封装, 扩展了其功能
+> 基于`TableGenerate`、`FormGenerate`、`Pagination`、使用函数式的的组件的封装
 
 - 可通过配置生成过滤表单、表格、分页完全适用于查询页
+- 对组件进行了扩展和样式优化
 
 ### 完整功能
 
@@ -273,6 +274,7 @@
           },
         }
         searchParams.params = {
+          ...searchParams.params,
           ...this.params,
         }
         if (this.params.date) {
@@ -298,7 +300,7 @@
           .finally(() => {
             setTimeout(() => {
               this.loading = false
-            }, 1000 * 3)
+            }, 1000 * 1)
           })
       },
       reset() {
@@ -316,27 +318,25 @@
 :::
 
 :::tip
-template slot 优先级高于 useSlot
+插槽具体配置看下方 Slot, 需要注意的是 template slot 的写法优先级始终高于 useSlot 方法渲染
 :::
 
-:::warning
-`query-page `通过 use 开头传入的函数返回的配置根据需求来确定是否进行**响应式处理**, 向上面示例中直接返回的字面量对象都是没有进行响应式处理, 如果需要可以将返回的配置对象在 data 中定义, 这么做的目的是为了避免不必要的渲染
-:::
-
-### 自定义
+### 自定义配置
 
 :::demo
 
 ```html
 <dy-query-page
   :useTableProps="useTableProps"
-  :usePaginationProps="usePaginationProps"
-  :usePaginationOn="usePaginationOn"
   :useQueryProps="useQueryProps"
   :useQueryOn="useQueryOn"
   :useSearchProps="useSearchProps"
   ref="queryPage"
-></dy-query-page>
+>
+  <template #query.enableDate>
+    <dy-switch v-model="params.enableDate"></dy-switch>
+  </template>
+</dy-query-page>
 
 <script>
   import genTableMixin from 'dynamic-ui/src/mixins/table.js'
@@ -356,13 +356,6 @@ template slot 优先级高于 useSlot
           {
             label: '姓名',
             prop: 'name',
-            query: {
-              sort: 1,
-              component: 'input',
-              props: {
-                placeholder: '全字匹配名称',
-              },
-            },
           },
           {
             label: '日期',
@@ -405,21 +398,6 @@ template slot 优先级高于 useSlot
           {
             label: '年龄',
             prop: 'age',
-            query: {
-              sort: 2,
-              component: 'select',
-              props: {
-                valueKey: 'start',
-                options: Array.from({ length: 10 }).map((_, idx) => {
-                  const start = idx * 10 + 1
-                  const end = start + 10 - 1
-                  return {
-                    label: `${start} ~ ${end}`,
-                    value: { start, end },
-                  }
-                }),
-              },
-            },
           },
           {
             label: '小数',
@@ -434,6 +412,8 @@ template slot 优先级高于 useSlot
     mounted() {
       console.log(this.$refs.queryPage.useTableRef())
       console.log(this.$refs.queryPage.usePaginationRef())
+      console.log(this.$refs.queryPage.useQueryRef())
+      console.log(this.$refs.queryPage.useSearchRef())
     },
     methods: {
       useLoading() {
@@ -453,33 +433,15 @@ template slot 优先级高于 useSlot
           maxHeight: 500,
         }
       },
-      usePaginationProps() {
-        const { total } = this
-        return {
-          total,
-          background: true,
-          layout: 'slot, total, sizes, prev, pager, next, jumper',
-        }
-      },
-      usePaginationOn() {
-        const paramsChange = params => {
-          this.page = params
-          this.query()
-        }
-        return {
-          'size-change': size => {
-            this.size = size
-            this.query()
-          },
-          'current-change': paramsChange,
-          'prev-click': paramsChange,
-          'next-click': paramsChange,
-        }
-      },
       useQueryProps() {
         return {
           value: this.params,
-          config: this.useTableQueryConfig(this.config),
+          config: this.useTableQueryConfig(this.config).concat({
+            label: '关闭日期',
+            prop: 'enableDate',
+            component: 'slot',
+            span: 8,
+          }),
           labelWidth: '90px',
         }
       },
@@ -500,13 +462,25 @@ template slot 优先级高于 useSlot
         }
       },
       async getParams() {
-        return {
+        const searchParams = {
           url: this.$root.URL.getTableList,
           params: {
             page: this.page,
             size: this.size,
           },
         }
+        searchParams.params = {
+          ...searchParams.params,
+          ...this.params,
+        }
+        if (this.params.date) {
+          const [start, end] = this.params.date
+          searchParams.params.date = `${formatDate(
+            start,
+            'yyyy-MM-dd',
+          )}/${formatDate(end, 'yyyy-MM-dd')}`
+        }
+        return searchParams
       },
       query() {
         this.loading = true
@@ -518,7 +492,20 @@ template slot 优先级高于 useSlot
           .finally(() => {
             setTimeout(() => {
               this.loading = false
-            }, 1000 * 3)
+            }, 1000 * 1)
+          })
+      },
+      query() {
+        this.loading = true
+        return this.useTableList(this.getParams)
+          .then(([data, total]) => {
+            this.list = data
+            this.total = total
+          })
+          .finally(() => {
+            setTimeout(() => {
+              this.loading = false
+            }, 1000 * 1)
           })
       },
     },
@@ -532,37 +519,39 @@ template slot 优先级高于 useSlot
 template slot 优先级高于 useSlot
 :::
 
-### 扩展 Table Attributes
+### QueryPage Attributes
 
-| 参数                 | 说明                                                         | 类型   | 可选值                   | 默认值 |
-| -------------------- | ------------------------------------------------------------ | ------ | ------------------------ | ------ |
-| data/v-model         | 表格数据                                                     | array  | —                        | —      |
-| config               | 表格配置对象，具体选项看下表                                 | array  | —                        | —      |
-| isRenders            | 控制表单项 render                                            | object | —                        | —      |
-| align                | 全局表格对齐方式, 优先级低于 column 的`align`                | String | left/center/right        | left   |
-| header-align         | 全局表头对齐方式, 优先级低于 column 的`header-align`         |
-| show-overflo-tooltip | 全局表头对齐方式, 优先级低于 column 的`show-overflo-tooltip` |
-| columns              | 内置支持的列                                                 | array  | index、selection、expand | —      |
+:::warning
+`query-page `通过 use 开头函数返回的配置根据需求来确定是否进行**响应式处理**, 示例中直接返回的字面量对象都是没有进行响应式处理, 如果需要可以将返回的配置对象在 data 中定义, 这么做的目的是为了优化不必要的渲染
+:::
 
-### config
+| use 开头配置     | 说明       | 组件           |
+| ---------------- | ---------- | -------------- |
+| useQueryxxx      | 过滤表单区 | `FormGenerate` |
+| useOperatexxx    | 按钮操作区 | `Row`          |
+| useSearchxxx     | 查询重置区 | `Slot`         |
+| usePaginationxxx | 分页区     | `Pagination`   |
 
-| 参数         | 说明                        | 类型                                       | 可选值 | 默认值 |
-| ------------ | --------------------------- | ------------------------------------------ | ------ | ------ |
-| formatter    | 格式化内容                  | Function({row, column, cellValue, $index}) | —      | —      |
-| render       | defalut slot 的 render 写法 | Function({row, column, cellValue, $index}) | —      | —      |
-| headerRender | header slot 的 render 写法  | Function({column, $index})                 | —      | —      |
+### use 配置
 
-### custom-column Attributes
+| 参数             | 说明                              | 返回值类型            |
+| ---------------- | --------------------------------- | --------------------- |
+| usexxxStyle      | 与 `v-bind:class` 的 API 相同     | string、object、array |
+| usexxxClass      | 与 `v-bind:style` 的 API 相同     | string、object、array |
+| usexxxAttrs      | HTML attribute                    | object                |
+| usexxxProps      | 组件 props                        | object                |
+| usexxxDomProps   | DOM property                      | object                |
+| usexxxOn         | 与 `v-on` API 相同,但不支持修饰符 | object                |
+| usexxxNativeOn   | 监听原生事件                      | object                |
+| usexxxDirectives | 自定义指令                        | array                 |
+| usexxxSlots      | 自定义 Slot                       | object                |
+| usexxxScopedSlot | 自定义 Scoped Slot                | object                |
 
-<!--
+### Slot 配置
 
- -->
-
-| 参数         | 说明           | 类型       | 可选值 | 默认值 |
-| ------------ | -------------- | ---------- | ------ | ------ |
-| buttonProps  | 触发按钮 props | ButtonCtor | —      | —      |
-| popoverProps | PopoverCtor    | —          | —      |
-| tooltipProps | TooltipCtor    | —          | —      |
-| fixedColumns | 固定的列       | —          | —      |
-| resetText    | 重置按钮文本   | —          | —      |
-| confirmText  | 确认按钮文本   | —          | —      |
+| 插槽写法           | 说明                         | 组件           |
+| ------------------ | ---------------------------- | -------------- |
+| query.xxx          | 过滤表单区(插槽根据配置而定) | `FormGenerate` |
+| operate.button     | 按钮操作区提供的插槽         | `Row`          |
+| search.button      | 查询重置区提供的插槽         | `Slot`         |
+| pagination.default | 分页区提供的插槽             | `Pagination`   |

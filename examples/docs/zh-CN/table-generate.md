@@ -809,6 +809,7 @@ pagination
           },
         }
         searchParams.params = {
+          ...searchParams.params,
           ...this.params,
         }
         if (this.params.date) {
