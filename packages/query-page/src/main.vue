@@ -7,6 +7,7 @@ import _ from 'lodash';
 
 import TableGenerate from 'packages/table-generate';
 import FormGenerate from 'packages/form-generate';
+import Collapse from './collapse';
 const Pagination = getComponentByName('Pagination');
 const Row = getComponentByName('Row');
 const Col = getComponentByName('Col');
@@ -15,6 +16,7 @@ const Button = getComponentByName('Button');
 export default {
   name: 'DyQueryPage',
   mixins: [Locale],
+  directives: {Collapse},
   props: {
     // table
     useTableStyle: Function,
@@ -204,10 +206,10 @@ export default {
             this.isRenderCollapse() && Reflect.has(props, 'collapse')
               ? <dy-tooltip
                 effect="dark"
-                content={collapse ? downText : upText}
+                content={collapse ? upText : downText}
                 placement="top"
               >
-                <Button onClick={onClick} plain={true} class={['collapse-btn']} icon={collapse ? 'dy-icon-arrow-up' : 'dy-icon-arrow-down'}></Button>
+                <Button onClick={onClick} plain={true} class={['collapse-btn']} icon={collapse ? 'dy-icon-arrow-down' : 'dy-icon-arrow-up'}></Button>
               </dy-tooltip>
               : null
           }
@@ -242,10 +244,16 @@ export default {
       const {
         props
       } = option;
-
+      option.directives ??= [];
       if (_.isFunction(this.useSearchProps) && props.config?.length) {
         this.renderSearch(props.config);
         if (this.isRenderCollapse()) {
+          const searchProps = this.useSearchProps();
+          const [collapse] = this.useReactive(searchProps, 'collapse', 'search.props');
+          option.directives.push({
+            name: 'collapse',
+            value: collapse
+          });
         }
       }
       return (
@@ -328,13 +336,16 @@ export default {
           }
         ];
       } else {
-
+        const attrPath = `${path}.${attr}`;
+        if (!Reflect.has(this.reactiveVm, attrPath)) {
+          this.reactiveVm[attrPath] = props[attr];
+        }
         return [
-          this.reactiveVm[`${path}.${attr}`],
+          this.reactiveVm[attrPath],
           (value) => {
             this.reactiveVm = {
               ...this.reactiveVm,
-              [`${path}.${attr}`]: value
+              [attrPath]: value
             };
           }]
         ;

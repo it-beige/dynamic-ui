@@ -254,12 +254,8 @@
       },
       useSearchProps() {
         return {
-          // 开启过滤表单的折叠 true为展开, false为收缩
-          collapse: true,
-          upText: '展开',
-          downText: '收缩',
-          searchText: '查询',
-          resetText: '重置',
+          // 开启过滤表单的折叠 true为折叠, false为展开
+          collapse: false,
         }
       },
       useSearchOn() {
@@ -374,6 +370,20 @@ template slot 优先级高于 useSlot
             formatter: ({ cellValue }) => {
               return cellValue && formatDate(cellValue, 'yyyy-MM-dd')
             },
+            query: {
+              isRender: model => {
+                if (model.enableDate) {
+                  model.date = undefined
+                  return false
+                }
+                return true
+              },
+              component: 'date',
+              span: 12,
+              props: {
+                type: 'daterange',
+              },
+            },
           },
           {
             label: '月份',
@@ -385,10 +395,31 @@ template slot 优先级高于 useSlot
           {
             label: '文本',
             prop: 'text',
+            query: {
+              sort: 3,
+              label: '文本字符',
+              prop: 'search',
+              component: 'input',
+            },
           },
           {
             label: '年龄',
             prop: 'age',
+            query: {
+              sort: 2,
+              component: 'select',
+              props: {
+                valueKey: 'start',
+                options: Array.from({ length: 10 }).map((_, idx) => {
+                  const start = idx * 10 + 1
+                  const end = start + 10 - 1
+                  return {
+                    label: `${start} ~ ${end}`,
+                    value: { start, end },
+                  }
+                }),
+              },
+            },
           },
           {
             label: '小数',
@@ -461,7 +492,11 @@ template slot 优先级高于 useSlot
       },
       useSearchProps() {
         return {
-          collapse: false,
+          collapse: true,
+          upText: '展开',
+          downText: '折叠',
+          searchText: '查询',
+          resetText: '重置',
         }
       },
       async getParams() {
