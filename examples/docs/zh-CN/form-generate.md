@@ -1149,6 +1149,17 @@ cascaderConfig 渲染的结构是当前表单项的子节点
             },
           },
           {
+            label: '单选框组',
+            prop: 'radio2-field',
+            component: 'radio',
+            props: {
+              url: this.$root.URL.getList,
+              params: { page: 1, size: 4 },
+              toggle: true,
+              group: false,
+            },
+          },
+          {
             label: '多选框',
             prop: 'checkbox-field',
             component: 'checkbox',

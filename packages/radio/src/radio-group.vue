@@ -105,7 +105,7 @@
     },
     watch: {
       value(value) {
-        this.dispatch('DyFormItem', 'el.form.change', [this.value]);
+        this.dispatch('DyFormItem', 'dy.form.change', [this.value]);
       }
     }
   };

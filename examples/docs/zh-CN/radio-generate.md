@@ -109,7 +109,7 @@
 </script>
 ```
 
-`type`支持的类型有两种, `circle`对应的渲染组件`radio`、`button`对应的渲染组件`radio-button`, `group`是否为单选框组;`
+`type`支持的类型有两种, `circle`对应的渲染组件`radio`、`button`对应的渲染组件`radio-button`, `group`是否为单选框组;
 :::
 
 ### 可取消选中状态
@@ -177,7 +177,7 @@
 </script>
 ```
 
-`type`支持的类型有两种, `circle`对应的渲染组件`radio`、`button`对应的渲染组件`radio-button`, `group`是否为单选框组;`
+`type`支持的类型有两种, `circle`对应的渲染组件`radio`、`button`对应的渲染组件`radio-button`, `group`是否为单选框组;
 :::
 
 ### 扩展 Radio Attributes

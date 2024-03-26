@@ -263,7 +263,7 @@
       value(val) {
         this.$nextTick(this.resizeTextarea);
         if (this.validateEvent) {
-          this.dispatch('DyFormItem', 'el.form.change', [val]);
+          this.dispatch('DyFormItem', 'dy.form.change', [val]);
         }
       },
       // native input value is set explicitly
@@ -306,7 +306,7 @@
         this.focused = false;
         this.$emit('blur', event);
         if (this.validateEvent) {
-          this.dispatch('DyFormItem', 'el.form.blur', [this.value]);
+          this.dispatch('DyFormItem', 'dy.form.blur', [this.value]);
         }
       },
       select() {

@@ -74,13 +74,13 @@
       };
     },
     created() {
-      this.$on('el.form.addField', (field) => {
+      this.$on('dy.form.addField', (field) => {
         if (field) {
           this.fields.push(field);
         }
       });
       /* istanbul ignore next */
-      this.$on('el.form.removeField', (field) => {
+      this.$on('dy.form.removeField', (field) => {
         if (field.prop) {
           this.fields.splice(this.fields.indexOf(field), 1);
         }

@@ -35,7 +35,7 @@
 
     watch: {
       value(value) {
-        this.dispatch('DyFormItem', 'el.form.change', [value]);
+        this.dispatch('DyFormItem', 'dy.form.change', [value]);
       }
     }
   };

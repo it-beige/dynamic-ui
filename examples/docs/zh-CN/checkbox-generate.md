@@ -104,7 +104,7 @@
 </script>
 ```
 
-`type`支持的类型有两种, `square`对应的渲染组件`checkbox`、`button`对应的渲染组件`checkbox-button`, `group`是否为单选框组;`
+`type`支持的类型有两种, `square`对应的渲染组件`checkbox`、`button`对应的渲染组件`checkbox-button`, `group`是否为单选框组;
 :::
 
 ### 扩展 Checkbox Attributes

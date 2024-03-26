@@ -7,6 +7,7 @@ import genRequestMixin, {
   getExtra as getRequestMixExtra
 } from 'main/mixins/request';
 import { getComponentByName } from 'main/config/component';
+import Emitter from 'dynamic-ui/src/mixins/emitter';
 import { isFunction } from 'lodash';
 
 const Radio = getComponentByName('Radio');
@@ -44,7 +45,7 @@ const props = {
 };
 export default {
   name: 'DyRadioGenerate',
-  mixins: [genRequestMixin()],
+  mixins: [genRequestMixin(), Emitter],
   components: {},
   props: {...props, value: {}},
   data() {
@@ -68,15 +69,18 @@ export default {
     checkValue: {
       handler() {
         this.$emit('input', this.checkValue);
+        if (!this.group) {
+          this.$nextTick(() => {
+            this.dispatch('DyFormItem', 'dy.form.change', this.checkValue);
+          });
+        }
       }
     }
   },
   created () {
     this.$watch(
       () => this.group,
-      () => {
-        this.checkValue = this.initCheckvalue();
-      },
+      this.initCheckvalue(),
       {immediate: true}
     );
   },
@@ -91,10 +95,12 @@ export default {
   methods: {
     initCheckvalue() {
       let checkValue = [];
-      if (!this.group && this.value.length) {
+      if (!this.group && this.value?.length) {
         checkValue.push(...this.value);
       }
-      return checkValue;
+      if (checkValue.length) {
+        this.checkValue = checkValue;
+      }
     },
     getProps(component, target) {
       const componentProps = getCompPropsBySourceOpt(component);

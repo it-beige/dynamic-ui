@@ -1,13 +1,18 @@
 
 import _ from 'lodash';
-import { getPlaceholderByName, getTriggerByName, getClearableByName } from 'main/helper/props';
+import { getPlaceholderByName, getTriggerByName, getClearableByName, getTypeByName } from 'main/helper/props';
 
 export function genRequired(n) {
-  const { label, component } = n;
+  const { label, component, props = {} } = n;
   const tirgger = getTriggerByName(component);
+  let type = getTypeByName(component);
+  if (component === 'radio' && props.group === false) {
+    type = getTypeByName('checkbox');
+  }
   const requiredRule = {
     required: true,
     message: `${label || ''}不能为空`,
+    type,
     tirgger
   };
 
@@ -30,6 +35,13 @@ export function genModifiers(n, { trim, number }) {
   }
 
   if (number) {
+    // fix async-validator type string. This is the default type.
+    if (n.itemProps?.rules) {
+      const rule = n.itemProps.rules.find(i => i.required);
+      if (rule) {
+        rule.type = 'number';
+      }
+    }
     extendFormatter(val => {
       return REG_PATTERN.NUM_3.test(val) ? +val : val;
     }, n);

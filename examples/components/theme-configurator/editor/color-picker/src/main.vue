@@ -84,14 +84,14 @@
         const value = selection || this.color.value;
         this.$emit('input', value);
         this.$emit('change', value);
-        this.dispatch('DyFormItem', 'el.form.change', value);
+        this.dispatch('DyFormItem', 'dy.form.change', value);
         this.showPicker = false;
       },
       clearValue() {
         this.$emit('input', null);
         this.$emit('change', null);
         if (this.value !== null) {
-          this.dispatch('DyFormItem', 'el.form.change', null);
+          this.dispatch('DyFormItem', 'dy.form.change', null);
         }
         this.showPanelColor = false;
         this.showPicker = false;

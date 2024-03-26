@@ -162,7 +162,7 @@
 
     watch: {
       value(val) {
-        this.dispatch('DyFormItem', 'el.form.change', val);
+        this.dispatch('DyFormItem', 'dy.form.change', val);
       }
     },
 

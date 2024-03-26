@@ -332,7 +332,7 @@ export default {
 
         this.$emit('input', val);
         this.$emit('change', val);
-        this.dispatch('DyFormItem', 'el.form.change', [val]);
+        this.dispatch('DyFormItem', 'dy.form.change', [val]);
       }
     },
     options: {

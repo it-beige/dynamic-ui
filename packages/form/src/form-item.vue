@@ -294,8 +294,9 @@
         const rules = this.getRules();
 
         if (rules.length || this.required !== undefined) {
-          this.$on('el.form.blur', this.onFieldBlur);
-          this.$on('el.form.change', this.onFieldChange);
+          this.$on('dy.form.blur', this.onFieldBlur);
+          this.$on('dy.form.change', this.onFieldChange);
+          this.$on('dy.form.clear', this.clearValidate);
         }
       },
       removeValidateEvents() {
@@ -304,7 +305,7 @@
     },
     mounted() {
       if (this.prop) {
-        this.dispatch('DyForm', 'el.form.addField', [this]);
+        this.dispatch('DyForm', 'dy.form.addField', [this]);
 
         let initialValue = this.fieldValue;
         if (Array.isArray(initialValue)) {
@@ -318,7 +319,7 @@
       }
     },
     beforeDestroy() {
-      this.dispatch('DyForm', 'el.form.removeField', [this]);
+      this.dispatch('DyForm', 'dy.form.removeField', [this]);
     }
   };
 </script>

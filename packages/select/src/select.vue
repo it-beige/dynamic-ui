@@ -436,7 +436,7 @@ export default {
         this.inputLength = 20;
       }
       if (!valueEquals(val, oldVal)) {
-        this.dispatch('DyFormItem', 'el.form.change', val);
+        this.dispatch('DyFormItem', 'dy.form.change', val);
       }
     },
 

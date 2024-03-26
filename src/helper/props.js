@@ -23,6 +23,12 @@ const CLEARABLE = [
   'select'
 ];
 
+const TYPE = {
+  date: 'date',
+  input: 'string',
+  checkbox: 'array'
+};
+
 export function injectPlaceholder(injectPlaceholders) {
   injectPlaceholders.forEach(([name, placeholder]) => {
     if (!name) {
@@ -97,6 +103,32 @@ export function injectClearable(injectClearables) {
 
 export function getClearableByName(name) {
   return CLEARABLE.includes(name);
+};
+
+export function injectType(injectTypes) {
+  injectTypes.forEach(([name, type]) => {
+    if (!name) {
+      console.error('[Dynamic Error]注入type的组件名称不能为空');
+      return;
+    }
+    if (!type) {
+      console.error('[Dynamic Error]注入type不能为空');
+      return;
+    }
+
+    TYPE[name] = type;
+  });
+};
+
+export function getTypeByName(name) {
+  if (!name) {
+    console.error('[Dynamic Error]获取type的组件名称不能为空');
+    return;
+  }
+  if (!TYPE[name]) {
+    return;
+  }
+  return TYPE[name];
 };
 
 export function genFormConfig(config, fields) {

@@ -238,7 +238,7 @@
             this.firstValue = val[0];
             this.secondValue = val[1];
             if (this.valueChanged()) {
-              this.dispatch('DyFormItem', 'el.form.change', [this.minValue, this.maxValue]);
+              this.dispatch('DyFormItem', 'dy.form.change', [this.minValue, this.maxValue]);
               this.oldValue = val.slice();
             }
           }
@@ -250,7 +250,7 @@
           } else {
             this.firstValue = val;
             if (this.valueChanged()) {
-              this.dispatch('DyFormItem', 'el.form.change', val);
+              this.dispatch('DyFormItem', 'dy.form.change', val);
               this.oldValue = val;
             }
           }
