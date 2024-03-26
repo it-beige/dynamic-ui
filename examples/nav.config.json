@@ -82,7 +82,7 @@
             },
             {
               "path": "/query-page",
-              "title": "查询页 配置生成"
+              "title": "QueryPage 配置生成"
             }
           ]
         }

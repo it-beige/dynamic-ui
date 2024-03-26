@@ -144,6 +144,8 @@
     mounted() {
       console.log(this.$refs.queryPage.useTableRef())
       console.log(this.$refs.queryPage.usePaginationRef())
+      console.log(this.$refs.queryPage.useQueryRef())
+      console.log(this.$refs.queryPage.useSearchRef())
     },
     methods: {
       useLoading() {
@@ -331,6 +333,7 @@
   :useQueryProps="useQueryProps"
   :useQueryOn="useQueryOn"
   :useSearchProps="useSearchProps"
+  :useSearchOn="useSearchOn"
   ref="queryPage"
 >
   <template #query.enableDate>
@@ -409,12 +412,6 @@
     created() {
       this.query()
     },
-    mounted() {
-      console.log(this.$refs.queryPage.useTableRef())
-      console.log(this.$refs.queryPage.usePaginationRef())
-      console.log(this.$refs.queryPage.useQueryRef())
-      console.log(this.$refs.queryPage.useSearchRef())
-    },
     methods: {
       useLoading() {
         return {
@@ -461,6 +458,12 @@
           resetText: '重置',
         }
       },
+      useSearchOn() {
+        return {
+          reset: this.reset,
+          search: this.search,
+        }
+      },
       async getParams() {
         const searchParams = {
           url: this.$root.URL.getTableList,
@@ -495,6 +498,160 @@
             }, 1000 * 1)
           })
       },
+      reset() {
+        this.params = {}
+        this.query()
+      },
+      search() {
+        this.query()
+      },
+    },
+  }
+</script>
+```
+
+:::
+
+### 自定义查询区按钮
+
+:::demo
+
+```html
+<dy-query-page
+  :useTableProps="useTableProps"
+  :useQueryProps="useQueryProps"
+  :useQueryOn="useQueryOn"
+  :useSearchProps="useSearchProps"
+  ref="queryPage"
+>
+  <template #search.button>
+    <dy-button type="primary" icon="dy-icon-search" @click="query">
+      查询
+    </dy-button>
+    <dy-button icon="dy-icon-refresh-left" @click="reset">重置</dy-button>
+  </template>
+</dy-query-page>
+
+<script>
+  import genTableMixin from 'dynamic-ui/src/mixins/table.js'
+  import { formatDate, parseDate } from 'dynamic-ui/src/utils/date-util'
+
+  export default {
+    mixins: [genTableMixin()],
+    data(self) {
+      return {
+        loading: false,
+        list: [],
+        total: 0,
+        page: 1,
+        size: 10,
+        params: {},
+        config: [
+          {
+            label: '姓名',
+            prop: 'name',
+          },
+          {
+            label: '日期',
+            prop: 'date',
+            formatter: ({ cellValue }) => {
+              return cellValue && formatDate(cellValue, 'yyyy-MM-dd')
+            },
+            query: {
+              component: 'date',
+              span: 12,
+              props: {
+                type: 'daterange',
+              },
+            },
+          },
+          {
+            label: '月份',
+            prop: 'month',
+            formatter: ({ row }) => {
+              return row.date && formatDate(row.date, 'MM')
+            },
+          },
+          {
+            label: '文本',
+            prop: 'text',
+            query: {
+              sort: 3,
+              label: '文本字符',
+              prop: 'search',
+              component: 'input',
+            },
+          },
+          {
+            label: '年龄',
+            prop: 'age',
+          },
+          {
+            label: '小数',
+            prop: 'num1',
+          },
+        ],
+      }
+    },
+    created() {
+      this.query()
+    },
+    methods: {
+      useLoading() {
+        return {
+          name: 'loading',
+          value: this.loading,
+        }
+      },
+      useTableProps() {
+        const { config, list } = this
+        return {
+          config,
+          data: list,
+          stripe: true,
+          stripe: true,
+          border: true,
+          maxHeight: 500,
+        }
+      },
+      useQueryProps() {
+        return {
+          value: this.params,
+          config: this.useTableQueryConfig(this.config),
+          labelWidth: '90px',
+        }
+      },
+      useQueryOn() {
+        return {
+          input: value => {
+            this.params = { ...value }
+          },
+        }
+      },
+      useSearchProps() {
+        return {}
+      },
+      async getParams() {
+        const searchParams = {
+          url: this.$root.URL.getTableList,
+          params: {
+            page: this.page,
+            size: this.size,
+          },
+        }
+        searchParams.params = {
+          ...searchParams.params,
+          ...this.params,
+        }
+        if (this.params.date) {
+          const [start, end] = this.params.date
+          searchParams.params.date = `${formatDate(
+            start,
+            'yyyy-MM-dd',
+          )}/${formatDate(end, 'yyyy-MM-dd')}`
+        }
+        return searchParams
+      },
       query() {
         this.loading = true
         return this.useTableList(this.getParams)
@@ -508,15 +665,18 @@
             }, 1000 * 1)
           })
       },
+      reset() {
+        this.params = {}
+        this.query()
+      },
+      search() {
+        this.query()
+      },
     },
   }
 </script>
 ```
 
-:::
-
-:::tip
-template slot 优先级高于 useSlot
 :::
 
 ### QueryPage Attributes
@@ -546,6 +706,15 @@ template slot 优先级高于 useSlot
 | usexxxDirectives | 自定义指令                        | array                 |
 | usexxxSlots      | 自定义 Slot                       | object                |
 | usexxxScopedSlot | 自定义 Scoped Slot                | object                |
+
+### Props
+
+| 参数               | 返回值说明                                        | 返回值类型 |
+| ------------------ | ------------------------------------------------- | ---------- |
+| useTableProps      | `TableGenerate`组件提供的 props                   | object     |
+| usePaginationProps | `Pagination`组件提供的 props                      | object     |
+| useQueryProps      | `FormGenerate`组件提供的 props                    | object     |
+| useSearchProps     | collapse、upText、downText、searchText、resetText | object     |
 
 ### Slot 配置
 

@@ -23,13 +23,13 @@ export function genModifiers(n, { trim, number }) {
     };
   };
 
-  if (trim.includes(n.prop)) {
+  if (trim) {
     extendFormatter(val => {
       return _.isFunction(val?.trim) ? val.trim() : val;
     }, n);
   }
 
-  if (number.includes(n.prop)) {
+  if (number) {
     extendFormatter(val => {
       return REG_PATTERN.NUM_3.test(val) ? +val : val;
     }, n);

@@ -109,7 +109,7 @@ export function genFormConfig(config, fields) {
       genRequired(n);
     }
     if ([...trim, ...number].includes(prop)) {
-      genModifiers(n, { trim, number });
+      genModifiers(n, { trim: trim.includes(prop), number: number.includes(prop) });
     }
 
     if (placeholder.includes(prop)) {

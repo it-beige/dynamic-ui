@@ -16,7 +16,7 @@ const Button = getComponentByName('Button');
 export default {
   name: 'DyQueryPage',
   mixins: [Locale],
-  directives: {Collapse},
+  directives: { Collapse },
   props: {
     // table
     useTableStyle: Function,
@@ -77,7 +77,6 @@ export default {
     useSearchDirectives: Function,
     useSearchSlots: Function,
     useSearchScopedSlot: Function
-
   },
   data() {
     return {
@@ -99,8 +98,12 @@ export default {
 
     return (
       <div class={name}>
-        {_.isFunction(useQueryProps) ? this.renderQuery(getQueryOption()) : null}
-        {_.isFunction(useOperateProps) ? this.renderOperate(getOperateOption()) : null}
+        {_.isFunction(useQueryProps)
+          ? this.renderQuery(getQueryOption())
+          : null}
+        {_.isFunction(useOperateProps)
+          ? this.renderOperate(getOperateOption())
+          : null}
         {_.isFunction(useTableProps) ? (
           <TableGenerate {...getTableOption()}>
             {this.renderTableSlots()}
@@ -144,7 +147,10 @@ export default {
     renderTableSlots() {
       const { append } = this.getSlot('table', false);
       // append slot is must normalize
-      return this.normalizeSlot(append, 'append') || this.normalizeSlot(this.useTableSlots?.().append?.(), 'append');
+      return (
+        this.normalizeSlot(append, 'append') ||
+        this.normalizeSlot(this.useTableSlots?.().append?.(), 'append')
+      );
     },
     getPaginationOption() {
       return {
@@ -162,7 +168,10 @@ export default {
     },
     renderPaginationSlots() {
       const { default: defaultSlot } = this.getSlot('pagination', false);
-      return defaultSlot || this.normalizeSlot(this.usePaginationSlots?.().default?.(), 'default');
+      return (
+        defaultSlot ||
+        this.normalizeSlot(this.usePaginationSlots?.().default?.(), 'default')
+      );
     },
     getQueryOption() {
       const templateRenders = this.getScopedSlot('query');
@@ -181,24 +190,29 @@ export default {
       };
     },
     renderQuery(option) {
-      const {
-        props,
-        scopedSlots
-      } = option;
+      const { props, scopedSlots } = option;
       if (!props.config?.length) return;
 
       option.directives ??= [];
-      const renderConfig = props.config.filter(i => i.isRender ? i.isRender(props.value) : true);
+      const renderConfig = props.config.filter(i =>
+        i.isRender ? i.isRender(props.value) : true,
+      );
       const isConfig = renderConfig.length;
-      if (_.isFunction(this.useSearchProps) && isConfig) {
-        this.renderSearch(option);
-        if (this.isRenderCollapse()) {
-          const searchProps = this.useSearchProps();
-          const [collapse] = this.useReactive(searchProps, 'collapse', 'search.props');
-          option.directives.push({
-            name: 'collapse',
-            value: collapse
-          });
+      if (isConfig) {
+        if (_.isFunction(this.useSearchProps)) {
+          this.renderSearch(option);
+          if (this.isRenderCollapse()) {
+            const searchProps = this.useSearchProps();
+            const [collapse] = this.useReactive(
+              searchProps,
+              'collapse',
+              'search.props',
+            );
+            option.directives.push({
+              name: 'collapse',
+              value: collapse
+            });
+          }
         }
       }
       return (
@@ -235,41 +249,71 @@ export default {
     },
     isRenderCollapse() {
       const props = this.useQueryProps();
-      return props.config
-        .filter(i => i.isRender ? i.isRender(props.value) : true)
-        .reduce((acc, i) => acc + i.span, 0) > 24;
+      const searchProps = this.useSearchProps();
+      return (
+        props.config
+          .filter(i => (i.isRender ? i.isRender(props.value) : true))
+          .reduce((acc, i) => acc + i.span, 0) > 16 && Reflect.has(searchProps, 'collapse')
+      );
     },
     renderInlaySearch() {
       const [, bem] = createNamespace('query-page');
       const { button } = this.getSlot('search', false);
+      const { props, on } = this.getSearchOption();
+      const buttonVnode =
+        button ||
+        this.normalizeSlot(this.useSearchSlots?.().search?.(), 'search');
       const {
+        upText = '展开',
+        downText = '收起',
+        searchText,
+        resetText
+      } = props;
+      const [collapse, setCollapse] = this.useReactive(
         props,
-        on
-      } = this.getSearchOption();
-      const buttonVnode = button || this.normalizeSlot(this.useSearchSlots?.().search?.(), 'search');
-      const {upText = '展开', downText = '收起', searchText, resetText } = props;
-      const [collapse, setCollapse] = this.useReactive(props, 'collapse', 'search.props');
+        'collapse',
+        'search.props',
+      );
       const onClick = () => {
         setCollapse(!collapse);
       };
+      if (!buttonVnode && !on) {
+        console.error('[QueryPage Error] useSearchOn请传入search、reset事件方法');
+      }
       return (
         <div class={[bem('search'), 'dy-flex__justify-end']} ref="searchRef">
           {buttonVnode || [
-            <Button onClick={on.reset} class={['reset-btn']} plain={true} icon="dy-icon-refresh-right">{resetText || this.t('dy.queryPage.resetText')}</Button>,
-            <Button onClick={on.search} class={['search-btn']} plain={true} icon="dy-icon-search">{searchText || this.t('dy.queryPage.searchText')}</Button>
+            <Button
+              onClick={on.reset}
+              class={['reset-btn']}
+              plain={true}
+              icon="dy-icon-refresh-right"
+            >
+              {resetText || this.t('dy.queryPage.resetText')}
+            </Button>,
+            <Button
+              onClick={on.search}
+              class={['search-btn']}
+              plain={true}
+              icon="dy-icon-search"
+            >
+              {searchText || this.t('dy.queryPage.searchText')}
+            </Button>
           ]}
-          {
-
-            this.isRenderCollapse() && Reflect.has(props, 'collapse')
-              ? <dy-tooltip
-                effect="dark"
-                content={collapse ? upText : downText}
-                placement="top"
-              >
-                <Button onClick={onClick} plain={true} class={['collapse-btn']} icon={collapse ? 'dy-icon-arrow-down' : 'dy-icon-arrow-up'}></Button>
-              </dy-tooltip>
-              : null
-          }
+          {this.isRenderCollapse() ? (
+            <dy-tooltip
+              effect="dark"
+              content={collapse ? upText : downText}
+              placement="top"
+            >
+              <Button
+                onClick={onClick}
+                plain={true}
+                class={['collapse-btn']}
+                icon={collapse ? 'dy-icon-arrow-down' : 'dy-icon-arrow-up'}
+              ></Button>
+            </dy-tooltip>
+          ) : null}
         </div>
       );
     },
@@ -295,18 +339,20 @@ export default {
         return [residueSpan, idx];
       };
 
-      const [span, idx] = getSearchSpanWithIdx();
       const searchProps = {
         component: 'slot',
-        span,
         default: this.renderInlaySearch
       };
 
-      if (l < 1) {
-        config.push(searchProps);
-      } else {
+      if (this.isRenderCollapse()) {
+        const [span, idx] = getSearchSpanWithIdx();
+        searchProps.span = span;
         config.splice(idx, 0, searchProps);
+      } else {
+        searchProps.span = 24;
+        config.push(searchProps);
       }
+
     },
     getOperateOption() {
       return {
@@ -336,7 +382,7 @@ export default {
       const { tableName } = props;
       return (
         <Row
-          class={[bem('operate'), className ]}
+          class={[bem('operate'), className]}
           style={style}
           attrs={attrs}
           domProps={domProps}
@@ -363,7 +409,9 @@ export default {
       return Object.keys(this.$slots).reduce((o, k) => {
         const [componentName, slotName] = k.split('.');
         if (componentName === name) {
-          o[slotName] = isNormalize ? this.normalizeSlot(this.$slots[k], slotName) : this.$slots[k];
+          o[slotName] = isNormalize
+            ? this.normalizeSlot(this.$slots[k], slotName)
+            : this.$slots[k];
         }
         return o;
       }, {});
@@ -387,7 +435,7 @@ export default {
       if (isReactive(props)) {
         return [
           props[attr],
-          (value) => {
+          value => {
             props[attr] = value;
           }
         ];
@@ -398,16 +446,15 @@ export default {
         }
         return [
           this.reactiveVm[attrPath],
-          (value) => {
+          value => {
             this.reactiveVm = {
               ...this.reactiveVm,
               [attrPath]: value
             };
-          }]
-        ;
+          }
+        ];
       }
     }
-
   }
 };
 </script>

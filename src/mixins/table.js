@@ -1,6 +1,6 @@
 import globalConfig from 'main/config/global';
-import _ from 'main/utils/lodash';
 import { getClearableByName } from 'main/helper/props';
+import _ from 'lodash';
 
 export default function genTableMixin(option = {}) {
   const {
@@ -11,6 +11,7 @@ export default function genTableMixin(option = {}) {
 
   const request = globalConfig.useRequest();
   const genPlaceholder = globalConfig.genPlaceholder;
+  const genModifiers = globalConfig.genModifiers;
   return {
     methods: {
       async [useTableList](useParams) {
@@ -84,6 +85,5 @@ export default function genTableMixin(option = {}) {
         return 8;
       }
     }
-
   };
 }
