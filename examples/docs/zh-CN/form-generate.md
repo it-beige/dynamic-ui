@@ -1237,7 +1237,7 @@ Vue.use(Dynamic, {
 })
 ```
 
-### 使用帮助方法
+### 使用校验帮助方法
 
 :::demo
 
@@ -1245,11 +1245,13 @@ Vue.use(Dynamic, {
 <dy-form-generate
   :config="config"
   v-model="modelValue"
-  labdy-position="top"
+  :rules="rules"
+  label-position="top"
 ></dy-form-generate>
 <script>
   import { genFormConfig } from 'dynamic-ui/src/helper/props.js'
   import {
+    generateValidateMessage,
     generateValidateByRegExp,
     REG_PATTERN,
   } from 'dynamic-ui/src/helper/form.js'
@@ -1258,32 +1260,55 @@ Vue.use(Dynamic, {
     data() {
       return {
         modelValue: {},
+        rules: {},
         config: [
           {
             label: '正整数',
             prop: 'integer-field',
             component: 'input',
-            itemProps: {
-              rules: {
-                validator: generateValidateByRegExp(REG_PATTERN.NUM),
-                message: '请输入正整数',
-              },
-            },
+            pattern: REG_PATTERN.NUM,
           },
           {
-            label: '小数',
+            label: '小数且最多允许两位小数',
             prop: 'decimal-field',
             component: 'input',
+            pattern: REG_PATTERN.NUM_2,
           },
           {
-            label: '负数',
+            label: '正整数、小数、负数',
             prop: 'minus-field',
             component: 'input',
+            pattern: REG_PATTERN.NUM_3,
           },
           {
-            label: '小数(保留两位小数)',
+            label: '正整数、小数',
             prop: 'decimal-2-field',
             component: 'input',
+            pattern: REG_PATTERN.NUM_4,
+          },
+          {
+            label: '手机号',
+            prop: 'phone-field',
+            component: 'input',
+            pattern: REG_PATTERN.PHONE,
+          },
+          {
+            label: '银行卡号',
+            prop: 'bank-field',
+            component: 'input',
+            pattern: REG_PATTERN.BANK_NO,
+          },
+          {
+            label: '身份证号',
+            prop: 'id-field',
+            component: 'input',
+            pattern: REG_PATTERN.ID_NO,
+          },
+          {
+            label: '邮政编码',
+            prop: 'postal-field',
+            component: 'input',
+            pattern: REG_PATTERN.POSTAL_CODE,
           },
         ],
       }
@@ -1292,8 +1317,22 @@ Vue.use(Dynamic, {
       genFormConfig(this.config, {
         placeholder: this.config.map(i => i.prop),
       })
+      this.rules = this.genRules()
     },
-    methods: {},
+    methods: {
+      genRules() {
+        return this.config.reduce((o, i) => {
+          const message = generateValidateMessage(i.label)
+          const validator = generateValidateByRegExp(i.pattern)
+          o[i.prop] = {
+            validator,
+            message,
+            trigger: 'blur',
+          }
+          return o
+        }, {})
+      },
+    },
   }
 </script>
 ```
@@ -1301,7 +1340,7 @@ Vue.use(Dynamic, {
 :::
 
 :::tip
-genFormConfig 配置中的生成方法可以通过全局配置自定义, 配置方式如下
+对于通用的逻辑可以像上面例子一样自定义 pattern 字段来实现表单项的统一处理
 :::
 
 ### 扩展 Form Attributes
