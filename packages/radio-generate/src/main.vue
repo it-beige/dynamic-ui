@@ -47,7 +47,7 @@ export default {
   name: 'DyRadioGenerate',
   mixins: [genRequestMixin(), Emitter],
   components: {},
-  props: {...props, value: {}},
+  props: { ...props, value: {} },
   data() {
     return {
       extraProps: [...getRequestMixExtra('prop'), ...Object.keys(props)],
@@ -77,12 +77,8 @@ export default {
       }
     }
   },
-  created () {
-    this.$watch(
-      () => this.group,
-      this.initCheckvalue(),
-      {immediate: true}
-    );
+  created() {
+    this.$watch(() => this.group, this.initCheckvalue, { immediate: true });
   },
   render() {
     const RadioVnode = this.renderRadio();
