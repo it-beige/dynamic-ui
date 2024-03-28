@@ -1149,7 +1149,7 @@ cascaderConfig 渲染的结构是当前表单项的子节点
             },
           },
           {
-            label: '单选框组',
+            label: '单选框',
             prop: 'radio2-field',
             component: 'radio',
             props: {
@@ -1236,6 +1236,73 @@ Vue.use(Dynamic, {
   },
 })
 ```
+
+### 使用帮助方法
+
+:::demo
+
+```html
+<dy-form-generate
+  :config="config"
+  v-model="modelValue"
+  labdy-position="top"
+></dy-form-generate>
+<script>
+  import { genFormConfig } from 'dynamic-ui/src/helper/props.js'
+  import {
+    generateValidateByRegExp,
+    REG_PATTERN,
+  } from 'dynamic-ui/src/helper/form.js'
+
+  export default {
+    data() {
+      return {
+        modelValue: {},
+        config: [
+          {
+            label: '正整数',
+            prop: 'integer-field',
+            component: 'input',
+            itemProps: {
+              rules: {
+                validator: generateValidateByRegExp(REG_PATTERN.NUM),
+                message: '请输入正整数',
+              },
+            },
+          },
+          {
+            label: '小数',
+            prop: 'decimal-field',
+            component: 'input',
+          },
+          {
+            label: '负数',
+            prop: 'minus-field',
+            component: 'input',
+          },
+          {
+            label: '小数(保留两位小数)',
+            prop: 'decimal-2-field',
+            component: 'input',
+          },
+        ],
+      }
+    },
+    created() {
+      genFormConfig(this.config, {
+        placeholder: this.config.map(i => i.prop),
+      })
+    },
+    methods: {},
+  }
+</script>
+```
+
+:::
+
+:::tip
+genFormConfig 配置中的生成方法可以通过全局配置自定义, 配置方式如下
+:::
 
 ### 扩展 Form Attributes
 

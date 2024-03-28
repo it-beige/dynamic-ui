@@ -16,7 +16,10 @@ export function genRequired(n) {
     tirgger
   };
 
-  n.itemProps.rules = (_.isArray(n.rules) || []).concat(requiredRule);
+  if (_.isPlainObject(n.itemProps.rules)) {
+    n.itemProps.rules = [n.itemProps.rules];
+  }
+  n.itemProps.rules = (_.isArray(n.itemProps.rules) || []).concat(requiredRule);
 }
 
 export function genModifiers(n, { trim, number }) {
@@ -78,13 +81,13 @@ export function genComponentProps(config) {
 
 // /** ************************** 表单值合法性校验---start ************************************************/
 export const REG_PATTERN = {
-  // 正数
+  // 正整数
   NUM: /^\d+$/,
-  // 正数且最多允许两位小数
+  // 小数且最多允许两位小数
   NUM_2: /^\d+(\.\d{1,2})?$/,
-  // 正数、小数、负数
+  // 正整数、小数、负数
   NUM_3: /^-?\d+(\.\d+)?$/,
-  // 正数、小数
+  // 正整数、小数
   NUM_4: /^\d+(\.\d+)?$/,
   // 手机号
   PHONE:
@@ -93,16 +96,16 @@ export const REG_PATTERN = {
 
 // 校验数据必须匹配正则
 export const generateValidateByRegExp = pattern => {
-  return (rule, value, callback) => {
+  return (rule, value) => {
     if (!value) {
-      callback();
+      return Promise.resolve();
     }
 
     let reg = new RegExp(pattern.source, pattern.flags);
     if (!reg.test(value)) {
-      callback(new Error(rule.message));
+      return Promise.reject(new Error(rule.message));
     } else {
-      callback();
+      return Promise.resolve();
     }
   };
 };
