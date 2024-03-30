@@ -79,7 +79,7 @@ export function genComponentProps(config) {
   return config;
 }
 
-// /** ************************** 表单值合法性校验---start ************************************************/
+/** ************************** 表单值合法性校验---start ************************************************/
 export const REG_PATTERN = {
   // 正整数
   NUM: /^(?!0\d)\d+$/,
@@ -120,19 +120,4 @@ export const generateValidateByRegExp = pattern => {
 export const generateValidateMessage = (label) => {
   return `请输入合法的${label}`;
 };
-
-// export const generateValidateTableByRegExp = pattern => {
-//   return ({ cellValue, rule }) => {
-//     if (!cellValue) {
-//       return Promise.resolve();
-//     }
-
-//     let reg = new RegExp(pattern.source, pattern.flags);
-//     if (!reg.test(cellValue)) {
-//       return Promise.reject(new Error(rule.message));
-//     } else {
-//       return Promise.resolve();
-//     }
-//   };
-// };
 /** ************************** 表单值合法性校验---end ************************************************/
