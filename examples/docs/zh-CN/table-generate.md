@@ -90,7 +90,7 @@
             align: 'left',
             width: 120,
             'header-align': 'left',
-            fixed: true,
+            fixed: 'left',
             formatter: ({ cellValue }) => {
               return cellValue && formatDate(cellValue, 'yyyy-MM-dd')
             },
@@ -143,6 +143,14 @@
                 ],
               },
             ],
+          },
+          {
+            label: '深度属性.a',
+            prop: 'obj.a',
+          },
+          {
+            label: '深度属性.b',
+            prop: 'obj.b',
           },
         ],
       }
