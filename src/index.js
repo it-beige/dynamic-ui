@@ -101,6 +101,8 @@ import TableGenerate from '../packages/table-generate/index.js';
 import TableColumnGenerate from '../packages/table-column-generate/index.js';
 import TableCustomColumnGenerate from '../packages/table-custom-column-generate/index.js';
 import QueryPage from '../packages/query-page/index.js';
+import EditTableGenerate from '../packages/edit-table-generate/index.js';
+import EditTableColumnGenerate from '../packages/edit-table-column-generate/index.js';
 import locale from 'dynamic-ui/src/locale';
 import CollapseTransition from 'dynamic-ui/src/transitions/collapse-transition';
 import {
@@ -211,6 +213,8 @@ const components = [
   TableColumnGenerate,
   TableCustomColumnGenerate,
   QueryPage,
+  EditTableGenerate,
+  EditTableColumnGenerate,
   CollapseTransition
 ];
 
@@ -415,5 +419,7 @@ export default {
   TableGenerate,
   TableColumnGenerate,
   TableCustomColumnGenerate,
-  QueryPage
+  QueryPage,
+  EditTableGenerate,
+  EditTableColumnGenerate
 };

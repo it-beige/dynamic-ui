@@ -14,7 +14,14 @@
   ],
   "plugins": [
     "@babel/plugin-syntax-jsx",
-    "@vue/babel-plugin-transform-vue-jsx"
+    "@vue/babel-plugin-transform-vue-jsx",
+    [
+      "import",
+      {
+        "libraryName": "vxe-table",
+        "style": true
+      }
+    ]
   ],
   "env": {
     "utils": {

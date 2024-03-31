@@ -83,6 +83,10 @@
             {
               "path": "/query-page",
               "title": "QueryPage 配置生成"
+            },
+            {
+              "path": "/edit-table-generate",
+              "title": "Edit Table 配置生成"
             }
           ]
         }

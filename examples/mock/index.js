@@ -329,7 +329,11 @@ const tableList = Mock.mock({
         'desc': '@cword(5, 11)',
         'text': 'text@integer(0, 100)',
         'age': '@integer(1, 90)',
-        'num1': '@float(1, 50, 2, 2)'
+        'num1': '@float(1, 50, 2, 2)',
+        'obj': {
+          'a': '@ctitle(4)',
+          'b': '@title(2)'
+        }
       }
     ],
     total: 25
