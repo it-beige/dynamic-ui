@@ -86,6 +86,11 @@
         total: 0,
         config: [
           {
+            label: '输入框',
+            prop: 'input-field',
+            // edit
+          },
+          {
             label: '日期',
             prop: 'date',
             align: 'left',
@@ -96,10 +101,7 @@
               return cellValue && formatDate(cellValue, 'yyyy-MM-dd')
             },
           },
-          {
-            label: '状态',
-            prop: 'status',
-          },
+
           {
             label: '邮箱',
             prop: 'email',
