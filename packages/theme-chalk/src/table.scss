@@ -15,6 +15,7 @@
   font-size: 14px;
   color: $--table-font-color;
 
+
   // 数据为空
   @include e(empty-block) {
     min-height: 60px;
@@ -66,7 +67,7 @@
     background-color: $--color-white;
 
     // 纯属为了增加权重
-    &[class*=cell] {
+    &[class*="cell"] {
       padding: 20px 50px;
     }
 
@@ -112,7 +113,7 @@
 
     &.is-group {
       th.dy-table__cell {
-        background: $--background-color-base;
+        background: $--table-header-background-color;
       }
     }
   }
@@ -247,7 +248,7 @@
     border: $--table-border;
 
     @include share-rule(border-pseudo) {
-      content: '';
+      content: "";
       position: absolute;
       background-color: $--table-border-color;
       z-index: 1;
@@ -312,7 +313,7 @@
     box-shadow: $--table-fixed-box-shadow;
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       left: 0;
       bottom: 0;
@@ -483,7 +484,7 @@
     & .dy-table__body {
       & tr.dy-table__row--striped {
         td.dy-table__cell {
-          background: #FAFAFA;
+          background: #f9fcff;
         }
 
         &.current-row td.dy-table__cell {
@@ -495,8 +496,10 @@
 
   @include e(body) {
     tr.hover-row {
-      &, &.dy-table__row--striped {
-        &, &.current-row {
+      &,
+      &.dy-table__row--striped {
+        &,
+        &.current-row {
           > td.dy-table__cell {
             background-color: $--table-row-hover-background-color;
           }
@@ -527,13 +530,13 @@
     & i {
       color: $--color-info;
       font-size: 12px;
-      transform: scale(.75);
+      transform: scale(0.75);
     }
   }
 
   @include m(enable-row-transition) {
     .dy-table__body td.dy-table__cell {
-      transition: background-color .25s ease;
+      transition: background-color 0.25s ease;
     }
   }
 
@@ -551,7 +554,7 @@
     }
   }
 
-  [class*=dy-table__row--level] {
+  [class*="dy-table__row--level"] {
     .dy-table__expand-icon {
       display: inline-block;
       width: 20px;
