@@ -30,7 +30,7 @@
   &:hover,
   &:focus {
     color: $--color-primary;
-    border-color: $--color-primary-light-7;
+    border-color: $--color-primary; 
     background-color: $--color-primary-light-9;
   }
 
@@ -46,7 +46,7 @@
 
   & [class*="dy-icon-"] {
     & + span {
-      margin-left: 5px;
+      margin-left: 8px;
     }
   }
 
@@ -66,12 +66,28 @@
     }
   }
 
+  @include when(dash) {
+    border: $--button-default-border-color 1px dashed;
+    color: $--color-primary;
+    &:hover,
+    &:focus {
+      border: $--color-primary 1px dashed;
+      border-color: $--color-primary;
+    }
+    &:active {
+      border: $--color-primary 1px dashed;
+      background: $--color-primary-light-9;
+      outline: none;
+    }
+  }
+
   @include when(active) {
     color: mix($--color-black, $--color-primary, $--button-active-shade-percent);
     border-color: mix($--color-black, $--color-primary, $--button-active-shade-percent);
   }
 
   @include when(disabled) {
+    background-color: $--button-disabled-background-color;
     &,
     &:hover,
     &:focus {
@@ -115,7 +131,7 @@
   }
   @include when(round) {
     border-radius: 20px;
-    padding: 12px 23px;
+    padding: $--button-medium-padding-vertical $--button-medium-padding-horizontal;
   }
   @include when(circle) {
     border-radius: 50%;
@@ -135,6 +151,13 @@
   }
   @include m(info) {
     @include button-variant($--button-info-font-color, $--button-info-background-color, $--button-info-border-color);
+  }
+  @include m(large) {
+    @include  button-size($--button-large-padding-vertical, $--button-large-padding-horizontal, $--button-large-font-size, $--button-large-border-radius);
+    @include when(circle) {
+      padding: $--button-large-padding-vertical;
+      width: 40px;
+    }
   }
   @include m(medium) {
     @include button-size($--button-medium-padding-vertical, $--button-medium-padding-horizontal, $--button-medium-font-size, $--button-medium-border-radius);
@@ -156,19 +179,60 @@
   }
   @include m(text) {
     border-color: transparent;
-    color: $--color-primary;
     background: transparent;
     padding-left: 0;
     padding-right: 0;
 
+    &-primary {
+      color: $--color-primary;
+      &:hover,
+      &:focus {
+        color: mix($--color-white, $--color-primary, $--button-hover-tint-percent);
+      }
+      &:active {
+        color: mix($--color-black, $--color-primary, $--button-active-shade-percent);
+      }
+    }
+
+    &-success {
+      color: $--color-success;
+      &:hover,
+      &:focus {
+        color: mix($--color-white, $--color-success, $--button-hover-tint-percent);
+      }
+      &:active {
+        color: mix($--color-black, $--color-success, $--button-active-shade-percent);
+      }
+    }
+
+    &-warning {
+      color: $--color-warning;
+      &:hover,
+      &:focus {
+        color: mix($--color-white, $--color-warning, $--button-hover-tint-percent);
+      }
+      &:active {
+        color: mix($--color-black, $--color-warning, $--button-active-shade-percent);
+      }
+    }
+
+    &-danger {
+      color: $--color-danger;
+      &:hover,
+      &:focus {
+        color: mix($--color-white, $--color-danger, $--button-hover-tint-percent);
+      }
+      &:active {
+        color: mix($--color-black, $--color-danger, $--button-active-shade-percent);
+      }
+    }
+
     &:hover,
     &:focus {
-      color: mix($--color-white, $--color-primary, $--button-hover-tint-percent);
       border-color: transparent;
       background-color: transparent;
     }
     &:active {
-      color: mix($--color-black, $--color-primary, $--button-active-shade-percent);
       border-color: transparent;
       background-color: transparent;
     }

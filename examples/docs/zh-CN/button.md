@@ -83,8 +83,24 @@
 :::demo
 
 ```html
-<dy-button type="text">文字按钮</dy-button>
 <dy-button type="text" disabled>文字按钮</dy-button>
+<dy-button type="text">文字按钮</dy-button>
+<dy-button type="text" text-type="success">文字按钮</dy-button>
+<dy-button type="text" text-type="warning">文字按钮</dy-button>
+<dy-button type="text" text-type="danger">文字按钮</dy-button>
+```
+
+:::
+
+### 虚线按钮
+
+边框为虚线的按钮。
+
+:::demo 设置`dash`属性即可
+
+```html
+<dy-button dash>虚线按钮</dy-button>
+<dy-button dash disabled>虚线按钮</dy-button>
 ```
 
 :::
@@ -145,19 +161,21 @@
 
 ### 不同尺寸
 
-Button 组件提供除了默认值以外的三种尺寸，可以在不同场景下选择合适的按钮尺寸。
+Button 组件提供 4️ 四种尺寸; 默认用的是`medium`，可以在不同场景下选择合适的按钮尺寸。
 
-:::demo 额外的尺寸：`medium`、`small`、`mini`，通过设置`size`属性来配置它们。
+:::demo 提供的尺寸：`large`、`medium`、`small`、`mini`，通过设置`size`属性来配置它们。
 
 ```html
 <dy-row>
   <dy-button>默认按钮</dy-button>
+  <dy-button size="large">大型按钮</dy-button>
   <dy-button size="medium">中等按钮</dy-button>
   <dy-button size="small">小型按钮</dy-button>
   <dy-button size="mini">超小按钮</dy-button>
 </dy-row>
 <dy-row>
   <dy-button round>默认按钮</dy-button>
+  <dy-button size="large" round>大型按钮</dy-button>
   <dy-button size="medium" round>中等按钮</dy-button>
   <dy-button size="small" round>小型按钮</dy-button>
   <dy-button size="mini" round>超小按钮</dy-button>
@@ -168,15 +186,17 @@ Button 组件提供除了默认值以外的三种尺寸，可以在不同场景�
 
 ### Attributes
 
-| 参数        | 说明           | 类型    | 可选值                                             | 默认值 |
-| ----------- | -------------- | ------- | -------------------------------------------------- | ------ |
-| size        | 尺寸           | string  | medium / small / mini                              | —      |
-| type        | 类型           | string  | primary / success / warning / danger / info / text | —      |
-| plain       | 是否朴素按钮   | boolean | —                                                  | false  |
-| round       | 是否圆角按钮   | boolean | —                                                  | false  |
-| circle      | 是否圆形按钮   | boolean | —                                                  | false  |
-| loading     | 是否加载中状态 | boolean | —                                                  | false  |
-| disabled    | 是否禁用状态   | boolean | —                                                  | false  |
-| icon        | 图标类名       | string  | —                                                  | —      |
-| autofocus   | 是否默认聚焦   | boolean | —                                                  | false  |
-| native-type | 原生 type 属性 | string  | button / submit / reset                            | button |
+| 参数        | 说明           | 类型    | 可选值                                             | 默认值  |
+| ----------- | -------------- | ------- | -------------------------------------------------- | ------- |
+| size        | 尺寸           | string  | large / medium / small / mini                      | —       |
+| type        | 类型           | string  | primary / success / warning / danger / info / text | —       |
+| text-type   | 文本的颜色风格 | string  | primary / success / warning / danger               | primary |
+| dash        | 是否虚线按钮   | boolean | —                                                  | false   |
+| plain       | 是否朴素按钮   | boolean | —                                                  | false   |
+| round       | 是否圆角按钮   | boolean | —                                                  | false   |
+| circle      | 是否圆形按钮   | boolean | —                                                  | false   |
+| loading     | 是否加载中状态 | boolean | —                                                  | false   |
+| disabled    | 是否禁用状态   | boolean | —                                                  | false   |
+| icon        | 图标类名       | string  | —                                                  | —       |
+| autofocus   | 是否默认聚焦   | boolean | —                                                  | false   |
+| native-type | 原生 type 属性 | string  | button / submit / reset                            | button  |

@@ -8,13 +8,15 @@
     :class="[
       type ? 'dy-button--' + type : '',
       buttonSize ? 'dy-button--' + buttonSize : '',
+      type === 'text' ? 'dy-button--text-' + textType : '',
       {
         'is-disabled': buttonDisabled,
         'is-loading': loading,
         'is-plain': plain,
         'is-round': round,
-        'is-circle': circle
-      }
+        'is-circle': circle,
+        'is-dash': dash,
+      },
     ]"
   >
     <i class="dy-icon-loading" v-if="loading"></i>
@@ -23,56 +25,63 @@
   </button>
 </template>
 <script>
-  export default {
-    name: 'DyButton',
+export default {
+  name: 'DyButton',
 
-    inject: {
-      dyForm: {
-        default: ''
-      },
-      dyFormItem: {
-        default: ''
-      }
+  inject: {
+    dyForm: {
+      default: ''
     },
-
-    props: {
-      type: {
-        type: String,
-        default: 'default'
-      },
-      size: String,
-      icon: {
-        type: String,
-        default: ''
-      },
-      nativeType: {
-        type: String,
-        default: 'button'
-      },
-      loading: Boolean,
-      disabled: Boolean,
-      plain: Boolean,
-      autofocus: Boolean,
-      round: Boolean,
-      circle: Boolean
-    },
-
-    computed: {
-      _elFormItemSize() {
-        return (this.dyFormItem || {}).elFormItemSize;
-      },
-      buttonSize() {
-        return this.size || this._elFormItemSize || (this.$DYNAMIC || {}).size;
-      },
-      buttonDisabled() {
-        return this.$options.propsData.hasOwnProperty('disabled') ? this.disabled : (this.dyForm || {}).disabled;
-      }
-    },
-
-    methods: {
-      handleClick(evt) {
-        this.$emit('click', evt);
-      }
+    dyFormItem: {
+      default: ''
     }
-  };
+  },
+
+  props: {
+    type: {
+      type: String,
+      default: 'default'
+    },
+    textType: {
+      type: String,
+      default: 'primary'
+    },
+    size: String,
+    icon: {
+      type: String,
+      default: ''
+    },
+    nativeType: {
+      type: String,
+      default: 'button'
+    },
+    loading: Boolean,
+    disabled: Boolean,
+    plain: Boolean,
+    autofocus: Boolean,
+    round: Boolean,
+    circle: Boolean,
+    dash: Boolean
+  },
+
+  computed: {
+    _elFormItemSize() {
+      return (this.dyFormItem || {}).elFormItemSize;
+    },
+    buttonSize() {
+      return this.size || this._elFormItemSize || (this.$DYNAMIC || {}).size;
+    },
+    buttonDisabled() {
+      return this.$options.propsData.hasOwnProperty('disabled')
+        ? this.disabled
+        : (this.dyForm || {}).disabled;
+    }
+  },
+
+  methods: {
+    handleClick(evt) {
+      this.$emit('click', evt);
+    }
+  }
+};
 </script>
