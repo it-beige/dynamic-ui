@@ -26,8 +26,10 @@ function genIconList(fontFile, iconDirName) {
 var fontFile = fs.readFileSync(path.resolve(__dirname, '../../packages/theme-chalk/src/icon.scss'), 'utf8');
 var font1File = fs.readFileSync(path.resolve(__dirname, '../../packages/theme-chalk/src/icon1.scss'), 'utf8');
 var font2File = fs.readFileSync(path.resolve(__dirname, '../../packages/theme-chalk/src/icon2.scss'), 'utf8');
+var font3File = fs.readFileSync(path.resolve(__dirname, '../../packages/theme-chalk/src/icon3.scss'), 'utf8');
 
 genIconList(fontFile, 'icon');
 genIconList(font1File, 'icon1');
 genIconList(font2File, 'icon2');
+genIconList(font3File, 'icon3');
 

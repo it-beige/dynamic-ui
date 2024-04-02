@@ -19,6 +19,7 @@ import './mock/index.js';
 import icon from './icons/icon.json';
 import icon1 from './icons/icon1.json';
 import icon2 from './icons/icon2.json';
+import icon3 from './icons/icon3.json';
 import request from './api/request';
 import { isPlainObject, isArray } from 'main/utils/lodash';
 
@@ -94,6 +95,7 @@ Vue.mixin({
 Vue.prototype.$icon = icon;
 Vue.prototype.$icon1 = icon1;
 Vue.prototype.$icon2 = icon2;
+Vue.prototype.$icon3 = icon3;
 
 const router = new VueRouter({
   mode: 'hash',

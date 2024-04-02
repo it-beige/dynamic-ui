@@ -1,6 +1,6 @@
 ## Icon 图标
 
-提供了一套常用的图标集合。
+提供了几套常用的图标集合。
 
 ### 使用方法
 
@@ -46,6 +46,17 @@
     <span>
       <i :class="'dy-icon2-' + name"></i>
       <span class="icon-name">{{'dy-icon2-' + name}}</span>
+    </span>
+  </li>
+</ul>
+
+### 内部常用图标集合
+
+<ul class="icon-list">
+  <li v-for="name in $icon3" :key="name">
+    <span>
+      <i :class="'dy-icon3-' + name"></i>
+      <span class="icon-name">{{'dy-icon3-' + name}}</span>
     </span>
   </li>
 </ul>
