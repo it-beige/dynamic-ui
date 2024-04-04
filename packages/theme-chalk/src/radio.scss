@@ -37,6 +37,20 @@
     }
   }
 
+  @include m(large) {
+    &.is-bordered {
+      padding: $--radio-bordered-large-padding;
+      border-radius: $--button-large-border-radius;
+      height: $--radio-bordered-large-height;
+      .dy-radio__label {
+        font-size: $--button-large-font-size;
+      }
+      .dy-radio__inner {
+        height: $--radio-bordered-large-input-height;
+        width: $--radio-bordered-large-input-width;
+      }
+    }
+  }
   @include m(medium) {
     &.is-bordered {
       padding: $--radio-bordered-medium-padding;
@@ -127,10 +141,11 @@
     @include when(checked) {
       .dy-radio__inner {
         border-color: $--radio-checked-input-border-color;
-        background: $--radio-checked-icon-color;
+        background: $--color-white;
 
         &::after {
           transform: translate(-50%, -50%) scale(1);
+          background-color: $--radio-checked-icon-color;
         }
       }
 
@@ -161,8 +176,8 @@
     }
 
     &::after {
-      width: 4px;
-      height: 4px;
+      width: 6px;
+      height: 6px;
       border-radius: $--radio-input-border-radius;
       background-color: $--color-white;
       content: "";

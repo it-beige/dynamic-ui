@@ -73,7 +73,6 @@
           if (parent.$options.componentName !== 'DyRadioGroup') {
             parent = parent.$parent;
           } else {
-            this._radioGroup = parent;
             return true;
           }
         }

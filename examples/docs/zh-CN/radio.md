@@ -19,9 +19,9 @@
     data() {
       return {
         radio: '1',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -44,9 +44,9 @@
     data() {
       return {
         radio: '选中且禁用',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -72,9 +72,9 @@
     data() {
       return {
         radio: 3,
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -89,7 +89,7 @@
 ```html
 <template>
   <div>
-    <dy-radio-group v-model="radio1">
+    <dy-radio-group v-model="radio1" size="large">
       <dy-radio-button label="上海"></dy-radio-button>
       <dy-radio-button label="北京"></dy-radio-button>
       <dy-radio-button label="广州"></dy-radio-button>
@@ -130,9 +130,9 @@
         radio2: '上海',
         radio3: '上海',
         radio4: '上海',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -145,8 +145,8 @@
 ```html
 <template>
   <div>
-    <dy-radio v-model="radio1" label="1" border>备选项1</dy-radio>
-    <dy-radio v-model="radio1" label="2" border>备选项2</dy-radio>
+    <dy-radio v-model="radio1" label="1" border size="large">备选项1</dy-radio>
+    <dy-radio v-model="radio1" label="2" border size="large">备选项2</dy-radio>
   </div>
   <div style="margin-top: 20px">
     <dy-radio v-model="radio2" label="1" border size="medium">备选项1</dy-radio>
@@ -174,9 +174,9 @@
         radio2: '1',
         radio3: '1',
         radio4: '1',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -184,14 +184,14 @@
 
 ### Radio Attributes
 
-| 参数            | 说明                                 | 类型                      | 可选值                | 默认值 |
-| --------------- | ------------------------------------ | ------------------------- | --------------------- | ------ |
-| value / v-model | 绑定值                               | string / number / boolean | —                     | —      |
-| label           | Radio 的 value                       | string / number / boolean | —                     | —      |
-| disabled        | 是否禁用                             | boolean                   | —                     | false  |
-| border          | 是否显示边框                         | boolean                   | —                     | false  |
-| size            | Radio 的尺寸，仅在 border 为真时有效 | string                    | medium / small / mini | —      |
-| name            | 原生 name 属性                       | string                    | —                     | —      |
+| 参数            | 说明                                 | 类型                      | 可选值                        | 默认值 |
+| --------------- | ------------------------------------ | ------------------------- | ----------------------------- | ------ |
+| value / v-model | 绑定值                               | string / number / boolean | —                             | —      |
+| label           | Radio 的 value                       | string / number / boolean | —                             | —      |
+| disabled        | 是否禁用                             | boolean                   | —                             | false  |
+| border          | 是否显示边框                         | boolean                   | —                             | false  |
+| size            | Radio 的尺寸，仅在 border 为真时有效 | string                    | large / medium / small / mini | medium |
+| name            | 原生 name 属性                       | string                    | —                             | —      |
 
 ### Radio Events
 
@@ -201,13 +201,13 @@
 
 ### Radio-group Attributes
 
-| 参数            | 说明                                                       | 类型                      | 可选值                | 默认值  |
-| --------------- | ---------------------------------------------------------- | ------------------------- | --------------------- | ------- |
-| value / v-model | 绑定值                                                     | string / number / boolean | —                     | —       |
-| size            | 单选框组尺寸，仅对按钮形式的 Radio 或带有边框的 Radio 有效 | string                    | medium / small / mini | —       |
-| disabled        | 是否禁用                                                   | boolean                   | —                     | false   |
-| text-color      | 按钮形式的 Radio 激活时的文本颜色                          | string                    | —                     | #ffffff |
-| fill            | 按钮形式的 Radio 激活时的填充色和边框色                    | string                    | —                     | #409EFF |
+| 参数            | 说明                                                       | 类型                      | 可选值                        | 默认值  |
+| --------------- | ---------------------------------------------------------- | ------------------------- | ----------------------------- | ------- |
+| value / v-model | 绑定值                                                     | string / number / boolean | —                             | —       |
+| size            | 单选框组尺寸，仅对按钮形式的 Radio 或带有边框的 Radio 有效 | string                    | large / medium / small / mini | medium  |
+| disabled        | 是否禁用                                                   | boolean                   | —                             | false   |
+| text-color      | 按钮形式的 Radio 激活时的文本颜色                          | string                    | —                             | #ffffff |
+| fill            | 按钮形式的 Radio 激活时的填充色和边框色                    | string                    | —                             | #409EFF |
 
 ### Radio-group Events
 

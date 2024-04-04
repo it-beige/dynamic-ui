@@ -75,6 +75,8 @@
       }
       &:checked + .dy-radio-button__inner {
         background-color: $--radio-button-disabled-checked-fill;
+        border-color: $--radio-button-disabled-checked-fill;
+        color:$--radio-button-checked-font-color;
       }
     }
   }
@@ -91,6 +93,11 @@
     }
   }
 
+  @include m(large) {
+    & .dy-radio-button__inner {
+      @include button-size($--button-large-padding-vertical, $--button-large-padding-horizontal, $--button-large-font-size, 0);
+    }
+  }
   @include m(medium) {
     & .dy-radio-button__inner {
       @include button-size($--button-medium-padding-vertical, $--button-medium-padding-horizontal, $--button-medium-font-size, 0);
