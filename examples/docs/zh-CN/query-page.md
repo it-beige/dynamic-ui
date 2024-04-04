@@ -709,12 +709,12 @@
 
 ### Props
 
-| 参数               | 返回值说明                                        | 返回值类型 |
-| ------------------ | ------------------------------------------------- | ---------- |
-| useTableProps      | `TableGenerate`组件提供的 props                   | object     |
-| usePaginationProps | `Pagination`组件提供的 props                      | object     |
-| useQueryProps      | `FormGenerate`组件提供的 props                    | object     |
-| useSearchProps     | collapse、upText、downText、searchText、resetText | object     |
+| 参数               | 返回值说明                                                            | 返回值类型 |
+| ------------------ | --------------------------------------------------------------------- | ---------- |
+| useTableProps      | `TableGenerate`组件提供的 [props](./#/zh-CN/component/table-generate) | object     |
+| usePaginationProps | `Pagination`组件提供的 [props](./#/zh-CN/component/pagination)        | object     |
+| useQueryProps      | `FormGenerate`组件提供的 [props](./#/zh-CN/component/form-generate)   | object     |
+| useSearchProps     | collapse、upText、downText、searchText、resetText                     | object     |
 
 ### Slot 配置
 

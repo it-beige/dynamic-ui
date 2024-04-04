@@ -785,7 +785,7 @@ Vue.use(Dynamic, {
 
 ### Pagination 提供的 Attributes
 
-组件通过引入帮助函数可以生成`Pagination`的 prop
+组件通过引入帮助函数可以生成`Pagination`的 [props](./#/zh-CN/component/pagination)
 
 ```js
 import PaginationCtor from 'dynamic-ui/src/mixins/pagination.js'
@@ -801,32 +801,6 @@ const props = new PaginationCtor({
 ></dy-select-generate>
 ```
 
-| 参数                | 说明                                                                                                                  | 类型     | 可选值                                                            | 默认值                                 |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------- | -------- | ----------------------------------------------------------------- | -------------------------------------- |
-| small               | 是否使用小型分页样式                                                                                                  | boolean  | —                                                                 | false                                  |
-| background          | 是否为分页按钮添加背景色                                                                                              | boolean  | —                                                                 | false                                  |
-| page-size           | 每页显示条目个数，支持 .sync 修饰符                                                                                   | number   | —                                                                 | 10                                     |
-| total               | 总条目数                                                                                                              | number   | —                                                                 | —                                      |
-| page-count          | 总页数，total 和 page-count 设置任意一个就可以达到显示页码的功能；如果要支持 page-sizes 的更改，则需要使用 total 属性 | Number   | —                                                                 | —                                      |
-| pager-count         | 页码按钮的数量，当总页数超过该值时会折叠                                                                              | number   | 大于等于 5 且小于等于 21 的奇数                                   | 7                                      |
-| current-page        | 当前页数，支持 .sync 修饰符                                                                                           | number   | —                                                                 | 1                                      |
-| layout              | 组件布局，子组件名用逗号分隔                                                                                          | String   | `sizes`, `prev`, `pager`, `next`, `jumper`, `->`, `total`, `slot` | 'prev, pager, next, jumper, ->, total' |
-| page-sizes          | 每页显示个数选择器的选项设置                                                                                          | number[] | —                                                                 | [10, 20, 30, 40, 50, 100]              |
-| popper-class        | 每页显示个数选择器的下拉框类名                                                                                        | string   | —                                                                 | —                                      |
-| prev-text           | 替代图标显示的上一页文字                                                                                              | string   | —                                                                 | —                                      |
-| next-text           | 替代图标显示的下一页文字                                                                                              | string   | —                                                                 | —                                      |
-| disabled            | 是否禁用                                                                                                              | boolean  | —                                                                 | false                                  |
-| hide-on-single-page | 只有一页时是否隐藏                                                                                                    | boolean  | —                                                                 | -                                      |
-
-### Events
-
-| 事件名称       | 说明                               | 回调参数 |
-| -------------- | ---------------------------------- | -------- |
-| size-change    | pageSize 改变时会触发              | 每页条数 |
-| current-change | currentPage 改变时会触发           | 当前页   |
-| prev-click     | 用户点击上一页按钮改变当前页后触发 | 当前页   |
-| next-click     | 用户点击下一页按钮改变当前页后触发 | 当前页   |
-
 ### 扩展 Select Attributes
 
 | 参数      | 说明                 | 类型     | 可选值 | 默认值                  |
@@ -834,82 +808,8 @@ const props = new PaginationCtor({
 | props     | 配置选项，具体看下表 | object   | —      | global.useOptionProps() |
 | formatter | 格式化 option 数据   | function | —0     | -                       |
 
-### props
-
-| 参数     | 说明                           | 类型   | 可选值 | 默认值   |
-| -------- | ------------------------------ | ------ | ------ | -------- |
-| label    | option 组件的 label 属性       | string | —      | label    |
-| value    | option 组件的 value 属性       | string | —      | value    |
-| children | 指定子树为节点对象的某个属性值 | string | —      |          |
-| disabled | 子节点否禁用的属性值           | string | —      | children |
-
-### Select Attributes
-
-| 参数                  | 说明                                                                           | 类型                      | 可选值            | 默认值     |
-| --------------------- | ------------------------------------------------------------------------------ | ------------------------- | ----------------- | ---------- |
-| value / v-model       | 绑定值                                                                         | boolean / string / number | —                 | —          |
-| multiple              | 是否多选                                                                       | boolean                   | —                 | false      |
-| disabled              | 是否禁用                                                                       | boolean                   | —                 | false      |
-| value-key             | 作为 value 唯一标识的键名，绑定值为对象类型时必填                              | string                    | —                 | value      |
-| size                  | 输入框尺寸                                                                     | string                    | medium/small/mini | —          |
-| clearable             | 是否可以清空选项                                                               | boolean                   | —                 | false      |
-| collapse-tags         | 多选时是否将选中值按文字的形式展示                                             | boolean                   | —                 | false      |
-| multiple-limit        | 多选时用户最多可以选择的项目数，为 0 则不限制                                  | number                    | —                 | 0          |
-| name                  | select input 的 name 属性                                                      | string                    | —                 | —          |
-| autocomplete          | select input 的 autocomplete 属性                                              | string                    | —                 | off        |
-| auto-complete         | 下个主版本弃用                                                                 | string                    | —                 | off        |
-| placeholder           | 占位符                                                                         | string                    | —                 | 请选择     |
-| filterable            | 是否可搜索                                                                     | boolean                   | —                 | false      |
-| allow-create          | 是否允许用户创建新条目，需配合 `filterable` 使用                               | boolean                   | —                 | false      |
-| filter-method         | 自定义搜索方法                                                                 | function                  | —                 | —          |
-| remote                | 是否为远程搜索                                                                 | boolean                   | —                 | false      |
-| remote-method         | 远程搜索方法                                                                   | function                  | —                 | —          |
-| loading               | 是否正在从远程获取数据                                                         | boolean                   | —                 | false      |
-| loading-text          | 远程加载时显示的文字                                                           | string                    | —                 | 加载中     |
-| no-match-text         | 搜索条件无匹配时显示的文字，也可以使用`slot="empty"`设置                       | string                    | —                 | 无匹配数据 |
-| no-data-text          | 选项为空时显示的文字，也可以使用`slot="empty"`设置                             | string                    | —                 | 无数据     |
-| popper-class          | Select 下拉框的类名                                                            | string                    | —                 | —          |
-| reserve-keyword       | 多选且可搜索时，是否在选中一个选项后保留当前的搜索关键词                       | boolean                   | —                 | false      |
-| default-first-option  | 在输入框按下回车，选择第一个匹配项。需配合 `filterable` 或 `remote` 使用       | boolean                   | -                 | false      |
-| popper-append-to-body | 是否将弹出框插入至 body 元素。在弹出框的定位出现问题时，可将该属性设置为 false | boolean                   | -                 | true       |
-| automatic-dropdown    | 对于不可搜索的 Select，是否在输入框获得焦点后自动弹出选项菜单                  | boolean                   | -                 | false      |
-
-### Select Events
-
-| 事件名称       | 说明                                     | 回调参数                      |
-| -------------- | ---------------------------------------- | ----------------------------- |
-| change         | 选中值发生变化时触发                     | 目前的选中值                  |
-| visible-change | 下拉框出现/隐藏时触发                    | 出现则为 true，隐藏则为 false |
-| remove-tag     | 多选模式下移除 tag 时触发                | 移除的 tag 值                 |
-| clear          | 可清空的单选模式下用户点击清空按钮时触发 | —                             |
-| blur           | 当 input 失去焦点时触发                  | (event: Event)                |
-| focus          | 当 input 获得焦点时触发                  | (event: Event)                |
-
 ### 扩展 Select Events
 
 | 事件名称 | 说明                                | 回调参数 |
 | -------- | ----------------------------------- | -------- |
 | load     | lazy 为 true 情况下懒加载数据前触发 | -        |
-
-### Select Slots
-
-|   name  | 说明                | 参数                                          |
-| ------- | ------------------- | --------------------------------------------- |
-| option  | Option 组件列表     | {props: { label,value,disabled,children }, i} |
-| prefix  | Select 组件头部内容 |                                               |
-| empty   | 无选项时的列表      |                                               |
-
-### Option Attributes
-
-| 参数     | 说明                                      | 类型                 | 可选值 | 默认值 |
-| -------- | ----------------------------------------- | -------------------- | ------ | ------ |
-| value    | 选项的值                                  | string/number/object | —      | —      |
-| label    | 选项的标签，若不设置则默认与 `value` 相同 | string/number        | —      | —      |
-| disabled | 是否禁用该选项/将该分组下所有选项置为禁用 | boolean              | —      | false  |
-
-### Methods
-
-| 方法名 | 说明                            | 参数 |
-| ------ | ------------------------------- | ---- |
-| focus  | 使 input 获取焦点               | -    |
-| blur   | 使 input 失去焦点，并隐藏下拉框 | -    |

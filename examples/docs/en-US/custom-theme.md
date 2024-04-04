@@ -1,24 +1,24 @@
 ## Custom theme
 
-Element uses BEM-styled CSS so that you can override styles easily. But if you need to replace styles at a large scale, e.g. change the theme color from blue to orange or green, maybe overriding them one by one is not a good idea. We provide four ways to change the style variables.
+Dynamic uses BEM-styled CSS so that you can override styles easily. But if you need to replace styles at a large scale, e.g. change the theme color from blue to orange or green, maybe overriding them one by one is not a good idea. We provide four ways to change the style variables.
 
 ### Theme Roller
 
 Use [Online Theme Roller](./#/en-US/theme) to customize all Design Tokens of global variables and components，and preview the new theme in real-time.and it can generate a complete style package based on the new theme for you to download directly (to import new style files in your project, please refer to the 'Import custom theme' part of this section).
 
-Also, use [Theme Roller Chrome Extension](https://chrome.google.com/webstore/detail/element-theme-roller/lifkjlojflekabbmlddfccdkphlelmim)，to customize theme and preview in real-time on any website developed by Element.
+Also, use [Theme Roller Chrome Extension](https://chrome.google.com/webstore/detail/element-theme-roller/lifkjlojflekabbmlddfccdkphlelmim)，to customize theme and preview in real-time on any website developed by Dynamic.
 
 <img src="https://shadow.elemecdn.com/app/sns-client/element-theme-editor2.e16c6a01-806d-11e9-bc23-21435c54c509.png" style="width: 100%;margin: 30px auto 0;display: block;">
 
 ### Changing theme color
 
-If you just want to change the theme color of Element, the [theme preview website](https://elementui.github.io/theme-chalk-preview/#/en-US) is recommended. The theme color of Element is bright and friendly blue. By changing it, you can make Element more visually connected to specific projects.
+If you just want to change the theme color of Dynamic, the [theme preview website](https://elementui.github.io/theme-chalk-preview/#/en-US) is recommended. The theme color of Dynamic is bright and friendly blue. By changing it, you can make Dynamic more visually connected to specific projects.
 
 The above website enables you to preview theme of a new theme color in real-time, and it can generate a complete style package based on the new theme color for you to download directly (to import new style files in your project, please refer to the 'Import custom theme' or 'Import component theme on demand' part of this section).
 
 ### Update SCSS variables in your project
 
-`theme-chalk` is written in SCSS. If your project also uses SCSS, you can directly change Element style variables. Create a new style file, e.g. `element-variables.scss`:
+`theme-chalk` is written in SCSS. If your project also uses SCSS, you can directly change Dynamic style variables. Create a new style file, e.g. `element-variables.scss`:
 
 ```html
 /* theme color */ $--color-primary: teal; /* icon font path, required */
@@ -26,18 +26,18 @@ $--font-path: '~dynamic-ui/lib/theme-chalk/fonts'; @import
 "~dynamic-ui/packages/theme-chalk/src/index";
 ```
 
-Then in the entry file of your project, import this style file instead of Element's built CSS:
+Then in the entry file of your project, import this style file instead of Dynamic's built CSS:
 
 ```JS
 import Vue from 'vue'
-import Element from 'dynamic-ui'
-import './element-variables.scss'
+import Dynamic from 'dynamic-ui'
+import './dynamic-variables.scss'
 
-Vue.use(Element)
+Vue.use(Dynamic)
 ```
 
 :::tip
-Note that it is required to override icon font path to the relative path of Element's font files.
+Note that it is required to override icon font path to the relative path of Dynamic's font files.
 :::
 
 ### CLI theme tool
@@ -49,14 +49,14 @@ If you project doesn't use SCSS, you can customize themes with our CLI theme too
 First install the theme generator globally or locally. Local install is recommended because in this way, when others clone your project, npm will automatically install it for them.
 
 ```shell
-npm i element-theme -g
+npm i dynamic-theme -g
 ```
 
 Then install the chalk theme from npm or GitHub.
 
 ```shell
 # from npm
-npm i element-theme-chalk -D
+npm i dynamic-theme-chalk -D
 
 # from GitHub
 npm i https://github.com/ElementUI/theme-chalk -D
@@ -72,7 +72,7 @@ et -i [custom output file]
 > ✔ Generator variables file
 ```
 
-In `element-variables.scss` you can find all the variables we used to style Element and they are defined in SCSS format. Here's a snippet:
+In `element-variables.scss` you can find all the variables we used to style Dynamic and they are defined in SCSS format. Here's a snippet:
 
 ```css
 $--color-primary: #409EFF !default;
@@ -110,7 +110,7 @@ After saving the variable file, use `et` to build your theme. You can activate `
 et
 
 > ✔ build theme font
-> ✔ build element theme
+> ✔ build dynamic theme
 ```
 
 ### Use custom theme
@@ -120,11 +120,11 @@ et
 Importing your own theme is just like importing the default theme, only this time you import the file built from "Online Theme Roller" or "CLI tool":
 
 ```javascript
-import '../theme/index.css';
-import ElementUI from 'dynamic-ui';
-import Vue from 'vue';
+import '../theme/index.css'
+import DynamicUI from 'dynamic-ui'
+import Vue from 'vue'
 
-Vue.use(ElementUI);
+Vue.use(DynamicUI)
 ```
 
 #### <strong>Import component theme on demand</strong>
@@ -145,4 +145,4 @@ If you are using `babel-plugin-component` for on-demand import, just modify `.ba
 }
 ```
 
-If you are unfamiliar with `babel-plugin-component`, please refer to <a href="./#/en-US/component/quickstart">Quick Start</a>. For more details, check out the [project repository](https://github.com/ElementUI/element-theme) of `element-theme`.
+If you are unfamiliar with `babel-plugin-component`, please refer to <a href="./#/en-US/component/quickstart">Quick Start</a>. For more details, check out the [project repository](https://github.com/ElementUI/element-theme) of `dynamic-theme`.
