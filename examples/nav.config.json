@@ -28,7 +28,7 @@
           "name": "注入其他组件库"
         },
         {
-          "path": "/gobal-config",
+          "path": "/global-config",
           "name": "全局配置"
         },
         {
@@ -405,7 +405,7 @@
           "name": "Inject other component libraries"
         },
         {
-          "path": "/gobal-config",
+          "path": "/global-config",
           "name": "Global Configuration"
         },
         {
