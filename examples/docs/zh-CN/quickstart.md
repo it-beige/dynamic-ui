@@ -4,11 +4,11 @@
 
 ### 使用 vue-cli@3
 
-我们为新版的 vue-cli 准备了相应的 [Dynamic 插件](https://github.com/DynamicUI/vue-cli-plugin-dynamic)，你可以用它们快速地搭建一个基于 Dynamic 的项目。
+我们为新版的 vue-cli 准备了相应的 [Dynamic 插件](https://github.com/it-beige/vue-cli-plugin-dynamic)，你可以用它们快速地搭建一个基于 Dynamic 的项目。
 
 ### 使用 Starter Kit
 
-我们提供了通用的[项目模板](https://github.com/DynamicUI/dynamic-starter)，你可以直接使用。对于 Laravel 用户，我们也准备了相应的[模板](https://github.com/DynamicUI/dynamic-in-laravel-starter)，同样可以直接下载使用。
+我们提供了通用的[项目模板](https://github.com/it-beige/dynamic-starter)，你可以直接使用。对于 Laravel 用户，我们也准备了相应的[模板](https://github.com/it-beige/dynamic-in-laravel-starter)，同样可以直接下载使用。
 
 如果不希望使用我们提供的模板，请继续阅读。
 
@@ -50,7 +50,6 @@ npm install babel-plugin-component -D
 
 ```json
 {
-  "presets": [["es2015", { "modules": false }]],
   "plugins": [
     [
       "component",
@@ -83,7 +82,7 @@ new Vue({
 })
 ```
 
-完整组件列表和引入方式（完整组件列表以 [components.json](https://github.com/ElemeFE/dynamic/blob/master/components.json) 为准）, 提供的所有内置组件是放便你在不引入 Dynamic 的情况进行使用该组件库, 下面会演示使用其他组件库做为内置组件的情况
+完整组件列表和引入方式（完整组件列表以 [components.json](https://github.com/it-beige/dynamic/blob/master/components.json) 为准）, 提供的所有内置组件是放便你在不引入 Dynamic 的情况进行使用该组件库, 下面会演示使用其他组件库做为内置组件的情况
 
 ```javascript
 import Vue from 'vue'

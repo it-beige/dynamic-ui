@@ -28,7 +28,7 @@
   </li>
 </ul>
 
-### 数字产品图标集合
+### 数字产品图标集
 
 <ul class="icon-list">
   <li v-for="name in $icon1" :key="name">

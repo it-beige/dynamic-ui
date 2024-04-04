@@ -10,4 +10,5 @@ export {
   injectFormComponent
 };
 export * from 'main/helper/props';
+FormGenerate.injectFormComponent = injectFormComponent;
 export default FormGenerate;
