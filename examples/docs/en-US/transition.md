@@ -1,6 +1,6 @@
 ## Built-in transition
 
-You can use Element's built-in transitions directly. Before that, please read the [transition docs](https://vuejs.org/v2/api/#transition).
+You can use Dynamic's built-in transitions directly. Before that, please read the [transition docs](https://vuejs.org/v2/api/#transition).
 
 ### fade
 
@@ -27,7 +27,7 @@ You can use Element's built-in transitions directly. Before that, please read th
     data: () => ({
       show: true,
     }),
-  };
+  }
 </script>
 
 <style>
@@ -78,7 +78,7 @@ You can use Element's built-in transitions directly. Before that, please read th
     data: () => ({
       show2: true,
     }),
-  };
+  }
 </script>
 
 <style>
@@ -126,7 +126,7 @@ For collapse effect, use the `el-collapse-transition` component.
     data: () => ({
       show3: true,
     }),
-  };
+  }
 </script>
 
 <style>
@@ -151,10 +151,10 @@ For collapse effect, use the `el-collapse-transition` component.
 
 ```js
 // fade/zoom
-import 'dynamic-ui/lib/theme-chalk/base.css';
+import 'dynamic-ui/lib/theme-chalk/base.css'
 // collapse
-import CollapseTransition from 'dynamic-ui/lib/transitions/collapse-transition';
-import Vue from 'vue';
+import CollapseTransition from 'dynamic-ui/lib/transitions/collapse-transition'
+import Vue from 'vue'
 
-Vue.component(CollapseTransition.name, CollapseTransition);
+Vue.component(CollapseTransition.name, CollapseTransition)
 ```
