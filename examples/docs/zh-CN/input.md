@@ -22,12 +22,12 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
     data() {
       return {
         input: '',
-      };
+      }
     },
     created() {
-      console.log(this);
+      console.log(this)
     },
-  };
+  }
 </script>
 ```
 
@@ -45,9 +45,9 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
     data() {
       return {
         input: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -65,9 +65,9 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
     data() {
       return {
         input: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -85,9 +85,29 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
     data() {
       return {
         input: '',
-      };
+      }
     },
-  };
+  }
+</script>
+```
+
+:::
+
+### 脱敏输入框
+
+:::demo 使用 `masking` 属性即可得到一个可进行数据脱敏的输入框，内置手机号脱敏、邮箱脱敏及身份证脱敏，只有处于焦点状态才会展示完整内容。。
+
+```html
+<dy-input placeholder="请输入内容" v-model="input" masking></dy-input>
+
+<script>
+  export default {
+    data() {
+      return {
+        input: '18834562192',
+      }
+    },
+  }
 </script>
 ```
 
@@ -131,9 +151,9 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
         input2: '',
         input3: '',
         input4: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -158,9 +178,9 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
     data() {
       return {
         textarea: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -193,9 +213,9 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
       return {
         textarea1: '',
         textarea2: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -210,16 +230,12 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
 ```html
 <div>
   <dy-input placeholder="请输入内容" v-model="input1">
-    <template slot="prepend">
-      Http://
-    </template>
+    <template slot="prepend">Http://</template>
   </dy-input>
 </div>
 <div style="margin-top: 15px;">
   <dy-input placeholder="请输入内容" v-model="input2">
-    <template slot="append">
-      .com
-    </template>
+    <template slot="append">.com</template>
   </dy-input>
 </div>
 <div style="margin-top: 15px;">
@@ -248,9 +264,9 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
         input2: '',
         input3: '',
         select: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -295,9 +311,9 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
         input2: '',
         input3: '',
         input4: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -340,16 +356,16 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
         restaurants: [],
         state1: '',
         state2: '',
-      };
+      }
     },
     methods: {
       querySearch(queryString, cb) {
-        var restaurants = this.restaurants;
+        var restaurants = this.restaurants
         var results = queryString
           ? restaurants.filter(this.createFilter(queryString))
-          : restaurants;
+          : restaurants
         // 调用 callback 返回建议列表的数据
-        cb(results);
+        cb(results)
       },
       createFilter(queryString) {
         return restaurant => {
@@ -357,8 +373,8 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
             restaurant.value
               .toLowerCase()
               .indexOf(queryString.toLowerCase()) === 0
-          );
-        };
+          )
+        }
       },
       loadAll() {
         return [
@@ -480,16 +496,16 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
             value: '南拳妈妈龙虾盖浇饭',
             address: '普陀区金沙江路1699号鑫乐惠美食广场A13',
           },
-        ];
+        ]
       },
       handleSelect(item) {
-        console.log(item);
+        console.log(item)
       },
     },
     mounted() {
-      this.restaurants = this.loadAll();
+      this.restaurants = this.loadAll()
     },
-  };
+  }
 </script>
 ```
 
@@ -548,16 +564,16 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
       return {
         restaurants: [],
         state: '',
-      };
+      }
     },
     methods: {
       querySearch(queryString, cb) {
-        var restaurants = this.restaurants;
+        var restaurants = this.restaurants
         var results = queryString
           ? restaurants.filter(this.createFilter(queryString))
-          : restaurants;
+          : restaurants
         // 调用 callback 返回建议列表的数据
-        cb(results);
+        cb(results)
       },
       createFilter(queryString) {
         return restaurant => {
@@ -565,8 +581,8 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
             restaurant.value
               .toLowerCase()
               .indexOf(queryString.toLowerCase()) === 0
-          );
-        };
+          )
+        }
       },
       loadAll() {
         return [
@@ -688,19 +704,19 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
             value: '南拳妈妈龙虾盖浇饭',
             address: '普陀区金沙江路1699号鑫乐惠美食广场A13',
           },
-        ];
+        ]
       },
       handleSelect(item) {
-        console.log(item);
+        console.log(item)
       },
       handleIconClick(ev) {
-        console.log(ev);
+        console.log(ev)
       },
     },
     mounted() {
-      this.restaurants = this.loadAll();
+      this.restaurants = this.loadAll()
     },
-  };
+  }
 </script>
 ```
 
@@ -726,7 +742,7 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
         restaurants: [],
         state: '',
         timeout: null,
-      };
+      }
     },
     methods: {
       loadAll() {
@@ -849,34 +865,34 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
             value: '南拳妈妈龙虾盖浇饭',
             address: '普陀区金沙江路1699号鑫乐惠美食广场A13',
           },
-        ];
+        ]
       },
       querySearchAsync(queryString, cb) {
-        var restaurants = this.restaurants;
+        var restaurants = this.restaurants
         var results = queryString
           ? restaurants.filter(this.createStateFilter(queryString))
-          : restaurants;
+          : restaurants
 
-        clearTimeout(this.timeout);
+        clearTimeout(this.timeout)
         this.timeout = setTimeout(() => {
-          cb(results);
-        }, 3000 * Math.random());
+          cb(results)
+        }, 3000 * Math.random())
       },
       createStateFilter(queryString) {
         return state => {
           return (
             state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
-          );
-        };
+          )
+        }
       },
       handleSelect(item) {
-        console.log(item);
+        console.log(item)
       },
     },
     mounted() {
-      this.restaurants = this.loadAll();
+      this.restaurants = this.loadAll()
     },
-  };
+  }
 </script>
 ```
 
@@ -909,9 +925,9 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
       return {
         text: '',
         textarea: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 

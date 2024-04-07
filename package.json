@@ -78,6 +78,7 @@
     "svg-sprite-loader": "^6.0.11",
     "svgo-loader": "3",
     "throttle-debounce": "^1.0.1",
+    "v-mask": "^2.3.0",
     "vue-draggable-resizable": "^2.3.0",
     "vxe-table": "^3.7.9"
   },
