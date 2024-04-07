@@ -17,10 +17,13 @@ $--color-transition-base: color .2s cubic-bezier(.645,.045,.355,1) !default;
 -------------------------- */
 /// color|1|Brand Color|0
 $--color-primary: #409eff !default;
+/// color|1|Background Color|0
+$--color-disabled: #cccccc !default;
 /// color|1|Background Color|4
 $--color-white: #ffffff !default;
 /// color|1|Background Color|4
 $--color-black: #000000 !default;
+
 $--color-primary-light-1: mix($--color-white, $--color-primary, 10%) !default; /* 53a8ff */
 $--color-primary-light-2: mix($--color-white, $--color-primary, 20%) !default; /* 66b1ff */
 $--color-primary-light-3: mix($--color-white, $--color-primary, 30%) !default; /* 79bbff */
@@ -58,21 +61,22 @@ $--color-text-regular: #333333 !default;
 /// color|1|Font Color|2
 $--color-text-secondary: #555555 !default;
 /// color|1|Font Color|2
-$--color-text-placeholder: #cccccc!default;
+$--color-text-placeholder: $--color-disabled!default;
 /// color|1|Border Color|3
 $--border-color-base: #dddddd !default;
 /// color|1|Border Color|3
 $--border-color-light: #e4e7ed !default;
 /// color|1|Border Color|3
 $--border-color-lighter: #ebeef5 !default;
-/// color|1|Border Color|3
-$--border-color-disabled: #f5f5f5 !default;
+
 /// color|1|Border Color|3
 $--border-color-extra-light: #f2f6fc !default;
 
 // Background
 /// color|1|Background Color|4
 $--background-color-base: #f5f7fa !default;
+/// color|1|Background Color|4
+$--background-color-disabled-base: #f5f5f5 !default;
 
 /* Link
 -------------------------- */
@@ -134,7 +138,7 @@ $--font-weight-secondary: 100 !default;
 $--font-line-height-primary: 24px !default;
 /// fontLineHeight|1|Line Height|2
 $--font-line-height-secondary: 16px !default;
-$--font-color-disabled-base: #ccc !default;
+$--font-color-disabled-base: $--color-disabled !default;
 /* Size
 -------------------------- */
 $--size-base: 14px !default;
@@ -147,9 +151,9 @@ $--index-popper: 2000 !default;
 
 /* Disable base
 -------------------------- */
-$--disabled-fill-base: $--background-color-base !default;
-$--disabled-color-base: $--color-text-placeholder !default;
-$--disabled-border-base: $--border-color-light !default;
+$--disabled-fill-base: $--background-color-disabled-base !default;
+$--disabled-color-base: $--color-disabled !default;
+$--disabled-border-base: $--color-disabled !default;
 
 /* Icon
 -------------------------- */
@@ -163,7 +167,7 @@ $--checkbox-font-size: 14px !default;
 /// fontWeight||Font|1
 $--checkbox-font-weight: $--font-weight-primary !default;
 /// color||Color|0
-$--checkbox-font-color: $--color-text-regular !default;
+$--checkbox-font-color: $--color-text-secondary !default;
 $--checkbox-input-height: 14px !default;
 $--checkbox-input-width: 14px !default;
 /// borderRadius||Border|2
@@ -226,7 +230,7 @@ $--radio-font-size: $--font-size-base !default;
 /// fontWeight||Font|1
 $--radio-font-weight: $--font-weight-primary !default;
 /// color||Color|0
-$--radio-font-color: $--color-text-regular !default;
+$--radio-font-color: $--color-text-secondary !default;
 $--radio-input-height: 14px !default;
 $--radio-input-width: 14px !default;
 /// borderRadius||Border|2
@@ -573,7 +577,7 @@ $--button-padding-horizontal: $--button-medium-padding-horizontal !default;
 /// color||Color|0
 $--button-disabled-font-color: $--color-text-placeholder !default;
 /// color||Color|0
-$--button-disabled-background-color: $--border-color-disabled !default;
+$--button-disabled-background-color: $--background-color-disabled-base !default;
 /// color||Color|0
 $--button-disabled-border-color: $--color-text-placeholder!default;
 
