@@ -22,9 +22,9 @@ Do not support `v-model` modifiers.
     data() {
       return {
         input: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -46,9 +46,9 @@ Do not support `v-model` modifiers.
     data() {
       return {
         input: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -66,9 +66,9 @@ Do not support `v-model` modifiers.
     data() {
       return {
         input: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -90,9 +90,29 @@ Do not support `v-model` modifiers.
     data() {
       return {
         input: '',
-      };
+      }
     },
-  };
+  }
+</script>
+```
+
+:::
+
+### Desensitized
+
+:::demo You can achieve a desensitized input field by using the `masking` attribute. It provides built-in desensitization for phone numbers, email addresses, and ID cards. Only when in focus will the complete content be displayed。
+
+```html
+<dy-input placeholder="请输入内容" v-model="input" masking></dy-input>
+
+<script>
+  export default {
+    data() {
+      return {
+        input: '18834562192',
+      }
+    },
+  }
 </script>
 ```
 
@@ -143,9 +163,9 @@ Add an icon to indicate input type.
         input2: '',
         input3: '',
         input4: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -170,9 +190,9 @@ Resizable for entering multiple lines of text information. Add attribute `type="
     data() {
       return {
         textarea: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -205,9 +225,9 @@ Setting the `autosize` prop for a textarea type of Input makes the height to aut
       return {
         textarea1: '',
         textarea2: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -222,16 +242,12 @@ Prepend or append an element, generally a label or a button.
 ```html
 <div>
   <dy-input placeholder="Please input" v-model="input1">
-    <template slot="prepend">
-      Http://
-    </template>
+    <template slot="prepend">Http://</template>
   </dy-input>
 </div>
 <div style="margin-top: 15px;">
   <dy-input placeholder="Please input" v-model="input2">
-    <template slot="append">
-      .com
-    </template>
+    <template slot="append">.com</template>
   </dy-input>
 </div>
 <div style="margin-top: 15px;">
@@ -265,9 +281,9 @@ Prepend or append an element, generally a label or a button.
         input2: '',
         input3: '',
         select: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -297,9 +313,9 @@ Prepend or append an element, generally a label or a button.
         input2: '',
         input3: '',
         input4: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -342,23 +358,23 @@ You can get some recommended tips based on the current input.
         links: [],
         state1: '',
         state2: '',
-      };
+      }
     },
     methods: {
       querySearch(queryString, cb) {
-        var links = this.links;
+        var links = this.links
         var results = queryString
           ? links.filter(this.createFilter(queryString))
-          : links;
+          : links
         // call callback function to return suggestions
-        cb(results);
+        cb(results)
       },
       createFilter(queryString) {
         return link => {
           return (
             link.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
-          );
-        };
+          )
+        }
       },
       loadAll() {
         return [
@@ -369,16 +385,16 @@ You can get some recommended tips based on the current input.
           { value: 'vuex', link: 'https://github.com/vuejs/vuex' },
           { value: 'vue-router', link: 'https://github.com/vuejs/vue-router' },
           { value: 'babel', link: 'https://github.com/babel/babel' },
-        ];
+        ]
       },
       handleSelect(item) {
-        console.log(item);
+        console.log(item)
       },
     },
     mounted() {
-      this.links = this.loadAll();
+      this.links = this.loadAll()
     },
-  };
+  }
 </script>
 ```
 
@@ -433,23 +449,23 @@ Customize how suggestions are displayed.
       return {
         links: [],
         state: '',
-      };
+      }
     },
     methods: {
       querySearch(queryString, cb) {
-        var links = this.links;
+        var links = this.links
         var results = queryString
           ? links.filter(this.createFilter(queryString))
-          : links;
+          : links
         // call callback function to return suggestion objects
-        cb(results);
+        cb(results)
       },
       createFilter(queryString) {
         return link => {
           return (
             link.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
-          );
-        };
+          )
+        }
       },
       loadAll() {
         return [
@@ -460,19 +476,19 @@ Customize how suggestions are displayed.
           { value: 'vuex', link: 'https://github.com/vuejs/vuex' },
           { value: 'vue-router', link: 'https://github.com/vuejs/vue-router' },
           { value: 'babel', link: 'https://github.com/babel/babel' },
-        ];
+        ]
       },
       handleSelect(item) {
-        console.log(item);
+        console.log(item)
       },
       handleIconClick(ev) {
-        console.log(ev);
+        console.log(ev)
       },
     },
     mounted() {
-      this.links = this.loadAll();
+      this.links = this.loadAll()
     },
-  };
+  }
 </script>
 ```
 
@@ -498,7 +514,7 @@ Search data from server-side.
         links: [],
         state: '',
         timeout: null,
-      };
+      }
     },
     methods: {
       loadAll() {
@@ -510,34 +526,34 @@ Search data from server-side.
           { value: 'vuex', link: 'https://github.com/vuejs/vuex' },
           { value: 'vue-router', link: 'https://github.com/vuejs/vue-router' },
           { value: 'babel', link: 'https://github.com/babel/babel' },
-        ];
+        ]
       },
       querySearchAsync(queryString, cb) {
-        var links = this.links;
+        var links = this.links
         var results = queryString
           ? links.filter(this.createFilter(queryString))
-          : links;
+          : links
 
-        clearTimeout(this.timeout);
+        clearTimeout(this.timeout)
         this.timeout = setTimeout(() => {
-          cb(results);
-        }, 3000 * Math.random());
+          cb(results)
+        }, 3000 * Math.random())
       },
       createFilter(queryString) {
         return link => {
           return (
             link.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
-          );
-        };
+          )
+        }
       },
       handleSelect(item) {
-        console.log(item);
+        console.log(item)
       },
     },
     mounted() {
-      this.links = this.loadAll();
+      this.links = this.loadAll()
     },
-  };
+  }
 </script>
 ```
 
@@ -570,9 +586,9 @@ Search data from server-side.
       return {
         text: '',
         textarea: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -643,6 +659,8 @@ Search data from server-side.
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | -------------------------------------------------------------- | ------------ |
 | placeholder           | the placeholder of Autocomplete                                                                                            | string                          | —                                                              | —            |
 | clearable             | whether to show clear button                                                                                               | boolean                         | —                                                              | false        |
+| masking               | whether data desensitized is enable                                                                                        | boolean                         | —                                                              | false        |
+| setMasking            | customize the method for data desensitization                                                                              | function(value)                 | —                                                              | —            |
 | disabled              | whether Autocomplete is disabled                                                                                           | boolean                         | —                                                              | false        |
 | value-key             | key name of the input suggestion object for display                                                                        | string                          | —                                                              | value        |
 | icon                  | icon name                                                                                                                  | string                          | —                                                              | —            |

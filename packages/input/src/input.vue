@@ -115,6 +115,7 @@ import calcTextareaHeight from './calcTextareaHeight';
 import merge from 'dynamic-ui/src/utils/merge';
 import { isKorean } from 'dynamic-ui/src/utils/shared';
 import { REG_PATTERN } from 'dynamic-ui/src/helper/form';
+import _ from 'lodash';
 
 export default {
   name: 'DyInput',
@@ -145,6 +146,7 @@ export default {
     form: String,
     disabled: Boolean,
     masking: Boolean,
+    setMasking: Function,
     readonly: Boolean,
     type: {
       type: String,
@@ -311,6 +313,9 @@ export default {
       if (this.validateEvent) {
         this.dispatch('DyFormItem', 'dy.form.blur', [this.value]);
       }
+      if (this.masking) {
+        this.getInput().value = this.handleMasking(this.nativeInputValue);
+      }
     },
     handleMasking(value) {
       const genMaskCharacter = (length, char = '*') => {
@@ -327,6 +332,15 @@ export default {
         ).join('');
         const end = value.slice(value.indexOf('@'));
         return start.concat(masks, end);
+      } else if (REG_PATTERN.ID_NO.test(value)) {
+        const start = value.slice(0, 6);
+        const masks = genMaskCharacter(
+          value.slice(6, -4).length
+        ).join('');
+        const end = value.slice(-4);
+        return start.concat(masks, end);
+      } else if (_.isFunction(this.setMasking)) {
+        return this.setMasking(value);
       }
       return value;
     },
@@ -361,6 +375,9 @@ export default {
     handleFocus(event) {
       this.focused = true;
       this.$emit('focus', event);
+      if (this.masking) {
+        this.getInput().value = this.nativeInputValue;
+      }
     },
     handleCompositionStart(event) {
       this.$emit('compositionstart', event);
@@ -461,6 +478,9 @@ export default {
     this.setNativeInputValue();
     this.resizeTextarea();
     this.updateIconOffset();
+    if (this.masking) {
+      this.getInput().value = this.handleMasking(this.nativeInputValue);
+    }
   },
   updated() {
     this.$nextTick(this.updateIconOffset);

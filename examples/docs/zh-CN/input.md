@@ -95,7 +95,7 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
 
 ### 脱敏输入框
 
-:::demo 使用 `masking` 属性即可得到一个可进行数据脱敏的输入框，内置手机号脱敏、邮箱脱敏及身份证脱敏，只有处于焦点状态才会展示完整内容。。
+:::demo 使用 `masking` 属性即可得到一个可进行数据脱敏的输入框，内置手机号脱敏、邮箱脱敏及身份证脱敏，只有处于焦点状态才会展示完整内容。
 
 ```html
 <dy-input placeholder="请输入内容" v-model="input" masking></dy-input>
@@ -944,6 +944,8 @@ Input 为受控组件，它**总会显示 Vue 绑定值**。
 | show-word-limit | 是否显示输入字数统计，只在 `type = "text"` 或 `type = "textarea"` 时有效                | boolean          | —                                                                                                                                     | false  |
 | placeholder     | 输入框占位文本                                                                          | string           | —                                                                                                                                     | —      |
 | clearable       | 是否可清空                                                                              | boolean          | —                                                                                                                                     | false  |
+| masking         | 是否数据脱敏                                                                            | boolean          | —                                                                                                                                     | false  |
+| setMasking      | 自定义数据脱敏的方法                                                                    | function(value)  | —                                                                                                                                     | —      |
 | show-password   | 是否显示切换密码图标                                                                    | boolean          | —                                                                                                                                     | false  |
 | disabled        | 禁用                                                                                    | boolean          | —                                                                                                                                     | false  |
 | size            | 输入框尺寸，只在 `type!="textarea"` 时有效                                              | string           | medium / small / mini                                                                                                                 | —      |
