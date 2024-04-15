@@ -314,12 +314,19 @@ export default {
     },
     handleMasking(value) {
       const genMaskCharacter = (length, char = '*') => {
-        return Array.from({length}).fill(char);
+        return Array.from({ length }).fill(char);
       };
       if (REG_PATTERN.PHONE.test(value)) {
         const masks = value.split('');
         const relas = masks.splice(3, 4, ...genMaskCharacter(4));
         return masks.join('');
+      } else if (REG_PATTERN.EMAIL.test(value)) {
+        const start = value.slice(0, 2);
+        const masks = genMaskCharacter(
+          value.slice(2, value.indexOf('@')).length
+        ).join('');
+        const end = value.slice(value.indexOf('@'));
+        return start.concat(masks, end);
       }
       return value;
     },
@@ -348,9 +355,8 @@ export default {
     setNativeInputValue() {
       const input = this.getInput();
       if (!input) return;
-      if (input.realValue === this.nativeInputValue) return;
-      input.value = this.masking ? this.handleMasking(this.nativeInputValue) : this.nativeInputValue;
-      input.realValue = this.nativeInputValue;
+      if (input.value === this.nativeInputValue) return;
+      input.value = this.nativeInputValue;
     },
     handleFocus(event) {
       this.focused = true;
@@ -362,7 +368,7 @@ export default {
     },
     handleCompositionUpdate(event) {
       this.$emit('compositionupdate', event);
-      const text = this.handleRealValue(event.target.realValue, event.target.value);
+      const text = event.target.value;
       const lastCharacter = text[text.length - 1] || '';
       this.isComposing = !isKorean(lastCharacter);
     },
@@ -373,9 +379,6 @@ export default {
         this.handleInput(event);
       }
     },
-    handleRealValue(realValue, maskingValue) {
-      return maskingValue.length > realValue.length ? maskingValue : realValue.slice(0, maskingValue.length);
-    },
     handleInput(event) {
       // should not emit input during composition
       // see: https://github.com/ElemeFE/element/issues/10516
@@ -384,16 +387,16 @@ export default {
       // hack for https://github.com/ElemeFE/element/issues/8548
       // should remove the following line when we don't support IE
 
-      if (this.handleRealValue(event.target.realValue, event.target.value) === this.nativeInputValue) return;
+      if (event.target.value === this.nativeInputValue) return;
 
-      this.$emit('input', this.handleRealValue(event.target.realValue, event.target.value));
+      this.$emit('input', event.target.value);
 
       // ensure native input value is controlled
       // see: https://github.com/ElemeFE/element/issues/12850
       this.$nextTick(this.setNativeInputValue);
     },
     handleChange(event) {
-      this.$emit('change', this.handleRealValue(event.target.realValue, event.target.value));
+      this.$emit('change', event.target.value);
     },
     calcIconOffset(place) {
       let elList = [].slice.call(
@@ -464,4 +467,3 @@ export default {
   }
 };
 </script>
- 
