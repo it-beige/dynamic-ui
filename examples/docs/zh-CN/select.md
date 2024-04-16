@@ -46,9 +46,9 @@
           },
         ],
         value: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -99,9 +99,9 @@
           },
         ],
         value: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -152,9 +152,9 @@
           },
         ],
         value: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -205,9 +205,9 @@
           },
         ],
         value: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -227,6 +227,7 @@
       :key="item.value"
       :label="item.label"
       :value="item.value"
+      :disabled="item.disabled"
     ></dy-option>
   </dy-select>
 
@@ -254,6 +255,7 @@
           {
             value: '选项1',
             label: '黄金糕',
+            disabled: true,
           },
           {
             value: '选项2',
@@ -272,11 +274,11 @@
             label: '北京烤鸭',
           },
         ],
-        value1: [],
+        value1: ['选项1'],
         value2: [],
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -336,9 +338,9 @@
           },
         ],
         value: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -409,9 +411,9 @@
           },
         ],
         value: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -462,9 +464,9 @@
           },
         ],
         value: '',
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 
@@ -556,29 +558,29 @@
           'Wisconsin',
           'Wyoming',
         ],
-      };
+      }
     },
     mounted() {
       this.list = this.states.map(item => {
-        return { value: `value:${item}`, label: `label:${item}` };
-      });
+        return { value: `value:${item}`, label: `label:${item}` }
+      })
     },
     methods: {
       remoteMethod(query) {
         if (query !== '') {
-          this.loading = true;
+          this.loading = true
           setTimeout(() => {
-            this.loading = false;
+            this.loading = false
             this.options = this.list.filter(item => {
-              return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1;
-            });
-          }, 200);
+              return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1
+            })
+          }, 200)
         } else {
-          this.options = [];
+          this.options = []
         }
       },
     },
-  };
+  }
 </script>
 ```
 
@@ -627,9 +629,9 @@
           },
         ],
         value: [],
-      };
+      }
     },
-  };
+  }
 </script>
 ```
 

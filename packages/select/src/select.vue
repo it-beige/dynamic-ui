@@ -38,7 +38,7 @@
         <dy-tag
           v-for="item in selected"
           :key="getValueKey(item)"
-          :closable="!selectDisabled"
+          :closable="item.disabled ? false : !selectDisabled"
           :size="collapseTagSize"
           :hit="item.hitState"
           type="info"
