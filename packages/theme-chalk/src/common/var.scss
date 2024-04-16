@@ -187,7 +187,7 @@ $--checkbox-disabled-checked-icon-color: $--color-text-placeholder !default;
 
 /// color||Color|0
 $--checkbox-checked-font-color: $--color-primary !default;
-$--checkbox-checked-input-border-color:  $--border-base  !default;
+$--checkbox-checked-input-border-color: $--color-primary !default;
 /// color||Color|0
 $--checkbox-checked-background-color: $--color-primary !default;
 $--checkbox-indeterminate-background-color: $--color-white !default;
@@ -830,7 +830,7 @@ $--datepicker-off-font-color: $--color-text-placeholder !default;
 /// color||Color|0
 $--datepicker-header-font-color: $--color-text-regular !default;
 $--datepicker-icon-color: $--color-text-primary !default;
-$--datepicker-border-color: $--disabled-border-base !default;
+$--datepicker-border-color: $--border-color-light !default;
 $--datepicker-inner-border-color: #e4e4e4 !default;
 /// color||Color|0
 $--datepicker-inrange-background-color: $--border-color-extra-light !default;
