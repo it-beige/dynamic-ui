@@ -61,7 +61,7 @@ $--color-text-regular: #333333 !default;
 /// color|1|Font Color|2
 $--color-text-secondary: #555555 !default;
 /// color|1|Font Color|2
-$--color-text-placeholder: $--color-disabled!default;
+$--color-text-placeholder: $--color-disabled !default;
 /// color|1|Border Color|3
 $--border-color-base: #dddddd !default;
 /// color|1|Border Color|3
@@ -181,15 +181,16 @@ $--checkbox-disabled-border-color: $--border-color-base !default;
 $--checkbox-disabled-input-fill: #edf2fc !default;
 $--checkbox-disabled-icon-color: $--color-text-placeholder !default;
 
-$--checkbox-disabled-checked-input-fill: $--border-color-extra-light !default;
-$--checkbox-disabled-checked-input-border-color: $--border-color-base !default;
+$--checkbox-disabled-checked-input-fill: $--disabled-fill-base !default;
+$--checkbox-disabled-checked-input-border-color: $--disabled-border-base !default;
 $--checkbox-disabled-checked-icon-color: $--color-text-placeholder !default;
 
 /// color||Color|0
 $--checkbox-checked-font-color: $--color-primary !default;
-$--checkbox-checked-input-border-color: $--color-primary !default;
+$--checkbox-checked-input-border-color:  $--border-base  !default;
 /// color||Color|0
 $--checkbox-checked-background-color: $--color-primary !default;
+$--checkbox-indeterminate-background-color: $--color-white !default;
 $--checkbox-checked-icon-color: $--fill-base !default;
 
 $--checkbox-input-border-color-hover: $--color-primary !default;

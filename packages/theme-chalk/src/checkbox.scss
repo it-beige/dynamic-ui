@@ -168,19 +168,18 @@
     }
     @include when(indeterminate) {
       .dy-checkbox__inner {
-        background-color: $--checkbox-checked-background-color;
+        background-color: $--checkbox-indeterminate-background-color;
         border-color: $--checkbox-checked-input-border-color;
 
         &::before {
           content: '';
           position: absolute;
           display: block;
-          background-color: $--checkbox-checked-icon-color;
-          height: 2px;
+          background-color:  $--checkbox-checked-background-color;
+          height: 12px;
           transform: scale(0.5);
           left: 0;
           right: 0;
-          top: 5px;
         }
 
         &::after {
