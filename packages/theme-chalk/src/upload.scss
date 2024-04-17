@@ -1,6 +1,7 @@
 @import 'mixins/mixins';
 @import 'progress';
 @import 'common/var';
+@import 'common/flex';
 
 @include b(upload) {
   display: inline-block;
@@ -508,6 +509,41 @@
         .dy-icon-download {
           display: inline-block;
         }
+      }
+    }
+  }
+
+  @include m(card) {
+    .dy-upload-list__item {
+      position: relative;
+      margin-top: 10px;
+      padding: $--upload-card-vertical-padding $--upload-card-horizontal-padding;
+      background: $--upload-card-background-color;
+      border: 1px solid $--upload-card-border-color;
+      border-radius: $--upload-card-border-radius;
+      max-width: $--upload-card-max-width;
+      .dy-info {
+        padding-left: 8px;
+      }
+      &-name {
+        display: flex;
+        align-items: center;
+        line-height: 1.4;
+        .dy-svg-icon {
+          width: $--upload-card-icon-size;
+          height: $--upload-card-icon-size;
+        }
+        .file-size {
+          color: #b4bcc7;
+          font-size: 12px;
+          line-height: 17px;
+        }
+      }
+      .dy-icon3-download {
+        cursor: pointer;
+        position: absolute;
+        right: 5px;
+        bottom: 10px;
       }
     }
   }

@@ -3,7 +3,7 @@ import UploadList from './upload-list';
 import Upload from './upload';
 import DyProgress from 'dynamic-ui/packages/progress';
 import Migrating from 'dynamic-ui/src/mixins/migrating';
-import { saveAs} from 'file-saver';
+import { saveAs } from 'file-saver';
 
 function noop() {}
 
@@ -96,7 +96,15 @@ export default {
     },
     listType: {
       type: String,
-      default: 'text' // text,picture,picture-card
+      default: 'text',
+      validator: (value) => {
+        const types = ['text', 'card', 'picture', 'picture-card'];
+        const valid = types.includes(value);
+        if (!valid) {
+          console.error(`[DyUpload Error] listType只能是${types.join('、')}`);
+        }
+        return valid;
+      }
     },
     httpRequest: Function,
     disabled: Boolean,
@@ -145,7 +153,7 @@ export default {
       immediate: true,
       handler(fileList) {
         this.uploadFiles = fileList.map(item => {
-          item.uid = item.uid || (Date.now() + this.tempIndex++);
+          item.uid = item.uid || Date.now() + this.tempIndex++;
           item.status = item.status || 'success';
           return item;
         });
@@ -266,7 +274,8 @@ export default {
         props: {
           'default-file-list': 'default-file-list is renamed to file-list.',
           'show-upload-list': 'show-upload-list is renamed to show-file-list.',
-          'thumbnail-mode': 'thumbnail-mode has been deprecated, you can implement the same effect according to this case: http://element.eleme.io/#/zh-CN/component/upload#yong-hu-tou-xiang-shang-chuan'
+          'thumbnail-mode':
+            'thumbnail-mode has been deprecated, you can implement the same effect according to this case: http://element.eleme.io/#/zh-CN/component/upload#yong-hu-tou-xiang-shang-chuan'
         }
       };
     }
@@ -294,15 +303,13 @@ export default {
           svgIcon={this.svgIcon}
           onDownload={this.handleDownload}
         >
-          {
-            (props) => {
-              if (this.$scopedSlots.file) {
-                return this.$scopedSlots.file({
-                  file: props.file
-                });
-              }
+          {props => {
+            if (this.$scopedSlots.file) {
+              return this.$scopedSlots.file({
+                file: props.file
+              });
             }
-          }
+          }}
         </UploadList>
       );
     }
@@ -341,14 +348,12 @@ export default {
 
     return (
       <div>
-        { this.listType === 'picture-card' ? uploadList : ''}
-        {
-          this.$slots.trigger
-            ? [uploadComponent, this.$slots.default]
-            : uploadComponent
-        }
+        {this.listType === 'picture-card' ? uploadList : ''}
+        {this.$slots.trigger
+          ? [uploadComponent, this.$slots.default]
+          : uploadComponent}
         {this.$slots.tip}
-        { this.listType !== 'picture-card' ? uploadList : ''}
+        {this.listType !== 'picture-card' ? uploadList : ''}
       </div>
     );
   }

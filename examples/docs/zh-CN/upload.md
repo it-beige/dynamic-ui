@@ -30,36 +30,85 @@
         fileList: [
           {
             name: 'food.jpeg',
-            url:
-              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
           },
           {
             name: 'food2.jpeg',
-            url:
-              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
           },
         ],
-      };
+      }
     },
     methods: {
       handleRemove(file, fileList) {
-        console.log(file, fileList);
+        console.log(file, fileList)
       },
       handlePreview(file) {
-        console.log(file);
+        console.log(file)
       },
       handleExceed(files, fileList) {
         this.$message.warning(
-          `当前限制选择 3 个文件，本次选择了 ${
-            files.length
-          } 个文件，共选择了 ${files.length + fileList.length} 个文件`,
-        );
+          `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
+            files.length + fileList.length
+          } 个文件`,
+        )
       },
       beforeRemove(file, fileList) {
-        return this.$confirm(`确定移除 ${file.name}？`);
+        return this.$confirm(`确定移除 ${file.name}？`)
       },
     },
-  };
+  }
+</script>
+```
+
+:::
+
+### 文件列表卡片
+
+:::demo 通过 slot 你可以传入自定义的上传按钮类型和文字提示。可通过设置`limit`和`on-exceed`来限制上传文件的个数和定义超出限制时的行为。可通过设置`before-remove`来阻止文件移除操作。
+
+```html
+<dy-upload
+  action="#"
+  :on-preview="handlePreview"
+  :on-remove="handleRemove"
+  :before-remove="beforeRemove"
+  multiple
+  :file-list="fileList"
+  listType="card"
+>
+  <dy-button type="primary" icon="dy-icon3-upload-line">点击上传</dy-button>
+</dy-upload>
+<script>
+  export default {
+    data() {
+      return {
+        fileList: [
+          {
+            name: 'food.jpeg',
+            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+            size: 1024 * 3 + 112,
+          },
+          {
+            name: 'food2.jpeg',
+            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+            size: 1024 * 40 + 112,
+          },
+        ],
+      }
+    },
+    methods: {
+      handleRemove(file, fileList) {
+        console.log(file, fileList)
+      },
+      handlePreview(file) {
+        console.log(file)
+      },
+      beforeRemove(file, fileList) {
+        return this.$confirm(`确定移除 ${file.name}？`)
+      },
+    },
+  }
 </script>
 ```
 
@@ -114,26 +163,26 @@
     data() {
       return {
         imageUrl: '',
-      };
+      }
     },
     methods: {
       handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
+        this.imageUrl = URL.createObjectURL(file.raw)
       },
       beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
+        const isJPG = file.type === 'image/jpeg'
+        const isLt2M = file.size / 1024 / 1024 < 2
 
         if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
+          this.$message.error('上传头像图片只能是 JPG 格式!')
         }
         if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
+          this.$message.error('上传头像图片大小不能超过 2MB!')
         }
-        return isJPG && isLt2M;
+        return isJPG && isLt2M
       },
     },
-  };
+  }
 </script>
 ```
 
@@ -163,18 +212,18 @@
       return {
         dialogImageUrl: '',
         dialogVisible: false,
-      };
+      }
     },
     methods: {
       handleRemove(file, fileList) {
-        console.log(file, fileList);
+        console.log(file, fileList)
       },
       handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
+        this.dialogImageUrl = file.url
+        this.dialogVisible = true
       },
     },
-  };
+  }
 </script>
 ```
 
@@ -225,21 +274,21 @@
         dialogImageUrl: '',
         dialogVisible: false,
         disabled: false,
-      };
+      }
     },
     methods: {
       handleRemove(file) {
-        console.log(file);
+        console.log(file)
       },
       handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
+        this.dialogImageUrl = file.url
+        this.dialogVisible = true
       },
       handleDownload(file) {
-        console.log(file);
+        console.log(file)
       },
     },
-  };
+  }
 </script>
 ```
 
@@ -270,26 +319,24 @@
         fileList: [
           {
             name: 'food.jpeg',
-            url:
-              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
           },
           {
             name: 'food2.jpeg',
-            url:
-              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
           },
         ],
-      };
+      }
     },
     methods: {
       handleRemove(file, fileList) {
-        console.log(file, fileList);
+        console.log(file, fileList)
       },
       handlePreview(file) {
-        console.log(file);
+        console.log(file)
       },
     },
-  };
+  }
 </script>
 ```
 
@@ -320,23 +367,21 @@
         fileList: [
           {
             name: 'food.jpeg',
-            url:
-              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
           },
           {
             name: 'food2.jpeg',
-            url:
-              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
           },
         ],
-      };
+      }
     },
     methods: {
       handleChange(file, fileList) {
-        this.fileList = fileList.slice(-3);
+        this.fileList = fileList.slice(-3)
       },
     },
-  };
+  }
 </script>
 ```
 
@@ -400,29 +445,27 @@
         fileList: [
           {
             name: 'food.jpeg',
-            url:
-              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
           },
           {
             name: 'food2.jpeg',
-            url:
-              'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
           },
         ],
-      };
+      }
     },
     methods: {
       submitUpload() {
-        this.$refs.upload.submit();
+        this.$refs.upload.submit()
       },
       handleRemove(file, fileList) {
-        console.log(file, fileList);
+        console.log(file, fileList)
       },
       handlePreview(file) {
-        console.log(file);
+        console.log(file)
       },
     },
-  };
+  }
 </script>
 ```
 
