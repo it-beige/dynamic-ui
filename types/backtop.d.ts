@@ -1,10 +1,10 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 /** Backtop Component */
-export declare class ElBacktop extends ElementUIComponent {
+export declare class DyBacktop extends DynamicUIComponent {
   /** Backtop target */
   target: string
-  
+
   /** Backtop visibility height */
   visibilityHeight: string | number
 

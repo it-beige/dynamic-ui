@@ -1,5 +1,5 @@
-import { VNode } from 'vue';
-import { ElementUIComponent } from './component'
+import { VNode } from 'vue'
+import { DynamicUIComponent } from './component'
 
 export interface SliderTooltipFormat {
   /**
@@ -12,7 +12,7 @@ export interface SliderTooltipFormat {
 }
 
 /** Slider Component */
-export declare class ElSlider extends ElementUIComponent {
+export declare class DySlider extends DynamicUIComponent {
   /** Current value of the slider */
   value: number | number[]
 

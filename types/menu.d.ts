@@ -1,10 +1,10 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 export type MenuDisplayMode = 'horizontal' | 'vertical'
 export type MenuTheme = 'light' | 'dark'
 
 /** Menu that provides navigation for your website */
-export declare class ElMenu extends ElementUIComponent {
+export declare class DyMenu extends DynamicUIComponent {
   /** Menu display mode */
   mode: MenuDisplayMode
 
@@ -37,10 +37,10 @@ export declare class ElMenu extends ElementUIComponent {
 
   /** Whether the menu collapse transition is active */
   collapseTransition: boolean
-  
+
   /** Open the specified sub-menu */
-  open (index: string): void
+  open(index: string): void
 
   /** Close the specified sub-menu */
-  close (index: string): void
+  close(index: string): void
 }

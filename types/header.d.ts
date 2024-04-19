@@ -1,7 +1,7 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 /** Header Component */
-export declare class ElHeader extends ElementUIComponent {
+export declare class DyHeader extends DynamicUIComponent {
   /** Height of the header */
   height: string
 }

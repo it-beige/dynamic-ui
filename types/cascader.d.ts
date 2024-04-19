@@ -1,12 +1,12 @@
-import { VNode } from 'vue';
-import { ElementUIComponent, ElementUIComponentSize } from './component'
-import { CascaderOption, CascaderProps, CascaderNode } from './cascader-panel';
+import { VNode } from 'vue'
+import { DynamicUIComponent, DynamicUIComponentSize } from './component'
+import { CascaderOption, CascaderProps, CascaderNode } from './cascader-panel'
 
-export { CascaderOption, CascaderProps, CascaderNode };
+export { CascaderOption, CascaderProps, CascaderNode }
 
 export interface CascaderSlots {
   /** Custom label content */
-  default: VNode[],
+  default: VNode[]
 
   /** Empty content when no option matches */
   empty: VNode[]
@@ -15,7 +15,10 @@ export interface CascaderSlots {
 }
 
 /** Cascader Component */
-export declare class ElCascader<V = any, D = CascaderOption> extends ElementUIComponent {
+export declare class DyCascader<
+  V = any,
+  D = CascaderOption,
+> extends DynamicUIComponent {
   /** Data of the options */
   options: CascaderOption[]
 
@@ -26,7 +29,7 @@ export declare class ElCascader<V = any, D = CascaderOption> extends ElementUICo
   value: V | V[]
 
   /** Size of Input */
-  size: ElementUIComponentSize
+  size: DynamicUIComponentSize
 
   /** Input placeholder */
   placeholder: string

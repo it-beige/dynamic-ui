@@ -1,10 +1,10 @@
-import { ElementUIComponent, ElementUIComponentSize } from './component'
+import { DynamicUIComponent, DynamicUIComponentSize } from './component'
 
 export type TagType = 'primary' | 'gray' | 'success' | 'warning' | 'danger'
 export type TagTheme = 'dark' | 'light' | 'plain'
 
 /** Tag Component */
-export declare class ElTag extends ElementUIComponent {
+export declare class DyTag extends DynamicUIComponent {
   /** Tag type */
   type: TagType
 
@@ -21,7 +21,7 @@ export declare class ElTag extends ElementUIComponent {
   color: string
 
   /** Tag size */
-  size: ElementUIComponentSize
+  size: DynamicUIComponentSize
 
   /** Tag theme */
   effect: TagTheme

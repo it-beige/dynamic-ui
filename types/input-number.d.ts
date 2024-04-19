@@ -1,9 +1,9 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 export type InputNumberSize = 'large' | 'small'
 
 /** InputNumber Component */
-export declare class ElInputNumber extends ElementUIComponent {
+export declare class DyInputNumber extends DynamicUIComponent {
   /** Binding value */
   value: number
 
@@ -43,5 +43,5 @@ export declare class ElInputNumber extends ElementUIComponent {
   /**
    * Focus the Input component
    */
-  focus (): void
+  focus(): void
 }

@@ -1,11 +1,16 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 export type TimelineItemPlacement = 'top' | 'bottom'
-export type TimelineItemType = 'primary' | 'success' | 'warning' | 'danger' | 'info'
+export type TimelineItemType =
+  | 'primary'
+  | 'success'
+  | 'warning'
+  | 'danger'
+  | 'info'
 export type TimelineItemSize = 'normal' | 'large'
 
 /** TimelineItem Component */
-export declare class ElTimelineItem extends ElementUIComponent {
+export declare class DyTimelineItem extends DynamicUIComponent {
   timestamp: string
 
   hideTimestamp: boolean

@@ -1,5 +1,9 @@
 import Vue, { PluginObject } from 'vue'
-import { ElementUIComponent, ElementUIComponentSize, ElementUIHorizontalAlignment } from './component'
+import {
+  DynamicUIComponent,
+  DynamicUIComponentSize,
+  DynamicUIHorizontalAlignment,
+} from './component'
 
 import { ElAlert } from './alert'
 import { ElAside } from './aside'
@@ -91,8 +95,8 @@ import { ElResult } from './result'
 import { ElStatistic } from './statistic'
 
 export interface InstallationOptions {
-  locale: any,
-  i18n: any,
+  locale: any
+  i18n: any
   size: string
 }
 
@@ -102,18 +106,18 @@ export const version: string
 /**
  * Install all element-ui components into Vue.
  * Please do not invoke this method directly.
- * Call `Vue.use(ElementUI)` to install.
+ * Call `Vue.use(DynamicUI)` to install.
  */
-export function install (vue: typeof Vue, options: InstallationOptions): void
+export function install(vue: typeof Vue, options: InstallationOptions): void
 
-/** ElementUI component common definition */
-export type Component = ElementUIComponent
+/** DynamicUI component common definition */
+export type Component = DynamicUIComponent
 
 /** Component size definition for button, input, etc */
-export type ComponentSize = ElementUIComponentSize
+export type ComponentSize = DynamicUIComponentSize
 
 /** Horizontal alignment */
-export type HorizontalAlignment = ElementUIHorizontalAlignment
+export type HorizontalAlignment = DynamicUIHorizontalAlignment
 
 /** Show animation while loading data */
 export const Loading: ElLoading
@@ -340,7 +344,7 @@ export class Calendar extends ElCalendar {}
 export class Backtop extends ElBacktop {}
 
 /** InfiniteScroll Directive */
-export const InfiniteScroll: PluginObject<DyInfiniteScroll>;
+export const InfiniteScroll: PluginObject<DyInfiniteScroll>
 
 /** PageHeader Component */
 export class PageHeader extends ElPageHeader {}

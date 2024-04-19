@@ -1,7 +1,7 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 /** Container Component */
-export declare class ElContainer extends ElementUIComponent {
+export declare class DyContainer extends DynamicUIComponent {
   /** Layout direction for child elements */
   direction: 'horizontal' | 'vertical'
 }

@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 import { VNode } from 'vue'
 
 interface ElDescriptionsSlots {
@@ -12,11 +12,10 @@ interface ElDescriptionsSlots {
 }
 
 /** Display multiple fields in list form. **/
-export declare class ElDescriptions extends ElementUIComponent {
-
+export declare class DyDescriptions extends DynamicUIComponent {
   /* with or without border */
   border: boolean
-  
+
   /* numbers of Descriptions Item in one line */
   column: number
 
@@ -48,5 +47,4 @@ export declare class ElDescriptions extends ElementUIComponent {
   contentStyle: object
 
   $slots: ElDescriptionsSlots
-
 }

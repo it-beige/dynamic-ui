@@ -1,23 +1,23 @@
 import { VNode } from 'vue'
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 export type StepStatus = 'wait' | 'process' | 'finish' | 'error' | 'success'
 
 export interface StepRenderSlots {
   /** Custom icon */
-  icon: VNode[],
+  icon: VNode[]
 
   /** Step title */
-  title: VNode[],
+  title: VNode[]
 
   /** Step description */
-  description: VNode[],
+  description: VNode[]
 
   [key: string]: VNode[]
 }
 
 /** Step Component */
-export declare class ElStep extends ElementUIComponent {
+export declare class DyStep extends DynamicUIComponent {
   /** Step title */
   title: string
 

@@ -1,20 +1,20 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 /** Avatar Component */
-export declare class ElAvatar extends ElementUIComponent {
-  icon: string;
+export declare class DyAvatar extends DynamicUIComponent {
+  icon: string
 
-  size: string | number;
+  size: string | number
 
-  shape: string;
+  shape: string
 
-  src: string;
+  src: string
 
-  error: () => false;
+  error: () => false
 
-  srcSet: string;
+  srcSet: string
 
-  alt: string;
+  alt: string
 
-  fit: string;
+  fit: string
 }

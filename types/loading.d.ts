@@ -28,17 +28,17 @@ export interface LoadingServiceOptions {
 }
 
 /** Loading Component */
-export declare class ElLoadingComponent extends Vue {
+export declare class DyLoadingComponent extends Vue {
   /** Close the Loading instance */
-  close (): void
+  close(): void
 }
 
 /** Loading directive definition */
 export interface ElLoadingDirective extends VNodeDirective {
-  name: 'loading',
-  value: boolean,
+  name: 'loading'
+  value: boolean
   modifiers: {
-    body: boolean,
+    body: boolean
     fullscreen: boolean
   }
 }
@@ -46,10 +46,10 @@ export interface ElLoadingDirective extends VNodeDirective {
 /** Show animation while loading data */
 export interface ElLoading {
   /** Install Loading directive into Vue */
-  install (vue: typeof Vue): void
+  install(vue: typeof Vue): void
 
   /** If you do not have a specific DOM node to attach the Loading directive, or if you simply prefer not to use Loading as a directive, you can call this service with some configs to open a Loading instance. */
-  service (options: LoadingServiceOptions): ElLoadingComponent
+  service(options: LoadingServiceOptions): ElLoadingComponent
 
   directive: PluginObject<never>
 }
@@ -57,6 +57,6 @@ export interface ElLoading {
 declare module 'vue/types/vue' {
   interface Vue {
     /** If you do not have a specific DOM node to attach the Loading directive, or if you simply prefer not to use Loading as a directive, you can call this service with some configs to open a Loading instance. */
-    $loading (options: LoadingServiceOptions): ElLoadingComponent
+    $loading(options: LoadingServiceOptions): ElLoadingComponent
   }
 }

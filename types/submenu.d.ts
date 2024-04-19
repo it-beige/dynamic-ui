@@ -1,7 +1,7 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 /** Submenu Component */
-export declare class ElSubmenu extends ElementUIComponent {
+export declare class DySubmenu extends DynamicUIComponent {
   /** Unique identification */
   index: string | null
 

@@ -1,7 +1,7 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 /** Pagination Component */
-export declare class ElPagination extends ElementUIComponent {
+export declare class DyPagination extends DynamicUIComponent {
   /** Whether to use small pagination */
   small: boolean
 
@@ -38,6 +38,6 @@ export declare class ElPagination extends ElementUIComponent {
   /** Text for the prev button */
   nextText: string
 
-  /** Whether to hide when thers's only one page */ 
+  /** Whether to hide when thers's only one page */
   hideOnSinglePage: boolean
 }

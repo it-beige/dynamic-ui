@@ -1,15 +1,21 @@
-import { ElementUIComponent, ElementUIComponentSize } from './component'
+import { DynamicUIComponent, DynamicUIComponentSize } from './component'
 
 /** Button type */
-export type ButtonType = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text'
+export type ButtonType =
+  | 'primary'
+  | 'success'
+  | 'warning'
+  | 'danger'
+  | 'info'
+  | 'text'
 
 /** Same as native button's type */
 export type ButtonNativeType = 'button' | 'submit' | 'reset' | 'menu'
 
 /** Button Component */
-export declare class ElButton extends ElementUIComponent {
+export declare class DyButton extends DynamicUIComponent {
   /** Button size */
-  size: ElementUIComponentSize
+  size: DynamicUIComponentSize
 
   /** Button type */
   type: ButtonType

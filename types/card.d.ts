@@ -1,9 +1,9 @@
 import { VNode, VNodeDirective } from 'vue'
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 export interface CardSlots {
   /** Content of the card */
-  default: VNode[],
+  default: VNode[]
 
   /** Title of the card */
   header: VNode[]
@@ -12,7 +12,7 @@ export interface CardSlots {
 }
 
 /** Integrate information in a card container */
-export declare class ElCard extends ElementUIComponent {
+export declare class DyCard extends DynamicUIComponent {
   /** Title of the card */
   header: string
 

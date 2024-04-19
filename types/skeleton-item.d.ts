@@ -1,7 +1,17 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 /** Skeleton Item Component */
-export declare class ElSkeletonItem extends ElementUIComponent {
-  /** The current rendering skeleton type; default: text */ 
-  variant: 'p' | 'text' |  'h1' | 'h3' |  'text' | 'caption' | 'button' | 'image' | 'circle' | 'rect'
+export declare class DySkeletonItem extends DynamicUIComponent {
+  /** The current rendering skeleton type; default: text */
+  variant:
+    | 'p'
+    | 'text'
+    | 'h1'
+    | 'h3'
+    | 'text'
+    | 'caption'
+    | 'button'
+    | 'image'
+    | 'circle'
+    | 'rect'
 }

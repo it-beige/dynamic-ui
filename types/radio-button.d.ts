@@ -1,7 +1,7 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 /** Radio Button Component */
-export declare class ElRadioButton extends ElementUIComponent {
+export declare class DyRadioButton extends DynamicUIComponent {
   /** The form input value */
   value: string
 

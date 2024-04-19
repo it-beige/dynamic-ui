@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 import { TooltipEffect } from './tooltip'
 
 export type SortOrder = 'ascending' | 'descending'
@@ -6,39 +6,39 @@ export type SortOrder = 'ascending' | 'descending'
 /** Options to set the default sort column and order */
 export interface DefaultSortOptions {
   /** Default sort column */
-  prop: string,
+  prop: string
 
   /** Default sort order */
   order: SortOrder
 }
 
 export interface SummaryMethodParams {
-  columns: object[],
+  columns: object[]
   data: object
 }
 
 export interface rowCallbackParams {
-  row: object,
+  row: object
   rowIndex: number
 }
 
 export interface cellCallbackParams {
-  row: object,
-  rowIndex: number,
-  column: object,
+  row: object
+  rowIndex: number
+  column: object
   columnIndex: number
 }
 
 export interface treeNode {
-  rowKey: string | number,
-  isLeaf: boolean,
-  level: number,
-  expanded: boolean,
+  rowKey: string | number
+  isLeaf: boolean
+  level: number
+  expanded: boolean
   loaded: boolean
 }
 
 /** Table Component */
-export declare class ElTable extends ElementUIComponent {
+export declare class DyTable extends DynamicUIComponent {
   /** Table data */
   data: object[]
 
@@ -127,7 +127,7 @@ export declare class ElTable extends ElementUIComponent {
   selectOnIndeterminate: boolean
 
   /** Clear selection. Might be useful when `reserve-selection` is on */
-  clearSelection (): void
+  clearSelection(): void
 
   /**
    * Toggle or set if a certain row is selected
@@ -135,40 +135,40 @@ export declare class ElTable extends ElementUIComponent {
    * @param row The row that is going to set its selected state
    * @param selected Whether the row is selected. The selected state will be toggled if not set
    */
-  toggleRowSelection (row: object, selected?: boolean): void
+  toggleRowSelection(row: object, selected?: boolean): void
 
   /**
    * Toggle or set all rows
    */
-  toggleAllSelection (): void
+  toggleAllSelection(): void
 
   /**
    * Set a certain row as selected
    *
    * @param row The row that is going to set as selected
    */
-  setCurrentRow (row?: object): void
-  
+  setCurrentRow(row?: object): void
+
   /**
    * Toggle or set if a certain row is expanded
    *
    * @param row The row that is going to set its expanded state
    * @param expanded Whether the row is expanded. The expanded state will be toggled if not set
    */
-  toggleRowExpansion (row: object, expanded?: boolean): void
+  toggleRowExpansion(row: object, expanded?: boolean): void
 
   /** Clear sort status, reset the table to unsorted  */
-  clearSort (): void
+  clearSort(): void
 
   /** Clear filter, reset the table to unfiltered  */
-  clearFilter (): void
+  clearFilter(): void
 
   /** Relayout the table, maybe needed when change the table or it's ancestors visibility */
-  doLayout (): void
+  doLayout(): void
 
   /** Sort Table manually */
-  sort (prop: string, order: string): void
+  sort(prop: string, order: string): void
 
   /** method for lazy load subtree data */
-  load (row: object, treeNode: treeNode, resolve: Function): void
+  load(row: object, treeNode: treeNode, resolve: Function): void
 }

@@ -1,6 +1,6 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 /** Timeline Component */
-export declare class ElTimeline extends ElementUIComponent {
+export declare class DyTimeline extends DynamicUIComponent {
   reverse: boolean
 }

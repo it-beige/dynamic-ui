@@ -1,10 +1,10 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 export type AlertType = 'success' | 'warning' | 'info' | 'error'
 export type AlertEffect = 'dark' | 'light'
 
 /** Alert Component */
-export declare class ElAlert extends ElementUIComponent {
+export declare class DyAlert extends DynamicUIComponent {
   /** Title */
   title: string
 

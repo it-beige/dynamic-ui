@@ -1,4 +1,4 @@
-import { ElementUIComponent, ElementUIComponentSize } from './component'
+import { DynamicUIComponent, DynamicUIComponentSize } from './component'
 
 /** The resizability of el-input component */
 export type Resizability = 'none' | 'both' | 'horizontal' | 'vertical'
@@ -7,14 +7,14 @@ export type InputType = 'text' | 'textarea'
 /** Controls how el-input component automatically sets size */
 export interface AutoSize {
   /** Minimum rows to show */
-  minRows: number,
+  minRows: number
 
   /** Maximum rows to show */
   maxRows: number
 }
 
 /** Input Component */
-export declare class ElInput extends ElementUIComponent {
+export declare class DyInput extends DynamicUIComponent {
   /** Type of input */
   type: InputType
 
@@ -34,7 +34,7 @@ export declare class ElInput extends ElementUIComponent {
   disabled: boolean
 
   /** Size of Input, works when type is not 'textarea' */
-  size: ElementUIComponentSize
+  size: DynamicUIComponentSize
 
   /** Prefix icon class */
   prefixIcon: string
@@ -93,15 +93,15 @@ export declare class ElInput extends ElementUIComponent {
   /**
    * Focus the Input component
    */
-  focus (): void
+  focus(): void
 
   /**
    * Blur the Input component
    */
-  blur (): void
+  blur(): void
 
   /**
    * Select the text in input element
    */
-  select (): void
+  select(): void
 }

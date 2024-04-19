@@ -1,9 +1,9 @@
 import { VNode } from 'vue'
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 export interface CollapseItemSlots {
   /** Content of the collapse item */
-  default: VNode[],
+  default: VNode[]
 
   /** Title of the collapse item */
   title: VNode[]
@@ -12,7 +12,7 @@ export interface CollapseItemSlots {
 }
 
 /** Collapse Item Component */
-export declare class ElCollapseItem extends ElementUIComponent {
+export declare class DyCollapseItem extends DynamicUIComponent {
   /** Unique identification of the panel */
   name: string | number
 

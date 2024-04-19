@@ -1,10 +1,10 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 export type TabType = 'card' | 'border-card'
 export type TabPosition = 'top' | 'right' | 'bottom' | 'left'
 
 /** Divide data collections which are related yet belong to different types */
-export declare class ElTabs extends ElementUIComponent {
+export declare class DyTabs extends DynamicUIComponent {
   /** Type of Tab */
   type: TabType
 
@@ -27,5 +27,8 @@ export declare class ElTabs extends ElementUIComponent {
   stretch: Boolean
 
   /** Hook function before switching tab. If false or a Promise is returned and then is rejected, switching will be prevented */
-  beforeLeave: (activeName: string, oldActiveName: string) => boolean | Promise<any>
+  beforeLeave: (
+    activeName: string,
+    oldActiveName: string,
+  ) => boolean | Promise<any>
 }

@@ -1,6 +1,12 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
-export type SuggestionPlacement = 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end'
+export type SuggestionPlacement =
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
 
 export interface FetchSuggestionsCallback {
   /**
@@ -22,7 +28,7 @@ export interface FetchSuggestions {
 }
 
 /** Autocomplete Component */
-export declare class ElAutocomplete extends ElementUIComponent {
+export declare class DyAutocomplete extends DynamicUIComponent {
   /** The placeholder of Autocomplete */
   placeholder: string
 
@@ -74,5 +80,5 @@ export declare class ElAutocomplete extends ElementUIComponent {
   /**
    * Focus the Input component
    */
-  focus (): void
+  focus(): void
 }

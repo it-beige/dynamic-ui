@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 import { VNode } from 'vue'
 
 interface ElDescriptionsItemSlots {
@@ -12,13 +12,12 @@ interface ElDescriptionsItemSlots {
 }
 
 /** description item. **/
-export declare class ElDescriptionsItem extends ElementUIComponent {
-
+export declare class DyDescriptionsItem extends DynamicUIComponent {
   /* label text */
   label: string
 
   /*  the number of columns included */
-  span: number 
+  span: number
 
   /* custom label class name */
   labelClassName: string
@@ -33,5 +32,4 @@ export declare class ElDescriptionsItem extends ElementUIComponent {
   contentStyle: object
 
   $slots: ElDescriptionsItemSlots
-
 }

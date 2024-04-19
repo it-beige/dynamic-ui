@@ -1,9 +1,9 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 export type DateType = Date | String | Number
 
 /** Calendar Component */
-export declare class ElCalendar extends ElementUIComponent {
+export declare class DyCalendar extends DynamicUIComponent {
   /** Binding value */
   value: DateType
 

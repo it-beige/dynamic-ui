@@ -1,4 +1,4 @@
-import { ElementUIComponent, ElementUIComponentSize } from './component'
+import { DynamicUIComponent, DynamicUIComponentSize } from './component'
 
 export interface QueryChangeHandler {
   /**
@@ -8,7 +8,7 @@ export interface QueryChangeHandler {
 }
 
 /** Dropdown Select Component */
-export declare class ElSelect extends ElementUIComponent {
+export declare class DySelect extends DynamicUIComponent {
   /** The form input value */
   value: any
 
@@ -22,7 +22,7 @@ export declare class ElSelect extends ElementUIComponent {
   valueKey: string
 
   /** Size of Input */
-  size: ElementUIComponentSize
+  size: DynamicUIComponentSize
 
   /** Whether single select can be cleared */
   clearable: boolean
@@ -81,10 +81,10 @@ export declare class ElSelect extends ElementUIComponent {
   /**
    * Focus the Input component
    */
-  focus (): void
+  focus(): void
 
   /**
    * Blur the Input component, and hide the dropdown
    */
-  blur (): void
+  blur(): void
 }

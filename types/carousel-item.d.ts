@@ -1,7 +1,7 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 /** Carousel Item Component */
-export declare class ElCarouselItem extends ElementUIComponent {
+export declare class DyCarouselItem extends DynamicUIComponent {
   /** Name of the item, can be used in setActiveItem */
   name: string
 

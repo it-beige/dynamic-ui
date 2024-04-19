@@ -1,7 +1,7 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 /** PageHeader Component */
-export declare class ElPageHeader extends ElementUIComponent {
+export declare class DyPageHeader extends DynamicUIComponent {
   /** title */
   title: String
 

@@ -1,7 +1,7 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 interface Option {
-  value: string,
+  value: string
   excluded?: boolean
 }
 
@@ -13,7 +13,7 @@ export type RateColors = Options
 export type RateIconClasses = Options
 
 /** Rate Component */
-export declare class ElRate extends ElementUIComponent {
+export declare class DyRate extends DynamicUIComponent {
   /** Max rating score */
   max: number
 

@@ -1,10 +1,10 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 export type ProgressType = 'line' | 'circle'
 export type ProgressStatus = 'success' | 'exception'
 
 /** Progress Component */
-export declare class ElProgress extends ElementUIComponent {
+export declare class DyProgress extends DynamicUIComponent {
   /** Percentage, required */
   percentage: number
 
@@ -24,7 +24,10 @@ export declare class ElProgress extends ElementUIComponent {
   status: ProgressStatus
 
   /** Background color of progress bar. Overrides `status` prop */
-  color: string | Function | Array<string | { color: string, percentage: number }>
+  color:
+    | string
+    | Function
+    | Array<string | { color: string; percentage: number }>
 
   /** The canvas width of circle progress bar */
   width: number

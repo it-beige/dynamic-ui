@@ -1,9 +1,9 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 export type ContentPosition = 'left' | 'center' | 'right'
 
 /** Divider Component */
-export declare class ElDivider extends ElementUIComponent {
+export declare class DyDivider extends DynamicUIComponent {
   /** enable vertical divider */
   vertical: boolean
 

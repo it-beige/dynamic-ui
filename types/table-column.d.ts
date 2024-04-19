@@ -1,5 +1,5 @@
 import { CreateElement, VNode } from 'vue'
-import { ElementUIComponent, ElementUIHorizontalAlignment } from './component'
+import { DynamicUIComponent, DynamicUIHorizontalAlignment } from './component'
 import { PopoverPlacement } from './popover'
 
 export type TableColumnType = 'default' | 'selection' | 'index' | 'expand'
@@ -8,13 +8,13 @@ export type SortOrders = 'ascending' | 'descending' | null
 
 export type TableColumn = {
   /** Label of the column */
-  label: string,
+  label: string
 
   /** Property name of the source data */
-  property: string,
+  property: string
 
   /** Type of the column */
-  type: string,
+  type: string
 
   /** Whether column is fixed at left/right */
   fixed: boolean | string
@@ -23,7 +23,7 @@ export type TableColumn = {
 /** Data used in renderHeader function */
 export interface RenderHeaderData {
   /** The column that is current rendering */
-  column: any,
+  column: any
 
   /** The index of the rendering column */
   $index: number
@@ -32,14 +32,14 @@ export interface RenderHeaderData {
 /** Filter Object */
 export interface TableColumnFilter {
   /** The text to show in the filter's panel */
-  text: string,
+  text: string
 
   /** The value of the filter */
   value: any
 }
 
 /** TableColumn Component */
-export declare class ElTableColumn extends ElementUIComponent {
+export declare class DyTableColumn extends DynamicUIComponent {
   /** Type of the column. If set to `selection`, the column will display checkbox. If set to `index`, the column will display index of the row (staring from 1). If set to `expand`, the column will display expand icon. */
   type: TableColumnType
 
@@ -83,10 +83,10 @@ export declare class ElTableColumn extends ElementUIComponent {
   showOverflowTooltip: boolean
 
   /** Alignment */
-  align: ElementUIHorizontalAlignment
+  align: DynamicUIHorizontalAlignment
 
   /** Alignment of the table header. If omitted, the value of the `align` attribute will be applied */
-  headerAlign: ElementUIHorizontalAlignment
+  headerAlign: DynamicUIHorizontalAlignment
 
   /** Class name of cells in the column */
   className: string

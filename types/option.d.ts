@@ -1,7 +1,7 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 /** Dropdown Select Option Component */
-export declare class ElOption extends ElementUIComponent {
+export declare class DyOption extends DynamicUIComponent {
   /** Value of option */
   value: any
 

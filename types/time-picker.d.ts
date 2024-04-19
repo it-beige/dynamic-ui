@@ -1,4 +1,8 @@
-import { ElementUIComponent, ElementUIComponentSize, ElementUIHorizontalAlignment } from './component'
+import {
+  DynamicUIComponent,
+  DynamicUIComponentSize,
+  DynamicUIHorizontalAlignment,
+} from './component'
 
 export interface TimePickerOptions {
   /**
@@ -6,14 +10,14 @@ export interface TimePickerOptions {
    * e.g. `'18:30:00 - 20:30:00'`
    * or `['09:30:00 - 12:00:00', '14:30:00 - 18:30:00']`
    */
-  selectableRange?: string | string[],
+  selectableRange?: string | string[]
 
   /** Format  of the picker */
   format?: string
 }
 
 /** TimePicker Component */
-export declare class ElTimePicker extends ElementUIComponent {
+export declare class DyTimePicker extends DynamicUIComponent {
   /** Whether DatePicker is read only */
   readonly: boolean
 
@@ -27,7 +31,7 @@ export declare class ElTimePicker extends ElementUIComponent {
   clearable: boolean
 
   /** Size of Input */
-  size: ElementUIComponentSize
+  size: DynamicUIComponentSize
 
   /** Placeholder */
   placeholder: string
@@ -45,7 +49,7 @@ export declare class ElTimePicker extends ElementUIComponent {
   value: string | Date
 
   /** Alignment */
-  align: ElementUIHorizontalAlignment
+  align: DynamicUIHorizontalAlignment
 
   /** Custom class name for TimePicker's dropdown */
   popperClass: string
@@ -59,5 +63,5 @@ export declare class ElTimePicker extends ElementUIComponent {
   /**
    * Focus the Input component
    */
-  focus (): void
+  focus(): void
 }

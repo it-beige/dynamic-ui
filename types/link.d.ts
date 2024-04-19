@@ -1,13 +1,13 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 /** Button type */
-export type LinkType = 'primary' | 'success' | 'warning' | 'danger' | 'info' 
+export type LinkType = 'primary' | 'success' | 'warning' | 'danger' | 'info'
 
 /** Link Component */
-export declare class ElLink extends ElementUIComponent {
+export declare class DyLink extends DynamicUIComponent {
   /** Link type */
   type: LinkType
-  
+
   /** Disable the link */
   disabled: boolean
 

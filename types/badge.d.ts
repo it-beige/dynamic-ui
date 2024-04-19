@@ -1,7 +1,7 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 /** Badge Component */
-export declare class ElBadge extends ElementUIComponent {
+export declare class DyBadge extends DynamicUIComponent {
   /** Display value */
   value: string | number
 

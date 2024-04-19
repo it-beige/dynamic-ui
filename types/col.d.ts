@@ -1,9 +1,9 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 /** Responsive column props */
 export interface ResponsiveColumnProperties {
   /** Number of column the grid spans */
-  span: number,
+  span: number
 
   /** Number of spacing on the left side of the grid */
   offset: number
@@ -13,7 +13,7 @@ export interface ResponsiveColumnProperties {
 export type ResponsiveColumn = number | ResponsiveColumnProperties
 
 /** Colunm Layout Component */
-export declare class ElCol extends ElementUIComponent {
+export declare class DyCol extends DynamicUIComponent {
   /** Number of column the grid spans */
   span: number
 

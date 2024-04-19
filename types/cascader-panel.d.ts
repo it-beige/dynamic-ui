@@ -1,43 +1,43 @@
-import { VNode, CreateElement } from 'vue';
-import { ElementUIComponent } from './component'
+import { VNode, CreateElement } from 'vue'
+import { DynamicUIComponent } from './component'
 
 /** Trigger mode of expanding current item */
 export type ExpandTrigger = 'click' | 'hover'
 
 /** Cascader Option */
 export interface CascaderOption {
-  label: string,
-  value: any,
-  children?: CascaderOption[],
-  disabled?: boolean,
+  label: string
+  value: any
+  children?: CascaderOption[]
+  disabled?: boolean
   leaf?: boolean
 }
 
 /** Cascader Props */
 export interface CascaderProps<V, D> {
-  expandTrigger?: ExpandTrigger,
-  multiple?: boolean,
-  checkStrictly?: boolean,
-  emitPath?: boolean,
-  lazy?: boolean,
-  lazyLoad?: (node: CascaderNode<V, D>, resolve: Resolve<D>) => void,
-  value?: string,
-  label?: string,
-  children?: string,
+  expandTrigger?: ExpandTrigger
+  multiple?: boolean
+  checkStrictly?: boolean
+  emitPath?: boolean
+  lazy?: boolean
+  lazyLoad?: (node: CascaderNode<V, D>, resolve: Resolve<D>) => void
+  value?: string
+  label?: string
+  children?: string
   disabled?: string
   leaf?: string
 }
 
 /** Cascader Node */
 export interface CascaderNode<V, D> {
-  uid: number,
-  data: D,
-  value: V,
-  label: string,
-  level: number,
-  isDisabled: boolean,
-  isLeaf: boolean,
-  parent: CascaderNode<V, D> | null,
+  uid: number
+  data: D
+  value: V
+  label: string
+  level: number
+  isDisabled: boolean
+  isLeaf: boolean
+  parent: CascaderNode<V, D> | null
   children: CascaderNode<V, D>[]
   config: CascaderProps<V, D>
 }
@@ -52,7 +52,10 @@ export interface CascaderPanelSlots {
 }
 
 /** CascaderPanel Component */
-export declare class ElCascaderPanel<V = any, D = CascaderOption> extends ElementUIComponent {
+export declare class DyCascaderPanel<
+  V = any,
+  D = CascaderOption,
+> extends DynamicUIComponent {
   /** Selected value */
   value: V | V[]
 
@@ -66,7 +69,10 @@ export declare class ElCascaderPanel<V = any, D = CascaderOption> extends Elemen
   border: boolean
 
   /** Render function of custom label content */
-  renderLabel: (h: CreateElement, context: { node: CascaderNode<V, D>; data: D }) => VNode
+  renderLabel: (
+    h: CreateElement,
+    context: { node: CascaderNode<V, D>; data: D },
+  ) => VNode
 
   $slots: CascaderPanelSlots
 }

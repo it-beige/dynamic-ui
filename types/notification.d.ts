@@ -1,12 +1,16 @@
 import Vue, { VNode } from 'vue'
 import { MessageType } from './message'
 
-export type NotificationPosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
+export type NotificationPosition =
+  | 'top-right'
+  | 'top-left'
+  | 'bottom-right'
+  | 'bottom-left'
 
 /** Notification Component */
-export declare class ElNotificationComponent extends Vue {
+export declare class DyNotificationComponent extends Vue {
   /** Close the Notification instance */
-  close (): void
+  close(): void
 }
 
 export interface ElNotificationOptions {
@@ -52,28 +56,28 @@ export interface ElNotification {
   (options: ElNotificationOptions): ElNotificationComponent
 
   /** Show a success notification */
-  success (message: string | VNode): ElNotificationComponent
+  success(message: string | VNode): ElNotificationComponent
 
   /** Show a success notification */
-  success (options: ElNotificationOptions): ElNotificationComponent
+  success(options: ElNotificationOptions): ElNotificationComponent
 
   /** Show a warning notification */
-  warning (message: string | VNode): ElNotificationComponent
+  warning(message: string | VNode): ElNotificationComponent
 
   /** Show a warning notification */
-  warning (options: ElNotificationOptions): ElNotificationComponent
+  warning(options: ElNotificationOptions): ElNotificationComponent
 
   /** Show an info notification */
-  info (message: string | VNode): ElNotificationComponent
+  info(message: string | VNode): ElNotificationComponent
 
   /** Show an info notification */
-  info (options: ElNotificationOptions): ElNotificationComponent
+  info(options: ElNotificationOptions): ElNotificationComponent
 
   /** Show an error notification */
-  error (message: string | VNode): ElNotificationComponent
+  error(message: string | VNode): ElNotificationComponent
 
   /** Show an error notification */
-  error (options: ElNotificationOptions): ElNotificationComponent
+  error(options: ElNotificationOptions): ElNotificationComponent
 }
 
 declare module 'vue/types/vue' {

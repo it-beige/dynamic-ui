@@ -1,7 +1,7 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 /** Footer Component */
-export declare class ElFooter extends ElementUIComponent {
+export declare class DyFooter extends DynamicUIComponent {
   /** Height of the footer */
   height: string
 }

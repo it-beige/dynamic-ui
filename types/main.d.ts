@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 /** Main Component */
-export declare class ElMain extends ElementUIComponent {}
+export declare class DyMain extends DynamicUIComponent {}

@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 export type CarouselIndicatorTrigger = 'hover' | 'click'
 export type CarouselIndicatorPosition = 'outside' | 'none'
@@ -7,7 +7,7 @@ export type CarouselType = 'card'
 export type CarouselDirection = 'horizontal' | 'vertical'
 
 /** Loop a series of images or texts in a limited space */
-export declare class ElCarousel extends ElementUIComponent {
+export declare class DyCarousel extends DynamicUIComponent {
   /** Height of the carousel */
   height: number
 
@@ -40,18 +40,18 @@ export declare class ElCarousel extends ElementUIComponent {
    *
    * @param index Index of the slide to be switched to (starting from 0)
    */
-  setActiveItem (index: number): void
+  setActiveItem(index: number): void
 
   /**
    * Manually switch slide by carousel item's name
    *
    * @param name The name of the corresponding `el-carousel-item`
    */
-  setActiveItem (name: string): void
+  setActiveItem(name: string): void
 
   /** Switch to the previous slide */
-  prev (): void
+  prev(): void
 
   /** Switch to the next slide */
-  next (): void
+  next(): void
 }

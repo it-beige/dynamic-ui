@@ -1,7 +1,7 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 /** Menu Item Component */
-export declare class ElMenuItem extends ElementUIComponent {
+export declare class DyMenuItem extends DynamicUIComponent {
   /** Unique identification */
   index: string
 

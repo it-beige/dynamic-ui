@@ -1,10 +1,10 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 import { StepStatus } from './step'
 
 export type StepsDirection = 'vertical' | 'horizontal'
 
 /** Guide the user to complete tasks in accordance with the process. Its steps can be set according to the actual application scenario and the number of the steps can't be less than 2. */
-export declare class ElSteps extends ElementUIComponent {
+export declare class DySteps extends DynamicUIComponent {
   /** The spacing of each step, will be responsive if omitted. Support percentage. */
   space: number | string
 

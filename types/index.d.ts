@@ -1,4 +1,4 @@
 export * from './element-ui'
 
-import * as ElementUI from './element-ui'
-export default ElementUI
+import * as DynamicUI from './element-ui'
+export default DynamicUI

@@ -1,9 +1,9 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 export type RadioGroupSize = 'large' | 'small'
 
 /** Radio Group Component */
-export declare class ElRadioGroup extends ElementUIComponent {
+export declare class DyRadioGroup extends DynamicUIComponent {
   /** The size of radio buttons */
   size: RadioGroupSize
 

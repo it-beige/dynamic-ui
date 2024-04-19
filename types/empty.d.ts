@@ -1,4 +1,4 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 import { VNode } from 'vue'
 
 interface ELEmptySlots {
@@ -11,21 +11,19 @@ interface ELEmptySlots {
   /* description slot: Custom description */
   description: VNode[]
 
-
   [key: string]: VNode[]
 }
 
 /** Placeholder hints for empty states. */
-export declare class ElEmpty extends ElementUIComponent {
+export declare class DyEmpty extends DynamicUIComponent {
   /* image URL */
   image: string
-  	
+
   /* image size (width) */
   imageSize: number
-  
+
   /* description */
   description: string
 
   $slots: ELEmptySlots
-
 }

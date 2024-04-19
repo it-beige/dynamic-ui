@@ -1,22 +1,22 @@
 import { CreateElement, VNode } from 'vue'
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 export type TransferPanelPosition = 'left' | 'right'
 
 export interface TransferData {
-  key: any,
-  label: string,
+  key: any
+  label: string
   disabled: boolean
 }
 
 export interface TransferFormat {
-  noChecked: string,
-  hasChecked: string,
+  noChecked: string
+  hasChecked: string
 }
 
 export interface TransferProps {
-  key: string,
-  label: string,
+  key: string
+  label: string
   disabled: string
 }
 
@@ -31,7 +31,7 @@ export interface TransferRenderContent {
 }
 
 /** Transfer Component */
-export declare class ElTransfer extends ElementUIComponent {
+export declare class DyTransfer extends DynamicUIComponent {
   /** Data source */
   data: TransferData[]
 
@@ -69,5 +69,5 @@ export declare class ElTransfer extends ElementUIComponent {
   rightDefaultChecked: any[]
 
   /** Clear the query text in specified panel */
-  clearQuery (which: TransferPanelPosition): void
+  clearQuery(which: TransferPanelPosition): void
 }

@@ -1,7 +1,7 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 /** Switch Component */
-export declare class ElSwitch extends ElementUIComponent {
+export declare class DySwitch extends DynamicUIComponent {
   /** Whether Switch is on */
   value: boolean
 

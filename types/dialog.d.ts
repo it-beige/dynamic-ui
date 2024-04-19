@@ -1,21 +1,21 @@
 import { VNode } from 'vue'
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 export interface DialogSlots {
   /** Content of the Dialog */
-  default: VNode[],
+  default: VNode[]
 
   /** Content of the Dialog title */
-  title: VNode[],
+  title: VNode[]
 
   /** Content of the Dialog footer */
-  footer: VNode[],
+  footer: VNode[]
 
   [key: string]: VNode[]
 }
 
 /** Informs users while preserving the current page state */
-export declare class ElDialog extends ElementUIComponent {
+export declare class DyDialog extends DynamicUIComponent {
   /** Title of Dialog */
   title: string
 

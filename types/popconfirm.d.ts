@@ -1,14 +1,14 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 import { ElPopover } from './popover'
 
 /** Popconfirm Component */
-export declare class ElPopconfirm extends ElPopover {
+export declare class DyPopconfirm extends ElPopover {
   /** Popconfirm title */
   title: string
 
   /** Popconfirm ok text */
   confirmButtonText: string
-  
+
   /** Popconfirm cancel text */
   cancelButtonText: string
 

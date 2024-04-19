@@ -1,7 +1,7 @@
-import { ElementUIComponent } from './component'
+import { DynamicUIComponent } from './component'
 
 /** Tab Pane Component */
-export declare class ElTabPane extends ElementUIComponent {
+export declare class DyTabPane extends DynamicUIComponent {
   /** Title of the tab */
   label: string
 

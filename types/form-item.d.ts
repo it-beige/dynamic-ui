@@ -1,7 +1,7 @@
-import { ElementUIComponent, ElementUIComponentSize } from './component'
+import { DynamicUIComponent, DynamicUIComponentSize } from './component'
 
 /** FormItem Component */
-export declare class ElFormItem extends ElementUIComponent {
+export declare class DyFormItem extends DynamicUIComponent {
   /** A key of `model` of the enclosing `el-form` component */
   prop: string
 
@@ -27,11 +27,11 @@ export declare class ElFormItem extends ElementUIComponent {
   inlineMessage: boolean
 
   /** Controls the size of components in this form */
-  size: ElementUIComponentSize
+  size: DynamicUIComponentSize
 
   /** Reset current field and remove validation result */
-  resetField (): void
+  resetField(): void
 
   /** Remove validation status of the field */
-  clearValidate (): void
+  clearValidate(): void
 }
