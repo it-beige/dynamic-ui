@@ -92,6 +92,7 @@ import DescriptionsItem from '../packages/descriptions-item/index.js';
 import Result from '../packages/result/index.js';
 import DraggableResizable from '../packages/draggable-resizable/index.js';
 import SelectGenerate from '../packages/select-generate/index.js';
+import TreeSelectGenerate from '../packages/tree-select-generate/index.js';
 import RadioGenerate from '../packages/radio-generate/index.js';
 import CheckboxGenerate from '../packages/checkbox-generate/index.js';
 import UploadGenerate from '../packages/upload-generate/index.js';
@@ -204,6 +205,7 @@ const components = [
   Result,
   DraggableResizable,
   SelectGenerate,
+  TreeSelectGenerate,
   RadioGenerate,
   CheckboxGenerate,
   UploadGenerate,
@@ -411,6 +413,7 @@ export default {
   Result,
   DraggableResizable,
   SelectGenerate,
+  TreeSelectGenerate,
   RadioGenerate,
   CheckboxGenerate,
   UploadGenerate,

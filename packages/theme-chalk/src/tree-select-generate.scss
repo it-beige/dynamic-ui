@@ -1,0 +1,13 @@
+@import "mixins/mixins";
+
+.dy-select {
+  &-dropdown {
+    min-width: 100%;
+
+    .dy-tree {
+      &-node__content {
+        padding: 6px 4px;
+      }
+    }
+  }
+}

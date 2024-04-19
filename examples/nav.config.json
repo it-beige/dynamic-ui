@@ -57,6 +57,10 @@
               "title": "Select 配置生成"
             },
             {
+              "path": "/tree-select-generate",
+              "title": "TreeSelect 配置生成"
+            },
+            {
               "path": "/radio-generate",
               "title": "Radio 配置生成"
             },
