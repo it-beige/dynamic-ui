@@ -12,7 +12,7 @@ const getParams = (url) => {
 
 };
 
-function offsetData (res, params) {
+function offsetData(res, params) {
   let page = params.page || params.pageNo;
   let size = params.size || params.pageSize;
   let data = res.data;
@@ -22,7 +22,7 @@ function offsetData (res, params) {
     const end = page * size;
     list = list.slice(start, end);
   }
-  return {...res, data: {...data, list}};
+  return { ...res, data: { ...data, list } };
 }
 
 const common = {
@@ -32,7 +32,7 @@ const common = {
 
 Random.incrementId = (() => {
   let id = 0;
-  return function() {
+  return function () {
     id++;
     return id.toString();
   };
@@ -311,6 +311,89 @@ const finThereCultyList = {
   ]
 };
 
+const treeSelectList = {
+  ...common,
+  data: [
+    {
+      value: 'code-1',
+      label: '数字化事业部',
+      children: [
+        {
+          value: 'code-1-1',
+          label: '前端'
+        },
+        {
+          value: 'code-1-2',
+          label: '后端'
+        },
+        {
+          value: 'code-1-3',
+          label: 'UI'
+        },
+        {
+          value: 'code-1-4',
+          label: '运营'
+        },
+        {
+          value: 'code-1-5',
+          label: '运维'
+        }
+      ]
+    },
+    {
+      value: 'code-2',
+      label: '人工智能事业部',
+      children: [
+        {
+          value: 'code-2-1',
+          label: '机器学习工程师'
+        },
+        {
+          value: 'code-2-2',
+          label: '数据科学家'
+        },
+        {
+          value: 'code-2-3',
+          label: '算法工程师'
+        },
+        {
+          value: 'code-2-4',
+          label: '深度学习工程师'
+        },
+        {
+          value: 'code-2-5',
+          label: '自然语言处理工程师'
+        }
+      ]
+    },
+    {
+      value: 'code-3',
+      label: '云计算事业部',
+      children: [
+        {
+          value: 'code-3-1',
+          label: '云架构师'
+        },
+        {
+          value: 'code-3-2',
+          label: '云安全工程师'
+        },
+        {
+          value: 'code-3-3',
+          label: '云运维工程师'
+        },
+        {
+          value: 'code-3-4',
+          label: '大数据工程师'
+        },
+        {
+          value: 'code-3-5',
+          label: '容器技术专家'
+        }
+      ]
+    }
+  ]
+};
 console.log(Mock);
 
 const tableList = Mock.mock({
@@ -383,7 +466,7 @@ function filterData(res, params) {
     return isMatch;
   });
 
-  return {...res, data: {...data, list, total: list.length}};
+  return { ...res, data: { ...data, list, total: list.length } };
 }
 
 module.exports = function beforeMock(middlewares, devServer) {
@@ -411,6 +494,10 @@ module.exports = function beforeMock(middlewares, devServer) {
     const params = getParams(req.url);
     const data = filterData(tableList, params);
     res.json(offsetData(data, params));
+  });
+
+  devServer.app.get(URL.getTreeSelectList, (req, res) => {
+    res.json(treeSelectList);
   });
   return middlewares;
 };

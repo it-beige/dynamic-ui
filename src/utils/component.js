@@ -76,9 +76,12 @@ export const genComponentPorps = (props) => {
         this[k] = value;
       });
     }
-  }, function pick (props) {
+  }, function pick(props) {
     return Object.keys(props).reduce((p, k) => {
-      const prop = props[k];
+      let prop = props[k];
+      if (isArray(prop)) {
+        prop = prop[0];
+      }
       if (isPlainObject(prop)) {
         if (isFunction(prop.default)) {
           p[k] = prop.default();

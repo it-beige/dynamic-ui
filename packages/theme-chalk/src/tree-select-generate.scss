@@ -1,13 +1,33 @@
 @import "mixins/mixins";
 
-.dy-select {
-  &-dropdown {
-    min-width: 100%;
-
-    .dy-tree {
-      &-node__content {
-        padding: 6px 4px;
+.tree-select-generate {
+  .dy-select {
+    &-dropdown {
+      min-width: 100%;
+      padding: 16px;
+      .dy-tree {
+        &-node {
+          &__content {
+            padding: 6px 4px;
+          }
+          &.is-leaf-current {
+            .dy-tree-node__content {
+              background-color: $--tree-node-hover-background-color;
+            }
+          }
+          &:focus {
+            .dy-tree-node__content {
+              background-color:  #fff;
+            }
+          }
+        }
       }
+    }
+  }
+
+  .filter-input {
+    .dy-input__suffix {
+      cursor: pointer;
     }
   }
 }

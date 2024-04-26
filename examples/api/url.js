@@ -7,5 +7,6 @@ module.exports = {
   getRenMethodList: `${VUE_APP_BASE_API}/ren-method`,
   getFinChannelList: `${VUE_APP_BASE_API}/fin-channel`,
   getFinThereCultyList: `${VUE_APP_BASE_API}/fin-there-culty`,
-  getTableList: `${VUE_APP_BASE_API}/table/list`
+  getTableList: `${VUE_APP_BASE_API}/table/list`,
+  getTreeSelectList: `${VUE_APP_BASE_API}/tree-select/list`
 };

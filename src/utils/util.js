@@ -19,7 +19,7 @@ export function camelToKebab(camelString) {
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
-export function stitchUrl (baseUrl, url) {
+export function stitchUrl(baseUrl, url) {
   if (baseUrl.lastIndexOf('/') === url.length) {
     baseUrl = baseUrl.slice(0, -1);
   }
@@ -29,20 +29,20 @@ export function stitchUrl (baseUrl, url) {
   return `${baseUrl}/${url}`;
 }
 
-export function noop () {};
+export function noop() { };
 
-export function hasOwn (obj, key) {
+export function hasOwn(obj, key) {
   return hasOwnProperty.call(obj, key);
 };
 
-function extend (to, _from) {
+function extend(to, _from) {
   for (let key in _from) {
     to[key] = _from[key];
   }
   return to;
 };
 
-export function toObject (arr) {
+export function toObject(arr) {
   var res = {};
   for (let i = 0; i < arr.length; i++) {
     if (arr[i]) {
@@ -70,7 +70,7 @@ export const getValueByPath = function (object, prop) {
   return result;
 };
 
-export function getPropByPath (obj, path, strict) {
+export function getPropByPath(obj, path, strict) {
   let tempObj = obj;
   path = path.replace(/\[(\w+)\]/g, '.$1');
   path = path.replace(/^\./, '');
@@ -247,7 +247,7 @@ export const isEmpty = function (val) {
   return false;
 };
 
-export function rafThrottle (fn) {
+export function rafThrottle(fn) {
   let locked = false;
   return function (...args) {
     if (locked) return;
@@ -259,7 +259,7 @@ export function rafThrottle (fn) {
   };
 }
 
-export function objToArray (obj) {
+export function objToArray(obj) {
   if (Array.isArray(obj)) {
     return obj;
   }
@@ -269,3 +269,17 @@ export function objToArray (obj) {
 export const isMac = function () {
   return !Vue.prototype.$isServer && /macintosh|mac os x/i.test(navigator.userAgent);
 };
+
+export function getValueByTree(tree, key, options = {}) {
+  const { key: k, children: c } = options;
+  const queue = [...tree];
+  while (queue.length) {
+    const node = queue.shift();
+    if (node[k] === key) {
+      return node;
+    }
+    if (node[c]?.length) {
+      queue.push(...node[c]);
+    }
+  }
+}
