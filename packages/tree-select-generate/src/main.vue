@@ -6,16 +6,15 @@ import genRequestMixin, {
 import genPaginationMixin, {
   getExtra as getPaginationMixExtra
 } from 'main/mixins/pagination';
-import { getCompPropsBySourceOpt, genComponentPorps } from 'main/utils/component.js';
+import {
+  getCompPropsBySourceOpt,
+  genComponentPorps
+} from 'main/utils/component.js';
 import { getComponentByName } from 'main/config/component';
 import _ from 'lodash';
 import { createNamespace } from 'main/utils/create';
-import {
-  findParentElement
-} from 'dynamic-ui/src/utils/dom';
-import {
-  getValueByTree
-} from 'dynamic-ui/src/utils/util';
+import { findParentElement } from 'dynamic-ui/src/utils/dom';
+import { getValueByTree, valueEquals } from 'dynamic-ui/src/utils/util';
 
 import Clickoutside from 'dynamic-ui/src/utils/clickoutside';
 import SelectMenu from 'dynamic-ui/packages/select/src/select-dropdown.vue';
@@ -23,7 +22,9 @@ const Input = getComponentByName('Input');
 const Tree = getComponentByName('Tree');
 const Scrollbar = getComponentByName('Scrollbar');
 
-export const [TreeCtor, TreePick] = genComponentPorps(getCompPropsBySourceOpt(Tree));
+export const [TreeCtor, TreePick] = genComponentPorps(
+  getCompPropsBySourceOpt(Tree),
+);
 
 const props = {
   value: {
@@ -79,7 +80,8 @@ export default {
       ],
       visible: false,
       selected: this.multiple ? [] : {},
-      filterText: ''
+      filterText: '',
+      inputHovering: false
     };
   },
   computed: {
@@ -88,6 +90,11 @@ export default {
     },
     valueText() {
       return this.multiple ? '' : this.selected[this.bindProps.label];
+    },
+    hasValue() {
+      return this.multiple
+        ? this.selected.length
+        : this.selected[this.bindProps.value];
     }
   },
   watch: {
@@ -103,7 +110,7 @@ export default {
       </div>
     );
   },
-  created () {
+  created() {
     this.$unWatch = [this.watchValueEffect()];
   },
   beforeDestroy() {
@@ -127,12 +134,18 @@ export default {
     },
     renderSuffix() {
       const { iconClass } = this;
-      return (
-        <i
+      let showClose = this.hasValue && this.clearable && this.inputHovering;
+      return showClose
+        ? <i
+          slot="suffix"
+          class={['dy-select__caret', 'dy-input__icon', ' dy-icon-circle-close']}
+          onClick={this.handleClear}
+        ></i>
+        : <i
           slot="suffix"
           class={['dy-select__caret', 'dy-input__icon', 'dy-icon-' + iconClass]}
-        ></i>
-      );
+        ></i>;
+
     },
     renderTreeSelect() {
       const self = this;
@@ -142,10 +155,20 @@ export default {
       const on = getTreeSelectOn();
       const slots = getTreeSelectSlots();
       const attrs = this.$attrs;
-      const directives = [{
-        name: 'clickoutside',
-        value: this.handleClose
-      }];
+      const directives = [
+        {
+          name: 'clickoutside',
+          value: this.handleClose
+        }
+      ];
+      const nativeOn = {
+        mouseenter: () => {
+          this.inputHovering = true;
+        },
+        mouseleave: () => {
+          this.inputHovering = false;
+        }
+      };
       let nodes = [slots];
 
       return createElement(
@@ -154,6 +177,7 @@ export default {
           attrs,
           props,
           on,
+          nativeOn,
           directives,
           ref: 'reference'
         },
@@ -168,7 +192,9 @@ export default {
         nodeKey: this.bindProps.value
       };
       if (this.filterable) {
-        props.filterNodeMethod = this.genFilterNodeMethod(props.filterNodeMethod);
+        props.filterNodeMethod = this.genFilterNodeMethod(
+          props.filterNodeMethod,
+        );
       }
       const data = {
         props,
@@ -184,13 +210,15 @@ export default {
             append-to-body={true}
             v-show={this.visible}
           >
-            <Input.name
-              placeholder="输入关键词进行筛选"
-              class="active-popper filter-input"
-              suffix-icon="dy-icon-search"
-              v-model={this.filterText}
-              nativeOnKeydown={this.handleFilter}
-            />
+            {this.filterable ? (
+              <Input.name
+                placeholder="输入关键词进行筛选"
+                class="active-popper filter-input"
+                suffix-icon="dy-icon-search"
+                v-model={this.filterText}
+                nativeOnKeydown={this.handleFilter}
+              />
+            ) : null}
             <Scrollbar.name
               wrap-class="dy-select-dropdown__wrap"
               view-class="dy-select-dropdown__list"
@@ -249,6 +277,13 @@ export default {
         this.filterMethod(this.filterText);
       }
     },
+    handleClear(e) {
+      e.stopPropagation();
+      const value = this.multiple ? [] : '';
+      this.$emit('input', value);
+      this.$emit('clear');
+      this.visible = false;
+    },
     getValue(value) {
       return value[this.bindProps.value];
     },
@@ -257,14 +292,17 @@ export default {
         () => [this.value, this.bindOptions],
         ([value, bindOptions]) => {
           if (!value || !bindOptions.length) {
+            this.selected = this.multiple ? [] : {};
             return;
           }
 
           if (this.multiple) {
-            this.selected = this.value.map(i => getValueByTree(bindOptions, i, {
-              key: this.bindProps.value,
-              children: this.bindProps.children
-            }));
+            this.selected = this.value.map(i =>
+              getValueByTree(bindOptions, i, {
+                key: this.bindProps.value,
+                children: this.bindProps.children
+              }),
+            );
           } else {
             this.selected = getValueByTree(bindOptions, value, {
               key: this.bindProps.value,
@@ -272,7 +310,7 @@ export default {
             });
           }
         },
-        {immediate: true}
+        { immediate: true },
       );
     },
     /** ********************* 过滤树形方法-start ************************/
