@@ -14,13 +14,14 @@ import { getComponentByName } from 'main/config/component';
 import _ from 'lodash';
 import { createNamespace } from 'main/utils/create';
 import { findParentElement } from 'dynamic-ui/src/utils/dom';
-import { getValueByTree, valueEquals } from 'dynamic-ui/src/utils/util';
+import { getValueByTree } from 'dynamic-ui/src/utils/util';
 
 import Clickoutside from 'dynamic-ui/src/utils/clickoutside';
 import SelectMenu from 'dynamic-ui/packages/select/src/select-dropdown.vue';
 const Input = getComponentByName('Input');
 const Tree = getComponentByName('Tree');
 const Scrollbar = getComponentByName('Scrollbar');
+const Tag = getComponentByName('Tag');
 
 export const [TreeCtor, TreePick] = genComponentPorps(
   getCompPropsBySourceOpt(Tree),
@@ -89,7 +90,9 @@ export default {
       return this.visible ? 'arrow-up is-reverse' : 'arrow-up';
     },
     valueText() {
-      return this.multiple ? '' : this.selected[this.bindProps.label];
+      return this.multiple
+        ? this.selected.length ? ' ' : undefined
+        : this.selected[this.bindProps.label];
     },
     hasValue() {
       return this.multiple
@@ -103,10 +106,12 @@ export default {
     }
   },
   render() {
+    const classes = ['dy-select tree-select-generate', {'tree-select-generate-filter': this.filterable}];
     return (
-      <div class="dy-select tree-select-generate" onClick={this.toggleMenu}>
+      <div class={classes} onClick={this.toggleMenu}>
         {this.renderTreeSelect()}
         {this.renderTree()}
+        {this.multiple ? this.renderCheckedTags() : null}
       </div>
     );
   },
@@ -186,21 +191,26 @@ export default {
     },
     renderTree() {
       const props = {
-        // ...TreePick(this.treeProps),
+        ...TreePick(this.treeProps),
         data: this.bindOptions,
         props: this.bindProps,
         nodeKey: this.bindProps.value
       };
+      const on = {};
       if (this.filterable) {
         props.filterNodeMethod = this.genFilterNodeMethod(
           props.filterNodeMethod,
         );
       }
+      if (this.multiple) {
+        props.showCheckbox = true;
+        on['check'] = this.checkNode;
+      } else {
+        on['node-click'] = this.clickNode;
+      }
       const data = {
         props,
-        on: {
-          'node-click': this.clickNode
-        },
+        on,
         ref: 'treeRef'
       };
       return (
@@ -231,6 +241,33 @@ export default {
         </transition>
       );
     },
+    renderCheckedTags() {
+      const tags = this.selected.slice(0, 1);
+      const { label, value } = this.bindProps;
+      const onClose = (cur) => {
+        this.selected = this.selected.filter(i => i[value] !== cur[value]);
+        this.$emit('input', this.selected.map(i => i[value]));
+      };
+      return (
+        <div class="dy-select__tags" ref="tags">
+          <div class="dy-flex__align-center">
+            {
+              tags.map((i) => (
+                <Tag.name key={i[value]} type="info" closable size={this.size || 'mini'} onClose={() => onClose(i)}>
+                  <span class="dy-select__tags-text">{i[label]}</span>
+                </Tag.name>
+              ))
+            }
+            {
+              this.selected.length > 1 ? <Tag.name key="+1" type="info" size={this.size || 'mini'}>
+                <span class="dy-select__tags-text">+{ this.selected.length - 1}</span>
+              </Tag.name> : null
+            }
+          </div>
+
+        </div>
+      );
+    },
     useRef() {
       return this.$refs.reference;
     },
@@ -251,9 +288,13 @@ export default {
           }
         }
       }
-      if (this.visible && !this.multiple) {
+      if (this.visible) {
         this.$nextTick(() => {
-          this.$refs.treeRef.setCurrentKey(this.getValue(this.selected));
+          if (this.multiple) {
+            this.$refs.treeRef.setCheckedKeys(this.value);
+          } else {
+            this.$refs.treeRef.setCurrentKey(this.getValue(this.selected));
+          }
         });
       }
     },
@@ -264,6 +305,9 @@ export default {
       this.selected = data;
       this.visible = false;
       this.$emit('input', this.getValue(this.selected));
+    },
+    checkNode(data, {checkedKeys}) {
+      this.$emit('input', checkedKeys);
     },
     handleClose(mouseupTarget) {
       if (this.activePopper && findParentElement(mouseupTarget, 'dy-popper')) {

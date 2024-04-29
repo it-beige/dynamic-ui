@@ -89,7 +89,7 @@ export const genComponentPorps = (props) => {
           p[k] = prop.default;
         }
       } else {
-        p[k] = isFunction(prop) ? prop() : prop;
+        p[k] = prop === Function ? undefined : isFunction(prop) ? prop() : prop;
       }
       return p;
     }, {});

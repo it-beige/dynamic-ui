@@ -129,10 +129,8 @@
 
 ```html
 <dy-tree-select-generate
-  class="base-tree-select"
   v-model="value"
   :url="url"
-  clearable
   filterable
   placeholder="请选择岗位"
   style="width: 50%"
@@ -144,6 +142,34 @@
       return {
         url: this.$root.URL.getTreeSelectList,
         value: 'code-1-1',
+      }
+    },
+  }
+</script>
+```
+
+:::
+
+### 基础多选
+
+:::demo 通过传入`url`、 `params`、 `method`等自动请求数, 据, `filterable`可开启 Tree 的过滤功能
+
+```html
+<dy-tree-select-generate
+  class="base-tree-select"
+  v-model="value"
+  :url="url"
+  multiple
+  filterable
+  placeholder="请选择岗位"
+></dy-tree-select-generate>
+
+<script>
+  export default {
+    data() {
+      return {
+        url: this.$root.URL.getTreeSelectList,
+        value: ['code-1-1'],
       }
     },
   }
