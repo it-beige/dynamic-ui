@@ -41,6 +41,7 @@ const props = {
     type: Boolean,
     default: false
   },
+  multipleLimit: Number,
   // 激活v-clickoutside的处理
   activePopper: {
     type: Boolean,
@@ -91,7 +92,9 @@ export default {
     },
     valueText() {
       return this.multiple
-        ? this.selected.length ? ' ' : undefined
+        ? this.selected.length
+          ? ' '
+          : undefined
         : this.selected[this.bindProps.label];
     },
     hasValue() {
@@ -106,7 +109,10 @@ export default {
     }
   },
   render() {
-    const classes = ['dy-select tree-select-generate', {'tree-select-generate-filter': this.filterable}];
+    const classes = [
+      'dy-select tree-select-generate',
+      { 'tree-select-generate-filter': this.filterable }
+    ];
     return (
       <div class={classes} onClick={this.toggleMenu}>
         {this.renderTreeSelect()}
@@ -140,17 +146,22 @@ export default {
     renderSuffix() {
       const { iconClass } = this;
       let showClose = this.hasValue && this.clearable && this.inputHovering;
-      return showClose
-        ? <i
+      return showClose ? (
+        <i
           slot="suffix"
-          class={['dy-select__caret', 'dy-input__icon', ' dy-icon-circle-close']}
+          class={[
+            'dy-select__caret',
+            'dy-input__icon',
+            ' dy-icon-circle-close'
+          ]}
           onClick={this.handleClear}
         ></i>
-        : <i
+      ) : (
+        <i
           slot="suffix"
           class={['dy-select__caret', 'dy-input__icon', 'dy-icon-' + iconClass]}
-        ></i>;
-
+        ></i>
+      );
     },
     renderTreeSelect() {
       const self = this;
@@ -205,6 +216,19 @@ export default {
       if (this.multiple) {
         props.showCheckbox = true;
         on['check'] = this.checkNode;
+        if (this.multipleLimit) {
+          props.props.disabled = (data, node) => {
+            // 父节点的子级超过限制数量不可勾选
+            if (node.childNodes?.length > this.multipleLimit) {
+              return true;
+            }
+            if (this.value.length < this.multipleLimit) {
+              return false;
+            }
+            const key = data[this.bindProps.value];
+            return !this.value.includes(key);
+          };
+        }
       } else {
         on['node-click'] = this.clickNode;
       }
@@ -244,27 +268,35 @@ export default {
     renderCheckedTags() {
       const tags = this.selected.slice(0, 1);
       const { label, value } = this.bindProps;
-      const onClose = (cur) => {
+      const onClose = cur => {
         this.selected = this.selected.filter(i => i[value] !== cur[value]);
-        this.$emit('input', this.selected.map(i => i[value]));
+        this.$emit(
+          'input',
+          this.selected.map(i => i[value]),
+        );
       };
       return (
         <div class="dy-select__tags" ref="tags">
           <div class="dy-flex__align-center">
-            {
-              tags.map((i) => (
-                <Tag.name key={i[value]} type="info" closable size={this.size || 'mini'} onClose={() => onClose(i)}>
-                  <span class="dy-select__tags-text">{i[label]}</span>
-                </Tag.name>
-              ))
-            }
-            {
-              this.selected.length > 1 ? <Tag.name key="+1" type="info" size={this.size || 'mini'}>
-                <span class="dy-select__tags-text">+{ this.selected.length - 1}</span>
-              </Tag.name> : null
-            }
+            {tags.map(i => (
+              <Tag.name
+                key={i[value]}
+                type="info"
+                closable
+                size={this.size || 'mini'}
+                onClose={() => onClose(i)}
+              >
+                <span class="dy-select__tags-text">{i[label]}</span>
+              </Tag.name>
+            ))}
+            {this.selected.length > 1 ? (
+              <Tag.name key="+1" type="info" size={this.size || 'mini'}>
+                <span class="dy-select__tags-text">
+                  +{this.selected.length - 1}
+                </span>
+              </Tag.name>
+            ) : null}
           </div>
-
         </div>
       );
     },
@@ -306,7 +338,7 @@ export default {
       this.visible = false;
       this.$emit('input', this.getValue(this.selected));
     },
-    checkNode(data, {checkedKeys}) {
+    checkNode(data, { checkedKeys }) {
       this.$emit('input', checkedKeys);
     },
     handleClose(mouseupTarget) {
