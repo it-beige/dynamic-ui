@@ -51,15 +51,6 @@ export default function genPaginationMixin() {
     data(self) {
       return getExtraData(self);
     },
-    computed: {
-
-    },
-    watch: {
-
-    },
-    created() {
-
-    },
     methods: {
       renderPagination() {
         const Pagination = getComponentByName('Pagination');
@@ -72,7 +63,6 @@ export default function genPaginationMixin() {
         const onCurrentChange = (page) => {
           this.pageParams[this.pageParamsKey.page] = page;
           this.offsetRequestOptions();
-
         };
         const data = {
           props: {
@@ -89,7 +79,6 @@ export default function genPaginationMixin() {
         };
         return (
           <Pagination.name
-            slot="append"
             class="dy-select-pagination"
             {...data}
           >
