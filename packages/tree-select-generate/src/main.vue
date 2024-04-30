@@ -22,6 +22,7 @@ const Input = getComponentByName('Input');
 const Tree = getComponentByName('Tree');
 const Scrollbar = getComponentByName('Scrollbar');
 const Tag = getComponentByName('Tag');
+const Checkbox = getComponentByName('Checkbox');
 
 export const [TreeCtor, TreePick] = genComponentPorps(
   getCompPropsBySourceOpt(Tree),
@@ -41,7 +42,10 @@ const props = {
     type: Boolean,
     default: false
   },
+  // 限制选择项目数
   multipleLimit: Number,
+  // 是否可全选
+  selectAll: Boolean,
   // 激活v-clickoutside的处理
   activePopper: {
     type: Boolean,
@@ -83,7 +87,8 @@ export default {
       visible: false,
       selected: this.multiple ? [] : {},
       filterText: '',
-      inputHovering: false
+      inputHovering: false,
+      isChekcedAll: false
     };
   },
   computed: {
@@ -241,18 +246,21 @@ export default {
         <transition name="dy-zoom-in-top">
           <SelectMenu.name
             ref="popper"
+            class="active-popper"
             append-to-body={true}
             v-show={this.visible}
           >
+
             {this.filterable ? (
               <Input.name
                 placeholder="输入关键词进行筛选"
-                class="active-popper filter-input"
+                class="filter-input"
                 suffix-icon="dy-icon-search"
                 v-model={this.filterText}
                 nativeOnKeydown={this.handleFilter}
               />
             ) : null}
+            {this.selectAll && !this.multipleLimit ? <Checkbox.name class="all-checkbox" value={this.isChekcedAll} onInput={this.handleCheckeAll}>全选</Checkbox.name> : null}
             <Scrollbar.name
               wrap-class="dy-select-dropdown__wrap"
               view-class="dy-select-dropdown__list"
@@ -359,6 +367,13 @@ export default {
       this.$emit('input', value);
       this.$emit('clear');
       this.visible = false;
+    },
+    handleCheckeAll(v) {
+      this.isChekcedAll = v;
+      const allNodes = this.$refs.treeRef.store._getAllNodes();
+      const allKeys = allNodes.map(i => i.key);
+      this.$refs.treeRef.setCheckedKeys(allKeys);
+      this.$emit('input', allKeys);
     },
     getValue(value) {
       return value[this.bindProps.value];

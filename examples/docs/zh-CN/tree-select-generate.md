@@ -150,19 +150,47 @@
 
 :::
 
-### 基础多选
+### 可多选
 
-:::demo 传入`multiple`可开启 Tree 的多选, `multiple-limit`限制选择的数量;
+:::demo 传入`multiple`可开启 Tree 的多选, `multiple-limit`限制选择的数量
 
 ```html
 <dy-tree-select-generate
-  class="base-tree-select"
   v-model="value"
   :url="url"
   style="width: 50%"
   multiple
   :multiple-limit="3"
   filterable
+  placeholder="请选择岗位"
+></dy-tree-select-generate>
+
+<script>
+  export default {
+    data() {
+      return {
+        url: this.$root.URL.getTreeSelectList,
+        value: ['code-1-1'],
+      }
+    },
+  }
+</script>
+```
+
+:::
+
+### 可全选
+
+:::demo 传入`select-all`可开启 Tree 的全选选, 改属性和 `multiple-limit`互斥
+
+```html
+<dy-tree-select-generate
+  v-model="value"
+  :url="url"
+  style="width: 50%"
+  multiple
+  filterable
+  select-all
   placeholder="请选择岗位"
 ></dy-tree-select-generate>
 
