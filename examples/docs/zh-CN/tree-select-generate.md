@@ -3,10 +3,8 @@
 > 基于`Tree`、`Select`组件的封装, 扩展了其功能
 
 - 传入 `URL` 自动请求数据来渲染组件
-- 支持懒加载数据
-- 支持分页形式展示
-- 参数监听, 值变动后根据新值自动请求数据
-- 对`GroupOption`和`Option`组件进行了整合
+- 支持多选、全选功能
+- 支持限制数量
 
 ### 基础用法
 
@@ -208,15 +206,14 @@
 
 :::
 
-### 扩展 Select Attributes
+### TreeSelect Attributes
 
-| 参数      | 说明                 | 类型     | 可选值 | 默认值                  |
-| --------- | -------------------- | -------- | ------ | ----------------------- |
-| props     | 配置选项，具体看下表 | object   | —      | global.useOptionProps() |
-| formatter | 格式化 option 数据   | function | —0     | -                       |
-
-### 扩展 Select Events
-
-| 事件名称 | 说明                                | 回调参数 |
-| -------- | ----------------------------------- | -------- |
-| load     | lazy 为 true 情况下懒加载数据前触发 | -        |
+| 参数          | 说明                     | 类型                  | 可选值 | 默认值 |
+| ------------- | ------------------------ | --------------------- | ------ | ------ |
+| value         | 绑定值                   | string, object, array | —      | —      |
+| isSelectLeaf  | 单选情况下只能选叶子节点 | boolean               | —      | true   |
+| multiple      | 多选                     | boolean               | —      | false  |
+| multipleLimit | 限制选择项目数           | number                | —      | —      |
+| selectAll     | 是否可全选               | boolean               | —      | —      |
+| selectAll     | 是否开启过滤树的功能     | boolean               | —      | false  |
+| treeProps     | TreeCtor                 | class                 | —      | -      |

@@ -3,13 +3,12 @@ const URL = require('../api/url');
 const _ = require('lodash');
 const genRandomLocationArr = require('./area');
 const Random = Mock.Random;
-const getParams = (url) => {
+const getParams = url => {
   const [baseUrl, queryString] = _.split(decodeURIComponent(url), '?');
   const queryParams = _.split(queryString, '&');
   const params = _.map(queryParams, param => _.split(param, '='));
   const queryParamsObject = _.fromPairs(params);
   return queryParamsObject;
-
 };
 
 function offsetData(res, params) {
@@ -402,20 +401,20 @@ const tableList = Mock.mock({
     'list|25': [
       {
         'id|+1': '@uuid()',
-        'name': '@cname()',
-        'date': '@date("yyyy-MM-dd HH:mm:ss")',
-        'email': '@email(163.com)',
+        name: '@cname()',
+        date: '@date("yyyy-MM-dd HH:mm:ss")',
+        email: '@email(163.com)',
         'status|1': () => {
           return Random.integer(0, 1).toString();
         },
-        'area': '@genRandomLocationArr',
-        'desc': '@cword(5, 11)',
-        'text': 'text@integer(0, 100)',
-        'age': '@integer(1, 90)',
-        'num1': '@float(1, 50, 2, 2)',
-        'obj': {
-          'a': '@ctitle(4)',
-          'b': '@title(2)'
+        area: '@genRandomLocationArr',
+        desc: '@cword(5, 11)',
+        text: 'text@integer(0, 100)',
+        age: '@integer(1, 90)',
+        num1: '@float(1, 50, 2, 2)',
+        obj: {
+          a: '@ctitle(4)',
+          b: '@title(2)'
         }
       }
     ],
@@ -475,7 +474,8 @@ module.exports = function beforeMock(middlewares, devServer) {
     res.json(offsetData(listData, params));
   });
   devServer.app.get(URL.getTreeList, (req, res) => {
-    res.json(treeData);
+    const params = getParams(req.url);
+    res.json(offsetData(treeData, params));
   });
 
   devServer.app.get(URL.getRenMethodList, (req, res) => {

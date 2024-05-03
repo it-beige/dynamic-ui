@@ -3,9 +3,6 @@ import genAttrsMixin, { getExtra as getAttrMixExtra } from 'main/mixins/attrs';
 import genRequestMixin, {
   getExtra as getRequestMixExtra
 } from 'main/mixins/request';
-import genPaginationMixin, {
-  getExtra as getPaginationMixExtra
-} from 'main/mixins/pagination';
 import {
   getCompPropsBySourceOpt,
   genComponentPorps
@@ -63,7 +60,7 @@ const props = {
 };
 export default {
   name: 'DyTreeSelectGenerate',
-  mixins: [genAttrsMixin(Input), genRequestMixin(), genPaginationMixin()],
+  mixins: [genAttrsMixin(Input), genRequestMixin()],
   directives: { Clickoutside },
   components: {
     [SelectMenu.name]: SelectMenu
@@ -76,13 +73,11 @@ export default {
       extraProps: [
         ...getAttrMixExtra('prop'),
         ...getRequestMixExtra('prop'),
-        ...getPaginationMixExtra('prop'),
         ...Object.keys(props)
       ],
       extraData: [
         ...getAttrMixExtra('data'),
-        ...getRequestMixExtra('data'),
-        ...getPaginationMixExtra('data')
+        ...getRequestMixExtra('data')
       ],
       visible: false,
       selected: this.multiple ? [] : {},
@@ -372,8 +367,16 @@ export default {
       this.isChekcedAll = v;
       const allNodes = this.$refs.treeRef.store._getAllNodes();
       const allKeys = allNodes.map(i => i.key);
-      this.$refs.treeRef.setCheckedKeys(allKeys);
-      this.$emit('input', allKeys);
+      if (v) {
+        this.$refs.treeRef.setCheckedKeys(allKeys);
+        this.$emit('input', allKeys);
+      } else {
+        allKeys.forEach(k => {
+          this.$refs.treeRef.setChecked(k, false);
+        });
+        this.$emit('input', []);
+      }
+
     },
     getValue(value) {
       return value[this.bindProps.value];

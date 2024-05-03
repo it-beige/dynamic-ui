@@ -14,7 +14,7 @@ const getExtraProps = () => {
   return {
     paginationProps: {
       type: PaginationCtor,
-      default: () => new PaginationCtor()
+      default: () => props
     },
     // 使用分页
     pagination: {
