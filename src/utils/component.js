@@ -1,8 +1,13 @@
-import _, { cloneDeep, isString, isPlainObject, isArray, isFunction, isUndefined, isNull } from './lodash';
-import {
-  kebabToCamel,
-  replaceKebabReg
-} from './util';
+import _, {
+  cloneDeep,
+  isString,
+  isPlainObject,
+  isArray,
+  isFunction,
+  isUndefined,
+  isNull
+} from './lodash';
+import { kebabToCamel, replaceKebabReg } from './util';
 
 export function componentNameToTag(name) {
   return _.toLower(name.replace(/([a-z0-9])([A-Z])/g, '$1-$2'));
@@ -19,7 +24,6 @@ export function attrsKebabToCamel(attrs) {
     o[prop] = value;
     return o;
   }, {});
-
 }
 
 export const getCompPropsBySourceOpt = (component, skipProps = []) => {
@@ -47,7 +51,7 @@ export const getProvidesOptionBySourceOpt = (provide, consumer) => {
   }, {});
 };
 
-export const buildClass = (classSheet) => {
+export const buildClass = classSheet => {
   if (isString(classSheet)) {
     return classSheet;
   }
@@ -65,35 +69,43 @@ export const buildClass = (classSheet) => {
   }
 };
 
-export const genComponentPorps = (props) => {
-  return [class ComponentProps {
-    constructor(option = {}) {
-      Object.keys(props).forEach(k => {
-        let value = props[k];
-        if (Reflect.has(option, k)) {
-          value = option[k];
-        }
-        this[k] = value;
-      });
-    }
-  }, function pick(props) {
-    return Object.keys(props).reduce((p, k) => {
-      let prop = props[k];
-      if (isArray(prop)) {
-        prop = prop[0];
+export const genComponentPorps = props => {
+  return [
+    class ComponentProps {
+      constructor(option = {}) {
+        Object.keys(props).forEach(k => {
+          let value = props[k];
+          if (Reflect.has(option, k)) {
+            value = option[k];
+          }
+          this[k] = value;
+        });
       }
-      if (isPlainObject(prop)) {
-        if (isFunction(prop.default)) {
-          p[k] = prop.default();
+    },
+    function pick(props) {
+      return Object.keys(props).reduce((p, k) => {
+        let prop = props[k];
+        if (isArray(prop)) {
+          prop = prop[0];
+        }
+        if (isPlainObject(prop)) {
+          if (isFunction(prop.default)) {
+            p[k] = prop.default();
+          } else {
+            p[k] = prop.default;
+          }
         } else {
-          p[k] = prop.default;
+          p[k] =
+            prop === Function
+              ? undefined
+              : [Number, String, Boolean, Array, Map, Set].includes(prop)
+                ? prop()
+                : prop;
         }
-      } else {
-        p[k] = prop === Function ? undefined : isFunction(prop) ? prop() : prop;
-      }
-      return p;
-    }, {});
-  }];
+        return p;
+      }, {});
+    }
+  ];
 };
 
 export const genFormItemValue = (model, config) => {

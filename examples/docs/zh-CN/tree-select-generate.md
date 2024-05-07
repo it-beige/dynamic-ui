@@ -206,6 +206,97 @@
 
 :::
 
+### 懒加载
+
+:::demo 传入`select-all`可开启 Tree 的全选选, 改属性和 `multiple-limit`互斥
+
+```html
+<dy-tree-select-generate
+  v-model="value"
+  style="width: 50%"
+  multiple
+  :props="props"
+  :treeProps="treeProps"
+  placeholder="自定义懒加载"
+></dy-tree-select-generate>
+
+<script>
+  import { TreeCtor } from 'dynamic-ui/packages/tree-select-generate/src/main.vue'
+
+  export default {
+    data() {
+      return {
+        url: this.$root.URL.getTreeSelectList,
+        value: [],
+        data: [],
+        props: {
+          label: 'label',
+          disabled: 'disabled',
+          children: 'children',
+          isLeaf: 'leaf',
+        },
+        treeProps: new TreeCtor({
+          lazy: true,
+          load: this.load,
+        }),
+      }
+    },
+    methods: {
+      load(node, resolve) {
+        if (node.level === 0) {
+          resolve([
+            {
+              label: '数字化事业部',
+              value: 'code-1',
+              leaf: false,
+              children: [],
+            },
+            {
+              label: '人工智能事业部',
+              value: 'code-2',
+              leaf: true,
+              children: [],
+            },
+          ])
+        }
+
+        if (node.key === 'code-1') {
+          resolve([
+            {
+              value: 'code-1-1',
+              label: '前端',
+              leaf: true,
+            },
+            {
+              value: 'code-1-2',
+              label: '后端',
+              leaf: true,
+            },
+            {
+              value: 'code-1-3',
+              label: 'UI',
+              leaf: true,
+            },
+            {
+              value: 'code-1-4',
+              label: '运营',
+              leaf: true,
+            },
+            {
+              value: 'code-1-5',
+              label: '运维',
+              leaf: true,
+            },
+          ])
+        }
+      },
+    },
+  }
+</script>
+```
+
+:::
+
 ### TreeSelect Attributes
 
 | 参数          | 说明                     | 类型                  | 可选值 | 默认值 |

@@ -75,10 +75,7 @@ export default {
         ...getRequestMixExtra('prop'),
         ...Object.keys(props)
       ],
-      extraData: [
-        ...getAttrMixExtra('data'),
-        ...getRequestMixExtra('data')
-      ],
+      extraData: [...getAttrMixExtra('data'), ...getRequestMixExtra('data')],
       visible: false,
       selected: this.multiple ? [] : {},
       filterText: '',
@@ -245,7 +242,6 @@ export default {
             append-to-body={true}
             v-show={this.visible}
           >
-
             {this.filterable ? (
               <Input.name
                 placeholder="输入关键词进行筛选"
@@ -255,12 +251,22 @@ export default {
                 nativeOnKeydown={this.handleFilter}
               />
             ) : null}
-            {this.selectAll && !this.multipleLimit ? <Checkbox.name class="all-checkbox" value={this.isChekcedAll} onInput={this.handleCheckeAll}>全选</Checkbox.name> : null}
+            {this.selectAll && !this.multipleLimit ? (
+              <Checkbox.name
+                class="all-checkbox"
+                value={this.isChekcedAll}
+                onInput={this.handleCheckeAll}
+              >
+                全选
+              </Checkbox.name>
+            ) : null}
             <Scrollbar.name
               wrap-class="dy-select-dropdown__wrap"
               view-class="dy-select-dropdown__list"
               ref="scrollbar"
-              v-show={this.bindOptions.length && !this.loading}
+              v-show={
+                props.lazy ? true : this.bindOptions.length && !this.loading
+              }
             >
               <Tree.name {...data}></Tree.name>
             </Scrollbar.name>
@@ -376,7 +382,6 @@ export default {
         });
         this.$emit('input', []);
       }
-
     },
     getValue(value) {
       return value[this.bindProps.value];
