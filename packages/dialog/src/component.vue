@@ -78,7 +78,6 @@ export default {
       type: Boolean,
       default: true
     },
-
     appendToBody: {
       type: Boolean,
       default: false

@@ -1,6 +1,10 @@
-
 import _ from 'lodash';
-import { getPlaceholderByName, getTriggerByName, getClearableByName, getTypeByName } from 'main/helper/props';
+import {
+  getPlaceholderByName,
+  getTriggerByName,
+  getClearableByName,
+  getTypeByName
+} from 'main/helper/props';
 
 export function genRequired(n) {
   const { label, component, props = {} } = n;
@@ -19,7 +23,9 @@ export function genRequired(n) {
   if (_.isPlainObject(n.itemProps.rules)) {
     n.itemProps.rules = [n.itemProps.rules];
   }
-  n.itemProps.rules = (_.isArray(n.itemProps.rules) || []).concat(requiredRule);
+  n.itemProps.rules = (
+    _.isArray(n.itemProps.rules) ? n.itemProps.rules : []
+  ).concat(requiredRule);
 }
 
 export function genModifiers(n, { trim, number }) {
@@ -60,7 +66,6 @@ export function genPlaceholder(n) {
       props.placeholder = `${prefix}${label || ''}`;
     }
   }
-
 }
 
 export function genComponentProps(config) {
@@ -90,15 +95,19 @@ export const REG_PATTERN = {
   // 正整数、小数
   NUM_4: /^\d+(\.\d+)?$/,
   // 手机号
-  PHONE: /^([1]\d{10}|([\(（]?0[0-9]{2,3}[）\)]?[-]?)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?)$/,
+  PHONE:
+    /^([1]\d{10}|([\(（]?0[0-9]{2,3}[）\)]?[-]?)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?)$/,
   // 邮箱
-  EMAIL: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+  EMAIL:
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
   // 银行卡号
   BANK_NO: /^[1-9]\d{9,29}$/,
   // 身份证号
-  ID_NO: /^\d{6}((((((19|20)\d{2})(0[13-9]|1[012])(0[1-9]|[12]\d|30))|(((19|20)\d{2})(0[13578]|1[02])31)|((19|20)\d{2})02(0[1-9]|1\d|2[0-8])|((((19|20)([13579][26]|[2468][048]|0[48]))|(2000))0229))\d{3})|((((\d{2})(0[13-9]|1[012])(0[1-9]|[12]\d|30))|((\d{2})(0[13578]|1[02])31)|((\d{2})02(0[1-9]|1\d|2[0-8]))|(([13579][26]|[2468][048]|0[048])0229))\d{2}))(\d|X|x)$/,
+  ID_NO:
+    /^\d{6}((((((19|20)\d{2})(0[13-9]|1[012])(0[1-9]|[12]\d|30))|(((19|20)\d{2})(0[13578]|1[02])31)|((19|20)\d{2})02(0[1-9]|1\d|2[0-8])|((((19|20)([13579][26]|[2468][048]|0[48]))|(2000))0229))\d{3})|((((\d{2})(0[13-9]|1[012])(0[1-9]|[12]\d|30))|((\d{2})(0[13578]|1[02])31)|((\d{2})02(0[1-9]|1\d|2[0-8]))|(([13579][26]|[2468][048]|0[048])0229))\d{2}))(\d|X|x)$/,
   // 邮政编码
-  POSTAL_CODE: /^(0[1-7]|1[0-356]|2[0-7]|3[0-6]|4[0-7]|5[1-7]|6[1-7]|7[0-5]|8[013-6])\d{4}$/
+  POSTAL_CODE:
+    /^(0[1-7]|1[0-356]|2[0-7]|3[0-6]|4[0-7]|5[1-7]|6[1-7]|7[0-5]|8[013-6])\d{4}$/
 };
 
 // 校验数据必须匹配正则
@@ -117,7 +126,7 @@ export const generateValidateByRegExp = pattern => {
   };
 };
 
-export const generateValidateMessage = (label) => {
+export const generateValidateMessage = label => {
   return `请输入合法的${label}`;
 };
 /** ************************** 表单值合法性校验---end ************************************************/

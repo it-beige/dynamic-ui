@@ -66,7 +66,7 @@
           :key="getNodeKey(child)"
           :node="child"
           @node-expand="handleChildNodeExpand">
-        </dy-tree-node>
+      </dy-tree-node>
       </div>
     </dy-collapse-transition>
   </div>
