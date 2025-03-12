@@ -13,18 +13,17 @@ const props = {
   // 格式化option数据
   formatter: {
     type: Function
-  },
-  activePopper: {
-    type: Boolean,
-    default: true
   }
 };
 export default {
   name: 'DySelectGenerate',
   mixins: [genAttrsMixin(Select), genRequestMixin(), genPaginationMixin()],
   props: {
-    ...props
-
+    ...props,
+    activePopper: {
+      type: Boolean,
+      default: true
+    }
   },
   data() {
     return {
@@ -47,9 +46,12 @@ export default {
     },
     getSelectSlots() {
       const slots = [...this._getVnodesBySlots(this.$slots)];
-      if (this.pagination) {
-        slots.push(this.renderPagination());
-      }
+      slots.push(
+        <template slot="append">
+          {this.pagination ? this.renderPagination() : null}
+          {this.showLoading ? this.renderLoading() : null}
+        </template>
+      );
       return slots;
     },
     renderSelect() {
@@ -79,10 +81,6 @@ export default {
         nodes.push(infiniteScrollVnode);
       } else {
         nodes.push(OptionsVnode);
-      }
-      if (this.showLoading) {
-        const loadingVnode = this.renderLoading();
-        nodes.push(loadingVnode);
       }
       return createElement(Select.name, {
         staticClass: 'dy-select-generate',
@@ -180,7 +178,7 @@ export default {
       return (
         <div
           {...{ directives }}
-          class="dy-select-dropdown__loading"
+          class={['dy-select-dropdown__loading', {hidden: !this.requestPending}]}
           dynamic-loading-text={this.dynamicLoadingText}
         >
         </div>

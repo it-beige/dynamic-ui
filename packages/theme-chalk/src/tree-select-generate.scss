@@ -1,10 +1,23 @@
 @import "mixins/mixins";
 
 .tree-select-generate {
+  &-filter {
+    .dy-select {
+      &-dropdown {
+        padding: 16px;
+      }
+    }
+  }
+  
+  .all-checkbox {
+    margin-left: 10px;
+    padding-top: 10px;
+    // border-bottom: 1px solid $--border-color-lighter;
+  }
+
   .dy-select {
     &-dropdown {
       min-width: 100%;
-      padding: 16px;
       .dy-tree {
         &-node {
           &__content {

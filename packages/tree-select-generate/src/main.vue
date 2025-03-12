@@ -3,27 +3,27 @@ import genAttrsMixin, { getExtra as getAttrMixExtra } from 'main/mixins/attrs';
 import genRequestMixin, {
   getExtra as getRequestMixExtra
 } from 'main/mixins/request';
-import genPaginationMixin, {
-  getExtra as getPaginationMixExtra
-} from 'main/mixins/pagination';
-import { getCompPropsBySourceOpt, genComponentPorps } from 'main/utils/component.js';
+import {
+  getCompPropsBySourceOpt,
+  genComponentPorps
+} from 'main/utils/component.js';
 import { getComponentByName } from 'main/config/component';
 import _ from 'lodash';
 import { createNamespace } from 'main/utils/create';
-import {
-  findParentElement
-} from 'dynamic-ui/src/utils/dom';
-import {
-  getValueByTree
-} from 'dynamic-ui/src/utils/util';
+import { findParentElement } from 'dynamic-ui/src/utils/dom';
+import { getValueByTree } from 'dynamic-ui/src/utils/util';
 
 import Clickoutside from 'dynamic-ui/src/utils/clickoutside';
 import SelectMenu from 'dynamic-ui/packages/select/src/select-dropdown.vue';
 const Input = getComponentByName('Input');
 const Tree = getComponentByName('Tree');
 const Scrollbar = getComponentByName('Scrollbar');
+const Tag = getComponentByName('Tag');
+const Checkbox = getComponentByName('Checkbox');
 
-export const [TreeCtor, TreePick] = genComponentPorps(getCompPropsBySourceOpt(Tree));
+export const [TreeCtor, TreePick] = genComponentPorps(
+  getCompPropsBySourceOpt(Tree),
+);
 
 const props = {
   value: {
@@ -39,6 +39,10 @@ const props = {
     type: Boolean,
     default: false
   },
+  // 限制选择项目数
+  multipleLimit: Number,
+  // 是否可全选
+  selectAll: Boolean,
   // 激活v-clickoutside的处理
   activePopper: {
     type: Boolean,
@@ -56,7 +60,7 @@ const props = {
 };
 export default {
   name: 'DyTreeSelectGenerate',
-  mixins: [genAttrsMixin(Input), genRequestMixin(), genPaginationMixin()],
+  mixins: [genAttrsMixin(Input), genRequestMixin()],
   directives: { Clickoutside },
   components: {
     [SelectMenu.name]: SelectMenu
@@ -69,17 +73,14 @@ export default {
       extraProps: [
         ...getAttrMixExtra('prop'),
         ...getRequestMixExtra('prop'),
-        ...getPaginationMixExtra('prop'),
         ...Object.keys(props)
       ],
-      extraData: [
-        ...getAttrMixExtra('data'),
-        ...getRequestMixExtra('data'),
-        ...getPaginationMixExtra('data')
-      ],
+      extraData: [...getAttrMixExtra('data'), ...getRequestMixExtra('data')],
       visible: false,
       selected: this.multiple ? [] : {},
-      filterText: ''
+      filterText: '',
+      inputHovering: false,
+      isChekcedAll: false
     };
   },
   computed: {
@@ -87,7 +88,16 @@ export default {
       return this.visible ? 'arrow-up is-reverse' : 'arrow-up';
     },
     valueText() {
-      return this.multiple ? '' : this.selected[this.bindProps.label];
+      return this.multiple
+        ? this.selected.length
+          ? ' '
+          : undefined
+        : this.selected[this.bindProps.label];
+    },
+    hasValue() {
+      return this.multiple
+        ? this.selected.length
+        : this.selected[this.bindProps.value];
     }
   },
   watch: {
@@ -96,14 +106,19 @@ export default {
     }
   },
   render() {
+    const classes = [
+      'dy-select tree-select-generate',
+      { 'tree-select-generate-filter': this.filterable }
+    ];
     return (
-      <div class="dy-select tree-select-generate" onClick={this.toggleMenu}>
+      <div class={classes} onClick={this.toggleMenu}>
         {this.renderTreeSelect()}
         {this.renderTree()}
+        {this.multiple ? this.renderCheckedTags() : null}
       </div>
     );
   },
-  created () {
+  created() {
     this.$unWatch = [this.watchValueEffect()];
   },
   beforeDestroy() {
@@ -127,7 +142,18 @@ export default {
     },
     renderSuffix() {
       const { iconClass } = this;
-      return (
+      let showClose = this.hasValue && this.clearable && this.inputHovering;
+      return showClose ? (
+        <i
+          slot="suffix"
+          class={[
+            'dy-select__caret',
+            'dy-input__icon',
+            ' dy-icon-circle-close'
+          ]}
+          onClick={this.handleClear}
+        ></i>
+      ) : (
         <i
           slot="suffix"
           class={['dy-select__caret', 'dy-input__icon', 'dy-icon-' + iconClass]}
@@ -142,10 +168,20 @@ export default {
       const on = getTreeSelectOn();
       const slots = getTreeSelectSlots();
       const attrs = this.$attrs;
-      const directives = [{
-        name: 'clickoutside',
-        value: this.handleClose
-      }];
+      const directives = [
+        {
+          name: 'clickoutside',
+          value: this.handleClose
+        }
+      ];
+      const nativeOn = {
+        mouseenter: () => {
+          this.inputHovering = true;
+        },
+        mouseleave: () => {
+          this.inputHovering = false;
+        }
+      };
       let nodes = [slots];
 
       return createElement(
@@ -154,6 +190,7 @@ export default {
           attrs,
           props,
           on,
+          nativeOn,
           directives,
           ref: 'reference'
         },
@@ -162,45 +199,114 @@ export default {
     },
     renderTree() {
       const props = {
-        // ...TreePick(this.treeProps),
+        ...TreePick(this.treeProps),
         data: this.bindOptions,
         props: this.bindProps,
         nodeKey: this.bindProps.value
       };
+      const on = {};
       if (this.filterable) {
-        props.filterNodeMethod = this.genFilterNodeMethod(props.filterNodeMethod);
+        props.filterNodeMethod = this.genFilterNodeMethod(
+          props.filterNodeMethod,
+        );
+      }
+      if (this.multiple) {
+        props.showCheckbox = true;
+        on['check'] = this.checkNode;
+        if (this.multipleLimit) {
+          props.props.disabled = (data, node) => {
+            // 父节点的子级超过限制数量不可勾选
+            if (node.childNodes?.length > this.multipleLimit) {
+              return true;
+            }
+            if (this.value.length < this.multipleLimit) {
+              return false;
+            }
+            const key = data[this.bindProps.value];
+            return !this.value.includes(key);
+          };
+        }
+      } else {
+        on['node-click'] = this.clickNode;
       }
       const data = {
         props,
-        on: {
-          'node-click': this.clickNode
-        },
+        on,
         ref: 'treeRef'
       };
       return (
         <transition name="dy-zoom-in-top">
           <SelectMenu.name
             ref="popper"
+            class="active-popper"
             append-to-body={true}
             v-show={this.visible}
           >
-            <Input.name
-              placeholder="输入关键词进行筛选"
-              class="active-popper filter-input"
-              suffix-icon="dy-icon-search"
-              v-model={this.filterText}
-              nativeOnKeydown={this.handleFilter}
-            />
+            {this.filterable ? (
+              <Input.name
+                placeholder="输入关键词进行筛选"
+                class="filter-input"
+                suffix-icon="dy-icon-search"
+                v-model={this.filterText}
+                nativeOnKeydown={this.handleFilter}
+              />
+            ) : null}
+            {this.selectAll && !this.multipleLimit ? (
+              <Checkbox.name
+                class="all-checkbox"
+                value={this.isChekcedAll}
+                onInput={this.handleCheckeAll}
+              >
+                全选
+              </Checkbox.name>
+            ) : null}
             <Scrollbar.name
               wrap-class="dy-select-dropdown__wrap"
               view-class="dy-select-dropdown__list"
               ref="scrollbar"
-              v-show={this.bindOptions.length && !this.loading}
+              v-show={
+                props.lazy ? true : this.bindOptions.length && !this.loading
+              }
             >
               <Tree.name {...data}></Tree.name>
             </Scrollbar.name>
           </SelectMenu.name>
         </transition>
+      );
+    },
+    renderCheckedTags() {
+      const tags = this.selected.slice(0, 1);
+      const { label, value } = this.bindProps;
+      const onClose = cur => {
+        this.selected = this.selected.filter(i => i[value] !== cur[value]);
+        this.$emit(
+          'input',
+          this.selected.map(i => i[value]),
+        );
+      };
+      return (
+        <div class="dy-select__tags" ref="tags">
+          <div class="dy-flex__align-center">
+            {tags.map(i => (
+              <Tag.name
+                key={i[value]}
+                type="info"
+                closable
+                size={this.size || 'mini'}
+                onClose={() => onClose(i)}
+              >
+                <span class="dy-select__tags-text">{i[label]}</span>
+              </Tag.name>
+            ))}
+            {this.selected.length > 1 ? (
+              <Tag.name key="+1" type="info" size={this.size || 'mini'}>
+                <span class="dy-select__tags-text">
+                  +{this.selected.length - 1}
+                </span>
+              </Tag.name>
+            ) : null}
+          </div>
+        </div>
       );
     },
     useRef() {
@@ -223,9 +329,13 @@ export default {
           }
         }
       }
-      if (this.visible && !this.multiple) {
+      if (this.visible) {
         this.$nextTick(() => {
-          this.$refs.treeRef.setCurrentKey(this.getValue(this.selected));
+          if (this.multiple) {
+            this.$refs.treeRef.setCheckedKeys(this.value);
+          } else {
+            this.$refs.treeRef.setCurrentKey(this.getValue(this.selected));
+          }
         });
       }
     },
@@ -236,6 +346,9 @@ export default {
       this.selected = data;
       this.visible = false;
       this.$emit('input', this.getValue(this.selected));
+    },
+    checkNode(data, { checkedKeys }) {
+      this.$emit('input', checkedKeys);
     },
     handleClose(mouseupTarget) {
       if (this.activePopper && findParentElement(mouseupTarget, 'dy-popper')) {
@@ -249,6 +362,27 @@ export default {
         this.filterMethod(this.filterText);
       }
     },
+    handleClear(e) {
+      e.stopPropagation();
+      const value = this.multiple ? [] : '';
+      this.$emit('input', value);
+      this.$emit('clear');
+      this.visible = false;
+    },
+    handleCheckeAll(v) {
+      this.isChekcedAll = v;
+      const allNodes = this.$refs.treeRef.store._getAllNodes();
+      const allKeys = allNodes.map(i => i.key);
+      if (v) {
+        this.$refs.treeRef.setCheckedKeys(allKeys);
+        this.$emit('input', allKeys);
+      } else {
+        allKeys.forEach(k => {
+          this.$refs.treeRef.setChecked(k, false);
+        });
+        this.$emit('input', []);
+      }
+    },
     getValue(value) {
       return value[this.bindProps.value];
     },
@@ -257,14 +391,17 @@ export default {
         () => [this.value, this.bindOptions],
         ([value, bindOptions]) => {
           if (!value || !bindOptions.length) {
+            this.selected = this.multiple ? [] : {};
             return;
           }
 
           if (this.multiple) {
-            this.selected = this.value.map(i => getValueByTree(bindOptions, i, {
-              key: this.bindProps.value,
-              children: this.bindProps.children
-            }));
+            this.selected = this.value.map(i =>
+              getValueByTree(bindOptions, i, {
+                key: this.bindProps.value,
+                children: this.bindProps.children
+              }),
+            );
           } else {
             this.selected = getValueByTree(bindOptions, value, {
               key: this.bindProps.value,
@@ -272,7 +409,7 @@ export default {
             });
           }
         },
-        {immediate: true}
+        { immediate: true },
       );
     },
     /** ********************* 过滤树形方法-start ************************/

@@ -3,10 +3,8 @@
 > 基于`Tree`、`Select`组件的封装, 扩展了其功能
 
 - 传入 `URL` 自动请求数据来渲染组件
-- 支持懒加载数据
-- 支持分页形式展示
-- 参数监听, 值变动后根据新值自动请求数据
-- 对`GroupOption`和`Option`组件进行了整合
+- 支持多选、全选功能
+- 支持限制数量
 
 ### 基础用法
 
@@ -129,10 +127,8 @@
 
 ```html
 <dy-tree-select-generate
-  class="base-tree-select"
   v-model="value"
   :url="url"
-  clearable
   filterable
   placeholder="请选择岗位"
   style="width: 50%"
@@ -152,15 +148,163 @@
 
 :::
 
-### 扩展 Select Attributes
+### 可多选
 
-| 参数      | 说明                 | 类型     | 可选值 | 默认值                  |
-| --------- | -------------------- | -------- | ------ | ----------------------- |
-| props     | 配置选项，具体看下表 | object   | —      | global.useOptionProps() |
-| formatter | 格式化 option 数据   | function | —0     | -                       |
+:::demo 传入`multiple`可开启 Tree 的多选, `multiple-limit`限制选择的数量
 
-### 扩展 Select Events
+```html
+<dy-tree-select-generate
+  v-model="value"
+  :url="url"
+  style="width: 50%"
+  multiple
+  :multiple-limit="3"
+  filterable
+  placeholder="请选择岗位"
+></dy-tree-select-generate>
 
-| 事件名称 | 说明                                | 回调参数 |
-| -------- | ----------------------------------- | -------- |
-| load     | lazy 为 true 情况下懒加载数据前触发 | -        |
+<script>
+  export default {
+    data() {
+      return {
+        url: this.$root.URL.getTreeSelectList,
+        value: ['code-1-1'],
+      }
+    },
+  }
+</script>
+```
+
+:::
+
+### 可全选
+
+:::demo 传入`select-all`可开启 Tree 的全选选, 改属性和 `multiple-limit`互斥
+
+```html
+<dy-tree-select-generate
+  v-model="value"
+  :url="url"
+  style="width: 50%"
+  multiple
+  filterable
+  select-all
+  placeholder="请选择岗位"
+></dy-tree-select-generate>
+
+<script>
+  export default {
+    data() {
+      return {
+        url: this.$root.URL.getTreeSelectList,
+        value: ['code-1-1'],
+      }
+    },
+  }
+</script>
+```
+
+:::
+
+### 懒加载
+
+:::demo 传入`select-all`可开启 Tree 的全选选, 改属性和 `multiple-limit`互斥
+
+```html
+<dy-tree-select-generate
+  v-model="value"
+  style="width: 50%"
+  multiple
+  :props="props"
+  :treeProps="treeProps"
+  placeholder="自定义懒加载"
+></dy-tree-select-generate>
+
+<script>
+  import { TreeCtor } from 'dynamic-ui/packages/tree-select-generate/src/main.vue'
+
+  export default {
+    data() {
+      return {
+        url: this.$root.URL.getTreeSelectList,
+        value: [],
+        data: [],
+        props: {
+          label: 'label',
+          disabled: 'disabled',
+          children: 'children',
+          isLeaf: 'leaf',
+        },
+        treeProps: new TreeCtor({
+          lazy: true,
+          load: this.load,
+        }),
+      }
+    },
+    methods: {
+      load(node, resolve) {
+        if (node.level === 0) {
+          resolve([
+            {
+              label: '数字化事业部',
+              value: 'code-1',
+              leaf: false,
+              children: [],
+            },
+            {
+              label: '人工智能事业部',
+              value: 'code-2',
+              leaf: true,
+              children: [],
+            },
+          ])
+        }
+
+        if (node.key === 'code-1') {
+          resolve([
+            {
+              value: 'code-1-1',
+              label: '前端',
+              leaf: true,
+            },
+            {
+              value: 'code-1-2',
+              label: '后端',
+              leaf: true,
+            },
+            {
+              value: 'code-1-3',
+              label: 'UI',
+              leaf: true,
+            },
+            {
+              value: 'code-1-4',
+              label: '运营',
+              leaf: true,
+            },
+            {
+              value: 'code-1-5',
+              label: '运维',
+              leaf: true,
+            },
+          ])
+        }
+      },
+    },
+  }
+</script>
+```
+
+:::
+
+### TreeSelect Attributes
+
+| 参数          | 说明                     | 类型                  | 可选值 | 默认值 |
+| ------------- | ------------------------ | --------------------- | ------ | ------ |
+| value         | 绑定值                   | string, object, array | —      | —      |
+| isSelectLeaf  | 单选情况下只能选叶子节点 | boolean               | —      | true   |
+| multiple      | 多选                     | boolean               | —      | false  |
+| multipleLimit | 限制选择项目数           | number                | —      | —      |
+| selectAll     | 是否可全选               | boolean               | —      | —      |
+| selectAll     | 是否开启过滤树的功能     | boolean               | —      | false  |
+| treeProps     | TreeCtor                 | class                 | —      | -      |
