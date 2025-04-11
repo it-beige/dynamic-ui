@@ -87,7 +87,7 @@ const getExtraProps = () => {
 };
 
 const getExtraData = (self = {}) => {
-  const { url, method, params, data, options } = self;
+  const { url, method, params, data, options = []} = self;
   return {
     // 分页的数据
     pageParams: {},

@@ -4,13 +4,13 @@ import {
 } from 'main/utils/component.js';
 import { camelToKebab } from 'main/utils/util.js';
 import globalConfig from 'main/config/global';
+import _ from 'main/utils/lodash';
 
 const getExtraProps = () => {
-  const optionProps = globalConfig.useOptionProps();
   return {
     props: {
       type: Object,
-      default: () => optionProps
+      default: () => globalConfig.useOptionProps()
     }
   };
 };
@@ -21,11 +21,10 @@ const getExtraData = (self = {}) => {
       ...globalConfig.useOptionProps(),
       ...self.props
     }
-
   };
 };
 
-export const getExtra = (key) => {
+export const getExtra = key => {
   let get;
   switch (key) {
     case 'data':
@@ -38,7 +37,7 @@ export const getExtra = (key) => {
   return Object.keys(get());
 };
 
-export default function genAttrsMixin (component, extra = true) {
+export default function genAttrsMixin(component, extra = true) {
   const props = getCompPropsBySourceOpt(component);
   const extraProps = extra ? getExtraProps() : {};
   return {
@@ -46,19 +45,23 @@ export default function genAttrsMixin (component, extra = true) {
       ...props,
       ...extraProps
     },
-    data (self) {
+    data(self) {
       return {
         ...getExtraData(self)
       };
     },
     watch: {
       props: {
-        handler () {
-          this.bindProps = {...this.bindProps, ...this.props};
-        },
-        deep: true
-      }
+        immediate: true,
+        deep: true,
 
+        handler() {
+          this.bindProps = { ...this.bindProps, ...this.props };
+          if (_.isFunction(this.useOptionProps)) {
+            this.bindProps = { ...this.bindProps, ...this.useOptionProps() };
+          }
+        }
+      }
     },
     methods: {
       getComponentProps(component, target, assigns) {
@@ -68,7 +71,7 @@ export default function genAttrsMixin (component, extra = true) {
           return _;
         }, {});
       },
-      _excludeExtraProps (props) {
+      _excludeExtraProps(props) {
         const extraProps = this.extraProps;
         return Object.keys(props).reduce((_, k) => {
           if (!extraProps.includes(k)) {
@@ -77,25 +80,24 @@ export default function genAttrsMixin (component, extra = true) {
           return _;
         }, {});
       },
-      _getListners () {
+      _getListners() {
         const consumeListeners = this.$options._parentListeners || {};
         const listeners = getProvidesOptionBySourceOpt(
           consumeListeners,
-          this.$listeners
+          this.$listeners,
         );
         return listeners;
       },
-      _getVnodesBySlots (slots) {
+      _getVnodesBySlots(slots) {
         return Object.keys(slots).map(k => {
           const vnode = slots[k];
           return <template slot={k}>{vnode}</template>;
         });
       },
-      useRef () {
+      useRef() {
         const refName = component.name;
         return this.$refs[refName];
       }
     }
   };
 }
-

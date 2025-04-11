@@ -223,7 +223,8 @@ export default {
             };
             if (component === 'slot') {
               const noop = () => {};
-              data.props.defaultRender = this.$scopedSlots[prop] || i.default || noop;
+              data.props.defaultRender =
+                this.$scopedSlots[prop] || i.default || noop;
             }
 
             const renderCascaderConfig = this.getRenderConfig(
@@ -290,19 +291,23 @@ export default {
 
       return new Promise((resolve, reject) => {
         const rulesHash = [];
+        let l = 0;
         ref.validateField(this.validteProps, (message, rules) => {
+          l++;
           if (message && rules) {
             const rulesArr = [];
             rulesArr.push(message, rules);
             rulesHash.push(rulesArr);
           }
-        });
 
-        if (rulesHash.length) {
-          reject(rulesHash);
-        } else {
-          resolve();
-        }
+          if (l === this.validteProps.length) {
+            if (rulesHash.length) {
+              reject(rulesHash);
+            } else {
+              resolve();
+            }
+          }
+        });
       });
     }
   }
